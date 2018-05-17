@@ -1,0 +1,30 @@
+<% layout('/admin/layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th>Seq</th>
+                <th>Description</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="activity in activitys">
+                    <td>{{ activity.name }}</td>
+                    <td>{{ activity.seq }}</td>
+                    <td>{{ activity.description }}</td>
+                    <td>
+                        <a class="btn btn-info" href="/edit-activity?activityId={{ activity.activityId }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteActivity(activity.activityId)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ul id="pagination-demo" class="pagination-sm"></ul>
+    </div>
+</section>
+
+<script src="/admin/js/jquery.twbsPagination.min.js"></script>
+<script src="/admin/js/activity/view.js"></script>

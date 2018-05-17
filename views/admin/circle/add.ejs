@@ -1,0 +1,37 @@
+<% layout('/admin/layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+      <form id="addCircleForm" ng-submit="submit()">
+        <div class="box-body">
+          <!--<div class="form-group">
+            <img src="/admin/dist/img/boxed-bg.png" class="img-circle" style="width: 128px;" id="showImage">
+            <br>
+            <input type="button" value="Add image" ng-click="addImageButton()" ng-model="formData.image">
+            <input type="file" name="userImage" id="userImage" class="hide">
+          </div>-->
+
+          <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" placeholder="Name" name="name" ng-model="formData.name" required>
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <input class="form-control" placeholder="Description" name="description" ng-model="formData.description" required>
+          </div>
+
+          <div class="form-group">
+            <label>Code</label>
+            <input class="form-control" placeholder="Code" name="code" ng-model="formData.code" required>
+          </div>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+</section>
+
+<script src="/admin/js/circle/add.js"></script>

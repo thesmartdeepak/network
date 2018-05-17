@@ -1,0 +1,28 @@
+<% layout('/admin/layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Code</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="region in regions" ng-hide="hideRegion(region.regionId)">
+                    <td>{{ region.name }}</td>
+                    <td>{{ region.description }}</td>
+                    <td>{{ region.code }}</td>
+                    <td>
+                        <a class="btn btn-info" href="/edit-region?regionId={{ region.regionId }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteRegion(region.regionId)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</section>
+
+<script src="/admin/js/region/view.js"></script>

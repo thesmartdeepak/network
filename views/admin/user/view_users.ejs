@@ -1,0 +1,33 @@
+<% layout('/admin/layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>User Type</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in users">
+                    <td>{{ user.fullname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ toUcFirst(user.userType) }}</td>
+                    <td>
+                        <a class="btn btn-info" href="/edit-user?userId={{ user.userId }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteUser(user.userId)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ul id="pagination-demo" class="pagination-sm"></ul>
+        
+    </div>
+</section>
+
+<script src="/admin/js/jquery.twbsPagination.min.js"></script>
+<script src="/admin/js/user/view_users.js"></script>

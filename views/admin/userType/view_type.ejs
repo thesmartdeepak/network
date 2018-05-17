@@ -1,0 +1,24 @@
+<% layout('/admin/layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+        <table class="table">
+            <thead>
+                <th>User type</th>
+                <th>Status</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="type in types">
+                    <td>{{ toUcFirst(type.userType) }}</td>
+                    <td>{{ toUcFirst(type.status) }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ul id="pagination-demo" class="pagination-sm"></ul>
+        
+    </div>
+</section>
+
+<script src="/admin/js/jquery.twbsPagination.min.js"></script>
+<script src="/admin/js/userType/view.js"></script>

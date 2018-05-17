@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title><%- title %></title>
+        <link href="/admin/css/style.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    </head>
+    <body ng-app="App" ng-controller="Ctrl">
+        <form class="form-signin" ng-submit="submit()" name="myForm" id="myForm">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <h3 class="{{ submitLoginClass }}">{{ submitLoginTxt }}</h3>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input name="email" class="form-control" placeholder="Email address" ng-model="loginData.email" required>
+
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" name="password" class="form-control" placeholder="Password" ng-model="loginData.password">
+
+            <button class="btn btn-lg btn-primary btn-block">Sign in</button>
+        </form>
+
+    </body>
+
+    <script src="/admin/js/jquery.validate.min.js"></script>
+    <script>
+        $("#myForm").validate();
+
+        var app = angular.module('App', []);
+        app.controller('Ctrl', function($scope, $http) {
+            $scope.invalidLoginTxt = "";
+            $scope.submitLoginClass = "";
+
+            $scope.loginData1 = {
+                email: "",
+                password: ""
+            };
+
+            $scope.loginData = angular.copy($scope.loginData1);
+
+            $scope.submit = function () {
+                if($("#myForm").valid()){
+                    $http({
+                        method: 'POST',
+                        url: '/login',
+                        data:$scope.loginData,
+                    }).then(function(response){
+                        if (response.data.success){
+                            localStorage.token = response.data.data;
+                            $scope.submitLoginTxt = response.data.msg;
+                            $scope.submitLoginClass = "success";
+                            setTimeout(function(){
+                                window.location.href = "/";
+                            },1000);
+                        }
+                        else{
+                            $scope.submitLoginTxt = response.data.msg;
+                            $scope.submitLoginClass = "error";
+                        }
+                    });
+                }
+            };
+
+            $scope.resetForm = function () {
+                $scope.student = angular.copy($scope.OriginalStudent);
+            };
+        });
+    </script>
+</html>

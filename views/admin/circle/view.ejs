@@ -1,0 +1,28 @@
+<% layout('/admin/layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Code</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="circle in circles" ng-hide="hideCircle(circle.circleId)">
+                    <td>{{ circle.name }}</td>
+                    <td>{{ circle.description }}</td>
+                    <td>{{ circle.code }}</td>
+                    <td>
+                        <a class="btn btn-info" href="/edit-circle?circleId={{ circle.circleId }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteCircle(circle.circleId)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</section>
+
+<script src="/admin/js/circle/view.js"></script>

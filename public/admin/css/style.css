@@ -1,0 +1,10 @@
+.custom_error,.error{
+    border-color: red;
+    color: red;
+}
+.success{
+    color:green;
+}
+.process_div{
+    padding: 5px;
+}

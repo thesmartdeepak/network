@@ -1,0 +1,56 @@
+<% layout('layout/layout') -%>
+<section class="content" ng-controller="ctrl">
+    <div class="col-sm-8 row" style="text-align: center;">
+        <div class="small-box bg-green col-sm-3">
+            <div class="inner">
+                <h3>{{ totalUser }}<sup style="font-size: 20px"></sup></h3>
+
+                <p>Total user</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="/view-users" class="small-box-footer">
+                More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+
+        <div class="small-box bg-green col-sm-3 pull-right">
+            <div class="inner">
+                <h3>{{ totalUserType }}<sup style="font-size: 20px"></sup></h3>
+
+                <p>Total user type</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="/user-type" class="small-box-footer">
+                More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+app.controller('ctrl', function($scope, $http) {
+    $http({
+        method:'get',
+        url:'/allUserMaxCount',
+        headers: {
+            'authorization': localStorage.token
+        }
+    }).then(function(response){
+        $scope.totalUser = response.data.data;
+    });
+
+    $http({
+        method:'get',
+        url:'/userTypeCount',
+        headers: {
+            'authorization': localStorage.token
+        }
+    }).then(function(response){
+        $scope.totalUserType = response.data.data;
+    });
+});
+</script>

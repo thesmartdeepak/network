@@ -1,0 +1,31 @@
+<% layout('/admin/layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+      <form id="addActivityForm" ng-submit="submit()">
+        <div class="box-body">
+
+          <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" placeholder="Name" name="name" ng-model="formData.name" required>
+          </div>
+
+          <div class="form-group">
+            <label>Seq</label>
+            <input class="form-control" placeholder="Seq" name="seq" ng-model="formData.seq" required>
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <input class="form-control" placeholder="Description" name="description" ng-model="formData.description" required>
+          </div>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+</section>
+
+<script src="/admin/js/activity/add.js"></script>
