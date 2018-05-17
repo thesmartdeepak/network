@@ -15,14 +15,14 @@
                     <td>{{ activity.seq }}</td>
                     <td>{{ activity.description }}</td>
                     <td>
-                        <a class="btn btn-info" href="/edit-activity?activityId={{ activity.activityId }}">Edit</a>
-                        <a class="btn btn-danger" ng-click="deleteActivity(activity.activityId)">Delete</a>
+                        <a class="btn btn-info" href="/edit-activity?activityId={{ activity._id }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteActivity(activity._id)">Delete</a>
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <ul id="pagination-demo" class="pagination-sm"></ul>
+        <ul id="pagination" class="pagination-sm"></ul>
     </div>
 </section>
 

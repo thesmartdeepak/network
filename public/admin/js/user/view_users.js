@@ -1,6 +1,7 @@
 app.controller('ctrl', function($scope, $http) {
     $scope.currentPage = 1;
     $scope.users = [];
+    $scope.startPage = 1;
     $scope.userList = function(page){
         $http({
             method:'get',
@@ -22,14 +23,21 @@ app.controller('ctrl', function($scope, $http) {
             }
         }).then(function(response){
             let totalPage = Math.ceil(response.data.data/10);
-            $('#pagination-demo').twbsPagination({
-                totalPages: totalPage,
-                visiblePages:3,
-                onPageClick: function (event, page) {
-                    $scope.currentPage = page;
-                    $scope.userList(page);
-                }
-            });
+            if(totalPage > 0){
+                
+                $('#pagination').twbsPagination({
+                    totalPages: totalPage,
+                    visiblePages:3,
+                    startPage:$scope.startPage,
+                    onPageClick: function (event, page) {
+                        $scope.currentPage = page;
+                        $scope.userList(page);
+                    }
+                });
+            }
+            else{
+                $scope.users = [];
+            }
         });
     }
 
@@ -53,8 +61,9 @@ app.controller('ctrl', function($scope, $http) {
                 $scope.userList($scope.currentPage);
             }
             else{
-                $scope.currentPage-=1;
-                $scope.userList($scope.currentPage);
+                $('#pagination').twbsPagination('destroy');
+                $scope.startPage = $scope.currentPage-1;
+                $scope.setPagination();
             }
         });
     }

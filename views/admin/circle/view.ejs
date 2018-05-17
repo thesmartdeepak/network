@@ -10,13 +10,13 @@
                 <th>Action</th>
             </thead>
             <tbody>
-                <tr ng-repeat="circle in circles" ng-hide="hideCircle(circle.circleId)">
+                <tr ng-repeat="circle in circles" ng-hide="hideCircle(circle._id)">
                     <td>{{ circle.name }}</td>
                     <td>{{ circle.description }}</td>
                     <td>{{ circle.code }}</td>
                     <td>
-                        <a class="btn btn-info" href="/edit-circle?circleId={{ circle.circleId }}">Edit</a>
-                        <a class="btn btn-danger" ng-click="deleteCircle(circle.circleId)">Delete</a>
+                        <a class="btn btn-info" href="/edit-circle?circleId={{ circle._id }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteCircle(circle._id)">Delete</a>
                     </td>
                 </tr>
             </tbody>

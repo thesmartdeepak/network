@@ -17,14 +17,14 @@
                     <td>{{ user.phone }}</td>
                     <td>{{ toUcFirst(user.userType) }}</td>
                     <td>
-                        <a class="btn btn-info" href="/edit-user?userId={{ user.userId }}">Edit</a>
-                        <a class="btn btn-danger" ng-click="deleteUser(user.userId)">Delete</a>
+                        <a class="btn btn-info" href="/edit-user?userId={{ user._id }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteUser(user._id)">Delete</a>
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <ul id="pagination-demo" class="pagination-sm"></ul>
+        <ul id="pagination" class="pagination-sm"></ul>
         
     </div>
 </section>

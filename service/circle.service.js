@@ -56,7 +56,7 @@ service.editCircle = async (req,res) => {
         updatedAt: new Date()
     }
     let circleToEdit={
-        query:{"circleId":req.query.circleId},
+        query:{"_id":req.query.circleId},
         set:{"$set":circleEdit}
     };
     try{
@@ -71,7 +71,7 @@ service.editCircle = async (req,res) => {
 
 service.oneCircle = async (req,res) => {
     let circleToFind = {
-        query: {circleId:req.query.circleId},
+        query: {_id:req.query.circleId},
         projection:{}
     }
 
@@ -96,7 +96,7 @@ service.deleteCircle = async(req,res) => {
         updatedAt: new Date()
     }
     let circleToEdit={
-        query:{"circleId":req.body.circleId},
+        query:{"_id":req.body.circleId},
         set:{"$set":circleEdit}
     };
     try{

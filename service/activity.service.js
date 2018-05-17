@@ -58,7 +58,7 @@ service.editActivity = async (req,res) => {
     }
 
     let editToActivity = {
-        query:{activityId:req.query.activityId},
+        query:{_id:req.query.activityId},
         set:{"$set":editActivityData}
     }
     
@@ -74,7 +74,7 @@ service.editActivity = async (req,res) => {
 
 service.oneActivity = async (req,res) => {
     let activityToFind = {
-        query: {activityId:req.query.activityId},
+        query: {_id:req.query.activityId},
         projection:{}
     }
 
@@ -110,7 +110,7 @@ service.deleteActivity = async(req,res) => {
         updatedAt: new Date()
     }
     let activityToEdit={
-        query:{"activityId":req.body.activityId},
+        query:{"_id":req.body.activityId},
         set:{"$set":activityEdit}
     };
     try{

@@ -76,7 +76,7 @@ service.allUserMaxCount = async (req,res) => {
  */
 service.getOne=async(req,res)=>{
     let userToFind={
-        userId:req.query.userId}
+        _id:req.query.userId}
  
  try{
     
@@ -197,7 +197,7 @@ service.editUser = async(req,res)=>{
         updatedAt: new Date()
     }
     let userToEdit={
-        query:{"userId":req.query.userId},
+        query:{"_id":req.query.userId},
         set:{"$set":userEdit}
     };
     try{
@@ -220,7 +220,7 @@ service.deleteUser = async (req, res) => {
     }
     try{
         let userToEdit={
-            query:{"userId":userToDelete},
+            query:{"_id":userToDelete},
             set:{"$set":{"status":"deleted"}}
         };
         const removedUser = await User.updateUser(userToEdit);

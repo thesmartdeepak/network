@@ -30,7 +30,7 @@ const UserSchema = mongoose.Schema({
 let UserModel = mongoose.model('user',UserSchema);
 
 UserModel.getAll = (dataToFind) => {
-    return UserModel.find(dataToFind.query,dataToFind.projection).sort({userId:-1}).limit(dataToFind.limit).skip(dataToFind.skip);
+    return UserModel.find(dataToFind.query,dataToFind.projection).sort({_id:-1}).limit(dataToFind.limit).skip(dataToFind.skip);
     // return UserModel.aggregate([
     //     { $match: dataToFind.query},
     //     {

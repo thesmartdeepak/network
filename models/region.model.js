@@ -31,7 +31,7 @@ RegionModel.getOneRegion = (regionToFind) => {
 }
 
 RegionModel.getAllRegion = (regionToFind) => {
-  return RegionModel.find(regionToFind.query,regionToFind.projection);
+  return RegionModel.find(regionToFind.query,regionToFind.projection).sort({_id:-1});
 }
 
 export default RegionModel;

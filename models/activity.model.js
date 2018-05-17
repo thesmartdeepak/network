@@ -29,7 +29,7 @@ ActivityModel.getOneActivity = (editToActivity) => {
 }
 
 ActivityModel.ActivityPagination = (ActivityToFind) => {
-    return ActivityModel.find(ActivityToFind.query,ActivityToFind.projection).skip(ActivityToFind.skip).limit(ActivityToFind.limit);
+    return ActivityModel.find(ActivityToFind.query,ActivityToFind.projection).sort({_id:-1}).skip(ActivityToFind.skip).limit(ActivityToFind.limit);
 }
 
 ActivityModel.allActivityCount = (ActivityToFind) => {

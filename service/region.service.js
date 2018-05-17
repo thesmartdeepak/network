@@ -56,7 +56,7 @@ service.editRegion = async (req,res) => {
         updatedAt: new Date()
     }
     let regionToEdit={
-        query:{"regionId":req.query.regionId},
+        query:{"_id":req.query.regionId},
         set:{"$set":regionEdit}
     };
     try{
@@ -71,7 +71,7 @@ service.editRegion = async (req,res) => {
 
 service.oneRegion = async (req,res) => {
     let regionToFind = {
-        query: {regionId:req.query.regionId},
+        query: {_id:req.query.regionId},
         projection:{}
     }
 
@@ -96,7 +96,7 @@ service.deleteRegion = async(req,res) => {
         updatedAt: new Date()
     }
     let regionToEdit={
-        query:{"regionId":req.body.regionId},
+        query:{"_id":req.body.regionId},
         set:{"$set":regionEdit}
     };
     try{

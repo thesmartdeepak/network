@@ -10,13 +10,13 @@
                 <th>Action</th>
             </thead>
             <tbody>
-                <tr ng-repeat="region in regions" ng-hide="hideRegion(region.regionId)">
+                <tr ng-repeat="region in regions" ng-hide="hideRegion(region._id)">
                     <td>{{ region.name }}</td>
                     <td>{{ region.description }}</td>
                     <td>{{ region.code }}</td>
                     <td>
-                        <a class="btn btn-info" href="/edit-region?regionId={{ region.regionId }}">Edit</a>
-                        <a class="btn btn-danger" ng-click="deleteRegion(region.regionId)">Delete</a>
+                        <a class="btn btn-info" href="/edit-region?regionId={{ region._id }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteRegion(region._id)">Delete</a>
                     </td>
                 </tr>
             </tbody>

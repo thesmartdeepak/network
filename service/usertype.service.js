@@ -90,7 +90,7 @@ service.editUsertype = async (req, res) => {
     //     res.send({"success":false, "code":"500", "msg":msg._id});
     // }
     let userTypeToUpdate = {
-        query:{userTypeId:req.body.userTypeId},
+        query:{_id:req.body.userTypeId},
 
         data:{
             $set:{

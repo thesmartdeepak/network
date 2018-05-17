@@ -31,7 +31,7 @@ CircleModel.getOneCircle = (circleToFind) => {
 }
 
 CircleModel.getAllCircle = (circleToFind) => {
-  return CircleModel.find(circleToFind.query,circleToFind.projection);
+  return CircleModel.find(circleToFind.query,circleToFind.projection).sort({_id:-1});
 }
 
 export default CircleModel;
