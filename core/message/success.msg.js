@@ -45,4 +45,13 @@ msg.addActivity="Activity added successfully!!!!"
 msg.deleteActivity="Activity deleted successfully!!!"
 msg.editActivity="Activity updated successfully!!!"
 
+/**
+ * client related msg
+ */ 
+msg.allclient="Found successfully!!!!"
+msg.getOneclient="Found one client successfully!!!!"
+msg.addclient="client added successfully!!!!"
+msg.deleteclient="client deleted successfully!!!"
+msg.editclient="client updated successfully!!!"
+
 export default msg;

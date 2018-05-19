@@ -1,0 +1,37 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th>Po Number</th>
+                <th>Shipment Number</th>
+                <th>Contact Person</th>
+                <th>Contact Person Number</th>
+                <th>Contact Adress</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="client in clients">
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.ponumber }}</td>
+                    <td>{{ client.shipmentno }}</td>
+                    <td>{{ client.contactperson }}</td>
+                    <td>{{ client.contactpersonNo }}</td>
+                    <td>{{ client.contactaddress }}</td>
+                    
+                    <td>
+                        <a class="btn btn-info" href="/edit-client?clientId={{ client._id }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteclient(client._id)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ul id="pagination" class="pagination-sm"></ul>
+    </div>
+</section>
+
+<script src="/admin/js/jquery.twbsPagination.min.js"></script>
+<script src="/admin/js/client/view.js"></script>
