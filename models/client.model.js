@@ -5,12 +5,16 @@ AutoIncrement.initialize(mongoose);
 const clientSchema = mongoose.Schema({
     clientId:{type:Number},
     name: {type:String , index:{unique:true} },
-    ponumber:{type:String},
-    shipmentno: {type: String},
-    clientcode: {type:String},
-    contactperson: {type:String},
-    contactpersonNo: {type:String},
-    contactaddress: {type:String},
+    poNumber:{type:String},
+    shipmentNo: {type: String},
+    clientCode: {type:String},
+    contactPerson: {type:String},
+    contactPersonNo: {type:String},
+    contactAddress: {type:String},
+    billingAddress: {type:String},
+    shippingAddress: {type:String},
+    pan:{type:String},
+    gstin:{type:String},
     status:{type: String },
     createAt:{type: Date},
     updatedAt:{type: Date}
@@ -20,23 +24,23 @@ clientSchema.plugin(AutoIncrement.plugin,{model:'client',field:'clientId',startA
 
 let clientModel = mongoose.model('client',clientSchema);
 
-clientModel.addclient = (addToclient)=> {
-    return addToclient.save();
+clientModel.addClient = (addToClient)=> {
+    return addToClient.save();
 }
 
-clientModel.editclient = (editToclient) => {
-    return clientModel.update(editToclient.query,editToclient.set);
+clientModel.editClient = (editToClient) => {
+    return clientModel.update(editToClient.query,editToClient.set);
 }
 
-clientModel.getOneclient = (editToclient) => {
-    return clientModel.findOne(editToclient.query,editToclient.projection)
+clientModel.getOneClient = (editToClient) => {
+    return clientModel.findOne(editToClient.query,editToClient.projection)
 }
 
 clientModel.clientPagination = (clientToFind) => {
     return clientModel.find(clientToFind.query,clientToFind.projection).sort({_id:-1}).skip(clientToFind.skip).limit(clientToFind.limit);
 }
 
-clientModel.allclientCount = (clientToFind) => {
+clientModel.allClientCount = (clientToFind) => {
     return clientModel.find(clientToFind.query,clientToFind.projection).count();
 }
 

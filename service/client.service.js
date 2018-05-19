@@ -6,16 +6,10 @@
  * @lastModifedBy Shakshi
  */
 
-import client from '../models/client.model'
+import Client from '../models/client.model'
 import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
-import utility from '../core/utility.js' 
-import  crypto from 'crypto'
-import jwt from 'jsonwebtoken'
-import nm from 'nodemailer'
-import rand from 'csprng'
-
 
 
 /**
@@ -32,65 +26,65 @@ const service = {};
  * @return {[object]}
  */
 
-service.addclient = async (req,res) =>{
-    let clientToAdd = client({
+service.addClient = async (req,res) =>{
+    let clientToAdd = Client({
         name:req.body.name,
-        ponumber:req.body.ponumber,
-        shipmentno:req.body.shipmentno,
+        poNumber:req.body.poNumber,
+        shipmentNo:req.body.shipmentNo,
         // clientcode:req.body.clientcode,
-        contactperson:req.body.contactperson,
-        contactpersonNo:req.body.contactpersonNo,
-        contactaddress:req.body.contactaddress,
+        contactPerson:req.body.contactPerson,
+        contactPersonNo:req.body.contactPersonNo,
+        contactAddress:req.body.contactAddress,
         status: 'active',
         createAt:new Date()
     });
-    const savedclient = await client.addclient(clientToAdd);
+    const savedClient = await Client.addClient(clientToAdd);
     try{
-        res.send({"success":true, "code":"200", "msg":successMsg.addclient,"data":savedclient});
+        res.send({"success":true, "code":"200", "msg":successMsg.addClient,"data":savedClient});
     }
     catch(err) {
-        res.send({"success":false, "code":"500", "msg":msg.addclient,"err":err});
+        res.send({"success":false, "code":"500", "msg":msg.addClient,"err":err});
     }
 }
 
-service.editclient = async (req,res) => {
-    let editclientData = {
+service.editClient = async (req,res) => {
+    let editClientData = {
         name:req.body.name,
-        ponumber:req.body.ponumber,
-        shipmentno:req.body.shipmentno,
-        clientcode:req.body.clientcode,
-        contactperson:req.body.contactperson,
-        contactpersonNo:req.body.contactpersonNo,
-        contactaddress:req.body.contactaddress,
+        poNumber:req.body.poNumber,
+        shipmentNo:req.body.shipmentNo,
+        clientCode:req.body.clientCode,
+        contactPerson:req.body.contactPerson,
+        contactPersonNo:req.body.contactPersonNo,
+        contactAddress:req.body.contactAddress,
         updatedAt: new Date()
     }
 
-    let editToclient = {
+    let editToClient = {
         query:{_id:req.query.clientId},
-        set:{"$set":editclientData}
+        set:{"$set":editClientData}
     }
     
-    const editclient = await client.editclient(editToclient);
+    const editClient = await client.editClient(editToClient);
 
     try{
-        res.send({"success":true, "code":"200", "msg":successMsg.editclient,"data":editclient});
+        res.send({"success":true, "code":"200", "msg":successMsg.editClient,"data":editClient});
     }
     catch(err) {
-        res.send({"success":false, "code":"500", "msg":msg.editclient,"err":err});
+        res.send({"success":false, "code":"500", "msg":msg.editClient,"err":err});
     }
 }
 
-service.oneclient = async (req,res) => {
+service.oneClient = async (req,res) => {
     let clientToFind = {
         query: {_id:req.query.clientId},
         projection:{}
     }
 
-    const oneclient = await client.getOneclient(clientToFind);
-    res.send({"success":true,"code":200,"msg":successMsg.getOneclient,"data":oneclient});
+    const oneClient = await Client.getOneclient(clientToFind);
+    res.send({"success":true,"code":200,"msg":successMsg.getOneClient,"data":oneClient});
 }
 
-service.allclient = async (req,res) => {
+service.allClient = async (req,res) => {
     let clientToFind = {
         query:{status:{$ne:'deleted'}},
         projection:{},
@@ -98,21 +92,21 @@ service.allclient = async (req,res) => {
         skip:(req.query.page-1)*10
     }
 
-    const allclient = await client.clientPagination(clientToFind);
-    res.send({"success":true,"code":200,"msg":successMsg.allclient,"data":allclient});
+    const allClient = await Client.clientPagination(clientToFind);
+    res.send({"success":true,"code":200,"msg":successMsg.allClient,"data":allClient});
 }
 
-service.allclientCount = async(req,res) => {
+service.allClientCount = async(req,res) => {
     let clientToFind = {
         query:{status:{$ne:'deleted'}},
         projection:{}
     }
 
-    const allclientCount = await client.allclientCount(clientToFind);
-    res.send({"success":true,"code":200,"msg":successMsg.allclient,"data":allclientCount});
+    const allClientCount = await Client.allClientCount(clientToFind);
+    res.send({"success":true,"code":200,"msg":successMsg.allClient,"data":allClientCount});
 }
 
-service.deleteclient = async(req,res) => {
+service.deleteClient = async(req,res) => {
     let clientEdit={
         status: 'deleted',
         updatedAt: new Date()
@@ -122,12 +116,12 @@ service.deleteclient = async(req,res) => {
         set:{"$set":clientEdit}
     };
     try{
-        const editclient= await client.editclient(clientToEdit);
-        res.send({"success":true,"code":200,"msg":successMsg.deleteclient,"data":editclient});
+        const editClient= await Client.editClient(clientToEdit);
+        res.send({"success":true,"code":200,"msg":successMsg.deleteClient,"data":editClient});
 
     }
     catch(err){
-        res.send({"success":false, "code":"500", "msg":msg.deleteclient,"err":err});
+        res.send({"success":false, "code":"500", "msg":msg.deleteClient,"err":err});
     }
 }
 

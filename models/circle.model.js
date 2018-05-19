@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import AutoIncrement from "mongoose-auto-increment";
 AutoIncrement.initialize(mongoose);
 
-ObjectId = mongoose.Schema.ObjectId;
+let ObjectId = mongoose.Schema.ObjectId;
 
 const CircleSchema = mongoose.Schema({
     circleId: {type: Number },

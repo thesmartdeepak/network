@@ -15,11 +15,11 @@
             <tbody>
                 <tr ng-repeat="client in clients">
                     <td>{{ client.name }}</td>
-                    <td>{{ client.ponumber }}</td>
-                    <td>{{ client.shipmentno }}</td>
-                    <td>{{ client.contactperson }}</td>
-                    <td>{{ client.contactpersonNo }}</td>
-                    <td>{{ client.contactaddress }}</td>
+                    <td>{{ client.poNumber }}</td>
+                    <td>{{ client.shipmentNo }}</td>
+                    <td>{{ client.contactPerson }}</td>
+                    <td>{{ client.contactPersonNo }}</td>
+                    <td>{{ client.contactAddress }}</td>
                     
                     <td>
                         <a class="btn btn-info" href="/edit-client?clientId={{ client._id }}">Edit</a>
