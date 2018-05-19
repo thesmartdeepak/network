@@ -2,9 +2,11 @@ import mongoose from 'mongoose';
 import AutoIncrement from "mongoose-auto-increment";
 AutoIncrement.initialize(mongoose);
 
+ObjectId = mongoose.Schema.ObjectId;
+
 const CircleSchema = mongoose.Schema({
-  
     circleId: {type: Number },
+    regionId: {type:ObjectId},
     name: {type:String , index:{unique:true} },
     description: {type: String},
     code: {type: String , index:{unique:true}  },
@@ -13,7 +15,7 @@ const CircleSchema = mongoose.Schema({
     updatedAt:{type: Date}
   }, {collection : 'circle'});
 
-  CircleSchema.plugin(AutoIncrement.plugin,{model:'circle',field:'circleId',startAt:1,incrementBy:1});
+CircleSchema.plugin(AutoIncrement.plugin,{model:'circle',field:'circleId',startAt:1,incrementBy:1});
 
 let CircleModel = mongoose.model('circle',CircleSchema);
 

@@ -3,7 +3,6 @@ import AutoIncrement from "mongoose-auto-increment";
 AutoIncrement.initialize(mongoose);
 
 const RegionSchema = mongoose.Schema({
-  
     regionId: {type: Number },
     name: {type:String , index:{unique:true} },
     description: {type: String},

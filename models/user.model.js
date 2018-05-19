@@ -3,7 +3,6 @@ import AutoIncrement from "mongoose-auto-increment";
 AutoIncrement.initialize(mongoose);
 
 const UserSchema = mongoose.Schema({
-  
     token:{type:String},
     salt:{type:String},
     temp_str:{type:String},
@@ -31,33 +30,6 @@ let UserModel = mongoose.model('user',UserSchema);
 
 UserModel.getAll = (dataToFind) => {
     return UserModel.find(dataToFind.query,dataToFind.projection).sort({_id:-1}).limit(dataToFind.limit).skip(dataToFind.skip);
-    // return UserModel.aggregate([
-    //     { $match: dataToFind.query},
-    //     {
-    //     $lookup:{
-    //         from:"usertype",
-    //         localField:"userTypeId", 
-    //         foreignField:"userTypeId",
-    //         as:"userType_docs"
-    //     }
-
-    //     },
-    //     { 
-    //     $unwind:"$userType_docs"
-    //     },
-    //     {
-    //         $project:{
-    //             clientId:1,
-    //             userId:1,
-    //             emailId: 1,
-    //             name:1,
-    //             userTypeId:1 ,           
-    //             userType:"$userType_docs.userType",          
-    //             status:1
-
-    //         }
-    //     }
-    // ]);
 }
 
 UserModel.getOne = (userToFind) => {
