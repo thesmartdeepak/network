@@ -25,6 +25,15 @@ const service = {};
  * @param  {[object]}
  * @return {[object]}
  */
+service.addCircleRequiredData = async(req,res)=>{
+    let dataFind = {};
+    dataFind.query = {};
+    dataFind.projection = {"_id":0};
+    let data = await UserType.getAll(dataFind);
+    // console.log('----------------');
+    console.log(data);
+    return res.send({success:true,code:200,msg:data});
+}
 
 service.addClient = async (req,res) =>{
     let clientToAdd = Client({

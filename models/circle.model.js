@@ -11,6 +11,7 @@ const CircleSchema = mongoose.Schema({
     description: {type: String},
     code: {type: String , index:{unique:true}  },
     status:{type: String },
+    clientId:{type: String},
     createAt:{type: Date},
     updatedAt:{type: Date}
   }, {collection : 'circle'});

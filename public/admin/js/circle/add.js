@@ -1,13 +1,27 @@
 $("#addCircleForm").validate();
 
+
 app.controller('ctrl', function($scope, $http) {
 
     $scope.formData = {
         name:"",
         description: "",
         code: "",
+        clientId:"",
     };
-  
+    $scope.getMasterData = function(){
+        $http({
+            method: 'POST',
+            url: '/addCircleRequiredData',
+            headers: {
+                'authorization': localStorage.token
+            },
+        }).then(function(response){
+            console.log(response.data.msg);
+            alert(response.data.msg);
+          $scope.clientId = response.data.msg;
+        });
+    }
     $scope.submit = function () {
         if($("#addCircleForm").valid()){
             var submitUrl = "/addCircle";
@@ -48,6 +62,7 @@ app.controller('ctrl', function($scope, $http) {
                 name:response.data.data.name,
                 description: response.data.data.description,
                 code: response.data.data.code,
+                clientId:response.data.data.clientId,
             };
             
             $scope.editMode = true;

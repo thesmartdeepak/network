@@ -31,6 +31,16 @@ const service = {};
  * @return {[object]}
  */
 
+service.addCircleRequiredData = async(req,res)=>{
+    let dataFind = {};
+    dataFind.query = {};
+    dataFind.projection = {"_id":0};
+    let data = await Circle.getAllCircle(dataFind);
+    // console.log('----------------');
+    console.log(data);
+    return res.send({success:true,code:200,msg:data});
+}
+
 service.addCircle = async (req,res) =>{
     let circleToAdd = Circle({
         name:req.body.name,

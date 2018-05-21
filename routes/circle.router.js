@@ -21,6 +21,8 @@ router.get("/edit-circle",function(req, res){
     res.render('admin/circle/add',{title:'Edit circle'})
 });
 
+router.post("/addCircleRequiredData",circleService.addCircleRequiredData);
+
 router.post("/editCircle",circleService.editCircle);
 
 router.get("/oneCircle",circleService.oneCircle);
