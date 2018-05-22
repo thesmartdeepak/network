@@ -27,8 +27,13 @@
           </div>
           <div class="form-group">
             <label>Client Id</label>
-            <select class="form-control" name="clientId" ng-model="formData.clientId" required>
-              <option ng-repeat="clientId in clientId" value="{{ clientId.clientId }}">{{ toUcFirst(clientId.clientId) }}</option>
+            <select id="clintList" class="form-control" name="clientId" required></select>
+          </div>
+
+          <div class="form-group">
+            <label>Region</label>
+            <select class="form-control" name="regionId" ng-model="formData.regionId" required>
+              <option ng-repeat="region in regions" value="{{ region._id }}">{{ region.name }}</option>
             </select>
           </div>
         <!-- /.box-body -->
@@ -40,4 +45,6 @@
     </div>
 </section>
 
+<link rel="stylesheet" href="/admin/css/select2.css">
+<script src="/admin/js/select2.full.js"></script>
 <script src="/admin/js/circle/add.js"></script>

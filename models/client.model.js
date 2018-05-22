@@ -44,4 +44,8 @@ clientModel.allClientCount = (clientToFind) => {
     return clientModel.find(clientToFind.query,clientToFind.projection).count();
 }
 
+clientModel.totalClintList = (clientToFind) => {
+    return clientModel.find(clientToFind.query,clientToFind.projection).skip(clientToFind.skip).limit(clientToFind.limit);
+}
+
 export default clientModel;

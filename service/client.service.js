@@ -25,14 +25,45 @@ const service = {};
  * @param  {[object]}
  * @return {[object]}
  */
-service.addCircleRequiredData = async(req,res)=>{
+service.totalClintList = async(req,res)=>{
     let dataFind = {};
+
     dataFind.query = {};
-    dataFind.projection = {"_id":0};
-    let data = await UserType.getAll(dataFind);
-    // console.log('----------------');
-    console.log(data);
-    return res.send({success:true,code:200,msg:data});
+    if(req.query.term){
+        let query = "^"+req.query.term;
+        dataFind.query = {"name":new RegExp(query)};
+    }
+
+    dataFind.projection = {};
+    dataFind.limit = 10;
+    dataFind.page = 0;
+    if(req.query.page){
+        dataFind.skip = (req.query.page-1)*10;
+    }
+    
+    let data = await Client.totalClintList(dataFind);
+
+    let results = [];
+
+    data.forEach(function(val,index) { 
+        results.push( {"id": val._id,"text": val.name});
+    });
+
+    let response = {
+        results:results,
+        pagination: {
+            more: (function(){
+                if(data.length < 10){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            })()
+        }
+    };
+
+    return res.send(response);
 }
 
 service.addClient = async (req,res) =>{

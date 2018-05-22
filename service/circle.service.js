@@ -7,6 +7,8 @@
  */
 
 import Circle from '../models/circle.model'
+import Region from '../models/region.model'
+import Client from '../models/client.model'
 import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
@@ -34,18 +36,29 @@ const service = {};
 service.addCircleRequiredData = async(req,res)=>{
     let dataFind = {};
     dataFind.query = {};
-    dataFind.projection = {"_id":0};
-    let data = await Circle.getAllCircle(dataFind);
-    // console.log('----------------');
-    console.log(data);
+    dataFind.projection = {};
+    let data = {};
+    data.regions = await Region.getAllRegion(dataFind);
+
     return res.send({success:true,code:200,msg:data});
 }
 
 service.addCircle = async (req,res) =>{
+    let getOneClient = {
+        query:{_id:Circle.ObjectId(req.body.circleId)},
+        projection:{}
+    };
+
+    let clientOne = await Client.getOneClient(getOneClient);
+    console.log('ClientOne---------------------------------');
+    console.log(clientOne);
     let circleToAdd = Circle({
         name:req.body.name,
         description:req.body.description,
         code:req.body.code,
+        circleId:req.body.circleId,
+        regionId:req.body.regionId,
+        clientCircleCode:clientCircleCode,
         status: 'active',
         createAt:new Date()
     });

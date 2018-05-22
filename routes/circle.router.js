@@ -21,8 +21,6 @@ router.get("/edit-circle",function(req, res){
     res.render('admin/circle/add',{title:'Edit circle'})
 });
 
-router.post("/addCircleRequiredData",circleService.addCircleRequiredData);
-
 router.post("/editCircle",circleService.editCircle);
 
 router.get("/oneCircle",circleService.oneCircle);
@@ -34,5 +32,7 @@ router.get("/view-circle",function(req, res){
 router.get('/allCircle',circleService.allCircle);
 
 router.post('/deleteCircle',circleService.deleteCircle);
+
+router.get('/addCircleRequiredData',circleService.addCircleRequiredData);
 
 export default router;

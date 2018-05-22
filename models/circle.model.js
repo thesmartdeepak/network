@@ -7,11 +7,12 @@ let ObjectId = mongoose.Schema.ObjectId;
 const CircleSchema = mongoose.Schema({
     circleId: {type: Number },
     regionId: {type:ObjectId},
+    clientId:{type: ObjectId},
     name: {type:String , index:{unique:true} },
     description: {type: String},
     code: {type: String , index:{unique:true}  },
+    clientCircleCode:{type:String},
     status:{type: String },
-    clientId:{type: String},
     createAt:{type: Date},
     updatedAt:{type: Date}
   }, {collection : 'circle'});
@@ -20,6 +21,7 @@ CircleSchema.plugin(AutoIncrement.plugin,{model:'circle',field:'circleId',startA
 
 let CircleModel = mongoose.model('circle',CircleSchema);
 
+CircleModel.ObjectId = ObjectId;
 
 CircleModel.addCircle = (addToCircle)=> {
   return addToCircle.save();
