@@ -36,24 +36,35 @@ service.addCircleRequiredData = async(req,res)=>{
 }
 
 service.addProject = async (req,res) =>{
-    let projectToAdd = Project({
-        name:req.body.name,
-        poNumber:req.body.poNumber,
-        shipmentNo:req.body.shipmentNo,
-        // projectcode:req.body.projectcode,
-        contactPerson:req.body.contactPerson,
-        contactPersonNo:req.body.contactPersonNo,
-        contactAddress:req.body.contactAddress,
-        status: 'active',
-        createAt:new Date()
+    console.log(req);
+    let sampleFile = req.files.csv;
+    
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv('uploads/sfda.csv', function(err) {
+        if (err)
+        return res.status(500).send(err);
+    
+        res.send('File uploaded!');
     });
-    const savedProject = await Project.addProject(projectToAdd);
-    try{
-        res.send({"success":true, "code":"200", "msg":successMsg.addProject,"data":savedProject});
-    }
-    catch(err) {
-        res.send({"success":false, "code":"500", "msg":msg.addProject,"err":err});
-    }
+
+    // let projectToAdd = Project({
+    //     name:req.body.name,
+    //     poNumber:req.body.poNumber,
+    //     shipmentNo:req.body.shipmentNo,
+    //     // projectcode:req.body.projectcode,
+    //     contactPerson:req.body.contactPerson,
+    //     contactPersonNo:req.body.contactPersonNo,
+    //     contactAddress:req.body.contactAddress,
+    //     status: 'active',
+    //     createAt:new Date()
+    // });
+    // const savedProject = await Project.addProject(projectToAdd);
+    // try{
+    //     res.send({"success":true, "code":"200", "msg":successMsg.addProject,"data":savedProject});
+    // }
+    // catch(err) {
+    //     res.send({"success":false, "code":"500", "msg":msg.addProject,"err":err});
+    // }
 }
 
 service.editProject = async (req,res) => {

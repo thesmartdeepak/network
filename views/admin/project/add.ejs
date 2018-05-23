@@ -1,0 +1,22 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+      <form id="addProjectForm" method="post" action="/addProject" enctype="multipart/form-data">
+        <div class="box-body">
+
+          <div class="form-group">
+            <label>Upload CSV</label>
+            <input id="csvFile" type="file" class="" name="csvFile" required>
+          </div>
+        </div>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+</section>
+
+<script src="/admin/js/project/add.js"></script>

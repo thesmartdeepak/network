@@ -14,6 +14,7 @@ import region from './routes/region.router.js';
 import circle from './routes/circle.router.js';
 import activity from './routes/activity.router.js';
 import client from './routes/client.router.js';
+import project from './routes/project.router.js';
 import net from 'net';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
@@ -86,7 +87,7 @@ app.use(function(req, res, next) {
         '/add-circle','/edit-circle','/view-circle',
         '/add-activity','/edit-activity','/view-activity',
         '/add-Client','/edit-client','/view-Client',
-        
+        '/add-project','/addProject'
     ];
 
     if(arr_allowed.indexOf(req._parsedUrl.pathname)>=0){
@@ -152,6 +153,7 @@ app.use(region);
 app.use(circle);
 app.use(activity);
 app.use(client);
+app.use(project);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
