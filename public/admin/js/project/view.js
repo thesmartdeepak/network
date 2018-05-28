@@ -23,30 +23,31 @@ app.controller('ctrl', function($scope, $http) {
     }
     
     $scope.setPagination = function(){
-        $http({
-            method:'get',
-            url:'/allProjectCount',
-            headers: {
-                'authorization': localStorage.token
-            }
-        }).then(function(response){
-            let totalPage = Math.ceil(response.data.data/10);
-            if(totalPage > 0){
+        $scope.projectList(1);
+        // $http({
+        //     method:'get',
+        //     url:'/allProjectCount',
+        //     headers: {
+        //         'authorization': localStorage.token
+        //     }
+        // }).then(function(response){
+        //     let totalPage = Math.ceil(response.data.data/10);
+        //     if(totalPage > 0){
                 
-                $scope.pagination = $('#pagination').twbsPagination({
-                    totalPages: totalPage,
-                    visiblePages:3,
-                    startPage:$scope.startPage,
-                    onPageClick: function (event, page) {
-                        $scope.currentPage = page;
-                        $scope.projectList(page);
-                    }
-                });
-            }
-            else{
-                $scope.projects = [];
-            }
-        });
+        //         $scope.pagination = $('#pagination').twbsPagination({
+        //             totalPages: totalPage,
+        //             visiblePages:3,
+        //             startPage:$scope.startPage,
+        //             onPageClick: function (event, page) {
+        //                 $scope.currentPage = page;
+        //                 $scope.projectList(page);
+        //             }
+        //         });
+        //     }
+        //     else{
+        //         $scope.projects = [];
+        //     }
+        // });
     }
 
     $scope.setPagination();
@@ -75,6 +76,27 @@ app.controller('ctrl', function($scope, $http) {
             }
         });
     }
+
+    $scope.coOrdinatorName = function(users){
+        let coOrdinatorName = "";
+        users.forEach(function(value,index){
+            coOrdinatorName = value.fullname;
+        });
+        return coOrdinatorName;
+    }
 });
+
+$('#coOrdinatorList').select2({
+    ajax: {
+        url: '/totalCoOrdinatorList',
+        headers: {
+            'authorization': localStorage.token
+        }
+    },
+    placeholder: "Select a Co-ordinator"
+});
+
+
+$(".sidebar-mini").addClass("sidebar-collapse");
 
 sideBar('project');

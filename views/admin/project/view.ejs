@@ -2,9 +2,10 @@
 <!-- Main content -->
 <section class="content" ng-controller="ctrl">
     <div class="box box-primary">
+        <input placeholder="Project code">
+        <input placeholder="Site id">
+        <select id="coOrdinatorList" class="form-control" name="coOrdinatorList" required></select>
         <div style="overflow-x:auto;" id="tableContainer">
-            <input placeholder="Project code">
-            <input placeholder="Site id">
             
             <table class="table">
                 <thead>
@@ -36,6 +37,7 @@
                     <th>End time</th>
                     <th>Advance</th>
                     <th>Approved</th>
+                    <th>Co-Ordinator</th>
                 </thead>
                 <tbody>
                     <tr ng-repeat="project in projects">
@@ -67,6 +69,7 @@
                         <td>{{ project.endTime }}</td>
                         <td>{{ project.advance }}</td>
                         <td>{{ project.approved }}</td>
+                        <td>{{ coOrdinatorName(project.user) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -75,5 +78,7 @@
     </div>
 </section>
 
+<link rel="stylesheet" href="/admin/css/select2.css">
+<script src="/admin/js/select2.full.js"></script>
 <script src="/admin/js/jquery.twbsPagination.min.js"></script>
 <script src="/admin/js/project/view.js"></script>

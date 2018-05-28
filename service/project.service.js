@@ -202,6 +202,7 @@ service.allProject = async (req,res) => {
     }
 
     const allProject = await Project.projectPagination(projectToFind);
+
     res.send({"success":true,"code":200,"msg":successMsg.allProject,"data":allProject});
 }
 

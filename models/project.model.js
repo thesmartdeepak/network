@@ -59,7 +59,23 @@ projectModel.getOneProject = (editToProject) => {
 }
 
 projectModel.projectPagination = (projectToFind) => {
-    return projectModel.find(projectToFind.query,projectToFind.projection).sort({_id:-1}).skip(projectToFind.skip).limit(projectToFind.limit);
+    let aggregate = [
+        { 
+          $lookup:{
+              from: "user",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user"
+            }
+        },
+        { $match: { status: {$ne:"deleted"} } },
+        { $sort: { _id:-1} },
+        // { $skip: projectToFind.skip },
+        // { $limit: projectToFind.limit },
+        
+      ];
+      return projectModel.aggregate(aggregate);
+    // return projectModel.find(projectToFind.query,projectToFind.projection).sort({_id:-1}).skip(projectToFind.skip).limit(projectToFind.limit);
 }
 
 projectModel.allProjectCount = (projectToFind) => {
