@@ -1,0 +1,74 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+        <div style="overflow-x:auto;" id="tableContainer">
+            <table class="table">
+                <thead>
+                    <th>Project code</th>
+                    <th>Operator</th>
+                    <th>Activity</th>
+                    <th>Item description band</th>
+                    <th>Site Id</th>
+                    <th>Site count</th>
+                    <th>Pre done month</th>
+                    <th>Pre done date</th>
+                    <th>Post activity done month</th>
+                    <th>Post activity done date</th>
+                    <th>Coordinator remark</th>
+                    <th>Coordinator status</th>
+                    <th>Report acceptance status</th>
+                    <th>Client remark</th>
+                    <th>Concatenate</th>
+                    <th>Attempt cycle</th>
+                    <th>Employee id</th>
+                    <th>Employee name</th>
+                    <th>Po number</th>
+                    <th>Shippment no</th>
+                    <th>L1 approval</th>
+                    <th>L2 approval</th>
+                    <th>Po value</th>
+                    <th>Start time</th>
+                    <th>End time</th>
+                    <th>Advance</th>
+                    <th>Approved</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="project in projects">
+                        <td>{{ project.projectCode }}</td>
+                        <td>{{ project.operator }}</td>
+                        <td>{{ project.activity }}</td>
+                        <td>{{ project.itemDescription_Band }}</td>
+                        <td>{{ project.siteId }}</td>
+                        <td>{{ project.siteCount }}</td>
+                        <td>{{ project.preDoneMonth }}</td>
+                        <td>{{ project.preDoneDate }}</td>
+                        <td>{{ project.post_ActivityDoneMonth }}</td>
+                        <td>{{ project.post_ActivityDoneDate }}</td>
+                        <td>{{ project.coordinatorRemark }}</td>
+                        <td>{{ project.coordinatorStatus }}</td>
+                        <td>{{ project.reportAcceptanceStatus }}</td>
+                        <td>{{ project.clientRemark }}</td>
+                        <td>{{ project.concatenate }}</td>
+                        <td>{{ project.attemptCycle }}</td>
+                        <td>{{ project.employeeId }}</td>
+                        <td>{{ project.employeeName }}</td>
+                        <td>{{ project.poNumber }}</td>
+                        <td>{{ project.shippmentNo }}</td>
+                        <td>{{ project.l1Approval }}</td>
+                        <td>{{ project.l2Approval }}</td>
+                        <td>{{ project.poValue }}</td>
+                        <td>{{ project.startTime }}</td>
+                        <td>{{ project.endTime }}</td>
+                        <td>{{ project.advance }}</td>
+                        <td>{{ project.approved }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <ul id="pagination" class="pagination-sm"></ul>
+    </div>
+</section>
+
+<script src="/admin/js/jquery.twbsPagination.min.js"></script>
+<script src="/admin/js/project/view.js"></script>

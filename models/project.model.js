@@ -3,8 +3,8 @@ import AutoIncrement from "mongoose-auto-increment";
 AutoIncrement.initialize(mongoose);
 
 const projectSchema = mongoose.Schema({
-    projectId:{type:Number},
-    projectCode: {type:String , index:{unique:true} },
+    //projectId:{type:Number},
+    projectCode: {type:String},
     operator:{type:String},
     activity: {type: String},
     itemDescription_Band: {type:String},
@@ -31,8 +31,6 @@ const projectSchema = mongoose.Schema({
     endTime:{type: String },
     advance:{type: String },
     approved:{type: String },
-    employeeId:{type: String },
-    employeeId:{type: String },
     projectStatus :{type:String},
     createAt:{type: Date},
     updatedAt:{type: Date}
@@ -44,6 +42,10 @@ let projectModel = mongoose.model('project',projectSchema);
 
 projectModel.addProject = (addToProject)=> {
     return addToProject.save();
+}
+
+projectModel.addMultiProject = (addToProject)=> {
+    return projectModel.insertMany(addToProject);
 }
 
 projectModel.editProject = (editToProject) => {

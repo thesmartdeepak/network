@@ -54,4 +54,13 @@ msg.addClient="client added successfully!!!!"
 msg.deleteClient="client deleted successfully!!!"
 msg.editClient="client updated successfully!!!"
 
-export default msg;
+/**
+ * project related msg
+ */ 
+msg.allProject="Found successfully!!!!"
+msg.getOneProject="Found one project successfully!!!!"
+msg.addProject="projects added successfully!!!!"
+msg.deleteProject="project deleted successfully!!!"
+msg.editProject="project updated successfully!!!"
+
+export default msg; 

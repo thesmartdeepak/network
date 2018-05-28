@@ -1,41 +1,80 @@
 app.controller('ctrl', function($scope, $http) {
-    $scope.hideList = [];
-    $scope.circleList = function(){
+    $scope.currentPage = 1;
+    $scope.projects = [];
+    $scope.startPage = 1;
+    $scope.pagination = null;
+    $scope.projectList = function(page){
         $http({
             method:'get',
-            url:'/allCircle',
+            url:'/allProject?page='+page,
             headers: {
                 'authorization': localStorage.token
             }
         }).then(function(response){
-            $scope.circles = response.data.data;
+            $scope.projects = response.data.data;
+            // for(x in response.data.data){
+            //     $scope.projects.push(response.data.data[x]);
+            // }
+
+            // if(response.data.data.length == 10){
+            //     $scope.currentPage += 1;
+            // }
         });
     }
     
-    $scope.circleList();
+    $scope.setPagination = function(){
+        $http({
+            method:'get',
+            url:'/allProjectCount',
+            headers: {
+                'authorization': localStorage.token
+            }
+        }).then(function(response){
+            let totalPage = Math.ceil(response.data.data/10);
+            if(totalPage > 0){
+                
+                $scope.pagination = $('#pagination').twbsPagination({
+                    totalPages: totalPage,
+                    visiblePages:3,
+                    startPage:$scope.startPage,
+                    onPageClick: function (event, page) {
+                        $scope.currentPage = page;
+                        $scope.projectList(page);
+                    }
+                });
+            }
+            else{
+                $scope.projects = [];
+            }
+        });
+    }
 
-    $scope.deleteCircle = function(circleId){
+    $scope.setPagination();
+
+    $scope.toUcFirst = function(oldTxt){
+        return oldTxt.charAt(0).toUpperCase()+oldTxt.slice(1);
+    }
+
+    $scope.deleteProject = function(projectId){
         $http({
             method:'post',
-            url:'/deleteCircle',
-            data:{circleId:circleId},
+            url:'/deleteProject',
+            data:{projectId:projectId},
             headers: {
                 'authorization': localStorage.token
             }
         }).then(function(response){
             alertBox('Deleted successfully','success');
-            $scope.hideList.push(circleId);
+            if($scope.projects.length > 1){
+                $scope.projectList($scope.currentPage);
+            }
+            else{
+                $('#pagination').twbsPagination('destroy');
+                $scope.startPage = $scope.currentPage-1;
+                $scope.setPagination();
+            }
         });
-    }
-
-    $scope.hideCircle = function(circleId){
-        if($scope.hideList.indexOf(circleId) != -1){
-            return true;
-        }
-        else{
-            return false;
-        }
     }
 });
 
-sideBar('circle');
+sideBar('project');

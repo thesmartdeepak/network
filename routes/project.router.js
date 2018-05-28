@@ -25,14 +25,14 @@ router.post("/addProject",projectService.addProject);
 
 // router.get("/oneProject",projectService.oneProject);
 
-// router.get("/view-project",function(req, res){
-//     res.render('admin/project/view',{title:'View project'})
-// });
+router.get("/view-project",function(req, res){
+    res.render('admin/project/view',{title:'View project'});
+});
 
-// router.get('/allProject',projectService.allProject);
+router.get('/allProject',projectService.allProject);
 
 // router.post('/deleteProject',projectService.deleteProject);
 
-// router.get('/addProjectRequiredData',projectService.addProjectRequiredData);
+router.get('/allProjectCount',projectService.allProjectCount);
 
 export default router;

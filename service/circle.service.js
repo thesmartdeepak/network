@@ -17,6 +17,7 @@ import  crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import nm from 'nodemailer'
 import rand from 'csprng'
+import mongoose from 'mongoose'
 
 
 /**
@@ -45,25 +46,26 @@ service.addCircleRequiredData = async(req,res)=>{
 
 service.addCircle = async (req,res) =>{
     let getOneClient = {
-        query:{_id:Circle.ObjectId(req.body.circleId)},
+        query:{_id:mongoose.Types.ObjectId(req.body.clientId)},
         projection:{}
     };
 
     let clientOne = await Client.getOneClient(getOneClient);
-    console.log('ClientOne---------------------------------');
-    console.log(clientOne);
+     
+    const clientCircleCode = clientOne.code+req.body.code;
     let circleToAdd = Circle({
         name:req.body.name,
         description:req.body.description,
         code:req.body.code,
-        circleId:req.body.circleId,
+        clientId:clientOne._id,
         regionId:req.body.regionId,
         clientCircleCode:clientCircleCode,
         status: 'active',
         createAt:new Date()
     });
-    const savedCircle = await Circle.addCircle(circleToAdd);
+    
     try{
+        const savedCircle = await Circle.addCircle(circleToAdd);
         res.send({"success":true, "code":"200", "msg":successMsg.addCircle,"data":savedCircle});
     }
     catch(err) {
@@ -72,10 +74,22 @@ service.addCircle = async (req,res) =>{
 }
 
 service.editCircle = async (req,res) => {
+    let getOneClient = {
+        query:{_id:mongoose.Types.ObjectId(req.body.clientId)},
+        projection:{}
+    };
+
+    let clientOne = await Client.getOneClient(getOneClient);
+     
+    const clientCircleCode = clientOne.code+req.body.code;
+    
     let circleEdit={
         name:req.body.name,
         description:req.body.description,
         code:req.body.code,
+        clientId:clientOne._id,
+        regionId:req.body.regionId,
+        clientCircleCode:clientCircleCode,
         updatedAt: new Date()
     }
     let circleToEdit={
@@ -98,8 +112,19 @@ service.oneCircle = async (req,res) => {
         projection:{}
     }
 
-    const oneCircle = await Circle.getOneCircle(circleToFind);
-    res.send({"success":true,"code":200,"msg":successMsg.getOneCircle,"data":oneCircle});
+    let oneCircle = await Circle.getOneCircle(circleToFind);
+
+    let getOneClient = {
+        query:{_id:oneCircle.clientId},
+        projection:{}
+    };
+
+    const clientOne = await Client.getOneClient(getOneClient);
+    let data = {
+        oneCircle:oneCircle,
+        clientOne:clientOne
+    };
+    res.send({"success":true,"code":200,"msg":successMsg.getOneCircle,"data":data});
 }
 
 service.allCircle = async(req,res) => {

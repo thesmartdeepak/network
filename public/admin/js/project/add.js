@@ -13,9 +13,9 @@ app.controller('ctrl', function($scope, $http) {
 
             var formdata = new FormData();
             
-            var file_data = $('#csvFile')[0].files;
+            var file_data = $('#excelFile')[0].files;
             for (var i = 0; i < file_data.length; i++) {
-                formdata.append("csv", file_data[i]);
+                formdata.append("excelFile", file_data[i]);
             }
             
             $http({

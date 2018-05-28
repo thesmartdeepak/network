@@ -4,6 +4,7 @@ app.controller('ctrl', function($scope, $http) {
 
     $scope.formData = {
         name:"",
+        code:'',
         ponumber: "",
         shipmentno: "",
         clientcode: "",
@@ -50,6 +51,7 @@ app.controller('ctrl', function($scope, $http) {
         }).then(function(response){
             $scope.formData = {
                 name:response.data.data.name,
+                code:response.data.data.code,
                 ponumber:response.data.data.ponumber,
                 shipmentno:response.data.data.shipmentno,
                 clientcode:response.data.data.clientcode,

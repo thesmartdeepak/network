@@ -153,4 +153,9 @@ msg.deleteActivity ="Unable to delete activity"
 /** Error message for activity id */
 msg.activityId ="Activity Id is missing"
 
+/******                                    */
+/** Error message for Project */
+/******                                    */
+msg.addProject ="Invalid file. Please upload csv file."
+
 export default msg;

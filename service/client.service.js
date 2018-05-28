@@ -71,15 +71,16 @@ service.addClient = async (req,res) =>{
         name:req.body.name,
         poNumber:req.body.poNumber,
         shipmentNo:req.body.shipmentNo,
-        // clientcode:req.body.clientcode,
+        code:req.body.code,
         contactPerson:req.body.contactPerson,
         contactPersonNo:req.body.contactPersonNo,
         contactAddress:req.body.contactAddress,
         status: 'active',
         createAt:new Date()
     });
-    const savedClient = await Client.addClient(clientToAdd);
+    
     try{
+        const savedClient = await Client.addClient(clientToAdd);
         res.send({"success":true, "code":"200", "msg":successMsg.addClient,"data":savedClient});
     }
     catch(err) {
@@ -92,7 +93,7 @@ service.editClient = async (req,res) => {
         name:req.body.name,
         poNumber:req.body.poNumber,
         shipmentNo:req.body.shipmentNo,
-        clientCode:req.body.clientCode,
+        code:req.body.code,
         contactPerson:req.body.contactPerson,
         contactPersonNo:req.body.contactPersonNo,
         contactAddress:req.body.contactAddress,
@@ -104,9 +105,9 @@ service.editClient = async (req,res) => {
         set:{"$set":editClientData}
     }
     
-    const editClient = await client.editClient(editToClient);
 
     try{
+        const editClient = await client.editClient(editToClient);
         res.send({"success":true, "code":"200", "msg":successMsg.editClient,"data":editClient});
     }
     catch(err) {

@@ -5,9 +5,9 @@ AutoIncrement.initialize(mongoose);
 const clientSchema = mongoose.Schema({
     clientId:{type:Number},
     name: {type:String , index:{unique:true} },
+    code:{type:String,index:{unique:true}},
     poNumber:{type:String},
     shipmentNo: {type: String},
-    clientCode: {type:String},
     contactPerson: {type:String},
     contactPersonNo: {type:String},
     contactAddress: {type:String},

@@ -8,9 +8,9 @@ const CircleSchema = mongoose.Schema({
     circleId: {type: Number },
     regionId: {type:ObjectId},
     clientId:{type: ObjectId},
-    name: {type:String , index:{unique:true} },
+    name: {type:String},
     description: {type: String},
-    code: {type: String , index:{unique:true}  },
+    code: {type: String},
     clientCircleCode:{type:String},
     status:{type: String },
     createAt:{type: Date},
@@ -32,7 +32,7 @@ CircleModel.updateCircle = (EditCircle) => {
 }
 
 CircleModel.getOneCircle = (circleToFind) => {
-  return CircleModel.findOne(circleToFind.query,circleToFind.projection)
+  return CircleModel.findOne(circleToFind.query,circleToFind.projection);
 }
 
 CircleModel.getAllCircle = (circleToFind) => {

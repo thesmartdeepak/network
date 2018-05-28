@@ -2,12 +2,12 @@
 <!-- Main content -->
 <section class="content" ng-controller="ctrl">
     <div class="box box-primary">
-      <form id="addProjectForm" method="post" action="/addProject" enctype="multipart/form-data">
+      <form id="addProjectForm" method="post" ng-click="submit()" enctype="multipart/form-data">
         <div class="box-body">
 
           <div class="form-group">
             <label>Upload CSV</label>
-            <input id="csvFile" type="file" class="" name="csvFile" required>
+            <input id="excelFile" type="file" class="" name="excelFile" required>
           </div>
         </div>
         <!-- /.box-body -->

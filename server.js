@@ -19,7 +19,7 @@ import net from 'net';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import engine from 'ejs-locals';
-//import fileUpload from 'express-fileupload';
+import fileUpload from 'express-fileupload';
 
 const port = config.serverPort;
 logger.stream = {
@@ -37,7 +37,7 @@ connectToMongo();
 
 
 var app = express();
-//app.use(fileUpload());
+app.use(fileUpload());
 
 // view engine setup
 
@@ -54,7 +54,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use('/public',express.static(path.join(__dirname, 'public')));
+app.use('/public',express.static(path.join(__dirname, 'public')));
 
 
 
@@ -87,7 +87,7 @@ app.use(function(req, res, next) {
         '/add-circle','/edit-circle','/view-circle',
         '/add-activity','/edit-activity','/view-activity',
         '/add-Client','/edit-client','/view-Client',
-        '/add-project','/addProject'
+        '/add-project','/view-project'
     ];
 
     if(arr_allowed.indexOf(req._parsedUrl.pathname)>=0){
@@ -127,6 +127,8 @@ app.use(function(req, res, next) {
         
     }
 })
+
+
 
 // default options - use for file uplaod
 app.post('/upload', function(req, res) {

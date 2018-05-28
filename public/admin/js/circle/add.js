@@ -8,6 +8,7 @@ app.controller('ctrl', function($scope, $http) {
         description: "",
         code: "",
         clientId:"",
+        regionId:'',
     };
 
     $scope.getMasterData = function(){
@@ -19,6 +20,7 @@ app.controller('ctrl', function($scope, $http) {
             },
         }).then(function(response){
           $scope.regions = response.data.msg.regions;
+          $scope.checkToEdit();
         });
     }
     $scope.getMasterData();
@@ -54,25 +56,30 @@ app.controller('ctrl', function($scope, $http) {
         }
     };
 
-    if(window.location.search){
-        $http({
-            method: 'get',
-            url: '/oneCircle'+window.location.search,
-            data:$scope.formData,
-            headers: {
-                'authorization': localStorage.token
-            },
-        }).then(function(response){
-            $scope.formData = {
-                name:response.data.data.name,
-                description: response.data.data.description,
-                code: response.data.data.code,
-                clientId:response.data.data.clientId,
-            };
-            
-            $scope.editMode = true;
-        });
+    $scope.checkToEdit = function(){
+        if(window.location.search){
+            $http({
+                method: 'get',
+                url: '/oneCircle'+window.location.search,
+                data:$scope.formData,
+                headers: {
+                    'authorization': localStorage.token
+                },
+            }).then(function(response){
+                $scope.formData = {
+                    name:response.data.data.oneCircle.name,
+                    description: response.data.data.oneCircle.description,
+                    code: response.data.data.oneCircle.code,
+                    clientId:response.data.data.oneCircle.clientId,
+                    regionId:response.data.data.oneCircle.regionId
+                };
+                $scope.defaultClient = response.data.data.clientOne;
+
+                $scope.editMode = true;
+            });
+        }
     }
+    
 });
 
 $('#clintList').select2({
@@ -80,7 +87,7 @@ $('#clintList').select2({
         url: '/totalClintList',
         headers: {
             'authorization': localStorage.token
-        },
+        }
     }
 });
 

@@ -10,8 +10,9 @@ import Project from '../models/project.model'
 import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
-
-
+import path from 'path';
+import xlsx from 'node-xlsx';
+import fs from 'fs';
 /**
  * [service is a object ]
  * @type {Object}
@@ -19,52 +20,116 @@ import msg from '../core/message/error.msg.js'
 
 const service = {};
 
-/**
- * @description [with all the calculation before getAll function of model and after getAll]
- * @param  {[object]}
- * @param  {[object]}
- * @return {[object]}
- */
-service.addCircleRequiredData = async(req,res)=>{
-    let dataFind = {};
-    dataFind.query = {};
-    dataFind.projection = {"_id":0};
-    let data = await UserType.getAll(dataFind);
-    // console.log('----------------');
-    console.log(data);
-    return res.send({success:true,code:200,msg:data});
+
+let projectMapDb = {
+    "Project_Code": "projectCode",
+    "Operator": "operator",
+    "Activity": "activity",
+    "Item_Description_Band": "itemDescription_Band",
+    "Site_Id": "siteId",
+    "Site_Count": "siteCount",
+    "Pre_Done_Month": "preDoneMonth",
+    "Pre_Done_Date": "preDoneDate",
+    "Post_Activity_Done_Month": "post_ActivityDoneMonth",
+    "Post_Activity_Done_Date": "post_ActivityDoneDate",
+    "Coordinator_Remark": "coordinatorRemark",
+    "Coordinator_Status": "coordinatorStatus",
+    "Report_Acceptance_Status": "reportAcceptanceStatus",
+    "Client_Remark": "clientRemark",
+    "Concatenate": "concatenate",
+    "Attempt_Cycle": "attemptCycle",
+    "Employee_Id": "employeeId",
+    "Employee_Name": "employeeName",
+    "Po_Number": "poNumber",
+    "Shippment_No": "shippmentNo",
+    "L1_Approval": "l1Approval",
+    "L2_Approval": "l2Approval",
+    "Po_Value": "poValue",
+    "Start_Time": "startTime",
+    "End_Time": "endTime",
+    "Advance": "advance",
+    "Approved": "approved",
+    "Project_Status": "projectStatus"
 }
 
+let projectDbHeader = [
+    "projectCode",
+    "operator",
+    "activity",
+    "itemDescription_Band",
+    "siteId",
+    "siteCount",
+    "preDoneMonth",
+    "preDoneDate",
+    "post_ActivityDoneMonth",
+    "post_ActivityDoneDate",
+    "coordinatorStatus",
+    "coordinatorRemark",
+    "reportStatus",
+    "reportAcceptanceStatus",
+    "clientRemark",
+    "concaeenate",
+    "attemptCycle",
+    "employeeId",
+    "employeeName",
+    "poNumber",
+    "shippmentNo",
+    "l1Approval",
+    "l2Approval",
+    "poValue",
+    "startTime",
+    "endTime",
+    "advance",
+    "approved"
+];
+ 
 service.addProject = async (req,res) =>{
-    console.log(req);
-    let sampleFile = req.files.csv;
-    
-    // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv('uploads/sfda.csv', function(err) {
-        if (err)
-        return res.status(500).send(err);
-    
-        res.send('File uploaded!');
-    });
 
-    // let projectToAdd = Project({
-    //     name:req.body.name,
-    //     poNumber:req.body.poNumber,
-    //     shipmentNo:req.body.shipmentNo,
-    //     // projectcode:req.body.projectcode,
-    //     contactPerson:req.body.contactPerson,
-    //     contactPersonNo:req.body.contactPersonNo,
-    //     contactAddress:req.body.contactAddress,
-    //     status: 'active',
-    //     createAt:new Date()
-    // });
-    // const savedProject = await Project.addProject(projectToAdd);
-    // try{
-    //     res.send({"success":true, "code":"200", "msg":successMsg.addProject,"data":savedProject});
-    // }
-    // catch(err) {
-    //     res.send({"success":false, "code":"500", "msg":msg.addProject,"err":err});
-    // }
+    let excelFile = req.files.excelFile;
+
+    let fileExt = excelFile.name.split('.').pop();
+
+    if(fileExt == 'xlx' || fileExt == 'xlsx'){
+        let fileName = (String (new Date()))+"_"+(Math.random())+"."+fileExt;
+        
+        let path = 'public/uploads/csv/'+fileName;
+        let outFile = 'public/uploads/csv/'+(String (new Date()))+"_"+(Math.random())+'.csv';
+
+        await excelFile.mv(path, function(err) {
+            const obj = xlsx.parse(path);
+            const sheet = obj[0]; 
+            let data = sheet['data'];
+            // var header = sheet['data'][0];
+            data.splice(0,1);
+            let rows = [];
+            data.forEach(function(rst,indx){
+                if(rst[1]){
+                    let row = {};
+                    projectDbHeader.forEach(function(result,index){
+                        if(rst[index+1]){
+                            row[result] = rst[index+1];
+                        }
+                        else{
+                            row[result] = '';
+                        }
+                    });
+                    row['projectStatus'] = "active";
+                    row['createAt'] = new Date();
+                    row['updatedAt'] = new Date();
+                    rows.push(row);
+                }
+            });
+
+            
+            const addProject = Project.addMultiProject(rows);
+            
+            res.send({"success":true, "code":"200", "msg":successMsg.addProject});
+        });
+        
+    }
+    else{
+        res.send({"success":false, "code":"200", "msg":msg.addProject});
+    }
 }
 
 service.editProject = async (req,res) => {
@@ -144,5 +209,6 @@ service.deleteProject = async(req,res) => {
         res.send({"success":false, "code":"500", "msg":msg.deleteProject,"err":err});
     }
 }
+
 
 export default service;
