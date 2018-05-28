@@ -13,6 +13,7 @@ import msg from '../core/message/error.msg.js'
 import path from 'path';
 import xlsx from 'node-xlsx';
 import fs from 'fs';
+import jwt from 'jsonwebtoken';
 /**
  * [service is a object ]
  * @type {Object}
@@ -34,6 +35,7 @@ let projectMapDb = {
     "Post_Activity_Done_Date": "post_ActivityDoneDate",
     "Coordinator_Remark": "coordinatorRemark",
     "Coordinator_Status": "coordinatorStatus",
+    "Report_Status": "reportStatus",
     "Report_Acceptance_Status": "reportAcceptanceStatus",
     "Client_Remark": "clientRemark",
     "Concatenate": "concatenate",
@@ -49,7 +51,6 @@ let projectMapDb = {
     "End_Time": "endTime",
     "Advance": "advance",
     "Approved": "approved",
-    "Project_Status": "projectStatus"
 }
 
 let projectDbHeader = [
@@ -68,7 +69,7 @@ let projectDbHeader = [
     "reportStatus",
     "reportAcceptanceStatus",
     "clientRemark",
-    "concaeenate",
+    "concatenate",
     "attemptCycle",
     "employeeId",
     "employeeName",
@@ -84,6 +85,10 @@ let projectDbHeader = [
 ];
  
 service.addProject = async (req,res) =>{
+    let userId = "";
+    jwt.verify(req.headers.authorization, "shhhhh", function(err,decode){
+        userId = decode._id;
+    });
 
     let excelFile = req.files.excelFile;
 
@@ -94,37 +99,56 @@ service.addProject = async (req,res) =>{
         
         let path = 'public/uploads/csv/'+fileName;
         let outFile = 'public/uploads/csv/'+(String (new Date()))+"_"+(Math.random())+'.csv';
-
-        await excelFile.mv(path, function(err) {
-            const obj = xlsx.parse(path);
+        
+        //await excelFile.mv(path, function(err) {
+            const obj = xlsx.parse(excelFile.data);
             const sheet = obj[0]; 
             let data = sheet['data'];
-            // var header = sheet['data'][0];
-            data.splice(0,1);
+            
+            let header = data.splice(0,1)[0];
+            
+            let rowHeaders = {};
+            
+            header.forEach(function(value,index){
+                
+                if(projectMapDb[value]){
+                    rowHeaders[index] = projectMapDb[value];
+                }
+            });
+            
             let rows = [];
-            data.forEach(function(rst,indx){
-                if(rst[1]){
+            
+            let k = 0;
+            for(k in data){
+                let rst = data[k];
+                let index = k;
+                if(rst[1] && rst[16] && rst[5]){
                     let row = {};
-                    projectDbHeader.forEach(function(result,index){
-                        if(rst[index+1]){
-                            row[result] = rst[index+1];
-                        }
-                        else{
-                            row[result] = '';
+                    rst.forEach(function(result,index){
+
+                        if(rowHeaders[index]){
+                            row[rowHeaders[index]] = result;
                         }
                     });
+
+                    let projectToFind = {
+                        query:{status:{$ne:'deleted'},concatenate:row['concatenate']}
+                    }
+                    const allProjectCount = await Project.allProjectCount(projectToFind);
+
+                    row['attemptCycle'] = "C"+(allProjectCount+1);
+                    
                     row['projectStatus'] = "active";
                     row['createAt'] = new Date();
                     row['updatedAt'] = new Date();
-                    rows.push(row);
+                    row['userId'] = userId;
+                    const addToProject = Project(row);
+                    await Project.addProject(addToProject);
                 }
-            });
-
-            
-            const addProject = Project.addMultiProject(rows);
+            }
             
             res.send({"success":true, "code":"200", "msg":successMsg.addProject});
-        });
+        //});
         
     }
     else{

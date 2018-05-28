@@ -3,6 +3,9 @@
 <section class="content" ng-controller="ctrl">
     <div class="box box-primary">
         <div style="overflow-x:auto;" id="tableContainer">
+            <input placeholder="Project code">
+            <input placeholder="Site id">
+            
             <table class="table">
                 <thead>
                     <th>Project code</th>
@@ -17,6 +20,7 @@
                     <th>Post activity done date</th>
                     <th>Coordinator remark</th>
                     <th>Coordinator status</th>
+                    <th>Report Status</th>
                     <th>Report acceptance status</th>
                     <th>Client remark</th>
                     <th>Concatenate</th>
@@ -47,6 +51,7 @@
                         <td>{{ project.post_ActivityDoneDate }}</td>
                         <td>{{ project.coordinatorRemark }}</td>
                         <td>{{ project.coordinatorStatus }}</td>
+                        <th>{{ project.reportStatus }}</th>
                         <td>{{ project.reportAcceptanceStatus }}</td>
                         <td>{{ project.clientRemark }}</td>
                         <td>{{ project.concatenate }}</td>
