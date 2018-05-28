@@ -49,7 +49,7 @@ service.addActivity = async (req,res) =>{
         res.send({"success":false, "code":"500", "msg":msg.addActivity,"err":err});
     }
 }
-
+ 
 service.editActivity = async (req,res) => {
     
     let getOneClient = {
