@@ -61,7 +61,15 @@ app.controller('ctrl', function($scope, $http) {
             }
         });
     }
-
+    
+    $scope.clientName = function(client){
+        let clientName = '';
+        client.forEach(function(value,index){
+            clientName = value.name;
+        });
+        
+        return clientName;
+    }
 });
 
 sideBar('activity');

@@ -1,7 +1,10 @@
 $("#addActivityForm").validate();
 
 app.controller('ctrl', function($scope, $http) {
-
+    $scope.defaultClient = {
+        _id:"",
+        name:"Select a client"
+    };
     $scope.formData = {
         name:"",
         description: "",
@@ -10,12 +13,14 @@ app.controller('ctrl', function($scope, $http) {
   
     $scope.submit = function () {
         $scope.formData.clientId = $("#clintList").val();
+        console.log($scope.formData.clientId);
         if($("#addActivityForm").valid()){
             var submitUrl = "/addActivity";
             if(window.location.search){
                 submitUrl = "/editActivity"+window.location.search;
             }
             $http({
+            
                 method: 'POST',
                 url: submitUrl,
                 data:$scope.formData,

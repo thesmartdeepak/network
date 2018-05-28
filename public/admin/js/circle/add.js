@@ -2,7 +2,10 @@ $("#addCircleForm").validate();
 
 
 app.controller('ctrl', function($scope, $http) {
-
+    $scope.defaultClient = {
+        _id:"",
+        name:"Select a client"
+    };
     $scope.formData = {
         name:"",
         description: "",
@@ -26,7 +29,7 @@ app.controller('ctrl', function($scope, $http) {
     $scope.getMasterData();
 
     $scope.submit = function () {
-        $scope.formData.clientId = $("#clintList").val();
+       $scope.formData.clientId = $("#clintList").val();
 
         if($("#addCircleForm").valid()){
             var submitUrl = "/addCircle";
@@ -88,7 +91,8 @@ $('#clintList').select2({
         headers: {
             'authorization': localStorage.token
         }
-    }
+    },
+    placeholder: "Select a Co-ordinator"
 });
 
 sideBar('circle');

@@ -6,8 +6,8 @@
         <div class="box-body">
 
           <div class="form-group">
-            <label>Client Id</label>
-            <select id="clintList" class="form-control" name="clientId" required>
+            <label>Client</label>
+            <select   id="clintList" class="form-control" name="clientId" required>
               <option  value"{{defaultClient._id}}">{{defaultClient.name}}</option>
             </select>
           </div>
@@ -30,6 +30,7 @@
           <div class="form-group">
             <label>Region</label>
             <select class="form-control" name="regionId" ng-model="formData.regionId" required>
+                <option value="">--Select Region--</option>
               <option ng-repeat="region in regions" value="{{ region._id }}">{{ region.name }}</option>
             </select>
           </div>

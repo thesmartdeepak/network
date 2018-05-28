@@ -44,7 +44,15 @@ CircleModel.getAllCircle = (circleToFind) => {
           localField: "clientId",
           foreignField: "_id",
           as: "client"
-        }
+        }  
+    },
+    {
+      $lookup:{
+        from: "region",
+        localField: "regionId",
+        foreignField: "_id",
+        as: "region"
+      }
     },
     { $match: { status: {$ne:"deleted"} } },
     { $sort: { _id:-1} },
