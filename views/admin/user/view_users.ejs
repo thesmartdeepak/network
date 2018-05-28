@@ -6,6 +6,7 @@
             <thead>
                 <th>Name</th>
                 <th>Email</th>
+                <th>User id</th>
                 <th>Phone</th>
                 <th>User Type</th>
                 <th>Action</th>
@@ -14,6 +15,7 @@
                 <tr ng-repeat="user in users">
                     <td>{{ user.fullname }}</td>
                     <td>{{ user.email }}</td>
+                    <td>#UNI00{{ user.userId }}</td>
                     <td>{{ user.phone }}</td>
                     <td>{{ toUcFirst(user.userType) }}</td>
                     <td>
