@@ -3,7 +3,8 @@ import AutoIncrement from "mongoose-auto-increment";
 AutoIncrement.initialize(mongoose);
 
 const projectSchema = mongoose.Schema({
-    //projectId:{type:Number},
+    projectId:{type:Number},
+    userId:{type: mongoose.Schema.ObjectId},
     projectCode: {type:String},
     operator:{type:String},
     activity: {type: String},
@@ -16,9 +17,10 @@ const projectSchema = mongoose.Schema({
     post_ActivityDoneDate:{type:Date},
     coordinatorRemark:{type:String},
     coordinatorStatus:{type: String },
+    reportStatus:{type: String},
     reportAcceptanceStatus:{type: String },
     clientRemark:{type: String },
-    concaeenate:{type: String },
+    concatenate:{type: String },
     attemptCycle:{type: String },
     employeeId:{type: String },
     employeeName:{type: String },
