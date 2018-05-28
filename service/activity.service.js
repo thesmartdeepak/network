@@ -51,10 +51,20 @@ service.addActivity = async (req,res) =>{
 }
 
 service.editActivity = async (req,res) => {
+    
+    let getOneClient = {
+        query:{_id:req.body.clientId},
+        projection:{}
+    };
+
+    let clientOne = await Client.getOneClient(getOneClient);
+    
+    const clientCircleCode = clientOne.code+req.body.code;
     let editActivityData = {
-        clientId: req.body.clientId,
+        clientId: clientOne._id,
         name: req.body.name,
         description: req.body.description,
+        clientCircleCode:clientCircleCode,
         updatedAt: new Date()
     }
 
@@ -100,8 +110,9 @@ service.allActivity = async (req,res) => {
         limit:10,
         skip:(req.query.page-1)*10
     }
+    const allActivity = await Activity.getAllActivity(activityToFind);
+     //const allActivity = await Activity.ActivityPagination(activityToFind);
 
-    const allActivity = await Activity.ActivityPagination(activityToFind);
     res.send({"success":true,"code":200,"msg":successMsg.allActivity,"data":allActivity});
 }
 

@@ -27,7 +27,24 @@ ActivityModel.editActivity = (editToActivity) => {
 ActivityModel.getOneActivity = (editToActivity) => {
     return ActivityModel.findOne(editToActivity.query,editToActivity.projection)
 }
-
+ActivityModel.getAllActivity = (circleToFind) => {
+    // return CircleModel.find(circleToFind.query,circleToFind.projection).sort({_id:-1}).limit(circleToFind.limit).skip(circleToFind.skip);
+    let aggregate = [
+      { 
+        $lookup:{
+            from: "client",
+            localField: "clientId",
+            foreignField: "_id",
+            as: "client"
+          }  
+      },
+      { $match: { status: {$ne:"deleted"} } },
+      { $sort: { _id:-1} },
+      { $limit: circleToFind.limit },
+      { $skip: circleToFind.skip }
+    ];
+    return ActivityModel.aggregate(aggregate);
+  }
 ActivityModel.ActivityPagination = (ActivityToFind) => {
     return ActivityModel.find(ActivityToFind.query,ActivityToFind.projection).sort({_id:-1}).skip(ActivityToFind.skip).limit(ActivityToFind.limit);
 }

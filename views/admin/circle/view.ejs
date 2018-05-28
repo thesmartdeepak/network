@@ -8,6 +8,7 @@
                 <th>Description</th>
                 <th>Code</th>
                 <th>Client</th>
+                <th>Region</th>
                 <th>Action</th>
             </thead>
             <tbody>
@@ -16,6 +17,7 @@
                     <td>{{ circle.description }}</td>
                     <td>{{ circle.code }}</td>
                     <td>{{ clientName(circle.client) }}</td>
+                    <td>{{ regionName(circle.region) }}</td>
                     <td>
                         <a class="btn btn-info" href="/edit-circle?circleId={{ circle._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteCircle(circle._id)">Delete</a>

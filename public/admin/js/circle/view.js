@@ -76,6 +76,15 @@ app.controller('ctrl', function($scope, $http) {
         
         return clientName;
     }
+    $scope.regionName = function(region){
+        let regionName = '';
+        region.forEach(function(value,index){
+            regionName = value.name;
+            
+        });
+        
+        return regionName;
+    }
 });
 
 sideBar('circle');
