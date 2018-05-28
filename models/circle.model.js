@@ -36,7 +36,26 @@ CircleModel.getOneCircle = (circleToFind) => {
 }
 
 CircleModel.getAllCircle = (circleToFind) => {
-  return CircleModel.find(circleToFind.query,circleToFind.projection).sort({_id:-1});
+  // return CircleModel.find(circleToFind.query,circleToFind.projection).sort({_id:-1}).limit(circleToFind.limit).skip(circleToFind.skip);
+  let aggregate = [
+    { 
+      $lookup:{
+          from: "client",
+          localField: "clientId",
+          foreignField: "_id",
+          as: "client"
+        }
+    },
+    { $match: { status: {$ne:"deleted"} } },
+    { $sort: { _id:-1} },
+    { $limit: circleToFind.limit },
+    { $skip: circleToFind.skip }
+  ];
+  return CircleModel.aggregate(aggregate);
+}
+
+CircleModel.getAllCount = (circleToFind) => {
+  return CircleModel.find(circleToFind.query).count();
 }
 
 export default CircleModel;

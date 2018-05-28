@@ -31,6 +31,8 @@ router.get("/view-circle",function(req, res){
 
 router.get('/allCircle',circleService.allCircle);
 
+router.get('/allCircleCount',circleService.allCircleCount);
+
 router.post('/deleteCircle',circleService.deleteCircle);
 
 router.get('/addCircleRequiredData',circleService.addCircleRequiredData);

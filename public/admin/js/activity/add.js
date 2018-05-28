@@ -5,10 +5,11 @@ app.controller('ctrl', function($scope, $http) {
     $scope.formData = {
         name:"",
         description: "",
-        seq: "",
+        clientId:""
     };
   
     $scope.submit = function () {
+        $scope.formData.clientId = $("#clintList").val();
         if($("#addActivityForm").valid()){
             var submitUrl = "/addActivity";
             if(window.location.search){
@@ -45,13 +46,22 @@ app.controller('ctrl', function($scope, $http) {
             },
         }).then(function(response){
             $scope.formData = {
-                name:response.data.data.name,
-                description: response.data.data.description,
-                seq: response.data.data.seq,
+                name:response.data.data.oneActivity.name,
+                description: response.data.data.oneActivity.description
             };
-            
+            $scope.defaultClient = response.data.data.clientOne;
+
             $scope.editMode = true;
         });
+    }
+});
+
+$('#clintList').select2({
+    ajax: {
+        url: '/totalClintList',
+        headers: {
+            'authorization': localStorage.token
+        }
     }
 });
 

@@ -7,6 +7,7 @@
  */
 
 import Activity from '../models/activity.model'
+import Client from '../models/client.model';
 import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
@@ -34,8 +35,8 @@ const service = {};
 
 service.addActivity = async (req,res) =>{
     let activityToAdd = Activity({
+        clientId: req.body.clientId,
         name:req.body.name,
-        seq:req.body.seq,
         description:req.body.description,
         status: 'active',
         createAt:new Date()
@@ -51,8 +52,8 @@ service.addActivity = async (req,res) =>{
 
 service.editActivity = async (req,res) => {
     let editActivityData = {
+        clientId: req.body.clientId,
         name: req.body.name,
-        seq: req.body.seq,
         description: req.body.description,
         updatedAt: new Date()
     }
@@ -77,9 +78,19 @@ service.oneActivity = async (req,res) => {
         query: {_id:req.query.activityId},
         projection:{}
     }
-
     const oneActivity = await Activity.getOneActivity(activityToFind);
-    res.send({"success":true,"code":200,"msg":successMsg.getOneActivity,"data":oneActivity});
+
+    let getOneClient = {
+        query:{_id:oneActivity.clientId},
+        projection:{}
+    };
+    const clientOne = await Client.getOneClient(getOneClient);
+
+    let data = {
+        oneActivity:oneActivity,
+        clientOne:clientOne
+    };
+    res.send({"success":true,"code":200,"msg":successMsg.getOneActivity,"data":data});
 }
 
 service.allActivity = async (req,res) => {

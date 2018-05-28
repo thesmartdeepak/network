@@ -130,12 +130,25 @@ service.oneCircle = async (req,res) => {
 service.allCircle = async(req,res) => {
     let circleToFind = {
         query:{"status":{$ne:"deleted"}},
-        projection:{}
+        projection:{},
+        limit:10,
+        skip:(req.query.page-1)*10
     }
 
     const allCircle = await Circle.getAllCircle(circleToFind);
 
     res.send({"success":true,"code":200,"msg":successMsg.allCircle,"data":allCircle});
+}
+
+service.allCircleCount = async(req,res) => {
+    let dataToFind = {
+        // query:{_id:req.query._id}
+        query: {'status' : { $not : {$eq:"deleted"}}},
+        projection:{},
+    };
+    var count = await Circle.getAllCount(dataToFind);
+
+    res.send({success:true, code:200, msg:'', data:count});
 }
 
 service.deleteCircle = async(req,res) => {
