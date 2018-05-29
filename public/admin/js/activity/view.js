@@ -70,6 +70,14 @@ app.controller('ctrl', function($scope, $http) {
         
         return clientName;
     }
+    $scope.projectType = function(projecttype){
+        let projectType = '';
+        projecttype.forEach(function(value,index){
+            projectType = value.name;
+        });
+        
+        return projectType;
+    }
 });
 
 sideBar('activity');

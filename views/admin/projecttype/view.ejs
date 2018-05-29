@@ -1,0 +1,28 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <!-- <th>Description</th>
+                <th>Code</th> -->
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="projecttype in projecttypes" ng-hide="hideprojecttype(projecttype._id)">
+                    <td>{{ projecttype.name }}</td>
+                    <!-- <td>{{ projecttype.description }}</td>
+                    <td>{{ projecttype.code }}</td> -->
+                    <td>
+                        <a class="btn btn-info" href="/edit-projecttype?projecttypeId={{ projecttype._id }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteprojecttype(projecttype._id)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</section>
+
+<script src="/admin/js/projecttype/view.js"></script>

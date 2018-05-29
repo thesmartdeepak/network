@@ -5,6 +5,7 @@ AutoIncrement.initialize(mongoose);
 const ActivitySchema = mongoose.Schema({
     activityId: {type: Number },
     clientId:{type:mongoose.Schema.ObjectId},
+    projectTypeId:{type:mongoose.Schema.ObjectId},
     name: {type:String , index:{unique:true} },
     description: {type: String},
     status:{type: String },
@@ -36,6 +37,14 @@ ActivityModel.getAllActivity = (circleToFind) => {
             localField: "clientId",
             foreignField: "_id",
             as: "client"
+          }  
+      },
+      { 
+        $lookup:{
+            from: "projecttype",
+            localField: "projectTypeId",
+            foreignField: "_id",
+            as: "projecttype"
           }  
       },
       { $match: { status: {$ne:"deleted"} } },

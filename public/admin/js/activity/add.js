@@ -5,15 +5,21 @@ app.controller('ctrl', function($scope, $http) {
         _id:"",
         name:"Select a client"
     };
+    $scope.defaultProjecttype = {
+        _id:"",
+        name:"Select a Project Type"
+    };
     $scope.formData = {
         name:"",
         description: "",
-        clientId:""
+        clientId:"",
+        // projectTypeId:""
     };
   
     $scope.submit = function () {
         $scope.formData.clientId = $("#clintList").val();
-        console.log($scope.formData.clientId);
+        $scope.formData.projectTypeId = $("#projecttypeList").val();
+        
         if($("#addActivityForm").valid()){
             var submitUrl = "/addActivity";
             if(window.location.search){
@@ -55,6 +61,7 @@ app.controller('ctrl', function($scope, $http) {
                 description: response.data.data.oneActivity.description
             };
             $scope.defaultClient = response.data.data.clientOne;
+            //$scope.defaultProjecttype = response.data.data.projectType;
 
             $scope.editMode = true;
         });
@@ -69,6 +76,16 @@ $('#clintList').select2({
         }
     },
     placeholder: "Select a Co-ordinator"
+});
+$('#projecttypeList').select2({
+    
+    ajax: {
+        url: '/totalProjecttypeList',
+        headers: {
+            'authorization': localStorage.token
+        }
+    },
+  
 });
 
 
