@@ -14,6 +14,9 @@ import path from 'path';
 import xlsx from 'node-xlsx';
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
+// import getJsDateFromExcel from 'excel-date-to-js';
+const { getJsDateFromExcel } = require('excel-date-to-js');
+
 /**
  * [service is a object ]
  * @type {Object}
@@ -142,6 +145,10 @@ service.addProject = async (req,res) =>{
                     row['createAt'] = new Date();
                     row['updatedAt'] = new Date();
                     row['userId'] = userId;
+                    if(row['preDoneDate'])
+                        row['preDoneDate'] = getJsDateFromExcel(row['preDoneDate']);
+                    if(row['post_ActivityDoneDate'])
+                        row['post_ActivityDoneDate'] = getJsDateFromExcel(row['post_ActivityDoneDate']);
                     const addToProject = Project(row);
                     await Project.addProject(addToProject);
                 }

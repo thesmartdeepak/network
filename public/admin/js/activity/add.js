@@ -13,7 +13,7 @@ app.controller('ctrl', function($scope, $http) {
   
     $scope.submit = function () {
         $scope.formData.clientId = $("#clintList").val();
-        console.log($scope.formData.clientId);
+        
         if($("#addActivityForm").valid()){
             var submitUrl = "/addActivity";
             if(window.location.search){

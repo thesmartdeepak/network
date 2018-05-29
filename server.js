@@ -80,7 +80,7 @@ app.use(function(req, res, next) {
 
     var arr_denied  = [];
     var arr_allowed = [
-        '/','/login','/logout',
+        '/','/login','/logout','/test',
         '/add-user','/view-users','/edit-user',
         '/user-type',
         '/add-region','/edit-region','/view-region',

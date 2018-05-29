@@ -21,6 +21,7 @@
     "ejs-locals": "^1.0.2",
     "excel": "^1.0.0",
     "excel-as-json": "^2.0.2",
+    "excel-date-to-js": "^1.0.0",
     "excel-parser": "^0.2.2",
     "excel2json": "^0.3.1",
     "excelcsv": "^0.1.2",

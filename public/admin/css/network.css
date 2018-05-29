@@ -1,0 +1,54 @@
+.tableMainBox {
+	height: 100vh;
+	display: block;
+	overflow-x: scroll;
+	overflow-y: scroll;
+}
+.mainTable {
+	min-width: 2000px;
+}
+.mainTable td {
+	padding: 3px;
+	height: 20px;
+	border: 1px solid #000;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 12px;
+	min-width: 100px;
+}
+.mainTable td:hover,
+.mainTable td:focus {
+	background: #0f7f51;
+	color: #fff;
+}
+.mainTable td.default {
+	width: 20px;
+	height: 20px;
+	min-width: 20px;
+}
+.mainTable td.alphaCell {
+	font-weight: bold;
+}
+.mainTable td.serialNum {
+	width: 50px;
+	height: 20px;
+	min-width: 50px;
+}
+.mainTable td.width150 {
+	width: 150px;
+	height: 20px;
+	min-width: 150px;
+}
+.mainTable td.width200 {
+	width: 200px;
+	height: 20px;
+	min-width: 200px;
+}
+.mainTable td.width300 {
+	width: 300px;
+	height: 20px;
+	min-width: 300px;
+}
+.highlight {
+	background: #ccc;
+}

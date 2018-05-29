@@ -21,5 +21,9 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: 'Login' });
 });
 
+router.get('/test',function(req,res,next){
+  res.render('admin/test/index',{title:'Network'});
+});
+
 export default router;
 //export default {device, asset, region, zone, branch, user, usertype, assettype, router};
