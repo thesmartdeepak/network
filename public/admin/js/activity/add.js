@@ -18,8 +18,6 @@ app.controller('ctrl', function($scope, $http) {
   
     $scope.submit = function () {
         $scope.formData.clientId = $("#clintList").val();
-        $scope.formData.projectTypeId = $("#projecttypeList").val();
-        
         if($("#addActivityForm").valid()){
             var submitUrl = "/addActivity";
             if(window.location.search){

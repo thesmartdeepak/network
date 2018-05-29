@@ -12,13 +12,6 @@ app.controller('ctrl', function($scope, $http) {
             }
         }).then(function(response){
             $scope.projects = response.data.data;
-            // for(x in response.data.data){
-            //     $scope.projects.push(response.data.data[x]);
-            // }
-
-            // if(response.data.data.length == 10){
-            //     $scope.currentPage += 1;
-            // }
         });
     }
     
@@ -84,6 +77,14 @@ app.controller('ctrl', function($scope, $http) {
         });
         return coOrdinatorName;
     }
+
+    $scope.import = function(){
+        $("#excelFile").click();
+    }
+
+    $("#excelFile").change(function(){
+        
+    });
 });
 
 $('#coOrdinatorList').select2({

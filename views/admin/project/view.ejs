@@ -1,83 +1,130 @@
 <% layout('../layout/layout') -%>
 <!-- Main content -->
-<section class="content" ng-controller="ctrl">
-    <div class="box box-primary">
-        <input placeholder="Project code">
-        <input placeholder="Site id">
-        <select id="coOrdinatorList" class="form-control" name="coOrdinatorList" required></select>
-        <div style="overflow-x:auto;" id="tableContainer">
-            
-            <table class="table">
-                <thead>
-                    <th>Project code</th>
-                    <th>Operator</th>
-                    <th>Activity</th>
-                    <th>Item description band</th>
-                    <th>Site Id</th>
-                    <th>Site count</th>
-                    <th>Pre done month</th>
-                    <th>Pre done date</th>
-                    <th>Post activity done month</th>
-                    <th>Post activity done date</th>
-                    <th>Coordinator remark</th>
-                    <th>Coordinator status</th>
-                    <th>Report Status</th>
-                    <th>Report acceptance status</th>
-                    <th>Client remark</th>
-                    <th>Concatenate</th>
-                    <th>Attempt cycle</th>
-                    <th>Employee id</th>
-                    <th>Employee name</th>
-                    <th>Po number</th>
-                    <th>Shippment no</th>
-                    <th>L1 approval</th>
-                    <th>L2 approval</th>
-                    <th>Po value</th>
-                    <th>Start time</th>
-                    <th>End time</th>
-                    <th>Advance</th>
-                    <th>Approved</th>
-                    <th>Co-Ordinator</th>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="project in projects">
-                        <td>{{ project.projectCode }}</td>
-                        <td>{{ project.operator }}</td>
-                        <td>{{ project.activity }}</td>
-                        <td>{{ project.itemDescription_Band }}</td>
-                        <td>{{ project.siteId }}</td>
-                        <td>{{ project.siteCount }}</td>
-                        <td>{{ project.preDoneMonth }}</td>
-                        <td>{{ project.preDoneDate }}</td>
-                        <td>{{ project.post_ActivityDoneMonth }}</td>
-                        <td>{{ project.post_ActivityDoneDate }}</td>
-                        <td>{{ project.coordinatorRemark }}</td>
-                        <td>{{ project.coordinatorStatus }}</td>
-                        <th>{{ project.reportStatus }}</th>
-                        <td>{{ project.reportAcceptanceStatus }}</td>
-                        <td>{{ project.clientRemark }}</td>
-                        <td>{{ project.concatenate }}</td>
-                        <td>{{ project.attemptCycle }}</td>
-                        <td>{{ project.employeeId }}</td>
-                        <td>{{ project.employeeName }}</td>
-                        <td>{{ project.poNumber }}</td>
-                        <td>{{ project.shippmentNo }}</td>
-                        <td>{{ project.l1Approval }}</td>
-                        <td>{{ project.l2Approval }}</td>
-                        <td>{{ project.poValue }}</td>
-                        <td>{{ project.startTime }}</td>
-                        <td>{{ project.endTime }}</td>
-                        <td>{{ project.advance }}</td>
-                        <td>{{ project.approved }}</td>
-                        <td>{{ coOrdinatorName(project.user) }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <ul id="pagination" class="pagination-sm"></ul>
-    </div>
-</section>
+<div ng-controller="ctrl">
+    <button id="export" data-export="export">Export</button>
+    <!--<div>
+        <input id="excelFile" type="file" class="hide" name="excelFile" required>
+        <button ng-click="import()">Import</button>
+    </div>-->
+    <div class="tableMainBox">
+        <table id="mainTable" class="mainTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr class="alphaRow">
+                <td class="alphaCell serialNum">A</td>
+                <td class="alphaCell">B</td>
+                <td class="alphaCell">C</td>
+                <td class="alphaCell width200">D</td>
+                <td class="alphaCell">E</td>
+                <td class="alphaCell">F</td>
+                <td class="alphaCell">G</td>
+                <td class="alphaCell">H</td>
+                <td class="alphaCell">I</td>
+                <td class="alphaCell">J</td>
+                <td class="alphaCell">K</td>
+                <td class="alphaCell">L</td>
+                <td class="alphaCell">M</td>
+                <td class="alphaCell">N</td>
+                <td class="alphaCell">O</td>
+                <td class="alphaCell width300">P</td>
+                <td class="alphaCell">Q</td>
+                <td class="alphaCell">R</td>
+                <td class="alphaCell">S</td>
+                <td class="alphaCell">T</td>
+                <td class="alphaCell">U</td>
+                <td class="alphaCell">V</td>
+                <td class="alphaCell">W</td>
+                <td class="alphaCell">X</td>
+                <td class="alphaCell">Y</td>
+                <td class="alphaCell">Z</td>
+                <td class="alphaCell">AA</td>
+                <td class="alphaCell">AB</td>
+                <td class="alphaCell">AC</td>
+            </tr>
+            <tr class="headingRow">
+                <td>Project_Code</td>
+                <td>Operator</td>
+                <td>Activity</td>
+                <td>Item_Description_Band</td>
+                <td>Site_Id</td>
+                <td>Site_Count</td>
+                <td>Pre_Done_Month</td>
+                <td>Pre_Done_Date</td>
+                <td>Post_Activity_Done_Month</td>
+                <td>Post_Activity_Done_Date</td>
+                <td>Coordinator_Remark</td>
+                <td>Coordinator_Status</td>
+                <td>Report_Status</td>
+                <td>Report_Acceptance_Status</td>
+                <td>Client_Remark</td>
+                <td>Concatenate</td>
+                <td>Attempt_Cycle</td>
+                <td>Employee_Id</td>
+                <td>Employee_Name</td>
+                <td>Po_Number</td>
+                <td>Shippment_No</td>
+                <td>L1_Approval</td>
+                <td>L2_Approval</td>
+                <td>Po_Value</td>
+                <td>Start_Time</td>
+                <td>End_Time</td>
+                <td>Advance</td>
+                <td>Approved</td>
+                <td>Co_Ordinator</td>
+            </tr>
+            <tr class="dataRow" ng-repeat="project in projects">
+                <td>{{ project.projectCode }}</td>
+                <td>{{ project.operator }}</td>
+                <td>{{ project.activity }}</td>
+                <td>{{ project.itemDescription_Band }}</td>
+                <td>{{ project.siteId }}</td>
+                <td>{{ project.siteCount }}</td>
+                <td>{{ project.preDoneMonth }}</td>
+                <td>{{ project.preDoneDate| date : "dd/MMM/yyyy" }}</td>
+                <td>{{ project.post_ActivityDoneMonth }}</td>
+                <td>{{ project.post_ActivityDoneDate| date : "dd/MMM/yyyy" }}</td>
+                <td>{{ project.coordinatorRemark }}</td>
+                <td>{{ project.coordinatorStatus }}</td>
+                <td>{{ project.reportStatus }}</td>
+                <td>{{ project.reportAcceptanceStatus }}</td>
+                <td>{{ project.clientRemark }}</td>
+                <td>{{ project.concatenate }}</td>
+                <td>{{ project.attemptCycle }}</td>
+                <td>{{ project.employeeId }}</td>
+                <td>{{ project.employeeName }}</td>
+                <td>{{ project.poNumber }}</td>
+                <td>{{ project.shippmentNo }}</td>
+                <td>{{ project.l1Approval }}</td>
+                <td>{{ project.l2Approval }}</td>
+                <td>{{ project.poValue }}</td>
+                <td>{{ project.startTime }}</td>
+                <td>{{ project.endTime }}</td>
+                <td>{{ project.advance }}</td>
+                <td>{{ project.approved }}</td>
+                <td>{{ coOrdinatorName(project.user) }}</td>
+            </tr>
+        </table>
 
+    </div>
+</div>
+
+<link href="admin/css/network.css" rel="stylesheet">
+<script src="/admin/js/project/jquery.tabletoCSV.js"></script>
+<script>
+    $("body").on('click','tr.dataRow',function() {
+        $(".highlight").not(this).removeClass("highlight");
+        $(this).toggleClass("highlight");
+    });
+    
+
+    $(".sidebar-mini").addClass("sidebar-collapse");
+    $(function(){
+            $("#export").click(function(){
+                let alphaRow = $(".alphaRow");
+                $(".alphaRow").remove();
+                $("#mainTable").tableToCSV();
+                $("#mainTable").prepend(alphaRow);
+            });
+        });
+</script>
 <link rel="stylesheet" href="/admin/css/select2.css">
 <script src="/admin/js/select2.full.js"></script>
 <script src="/admin/js/jquery.twbsPagination.min.js"></script>
