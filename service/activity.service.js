@@ -8,7 +8,7 @@
 
 import Activity from '../models/activity.model'
 import Client from '../models/client.model'
-import ProjectType from '../models/projecttype.model'
+import ProjectType from '../models/projectType.model'
 import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
@@ -36,8 +36,6 @@ const service = {};
 
 service.addActivity = async (req,res) =>{
     let activityToAdd = Activity({
-        clientId: req.body.clientId,
-        projectTypeId: req.body.projectTypeId,
         name:req.body.name,
         description:req.body.description,
         status: 'active',
@@ -53,31 +51,10 @@ service.addActivity = async (req,res) =>{
 }
  
 service.editActivity = async (req,res) => {
-    let getOneprojectType = {
-        query:{_id:req.body.projectTypeId},
-        projection:{}
-    };
 
-    let projectType = await ProjectType.getOneprojecttype(getOneprojectType);
-    
-    // const clientCircleCode = clientOne.code+req.body.code;
-
-
-
-    let getOneClient = {
-        query:{_id:req.body.clientId},
-        projection:{}
-    };
-
-    let clientOne = await Client.getOneClient(getOneClient);
-    
-    const clientCircleCode = clientOne.code+req.body.code;
     let editActivityData = {
-        clientId: clientOne._id,
-        // ProjectTypeId: projectType._id,
         name: req.body.name,
         description: req.body.description,
-        clientCircleCode:clientCircleCode,
         updatedAt: new Date()
     }
 

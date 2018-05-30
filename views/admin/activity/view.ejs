@@ -4,8 +4,6 @@
     <div class="box box-primary">
         <table class="table">
             <thead>
-                <th>Client</th>
-                <!-- <th>Project Type</th> -->
                 <th>Name</th>
                 <!-- <th>Seq</th> -->
                 <th>Description</th>
@@ -13,8 +11,6 @@
             </thead>
             <tbody>
                 <tr ng-repeat="activity in activitys">
-                    <td>{{ clientName(activity.client) }}</td>
-                    <!-- <td>{{ projectType(activity.projectTypeId) }}</td> -->
                     <td>{{ activity.name }}</td>
                     <!-- <td>{{ activity.seq }}</td> -->
                     <td>{{ activity.description }}</td>

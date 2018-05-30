@@ -1,20 +1,20 @@
-$("#addActivityForm").validate();
+$("#addStatusRemarkForm").validate();
 
 app.controller('ctrl', function($scope, $http) {
 
     $scope.formData = {
-        name:"",
-        description: "",
+        statusRemark:'',
+        type:''
     };
-  
+
+
     $scope.submit = function () {
-        if($("#addActivityForm").valid()){
-            var submitUrl = "/addActivity";
+        if($("#addStatusRemarkForm").valid()){
+            var submitUrl = "/addStatusRemark";
             if(window.location.search){
-                submitUrl = "/editActivity"+window.location.search;
+                submitUrl = "/editStatusRemark"+window.location.search;
             }
             $http({
-            
                 method: 'POST',
                 url: submitUrl,
                 data:$scope.formData,
@@ -25,7 +25,7 @@ app.controller('ctrl', function($scope, $http) {
                 if (response.data.success){
                     alertBox(response.data.msg,'success');
                     setTimeout(function(){
-                        window.location.href = "/view-activity";
+                        window.location.href = "/status-remark";
                     },1000);
                 }
                 else{
@@ -38,20 +38,26 @@ app.controller('ctrl', function($scope, $http) {
     if(window.location.search){
         $http({
             method: 'get',
-            url: '/oneActivity'+window.location.search,
+            url: '/oneStatusRemark'+window.location.search,
             data:$scope.formData,
             headers: {
                 'authorization': localStorage.token
             },
         }).then(function(response){
             $scope.formData = {
-                name:response.data.data.oneActivity.name,
-                description: response.data.data.oneActivity.description
+                statusRemark:response.data.data.statusRemark,
+                type:response.data.data.type,
             };
             
             $scope.editMode = true;
         });
     }
+
+    $scope.toUcFirst = function(oldTxt){
+        return oldTxt.charAt(0).toUpperCase()+oldTxt.slice(1);
+    }
+
 });
 
-sideBar('activity');
+
+sideBar('statusRemark');

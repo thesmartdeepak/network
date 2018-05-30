@@ -63,4 +63,13 @@ msg.addProject="projects added successfully!!!!"
 msg.deleteProject="project deleted successfully!!!"
 msg.editProject="project updated successfully!!!"
 
+/**
+ * status/remark related msg
+ */ 
+msg.allStatusRemark="Found successfully!!!!"
+msg.getOneStatusRemark="Found one status/remark successfully!!!!"
+msg.addStatusRemark="status/remarks added successfully!!!!"
+msg.deleteStatusRemark="status/remark deleted successfully!!!"
+msg.editStatusRemark="status/remark updated successfully!!!"
+
 export default msg; 

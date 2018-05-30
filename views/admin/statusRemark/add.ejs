@@ -1,0 +1,35 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+      <form id="addStatusRemarkForm" ng-submit="submit()">
+        <div class="box-body">
+
+          <div class="form-group">
+            <label>Status/Remark</label>
+            <input class="form-control" placeholder="Status/Remark" name="statusRemark" ng-model="formData.statusRemark" required>
+          </div>
+
+          <div class="form-group">
+            <label>Type</label>
+            <select class="form-control" name="type" ng-model="formData.type">
+              <option value="">--Select Type--</option>
+              <option value="activityStatus">Activity Status</option>
+              <option value="remark">Remark</option>
+              <option value="reportStatus">Report Status</option>
+              <option value="reportAcceptanceStatus">Report Acceptance Status</option>
+              <option value="clientRemark">Client Remark</option>
+            </select>
+          </div>
+
+        </div>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+</section>
+
+<script src="/admin/js/statusRemark/add.js"></script>

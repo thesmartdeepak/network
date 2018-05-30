@@ -7,7 +7,7 @@
  */
 
 import express from "express";
-import projecttypeService from "../service/projecttype.service";
+import projecttypeService from "../service/projectType.service";
 
 const router = express.Router()
 

@@ -15,7 +15,8 @@ import circle from './routes/circle.router.js';
 import activity from './routes/activity.router.js';
 import client from './routes/client.router.js';
 import project from './routes/project.router.js';
-import projecttype from './routes/projecttype.router.js';
+import projecttype from './routes/projectType.router.js';
+import statusRemark from './routes/statusRemark.router.js';
 
 import net from 'net';
 import cors from 'cors';
@@ -91,6 +92,7 @@ app.use(function(req, res, next) {
         '/add-Client','/edit-client','/view-Client',
         '/add-project','/view-project',
         '/add-projecttype','/edit-projecttype','/view-projecttype',
+        '/status-remark','/add-status-remark','/edit-status-remark'
     ];
 
     if(arr_allowed.indexOf(req._parsedUrl.pathname)>=0){
@@ -160,6 +162,7 @@ app.use(activity);
 app.use(client);
 app.use(project);
 app.use(projecttype);
+app.use(statusRemark);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

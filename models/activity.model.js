@@ -4,8 +4,6 @@ AutoIncrement.initialize(mongoose);
 
 const ActivitySchema = mongoose.Schema({
     activityId: {type: Number },
-    clientId:{type:mongoose.Schema.ObjectId},
-    projectTypeId:{type:mongoose.Schema.ObjectId},
     name: {type:String , index:{unique:true} },
     description: {type: String},
     status:{type: String },
@@ -28,31 +26,31 @@ ActivityModel.editActivity = (editToActivity) => {
 ActivityModel.getOneActivity = (editToActivity) => {
     return ActivityModel.findOne(editToActivity.query,editToActivity.projection)
 }
-ActivityModel.getAllActivity = (circleToFind) => {
-    // return CircleModel.find(circleToFind.query,circleToFind.projection).sort({_id:-1}).limit(circleToFind.limit).skip(circleToFind.skip);
-    let aggregate = [
-      { 
-        $lookup:{
-            from: "client",
-            localField: "clientId",
-            foreignField: "_id",
-            as: "client"
-          }  
-      },
-      { 
-        $lookup:{
-            from: "projecttype",
-            localField: "projectTypeId",
-            foreignField: "_id",
-            as: "projecttype"
-          }  
-      },
-      { $match: { status: {$ne:"deleted"} } },
-      { $sort: { _id:-1} },
-      { $limit: circleToFind.limit },
-      { $skip: circleToFind.skip }
-    ];
-    return ActivityModel.aggregate(aggregate);
+ActivityModel.getAllActivity = (activityToFind) => {
+    return ActivityModel.find(activityToFind.query,activityToFind.projection).sort({_id:-1}).limit(activityToFind.limit).skip(activityToFind.skip);
+    // let aggregate = [
+    //   { 
+    //     $lookup:{
+    //         from: "client",
+    //         localField: "clientId",
+    //         foreignField: "_id",
+    //         as: "client"
+    //       }  
+    //   },
+    //   { 
+    //     $lookup:{
+    //         from: "projecttype",
+    //         localField: "projectTypeId",
+    //         foreignField: "_id",
+    //         as: "projecttype"
+    //       }  
+    //   },
+    //   { $match: { status: {$ne:"deleted"} } },
+    //   { $sort: { _id:-1} },
+    //   { $limit: circleToFind.limit },
+    //   { $skip: circleToFind.skip }
+    // ];
+    // return ActivityModel.aggregate(aggregate);
   }
 ActivityModel.ActivityPagination = (ActivityToFind) => {
     return ActivityModel.find(ActivityToFind.query,ActivityToFind.projection).sort({_id:-1}).skip(ActivityToFind.skip).limit(ActivityToFind.limit);
