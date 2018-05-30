@@ -12,13 +12,13 @@ import projecttypeService from "../service/projecttype.service";
 const router = express.Router()
 
 router.get("/add-projecttype",function(req, res){
-    res.render('admin/projecttype/add',{title:'Add projecttype'})
+    res.render('admin/projecttype/add',{title:'Add Project Type'})
 });
 
 router.post("/addprojecttype",projecttypeService.addprojecttype);
 
 router.get("/edit-projecttype",function(req, res){
-    res.render('admin/projecttype/add',{title:'Edit projecttype'})
+    res.render('admin/projecttype/add',{title:'Edit Project Type'})
 });
 
 router.post("/editprojecttype",projecttypeService.editprojecttype);
@@ -26,7 +26,7 @@ router.post("/editprojecttype",projecttypeService.editprojecttype);
 router.get("/oneprojecttype",projecttypeService.oneprojecttype);
 
 router.get("/view-projecttype",function(req, res){
-    res.render('admin/projecttype/view',{title:'View projecttype'})
+    res.render('admin/projecttype/view',{title:'View Project Type'})
 });
 
 router.get('/allprojecttype',projecttypeService.allprojecttype);

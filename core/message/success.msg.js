@@ -63,4 +63,22 @@ msg.addProject="projects added successfully!!!!"
 msg.deleteProject="project deleted successfully!!!"
 msg.editProject="project updated successfully!!!"
 
+/**
+ * Projecttype related msg
+ */ 
+msg.allProjecttype="Found successfully!!!!"
+msg.getOneProjecttype="Found one Projecttype successfully!!!!"
+msg.addProjecttype="Projecttypes added successfully!!!!"
+msg.deleteProjecttype="Projecttype deleted successfully!!!"
+msg.editProjecttype="Projecttype updated successfully!!!"
+
+/**
+ * department related msg
+ */ 
+msg.alldepartment="Found successfully!!!!"
+msg.getOnedepartment="Found one department successfully!!!!"
+msg.adddepartment="departments added successfully!!!!"
+msg.deletedepartment="department deleted successfully!!!"
+msg.editdepartment="department updated successfully!!!"
+
 export default msg; 
