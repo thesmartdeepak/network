@@ -6,7 +6,7 @@
  * @lastModifedBy Shakshi
  */
 
-import projecttype from '../models/projecttype.model'
+import projecttype from '../models/projectType.model'
 import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'

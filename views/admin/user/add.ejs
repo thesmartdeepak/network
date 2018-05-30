@@ -4,16 +4,15 @@
     <div class="box box-primary">
       <form id="addUserForm" ng-submit="submit()">
         <div class="box-body">
-          <!--<div class="form-group">
-            <img src="/admin/dist/img/boxed-bg.png" class="img-circle" style="width: 128px;" id="showImage">
-            <br>
-            <input type="button" value="Add image" ng-click="addImageButton()" ng-model="formData.image">
-            <input type="file" name="userImage" id="userImage" class="hide">
-          </div>-->
 
           <div class="form-group">
             <label>Full name</label>
             <input class="form-control" placeholder="Full name" name="fullname" ng-model="formData.fullname" required>
+          </div>
+
+          <div class="form-group">
+            <label>Employee id</label>
+            <input class="form-control" placeholder="Employee id" name="employeeId" ng-model="formData.employeeId" required>
           </div>
 
           <div class="form-group">
@@ -32,6 +31,7 @@
               <option ng-repeat="userType in userTypes" value="{{ userType.userType }}">{{ toUcFirst(userType.userType) }}</option>
             </select>
           </div>
+
           <div class="form-group" id="projectCodeSection" ng-show="formData.userType == 'co-ordinator'">
             <label>Project Code</label>
             <select  id="projectCodeList" class="form-control" name="projectCode" required>

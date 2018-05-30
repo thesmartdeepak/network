@@ -1,0 +1,29 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+        <table class="table">
+            <thead>
+                <th>Status/Remark</th>
+                <th>Type</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="statusRemark in statusRemarks">
+                    <td>{{ statusRemark.statusRemark }}</td>
+                    <td>{{ type(statusRemark.type) }}</td>
+                    <td>
+                        <a class="btn btn-info" href="/edit-status-remark?statusRemarkId={{ statusRemark._id }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteStatusRemark(statusRemark._id)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ul id="pagination-demo" class="pagination-sm"></ul>
+        
+    </div>
+</section>
+
+<script src="/admin/js/jquery.twbsPagination.min.js"></script>
+<script src="/admin/js/statusRemark/view.js"></script>

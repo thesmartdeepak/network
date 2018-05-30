@@ -158,4 +158,27 @@ msg.activityId ="Activity Id is missing"
 /******                                    */
 msg.addProject ="Invalid file. Please upload csv file."
 
+
+/******                                    */
+/** Status/Remark related error messages */
+/******                                   */
+
+/** Error message for getting Status/Remark */
+msg.getStatusRemark ="Unable to get Status/Remark"
+
+
+/** Error message for adding Status/Remark */
+msg.addStatusRemark ="Unable to add Status/Remark"
+
+
+/** Error message for editing Status/Remark */
+msg.editStatusRemark ="Unable to edit Status/Remark"
+
+
+/** Error message for deleting Status/Remark */
+msg.deleteStatusRemark ="Unable to delete Status/Remark"
+
+/** Error message for Status/Remark id */
+msg.statusRemarkId ="Status/Remark Id is missing"
+
 export default msg;

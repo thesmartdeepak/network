@@ -142,6 +142,12 @@ service.addUser = async (req, res) => {
     if(!req.body.fullname){
       return res.send({success:false, code:500, msg:"Full name is missing"})
     }
+    const userToFind = {employeeId:req.body.employeeId};
+    
+    let userByEmpId = await User.getOne(userToFind);
+    if(userByEmpId){
+        return res.send({success:false, code:500, msg:"This employee id is not available."});
+    }
     
     var temp =rand(100,30);
     var newPassword=temp+req.body.password;
@@ -154,15 +160,13 @@ service.addUser = async (req, res) => {
       salt:temp,
       temp_str:"",
       fullname:req.body.fullname,
+      employeeId:req.body.employeeId,
       email: req.body.email,
       password: hashed_password,
       phone:req.body.phone,
       address:req.body.address,
       city:req.body.city,
       state: req.body.state,
-    //   googleId: data.socialType == 'google' ? data.socialId : null, 
-    //   facebookId: data.socialType == 'facebook' ? data.socialId : null,
-      //country: req.body.country,
       pincode: req.body.pincode,
       name:req.body.name,
       status:req.body.status || "active",
@@ -188,30 +192,47 @@ service.editUser = async(req,res)=>{
     if(!req.query.userId){
         res.send({"success":false,"code":500,"msg":msg.userId})
     }
+    
+    let userToFind = {"$and":[{employeeId:req.body.employeeId},{_id:{$ne:req.query.userId}}]};
+    
+    let userByEmpId = await User.getOne(userToFind);
+    if(userByEmpId){
+        return res.send({success:false, code:500, msg:"This employee id is not available."});
+    }
+
+    userToFind = {"$and":[{email:req.body.email},{_id:{$ne:req.query.userId}}]};
+    
+    let userByEmail = await User.getOne(userToFind);
+    if(userByEmail){
+        return res.send({success:false, code:500, msg:"This email is not available."});
+    }
+
     let userEdit={
+        fullname:req.body.fullname,
+        employeeId:req.body.employeeId,
+        email: req.body.email,
+        phone:req.body.phone,
         address:req.body.address,
-        sector:req.body.sector,
         city:req.body.city,
-        state:req.body.state,
-        country:req.body.country,
-        userType:req.body.userType,
-        projectCode:req.body.projectCode,
-        status:req.body.status,
+        state: req.body.state,
+        pincode: req.body.pincode,
+        name:req.body.name,
+        status:req.body.status || "active",
+        userType: req.body.userType,
+        projectCode: req.body.projectCode,
         updatedAt: new Date()
     }
+    
     let userToEdit={
         query:{"_id":req.query.userId},
         set:{"$set":userEdit}
     };
     try{
         const editUser= await User.updateUser(userToEdit);
-        logger.info("update user");
-        console.log("update user");
         res.send({"success":true,"code":200,"msg":successMsg.editUser,"data":editUser});
 
     }
     catch(err){
-        logger.error('Error in getting user- ' + err);
         res.send({"success":false, "code":"500", "msg":msg.editUser,"err":err});
     }
 }
@@ -264,7 +285,7 @@ service.login = async (req, res) =>{
     try{
        
         const loggedUser = await User.login(query);
-        console.log(loggedUser);
+     
         if(loggedUser )
         {   var temp=loggedUser.salt;
             var hash_db=loggedUser.password;
