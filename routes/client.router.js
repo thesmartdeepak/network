@@ -35,6 +35,7 @@ router.get('/allclientCount',clientService.allClientCount);
 
 router.post('/deleteclient',clientService.deleteClient);
 
-router.get("/totalClintList",clientService.totalClintList);
+router.get('/totalClintList',clientService.totalClintList);
+
 
 export default router;

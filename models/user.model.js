@@ -8,6 +8,7 @@ const UserSchema = mongoose.Schema({
     temp_str:{type:String},
     userId: {type: Number },
     userType: {type:String},
+    projectCode: {type:String},
     email: {type: String , index:{unique:true} },
     password: {type: String },
     fullname:{type: String },

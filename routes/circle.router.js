@@ -36,5 +36,6 @@ router.get('/allCircleCount',circleService.allCircleCount);
 router.post('/deleteCircle',circleService.deleteCircle);
 
 router.get('/addCircleRequiredData',circleService.addCircleRequiredData);
+router.get("/totalProjectCodeList",circleService.totalProjectCodeList);
 
 export default router;
