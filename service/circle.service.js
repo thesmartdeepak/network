@@ -33,6 +33,46 @@ const service = {};
  * @param  {[object]}
  * @return {[object]}
  */
+service.totalProjectCodeList = async(req,res)=>{
+    let dataFind = {};
+
+    dataFind.query = {};
+    if(req.query.term){
+        let query = "^"+req.query.term;
+        dataFind.query = {"clientCircleCode":new RegExp(query)};
+    }
+
+    dataFind.projection = {};
+    dataFind.limit = 10;
+    dataFind.page = 0;
+    if(req.query.page){
+        dataFind.skip = (req.query.page-1)*10;
+    }
+    
+    let data = await Circle.totalProjectCodeList(dataFind);
+
+    let results = [];
+
+    data.forEach(function(val,index) { 
+        results.push( {"id": val.clientCircleCode,"text": val.clientCircleCode});
+    });
+
+    let response = {
+        results:results,
+        pagination: {
+            more: (function(){
+                if(data.length < 10){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            })()
+        }
+    };
+
+    return res.send(response);
+}
 
 service.addCircleRequiredData = async(req,res)=>{
     let dataFind = {};

@@ -28,11 +28,16 @@
 
           <div class="form-group">
             <label>User Type</label>
-            <select class="form-control" name="userType" ng-model="formData.userType" required>
+            <select id="userType" class="form-control" name="userType" ng-model="formData.userType" required>
               <option ng-repeat="userType in userTypes" value="{{ userType.userType }}">{{ toUcFirst(userType.userType) }}</option>
             </select>
           </div>
-
+          <div class="form-group" id="projectCodeSection" ng-show="formData.userType == 'co-ordinator'">
+            <label>Project Code</label>
+            <select  id="projectCodeList" class="form-control" name="projectCode" required>
+              <option  value"{{defaultProjectCode._id}}">{{defaultProjectCode.name}}</option>
+            </select>
+          </div>
           <div class="form-group">
             <label>Address</label>
             <textarea class="form-control" placeholder="Address" name="address" ng-model="formData.address" required></textarea>
@@ -67,4 +72,7 @@
     </div>
 </section>
 
+<link rel="stylesheet" href="/admin/css/select2.css">
+<script src="/admin/js/select2.full.js"></script>
 <script src="/admin/js/user/add.js"></script>
+

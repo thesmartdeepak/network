@@ -167,6 +167,7 @@ service.addUser = async (req, res) => {
       name:req.body.name,
       status:req.body.status || "active",
       userType: req.body.userType,
+      projectCode: req.body.projectCode,
       createAt: new Date(),
       updatedAt: new Date()
     });
@@ -193,6 +194,8 @@ service.editUser = async(req,res)=>{
         city:req.body.city,
         state:req.body.state,
         country:req.body.country,
+        userType:req.body.userType,
+        projectCode:req.body.projectCode,
         status:req.body.status,
         updatedAt: new Date()
     }

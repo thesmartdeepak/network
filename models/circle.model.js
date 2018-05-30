@@ -66,4 +66,8 @@ CircleModel.getAllCount = (circleToFind) => {
   return CircleModel.find(circleToFind.query).count();
 }
 
+CircleModel.totalProjectCodeList = (circleToFind) => {
+  return CircleModel.find(circleToFind.query,circleToFind.projection).skip(circleToFind.skip).limit(circleToFind.limit);
+}
+
 export default CircleModel;

@@ -1,13 +1,17 @@
 $("#addUserForm").validate();
 
 app.controller('ctrl', function($scope, $http) {
-
-    $scope.formData = {
+    $scope.defaultProjectCode = {
+        _id:"",
+        name:"Select a project code"
+    };
+   $scope.formData = {
         // image:'',
         fullname:'',
         email: "",
         password: "",
         userType:'co-ordinator',
+        projectCode:"",
         address:'',
         city:'',
         state:'',
@@ -29,6 +33,7 @@ app.controller('ctrl', function($scope, $http) {
     $scope.getMasterData();
 
     $scope.submit = function () {
+        $scope.formData.projectCode = $("#projectCodeList").val();
         if($("#addUserForm").valid()){
             var submitUrl = "/addUser";
             if(window.location.search){
@@ -70,13 +75,19 @@ app.controller('ctrl', function($scope, $http) {
                 email: response.data.data.email,
                 password: '******',
                 userType:response.data.data.userType,
+                // defaultProjectCode:response.data.data.projectCode,
                 address:response.data.data.address,
                 city:response.data.data.city,
                 state:response.data.data.state,
                 pincode:response.data.data.pincode,
                 phone:response.data.data.phone,
             };
-            
+
+            $scope.defaultProjectCode = {
+                _id:response.data.data.projectCode,
+                name:response.data.data.projectCode
+            };
+
             $scope.editMode = true;
         });
     }
@@ -87,5 +98,14 @@ app.controller('ctrl', function($scope, $http) {
 
 });
 
+$('#projectCodeList').select2({
+    ajax: {
+        url: '/totalProjectCodeList',
+        headers: {
+            'authorization': localStorage.token
+        }
+    },
+    placeholder: "Select a Co-ordinator"
+});
 
 sideBar('user');

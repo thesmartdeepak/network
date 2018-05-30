@@ -5,8 +5,8 @@ app.controller('ctrl', function($scope, $http) {
     $scope.formData = {
         name:"",
         code:'',
-        ponumber: "",
-        shipmentno: "",
+        // ponumber: "",
+        // shipmentno: "",
         clientcode: "",
         contactperson: "",
         contactpersonNo: "",
@@ -49,15 +49,16 @@ app.controller('ctrl', function($scope, $http) {
                 'authorization': localStorage.token
             },
         }).then(function(response){
+          
             $scope.formData = {
                 name:response.data.data.name,
                 code:response.data.data.code,
-                ponumber:response.data.data.ponumber,
-                shipmentno:response.data.data.shipmentno,
-                clientcode:response.data.data.clientcode,
-                contactperson:response.data.data.contactperson,
-                contactpersonNo:response.data.data.contactpersonNo,
-                contactaddress:response.data.data.contactaddress,
+                // ponumber:response.data.data.ponumber,
+                // shipmentno:response.data.data.shipmentno,
+                // clientcode:response.data.data.clientCode,
+                contactPerson:response.data.data.contactPerson,
+                contactPersonNo:response.data.data.contactPersonNo,
+                contactAddress:response.data.data.contactAddress,
             };
             
             $scope.editMode = true;

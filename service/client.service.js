@@ -69,8 +69,8 @@ service.totalClintList = async(req,res)=>{
 service.addClient = async (req,res) =>{
     let clientToAdd = Client({
         name:req.body.name,
-        poNumber:req.body.poNumber,
-        shipmentNo:req.body.shipmentNo,
+        // poNumber:req.body.poNumber,
+        // shipmentNo:req.body.shipmentNo,
         code:req.body.code,
         contactPerson:req.body.contactPerson,
         contactPersonNo:req.body.contactPersonNo,
@@ -91,8 +91,8 @@ service.addClient = async (req,res) =>{
 service.editClient = async (req,res) => {
     let editClientData = {
         name:req.body.name,
-        poNumber:req.body.poNumber,
-        shipmentNo:req.body.shipmentNo,
+        // poNumber:req.body.poNumber,
+        // shipmentNo:req.body.shipmentNo,
         code:req.body.code,
         contactPerson:req.body.contactPerson,
         contactPersonNo:req.body.contactPersonNo,
@@ -105,9 +105,8 @@ service.editClient = async (req,res) => {
         set:{"$set":editClientData}
     }
     
-
     try{
-        const editClient = await client.editClient(editToClient);
+        const editClient = await Client.editClient(editToClient);
         res.send({"success":true, "code":"200", "msg":successMsg.editClient,"data":editClient});
     }
     catch(err) {
@@ -121,7 +120,8 @@ service.oneClient = async (req,res) => {
         projection:{}
     }
 
-    const oneClient = await Client.getOneclient(clientToFind);
+    const oneClient = await Client.getOneClient(clientToFind);
+    
     res.send({"success":true,"code":200,"msg":successMsg.getOneClient,"data":oneClient});
 }
 
