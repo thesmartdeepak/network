@@ -8,6 +8,7 @@ app.controller('ctrl', function($scope, $http) {
    $scope.formData = {
         // image:'',
         fullname:'',
+        employeeId:'',
         email: "",
         password: "",
         userType:'co-ordinator',
@@ -72,6 +73,7 @@ app.controller('ctrl', function($scope, $http) {
             $scope.formData = {
                 // image:'',
                 fullname:response.data.data.fullname,
+                employeeId:response.data.data.employeeId,
                 email: response.data.data.email,
                 password: '******',
                 userType:response.data.data.userType,

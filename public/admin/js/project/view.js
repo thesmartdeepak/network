@@ -82,9 +82,30 @@ app.controller('ctrl', function($scope, $http) {
         $("#excelFile").click();
     }
 
-    $("#excelFile").change(function(){
-        
-    });
+    $scope.exportTable = function(){
+        let alphaRow = $(".alphaRow");
+        $(".alphaRow").remove();
+        $("#mainTable").tableToCSV();
+        $("#mainTable").prepend(alphaRow);
+    }
+
+    $scope.statusRemark = function(){
+        $http({
+            method:'GET',
+            url:'/allStatusRemark',
+            headers: {
+                'authorization': localStorage.token
+            }
+        }).then(function(response){
+            response.data.data.forEach(function(value,index){
+                if(value.type='activityStatus'){
+                    console.log(value.statusRemark);
+                }
+            });
+        });
+    }
+
+    $scope.statusRemark();
 });
 
 $('#coOrdinatorList').select2({
@@ -100,4 +121,19 @@ $('#coOrdinatorList').select2({
 
 $(".sidebar-mini").addClass("sidebar-collapse");
 
+
+$("body").on('click','tr.dataRow',function() {
+    $(".highlight").not(this).removeClass("highlight");
+    $(this).toggleClass("highlight");
+});
+
+
+// $(function(){
+//     $("#export").click(function(){
+//         let alphaRow = $(".alphaRow");
+//         $(".alphaRow").remove();
+//         $("#mainTable").tableToCSV();
+//         $("#mainTable").prepend(alphaRow);
+//     });
+// });
 sideBar('project');

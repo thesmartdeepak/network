@@ -7,11 +7,12 @@ const UserSchema = mongoose.Schema({
     salt:{type:String},
     temp_str:{type:String},
     userId: {type: Number },
+    fullname:{type: String },
+    employeeId:{type:String,index:{unique:true}},
     userType: {type:String},
     projectCode: {type:String},
-    email: {type: String , index:{unique:true} },
+    email: {type: String , index:{unique:true}},
     password: {type: String },
-    fullname:{type: String },
     address:{type: String },
     city:{type: String },
     state:{type: String },
@@ -34,7 +35,6 @@ UserModel.getAll = (dataToFind) => {
 }
 
 UserModel.getOne = (userToFind) => {
-    console.log(userToFind," = userToFind")
     return UserModel.findOne(userToFind);
 }
  

@@ -1,7 +1,7 @@
 <% layout('../layout/layout') -%>
 <!-- Main content -->
 <div ng-controller="ctrl">
-    <button id="export" data-export="export">Export</button>
+    <button ng-click="exportTable()" data-export="export">Download csv</button>
     <!--<div>
         <input id="excelFile" type="file" class="hide" name="excelFile" required>
         <button ng-click="import()">Import</button>
@@ -50,8 +50,8 @@
                 <td>Pre_Done_Date</td>
                 <td>Post_Activity_Done_Month</td>
                 <td>Post_Activity_Done_Date</td>
-                <td>Coordinator_Remark</td>
-                <td>Coordinator_Status</td>
+                <td>Activity_Status</td>
+                <td>Remark</td>
                 <td>Report_Status</td>
                 <td>Report_Acceptance_Status</td>
                 <td>Client_Remark</td>
@@ -81,8 +81,8 @@
                 <td>{{ project.preDoneDate| date : "dd/MMM/yyyy" }}</td>
                 <td>{{ project.post_ActivityDoneMonth }}</td>
                 <td>{{ project.post_ActivityDoneDate| date : "dd/MMM/yyyy" }}</td>
-                <td>{{ project.coordinatorRemark }}</td>
-                <td>{{ project.coordinatorStatus }}</td>
+                <td>{{ project.activityStatus }}</td>
+                <td>{{ project.remark }}</td>
                 <td>{{ project.reportStatus }}</td>
                 <td>{{ project.reportAcceptanceStatus }}</td>
                 <td>{{ project.clientRemark }}</td>
@@ -108,23 +108,6 @@
 
 <link href="admin/css/network.css" rel="stylesheet">
 <script src="/admin/js/project/jquery.tabletoCSV.js"></script>
-<script>
-    $("body").on('click','tr.dataRow',function() {
-        $(".highlight").not(this).removeClass("highlight");
-        $(this).toggleClass("highlight");
-    });
-    
-
-    $(".sidebar-mini").addClass("sidebar-collapse");
-    $(function(){
-            $("#export").click(function(){
-                let alphaRow = $(".alphaRow");
-                $(".alphaRow").remove();
-                $("#mainTable").tableToCSV();
-                $("#mainTable").prepend(alphaRow);
-            });
-        });
-</script>
 <link rel="stylesheet" href="/admin/css/select2.css">
 <script src="/admin/js/select2.full.js"></script>
 <script src="/admin/js/jquery.twbsPagination.min.js"></script>
