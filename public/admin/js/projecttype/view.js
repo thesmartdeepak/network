@@ -1,9 +1,11 @@
 app.controller('ctrl', function($scope, $http) {
     $scope.hideList = [];
-    $scope.projecttypeList = function(){
+    $scope.currentPage = 1;
+    
+    $scope.projecttypeList = function(page){
         $http({
             method:'get',
-            url:'/allprojecttype',
+            url:'/allprojecttype?page='+page,
             headers: {
                 'authorization': localStorage.token
             }
@@ -11,8 +13,35 @@ app.controller('ctrl', function($scope, $http) {
             $scope.projecttypes = response.data.data;
         });
     }
-    
-    $scope.projecttypeList();
+
+    $scope.setPagination = function(){
+        $http({
+            method:'get',
+            url:'/allProjectTypeCount',
+            headers: {
+                'authorization': localStorage.token
+            }
+        }).then(function(response){
+            let totalPage = Math.ceil(response.data.data/10);
+            if(totalPage > 0){
+                
+                $('#pagination').twbsPagination({
+                    totalPages: totalPage,
+                    visiblePages:3,
+                    startPage:$scope.startPage,
+                    onPageClick: function (event, page) {
+                        $scope.currentPage = page;
+                        $scope.projecttypeList(page);
+                    }
+                });
+            }
+            else{
+                $scope.projecttypes = [];
+            }
+        });
+    }
+
+    $scope.setPagination();
 
     $scope.deleteprojecttype = function(projecttypeId){
         $http({
@@ -23,18 +52,26 @@ app.controller('ctrl', function($scope, $http) {
                 'authorization': localStorage.token
             }
         }).then(function(response){
+
             alertBox('Deleted successfully','success');
-            $scope.hideList.push(projecttypeId);
+            if($scope.projecttypes.length > 1){
+                $scope.projecttypeList($scope.currentPage);
+            }
+            else{
+                $('#pagination').twbsPagination('destroy');
+                $scope.startPage = $scope.currentPage-1;
+                $scope.setPagination();
+            }
         });
     }
 
-    $scope.hideprojecttype = function(projecttypeId){
-        if($scope.hideList.indexOf(projecttypeId) != -1){
-            return true;
-        }
-        else{
-            return false;
-        }
+    $scope.departmentName = function(department){
+        let departmentName = '';
+        department.forEach(function(value,index){
+            departmentName = value.name;
+        });
+        
+        return departmentName;
     }
 });
 

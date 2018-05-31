@@ -16,6 +16,12 @@
             <input class="form-control" placeholder="Name" name="name" ng-model="formData.name" required>
           </div>
 
+          <div class="form-group">
+            <label>Department Name</label>
+            <select   id="departmentNameList" class="form-control" name="departmentName" required>
+              <option  value"{{defaultdepartmentName._id}}">{{defaultdepartmentName.name}}</option>
+            </select>
+          </div>
           <!-- <div class="form-group">
             <label>Description</label>
             <input class="form-control" placeholder="Description" name="description" ng-model="formData.description" required>
@@ -33,5 +39,6 @@
       </form>
     </div>
 </section>
-
+<link rel="stylesheet" href="/admin/css/select2.css">
+<script src="/admin/js/select2.full.js"></script>
 <script src="/admin/js/projecttype/add.js"></script>

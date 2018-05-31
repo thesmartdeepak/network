@@ -33,4 +33,5 @@ departmentModel.getAlldepartment = (departmentToFind) => {
 departmentModel.totaldepartmentList = (departmentToFind) => {
   return departmentModel.find(departmentToFind.query,departmentToFind.projection).skip(departmentToFind.skip).limit(departmentToFind.limit);
 }
+
 export default departmentModel;

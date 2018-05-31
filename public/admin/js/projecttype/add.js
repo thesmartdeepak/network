@@ -1,12 +1,17 @@
 $("#addprojecttypeForm").validate();
 
 app.controller('ctrl', function($scope, $http) {
-
+    $scope.defaultdepartmentName = {
+        _id:"",
+        name:"Select a Department"
+    };
     $scope.formData = {
         name:"",
+        departmentId:"",
      };
   
     $scope.submit = function () {
+        $scope.formData.departmentId = $("#departmentNameList").val();
         if($("#addprojecttypeForm").valid()){
             var submitUrl = "/addprojecttype";
             if(window.location.search){
@@ -45,11 +50,19 @@ app.controller('ctrl', function($scope, $http) {
             $scope.formData = {
                 name:response.data.data.name,
             };
-            
+            $scope.defaultdepartmentName = response.data.data.departmentOne;
             $scope.editMode = true;
         });
     }
 });
 
-
+$('#departmentNameList').select2({
+    ajax: {
+        url: '/totaldepartmentList',
+        headers: {
+            'authorization': localStorage.token
+        }
+    },
+    placeholder: "Select a Co-ordinator"
+});
 sideBar('projecttype');
