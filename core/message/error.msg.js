@@ -172,7 +172,7 @@ msg.addStatusRemark ="Unable to add Status/Remark"
 
 
 /** Error message for editing Status/Remark */
-msg.editStatusRemark ="Unable to edit Status/Remark"
+msg.editStatusRemark ="Unable to update Status/Remark"
 
 
 /** Error message for deleting Status/Remark */

@@ -85,8 +85,8 @@ msg.editdepartment="department updated successfully!!!"
  */ 
 msg.allStatusRemark="Found successfully!!!!"
 msg.getOneStatusRemark="Found one status/remark successfully!!!!"
-msg.addStatusRemark="status/remarks added successfully!!!!"
-msg.deleteStatusRemark="status/remark deleted successfully!!!"
-msg.editStatusRemark="status/remark updated successfully!!!"
+msg.addStatusRemark="Status/Remarks added successfully!!!!"
+msg.deleteStatusRemark="Status/Remark deleted successfully!!!"
+msg.editStatusRemark="Status/Remark updated successfully!!!"
 
 export default msg; 

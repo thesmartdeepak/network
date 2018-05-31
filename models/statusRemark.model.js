@@ -32,7 +32,7 @@ let StatusRemarkModel = mongoose.model('statusRemark', StatusRemarkSchema);
  * @return {object}
  */
 StatusRemarkModel.getAll = (dataToFind) => {
-    return StatusRemarkModel.find(dataToFind.query,dataToFind.projection);
+    return StatusRemarkModel.find(dataToFind.query,dataToFind.projection).sort({_id:-1});
 }
 
 StatusRemarkModel.countAll = (dataToFind) => {

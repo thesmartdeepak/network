@@ -37,7 +37,7 @@ service.getAll = async (req,res) =>{
         // let clientId = utility.removeQuotationMarks(req.query.clientId);
 
 		let dataToFind = {
-			query:{},
+			query:{status:{$ne:"deleted"}},
 			projection:{}
 		};
 
@@ -54,7 +54,6 @@ service.getAll = async (req,res) =>{
 
 		res.send({"success":true, "code":200, "msg":successMsg.allStatusRemark, "data":statusRemarkData});
 	}catch(err){
-		logger.error('Error in getting statusRemark- ' + err);
 		res.send({"success":false, "code":500, "msg":msg.getStatusRemark, "err":err});
 
 	}
@@ -98,7 +97,7 @@ service.editStatusRemark = async (req, res) => {
     try {
         const savedStatusRemark = await statusRemark.editStatusRemark(statusRemarkToUpdate);
         
-        res.send({"success":true, "code":"200", "msg":"user Type update succesfully","data":savedStatusRemark});
+        res.send({"success":true, "code":"200", "msg":successMsg.editStatusRemark,"data":savedStatusRemark});
     }
     catch(err) {
         res.send({"success":false, "code":"500", "msg":msg.editStatusRemark,"err":err});

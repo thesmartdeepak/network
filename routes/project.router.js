@@ -35,4 +35,6 @@ router.get('/allProject',projectService.allProject);
 
 router.get('/allProjectCount',projectService.allProjectCount);
 
+router.post('/changeStatusRemark',projectService.changeStatusRemark);
+
 export default router;

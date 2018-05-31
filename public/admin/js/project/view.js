@@ -89,6 +89,11 @@ app.controller('ctrl', function($scope, $http) {
         $("#mainTable").prepend(alphaRow);
     }
 
+    $scope.activityStatusList = [];
+    $scope.remarkList = [];
+    $scope.reportStatusList = [];
+    $scope.reportAcceptanceStatusList = [];
+    $scope.clientRemarkList = [];
     $scope.statusRemark = function(){
         $http({
             method:'GET',
@@ -98,15 +103,73 @@ app.controller('ctrl', function($scope, $http) {
             }
         }).then(function(response){
             response.data.data.forEach(function(value,index){
-                if(value.type='activityStatus'){
-                    console.log(value.statusRemark);
+                
+                if(value.type=='activityStatus'){
+                    $scope.activityStatusList.push(value);
                 }
+                else if(value.type=='remark'){
+                    $scope.remarkList.push(value);
+                }
+                else if(value.type=='reportStatus'){
+                    $scope.reportStatusList.push(value);
+                }
+                else if(value.type=='reportAcceptanceStatus'){
+                    $scope.reportAcceptanceStatusList.push(value);
+                }
+                else if(value.type=='clientRemark'){
+                    $scope.clientRemarkList.push(value);
+                }
+
+                
             });
+            
         });
     }
 
     $scope.statusRemark();
+
+    $("body").on('click','.statusRemarkTr1',function(){
+        $(".statusRemarkTr2").removeClass('statusRemarkTr2').addClass('statusRemarkTr1');
+        $(this).removeClass('statusRemarkTr1').addClass('statusRemarkTr2');
+    });
+
+    $("body").on('change','.statusRemarkSelect',function(){
+        
+        var type = $(this).data('type');
+        var value = $(this).val();
+        var id = $(this).data('id');
+        
+        $http({
+            method:'POST',
+            url:'/changeStatusRemark',
+            data:{type:type,value:value,id:id},
+            headers: {
+                'authorization': localStorage.token
+            }
+        }).then(function(response){
+            if(response.data.success)
+                alertBox(response.data.msg,'success');
+            else
+                alertBox(response.data.msg,'danger');
+        });
+        
+        $(this).parents('.statusRemarkTr2').find('.statusRemarkTxt').text(value);
+        setTimeout(function(){
+            $(".statusRemarkTr2").removeClass('statusRemarkTr2').addClass('statusRemarkTr1');
+        },1000);
+        
+    });
+
+    $scope.statusRemarkSelected = function(value1,value2){
+        if(value1.trim()==value2.trim()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 });
+
 
 $('#coOrdinatorList').select2({
     ajax: {
@@ -127,13 +190,4 @@ $("body").on('click','tr.dataRow',function() {
     $(this).toggleClass("highlight");
 });
 
-
-// $(function(){
-//     $("#export").click(function(){
-//         let alphaRow = $(".alphaRow");
-//         $(".alphaRow").remove();
-//         $("#mainTable").tableToCSV();
-//         $("#mainTable").prepend(alphaRow);
-//     });
-// });
 sideBar('project');

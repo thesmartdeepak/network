@@ -14,6 +14,7 @@ import path from 'path';
 import xlsx from 'node-xlsx';
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
+import projectModel from '../models/project.model';
 // import getJsDateFromExcel from 'excel-date-to-js';
 const { getJsDateFromExcel } = require('excel-date-to-js');
 
@@ -242,5 +243,21 @@ service.deleteProject = async(req,res) => {
     }
 }
 
+service.changeStatusRemark = async(req,res) => {
+    let type = req.body.type;
+    let set = {};
+    set[type] = req.body.value;
+    let projectScatusRemarkUpdate = {
+        query:{_id:req.body.id},
+        set:{"$set":set}
+    };
+    try{
+        await projectModel.editProject(projectScatusRemarkUpdate);
+        res.send({"success":true,"code":200,"msg":successMsg.editStatusRemark,"data":""});
+    }
+    catch(err){
+        res.send({"success":false, "code":"500", "msg":msg.editStatusRemark,"err":err});
+    }
+}
 
 export default service;

@@ -81,11 +81,51 @@
                 <td>{{ project.preDoneDate| date : "dd/MMM/yyyy" }}</td>
                 <td>{{ project.post_ActivityDoneMonth }}</td>
                 <td>{{ project.post_ActivityDoneDate| date : "dd/MMM/yyyy" }}</td>
-                <td>{{ project.activityStatus }}</td>
-                <td>{{ project.remark }}</td>
-                <td>{{ project.reportStatus }}</td>
-                <td>{{ project.reportAcceptanceStatus }}</td>
-                <td>{{ project.clientRemark }}</td>
+                <td class="statusRemarkTr1">
+                    <div class="statusRemarkTxt">
+                        {{ project.activityStatus }}
+                    </div>
+                    <select class="statusRemarkSelect" data-type="activityStatus" data-id="{{ project._id }}">
+                        <option value="">Select</option>
+                        <option ng-repeat="activityStatus in activityStatusList" value="{{ activityStatus.statusRemark }}" ng-selected="statusRemarkSelected(activityStatus.statusRemark,project.activityStatus)">{{ activityStatus.statusRemark }}</option>
+                    </select>
+                </td>
+                <td class="statusRemarkTr1">
+                    <div class="statusRemarkTxt">
+                        {{ project.remark }}
+                    </div>
+                    <select class="statusRemarkSelect" data-type="remark" data-id="{{ project._id }}">
+                        <option value="">Select</option>
+                        <option ng-repeat="remark in remarkList" value="{{ remark.statusRemark }}" ng-selected="statusRemarkSelected(remark.statusRemark,project.remark)">{{ remark.statusRemark }}</option>
+                    </select>
+                </td>
+                <td class="statusRemarkTr1">
+                    <div class="statusRemarkTxt">
+                        {{ project.reportStatus }}
+                    </div>
+                    <select class="statusRemarkSelect" data-type="reportStatus" data-id="{{ project._id }}">
+                        <option value="">Select</option>
+                        <option ng-repeat="reportStatus in reportStatusList" value="{{ reportStatus.statusRemark }}" ng-selected="statusRemarkSelected(reportStatus.statusRemark,project.reportStatus)">{{ reportStatus.statusRemark }}</option>
+                    </select>
+                </td>
+                <td class="statusRemarkTr1">
+                    <div class="statusRemarkTxt">
+                        {{ project.reportAcceptanceStatus }}
+                    </div>
+                    <select class="statusRemarkSelect" data-type="reportAcceptanceStatus" data-id="{{ project._id }}">
+                        <option value="">Select</option>
+                        <option ng-repeat="reportAcceptanceStatus in reportAcceptanceStatusList" value="{{ reportAcceptanceStatus.statusRemark }}"  ng-selected="statusRemarkSelected(reportAcceptanceStatus.statusRemark,project.reportAcceptanceStatus)">{{ reportAcceptanceStatus.statusRemark }}</option>
+                    </select>
+                </td>
+                <td class="statusRemarkTr1">
+                    <div class="statusRemarkTxt">
+                        {{ project.clientRemark }}
+                    </div>
+                    <select class="statusRemarkSelect" data-type="clientRemark" data-id="{{ project._id }}">
+                        <option value="">Select</option>
+                        <option ng-repeat="clientRemark in clientRemarkList" value="{{ clientRemark.statusRemark }}"  ng-selected="statusRemarkSelected(clientRemark.statusRemark,project.clientRemark)">{{ clientRemark.statusRemark }}</option>
+                    </select>
+                </td>
                 <td>{{ project.concatenate }}</td>
                 <td>{{ project.attemptCycle }}</td>
                 <td>{{ project.employeeId }}</td>
@@ -112,3 +152,12 @@
 <script src="/admin/js/select2.full.js"></script>
 <script src="/admin/js/jquery.twbsPagination.min.js"></script>
 <script src="/admin/js/project/view.js"></script>
+
+<style>
+.statusRemarkTr1 .statusRemarkSelect{
+    display:none;
+}
+.statusRemarkTr2 .statusRemarkTxt{
+    display:none;
+}
+</style>
