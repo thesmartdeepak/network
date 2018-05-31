@@ -5,13 +5,14 @@
         <table class="table">
             <thead>
                 <th>Name</th>
-                <!-- <th>Description</th>
-                <th>Code</th> -->
+               <th>Department</th>
+                 <!-- <th>Code</th> -->
                 <th>Action</th>
             </thead>
             <tbody>
-                <tr ng-repeat="projecttype in projecttypes" ng-hide="hideprojecttype(projecttype._id)">
+                <tr ng-repeat="projecttype in projecttypes">
                     <td>{{ projecttype.name }}</td>
+                    <td>{{ clientName(circle.client) }}</td>
                     <!-- <td>{{ projecttype.description }}</td>
                     <td>{{ projecttype.code }}</td> -->
                     <td>
@@ -21,8 +22,9 @@
                 </tr>
             </tbody>
         </table>
-
+        <ul id="pagination" class="pagination-sm"></ul>
     </div>
 </section>
 
+<script src="/admin/js/jquery.twbsPagination.min.js"></script>
 <script src="/admin/js/projecttype/view.js"></script>

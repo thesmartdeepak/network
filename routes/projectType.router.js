@@ -30,6 +30,7 @@ router.get("/view-projecttype",function(req, res){
 });
 
 router.get('/allprojecttype',projecttypeService.allprojecttype);
+router.get('/allProjectTypeCount',projecttypeService.allProjectTypeCount);
 
 router.post('/deleteprojecttype',projecttypeService.deleteprojecttype);
 router.get("/totalProjecttypeList",projecttypeService.totalProjecttypeList);

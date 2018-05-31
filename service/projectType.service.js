@@ -7,6 +7,7 @@
  */
 
 import projecttype from '../models/projectType.model'
+import department from '../models/department.model'
 import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
@@ -71,8 +72,16 @@ service.totalProjecttypeList = async(req,res)=>{
     return res.send(response);
 }
 service.addprojecttype = async (req,res) =>{
+    let getOneDepartment = {
+        query:{_id:(req.body.departmentId)},
+        projection:{}
+    };
+
+    let departmentOne = await department.getOnedepartment(getOneDepartment);
+
     let projecttypeToAdd = projecttype({
         name:req.body.name,
+        departmentId:departmentOne._id,
         status: 'active',
         createAt:new Date()
     });
@@ -86,8 +95,17 @@ service.addprojecttype = async (req,res) =>{
 }
 
 service.editprojecttype = async (req,res) => {
+
+    let getOneDepartment = {
+        query:{_id:mongoose.Types.ObjectId(req.body.clientId)},
+        projection:{}
+    };
+
+    let departmentOne = await department.getOnedepartment(getOneDepartment);
+
     let projecttypeEdit={
         name:req.body.name,
+        departmentId:departmentOne._id,
         updatedAt: new Date()
     }
     let projecttypeToEdit={
@@ -115,14 +133,26 @@ service.oneprojecttype = async (req,res) => {
 }
 
 service.allprojecttype = async(req,res) => {
+   
     let projecttypeToFind = {
         query:{"status":{$ne:"deleted"}},
-        projection:{}
+        projection:{}, 
+        limit: 10,
+        skip: (req.query.page-1)*10
     }
 
     const allprojecttype = await projecttype.getAllprojecttype(projecttypeToFind);
 
     res.send({"success":true,"code":200,"msg":successMsg.allprojecttype,"data":allprojecttype});
+}
+
+service.allProjectTypeCount = async(req,res) => {
+    let projectTypeToFind = {
+        query:{"status":{$ne:"deleted"}}
+    }
+    const allProjectTypeCount = await projecttype.getAllProjectTypeCount(projectTypeToFind);
+
+    res.send({"success":true,"code":200,"msg":successMsg.allprojecttype,"data":allProjectTypeCount});
 }
 
 service.deleteprojecttype = async(req,res) => {
