@@ -64,7 +64,6 @@ service.allUserMaxCount = async (req,res) => {
         projection:{},
     };
     var count = await User.getCount(dataToFind);
-    console.log(count);
     res.send({success:true, code:200, msg:'', data:count});
 }
 
@@ -311,7 +310,6 @@ service.login = async (req, res) =>{
             res.send({success:false, code:500, msg:"EmailId or password does not match"})
         }
     }catch(error){
-      console.log(error,"error")
         res.send({success:false, code:500, msg:msg.login, err:error})
     }
 }
