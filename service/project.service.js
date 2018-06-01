@@ -242,6 +242,13 @@ service.addProject = async (req,res) =>{
         if(goodData){
             let x = 0;
             for(x in rows){
+
+                let projectToFind = {
+                    query:{status:{$ne:'deleted'},concatenate:rows[x]['concatenate']}
+                }
+                const allProjectCount = await Project.allProjectCount(projectToFind);
+    
+                rows[x]['attemptCycle'] = "C"+(allProjectCount+1);
                 
                 const addToProject = Project(rows[x]);
                 await Project.addProject(addToProject);

@@ -207,11 +207,15 @@ $("body").on('click','tr.dataRow',function() {
     $(this).toggleClass("highlight");
 });
 
+
 $('#fromDate').datepicker({
-    autoclose: true
+    autoclose: true,
+    maxDate: "+0D"
 }).datepicker("setDate", new Date()).datepicker("option","dateFormat","dd/MM/yy");
+
 $('#toDate').datepicker({
     autoclose: true
 }).datepicker("setDate", new Date()).datepicker("option","dateFormat","dd/MM/yy");
+
 
 sideBar('project');
