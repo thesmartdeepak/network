@@ -64,10 +64,11 @@ router.post('/forgetPasswordReset',(req,res)=>{
     userService.forgetPasswordReset(req,res);
 })
 router.post('/changePassword',(req,res)=>{
-    userService.changePassword(req,res);
+    userService.chnagePasswordByAdmin(req,res);
 })
  router.post('/updateUser',(req,res)=>{
      userService.update(req,res);
  })
+ 
 
 export default router;

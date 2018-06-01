@@ -21,6 +21,7 @@
                     <td>
                         <a class="btn btn-info" href="/edit-user?userId={{ user._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteUser(user._id)">Delete</a>
+                        <a class="btn btn-danger" data-name={{ user.fullname }} ng-click="changePassword(user._id,user.fullname)">Change password</a>
                     </td>
                 </tr>
             </tbody>
@@ -29,6 +30,37 @@
         <ul id="pagination" class="pagination-sm"></ul>
         
     </div>
+
+    <!--=============Change password model============-->
+    <div class="modal" id="changePasswordModel" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title">Change Password of {{ changePasswordCurrentName }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Password</label>
+                    <input class="form-control" placeholder="Password" type="password" name="password" ng-model="password" required>
+                    <span class="text-danger">{{ error.password }}</span>
+                </div>
+                <div class="form-group">
+                    <label>Repeat password</label>
+                    <input class="form-control" placeholder="Password" type="password" name="password" ng-model="repeatPassword" required>
+                    <span class="text-danger">{{ error.repeatPassword }}</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" ng-click="updatePassword()">Save changes</button>
+              <button type="button" class="btn btn-secondary"  data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--=============/Change password model============-->
 </section>
 
 <script src="/admin/js/jquery.twbsPagination.min.js"></script>

@@ -67,6 +67,40 @@ app.controller('ctrl', function($scope, $http) {
             }
         });
     }
+    
+    $scope.changePasswordCurrentId = null;
+    $scope.error = {};
+    $scope.changePassword = function(id,name){
+        $scope.changePasswordCurrentId = id;
+        $scope.changePasswordCurrentName = name;
+        $("#changePasswordModel").modal();
+    }
+
+    $scope.updatePassword = function(){
+        $scope.error = {};
+        
+        if(($scope.password) && ($scope.password == $scope.repeatPassword)){
+            $http({
+                method:'POST',
+                url:'/changePassword',
+                data:{id:$scope.changePasswordCurrentId,password:$scope.password},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
+                $("#changePasswordModel").modal('hide');
+                alertBox(response.data.msg,'success');
+            });
+        }
+        else{
+            if(!$scope.password){
+                $scope.error.password = "Please enter password.";
+            }
+            else{
+                $scope.error.repeatPassword = "Repeat password not matching.";
+            }
+        }
+    }
 });
 
 sideBar('user');

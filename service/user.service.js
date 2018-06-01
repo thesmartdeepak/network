@@ -407,6 +407,22 @@ try{
         res.send({"msg":"not valid emailid"});
     }
 }
+service.chnagePasswordByAdmin = async(req,res) =>
+{
+    var temp =rand(100,30);
+    var newPassword=temp+req.body.password;
+    var token= crypto.createHash('sha512').update(req.body.password+rand).digest("hex");
+    var hashed_password=crypto.createHash('sha512').update(newPassword).digest("hex");
+
+    const passwordToUpdate = {
+        query:{_id:req.body.id},
+        set:{"$set":{password:hashed_password,token:token,salt:temp,temp_str:""}}
+    };
+
+    await User.updateUser(passwordToUpdate);
+    return res.send({"success":true,"msg":"Password changed succesfully"});
+
+}
 service.changePassword = async(req,res)=>{
     try{
         
