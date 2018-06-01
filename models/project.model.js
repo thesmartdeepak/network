@@ -71,7 +71,7 @@ projectModel.projectPagination = (projectToFind) => {
               as: "user"
             }
         },
-        { $match: { status: {$ne:"deleted"} } },
+        { $match: projectToFind.query },
         { $sort: { _id:-1} },
         // { $skip: projectToFind.skip },
         // { $limit: projectToFind.limit },

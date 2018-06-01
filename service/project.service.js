@@ -297,10 +297,16 @@ service.oneProject = async (req,res) => {
 
 service.allProject = async (req,res) => {
     let projectToFind = {
-        query:{status:{$ne:'deleted'}},
+        query:{
+            status:{$ne:'deleted'},
+            createAt: {
+                $gte: new Date(req.body.fromDate),
+                $lte: new Date(req.body.toDate)
+            }
+        },
         projection:{},
-        limit:10,
-        skip:(req.query.page-1)*10
+        // limit:10,
+        // skip:(req.query.page-1)*10
     }
 
     const allProject = await Project.projectPagination(projectToFind);

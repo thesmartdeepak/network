@@ -29,7 +29,7 @@ router.get("/view-project",function(req, res){
     res.render('admin/project/view',{title:'View project'});
 });
 
-router.get('/allProject',projectService.allProject);
+router.post('/allProject',projectService.allProject);
 
 // router.post('/deleteProject',projectService.deleteProject);
 
