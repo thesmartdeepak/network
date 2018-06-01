@@ -14,17 +14,19 @@ app.controller('ctrl', function($scope, $http) {
     $scope.statusRemarkList();
 
     $scope.deleteStatusRemark = function(statusRemarkId){
-        $http({
-            method:'post',
-            url:'/deleteStatusRemark',
-            data:{statusRemarkId:statusRemarkId},
-            headers: {
-                'authorization': localStorage.token
-            }
-        }).then(function(response){
-            alertBox('Deleted successfully','success');
-            $scope.statusRemarkList();
-        });
+        if(confirm('Do you want to delete?')){
+            $http({
+                method:'post',
+                url:'/deleteStatusRemark',
+                data:{statusRemarkId:statusRemarkId},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
+                alertBox('Deleted successfully','success');
+                $scope.statusRemarkList();
+            });
+        }
     }
 
     $scope.type = function(type){

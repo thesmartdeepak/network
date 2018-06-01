@@ -15,17 +15,19 @@ app.controller('ctrl', function($scope, $http) {
     $scope.departmentList();
 
     $scope.deletedepartment = function(departmentId){
-        $http({
-            method:'post',
-            url:'/deletedepartment',
-            data:{departmentId:departmentId},
-            headers: {
-                'authorization': localStorage.token
-            }
-        }).then(function(response){
-            alertBox('Deleted successfully','success');
-            $scope.hideList.push(departmentId);
-        });
+        if(confirm('Do you want to delete?')){
+            $http({
+                method:'post',
+                url:'/deletedepartment',
+                data:{departmentId:departmentId},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
+                alertBox('Deleted successfully','success');
+                $scope.hideList.push(departmentId);
+            });
+        }
     }
 
     $scope.hidedepartment = function(departmentId){

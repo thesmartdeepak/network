@@ -44,25 +44,27 @@ app.controller('ctrl', function($scope, $http) {
     $scope.setPagination();
 
     $scope.deleteProjectType = function(projectTypeId){
-        $http({
-            method:'post',
-            url:'/deleteProjectType',
-            data:{projectTypeId:projectTypeId},
-            headers: {
-                'authorization': localStorage.token
-            }
-        }).then(function(response){
+        if(confirm('Do you want to delete?')){
+            $http({
+                method:'post',
+                url:'/deleteProjectType',
+                data:{projectTypeId:projectTypeId},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
 
-            alertBox('Deleted successfully','success');
-            if($scope.projectTypes.length > 1){
-                $scope.projectTypeList($scope.currentPage);
-            }
-            else{
-                $('#pagination').twbsPagination('destroy');
-                $scope.startPage = $scope.currentPage-1;
-                $scope.setPagination();
-            }
-        });
+                alertBox('Deleted successfully','success');
+                if($scope.projectTypes.length > 1){
+                    $scope.projectTypeList($scope.currentPage);
+                }
+                else{
+                    $('#pagination').twbsPagination('destroy');
+                    $scope.startPage = $scope.currentPage-1;
+                    $scope.setPagination();
+                }
+            });
+        }
     }
 
     $scope.departmentName = function(department){

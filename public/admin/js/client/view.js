@@ -42,24 +42,26 @@ app.controller('ctrl', function($scope, $http) {
     $scope.setPagination();
 
     $scope.deleteclient = function(clientId){
-        $http({
-            method:'post',
-            url:'/deleteclient',
-            data:{clientId:clientId},
-            headers: {
-                'authorization': localStorage.token
-            }
-        }).then(function(response){
-            alertBox('Deleted successfully','success');
-            if($scope.clients.length > 1){
-                $scope.clientList($scope.currentPage);
-            }
-            else{
-                $('#pagination').twbsPagination('destroy');
-                $scope.startPage = $scope.currentPage-1;
-                $scope.setPagination();
-            }
-        });
+        if(confirm('Do you want to delete?')){
+            $http({
+                method:'post',
+                url:'/deleteclient',
+                data:{clientId:clientId},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
+                alertBox('Deleted successfully','success');
+                if($scope.clients.length > 1){
+                    $scope.clientList($scope.currentPage);
+                }
+                else{
+                    $('#pagination').twbsPagination('destroy');
+                    $scope.startPage = $scope.currentPage-1;
+                    $scope.setPagination();
+                }
+            });
+        }
     }
 
 });

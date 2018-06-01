@@ -71,24 +71,26 @@ app.controller('ctrl', function($scope, $http,$filter) {
     }
 
     $scope.deleteProject = function(projectId){
-        $http({
-            method:'post',
-            url:'/deleteProject',
-            data:{projectId:projectId},
-            headers: {
-                'authorization': localStorage.token
-            }
-        }).then(function(response){
-            alertBox('Deleted successfully','success');
-            if($scope.projects.length > 1){
-                $scope.projectList($scope.currentPage);
-            }
-            else{
-                $('#pagination').twbsPagination('destroy');
-                $scope.startPage = $scope.currentPage-1;
-                $scope.setPagination();
-            }
-        });
+        if(confirm('Do you want to delete?')){
+            $http({
+                method:'post',
+                url:'/deleteProject',
+                data:{projectId:projectId},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
+                alertBox('Deleted successfully','success');
+                if($scope.projects.length > 1){
+                    $scope.projectList($scope.currentPage);
+                }
+                else{
+                    $('#pagination').twbsPagination('destroy');
+                    $scope.startPage = $scope.currentPage-1;
+                    $scope.setPagination();
+                }
+            });
+        }
     }
 
     $scope.coOrdinatorName = function(users){

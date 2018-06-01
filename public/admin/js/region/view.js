@@ -15,17 +15,19 @@ app.controller('ctrl', function($scope, $http) {
     $scope.regionList();
 
     $scope.deleteRegion = function(regionId){
-        $http({
-            method:'post',
-            url:'/deleteRegion',
-            data:{regionId:regionId},
-            headers: {
-                'authorization': localStorage.token
-            }
-        }).then(function(response){
-            alertBox('Deleted successfully','success');
-            $scope.hideList.push(regionId);
-        });
+        if(confirm('Do you want to delete?')){
+            $http({
+                method:'post',
+                url:'/deleteRegion',
+                data:{regionId:regionId},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
+                alertBox('Deleted successfully','success');
+                $scope.hideList.push(regionId);
+            });
+        }
     }
 
     $scope.hideRegion = function(regionId){

@@ -48,24 +48,26 @@ app.controller('ctrl', function($scope, $http) {
     }
 
     $scope.deleteCircle = function(circleId){
-        $http({
-            method:'post',
-            url:'/deleteCircle',
-            data:{circleId:circleId},
-            headers: {
-                'authorization': localStorage.token
-            }
-        }).then(function(response){
-            alertBox('Deleted successfully','success');
-            if($scope.circles.length > 1){
-                $scope.circleList($scope.currentPage);
-            }
-            else{
-                $('#pagination').twbsPagination('destroy');
-                $scope.startPage = $scope.currentPage-1;
-                $scope.setPagination();
-            }
-        });
+        if(confirm('Do you want to delete?')){
+            $http({
+                method:'post',
+                url:'/deleteCircle',
+                data:{circleId:circleId},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
+                alertBox('Deleted successfully','success');
+                if($scope.circles.length > 1){
+                    $scope.circleList($scope.currentPage);
+                }
+                else{
+                    $('#pagination').twbsPagination('destroy');
+                    $scope.startPage = $scope.currentPage-1;
+                    $scope.setPagination();
+                }
+            });
+        }
     }
 
     $scope.clientName = function(client){

@@ -57,24 +57,26 @@ app.controller('ctrl', function($scope, $http) {
     }
 
     $scope.deleteUser = function(userId){
-        $http({
-            method:'post',
-            url:'/deleteUser',
-            data:{userId:userId},
-            headers: {
-                'authorization': localStorage.token
-            }
-        }).then(function(response){
-            alertBox('Deleted successfully','success');
-            if($scope.users.length > 1){
-                $scope.userList($scope.currentPage);
-            }
-            else{
-                $('#pagination').twbsPagination('destroy');
-                $scope.startPage = $scope.currentPage-1;
-                $scope.setPagination();
-            }
-        });
+        if(confirm('Do you want to delete?')){
+            $http({
+                method:'post',
+                url:'/deleteUser',
+                data:{userId:userId},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
+                alertBox('Deleted successfully','success');
+                if($scope.users.length > 1){
+                    $scope.userList($scope.currentPage);
+                }
+                else{
+                    $('#pagination').twbsPagination('destroy');
+                    $scope.startPage = $scope.currentPage-1;
+                    $scope.setPagination();
+                }
+            });
+        }
     }
     
     $scope.changePasswordCurrentId = null;
