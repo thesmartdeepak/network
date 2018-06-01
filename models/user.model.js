@@ -8,7 +8,7 @@ const UserSchema = mongoose.Schema({
     temp_str:{type:String},
     userId: {type: Number },
     fullname:{type: String },
-    employeeId:{type:String,index:{unique:true}},
+    employeeId:{type:String},
     userType: {type:String},
     projectCode: {type:String},
     email: {type: String , index:{unique:true}},

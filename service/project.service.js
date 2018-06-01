@@ -6,16 +6,19 @@
  * @lastModifedBy Shakshi
  */
 
-import Project from '../models/project.model'
-import logger from '../core/logger/app.logger'
-import successMsg from '../core/message/success.msg'
-import msg from '../core/message/error.msg.js'
+import Project from '../models/project.model';
+import Activity from '../models/activity.model';
+import User from '../models/user.model';
+import Circle from '../models/circle.model';
+import Client from '../models/client.model';
+import logger from '../core/logger/app.logger';
+import successMsg from '../core/message/success.msg';
+import msg from '../core/message/error.msg.js';
 import path from 'path';
 import xlsx from 'node-xlsx';
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
 import projectModel from '../models/project.model';
-// import getJsDateFromExcel from 'excel-date-to-js';
 const { getJsDateFromExcel } = require('excel-date-to-js');
 
 /**
@@ -29,7 +32,7 @@ const service = {};
 let projectMapDb = {
     "Project_Code": "projectCode",
     "Operator": "operator",
-    "Activity": "activity",
+    "Activity_Description": "activity",
     "Item_Description_Band": "itemDescription_Band",
     "Site_Id": "siteId",
     "Site_Count": "siteCount",
@@ -37,8 +40,8 @@ let projectMapDb = {
     "Pre_Done_Date": "preDoneDate",
     "Post_Activity_Done_Month": "post_ActivityDoneMonth",
     "Post_Activity_Done_Date": "post_ActivityDoneDate",
-    "Coordinator_Remark": "coordinatorRemark",
-    "Coordinator_Status": "coordinatorStatus",
+    "Activity_Status": "activityStatus",
+    "Remarks": "remark",
     "Report_Status": "reportStatus",
     "Report_Acceptance_Status": "reportAcceptanceStatus",
     "Client_Remark": "clientRemark",
@@ -94,6 +97,22 @@ service.addProject = async (req,res) =>{
         userId = decode._id;
     });
 
+    const coOrdinatorToFind = {_id: userId};
+    const coOrdinatorData = await User.getOne(coOrdinatorToFind);
+
+    const circleToFind = {
+        query:{clientCircleCode: coOrdinatorData.projectCode},
+        projection:{clientId:1}
+    };
+    const coOrdinatorCircle = await Circle.getOneCircle(circleToFind);
+
+    const clientToFind = {
+        query:{_id: coOrdinatorCircle.clientId},
+        projection:{name:1}
+    };
+    const coOrdinatorClient = await Client.getOneClient(clientToFind);
+
+
     let excelFile = req.files.excelFile;
 
     let fileExt = excelFile.name.split('.').pop();
@@ -104,59 +123,134 @@ service.addProject = async (req,res) =>{
         let path = 'public/uploads/csv/'+fileName;
         let outFile = 'public/uploads/csv/'+(String (new Date()))+"_"+(Math.random())+'.csv';
         
-        //await excelFile.mv(path, function(err) {
-            const obj = xlsx.parse(excelFile.data);
-            const sheet = obj[0]; 
-            let data = sheet['data'];
+        const obj = xlsx.parse(excelFile.data);
+        const sheet = obj[0]; 
+        let data = sheet['data'];
+        
+        let header = data.splice(0,1)[0];
+        
+        let rowHeaders = {};
+        
+        header.forEach(function(value,index){
+            if(projectMapDb[value.trim()]){
+                rowHeaders[index] = projectMapDb[value.trim()];
+            }
+        });
+        
+        let rows = [];
+        let goodData = true;
+        let errorList = [];
+        let k = 0;
+        
+        for(k in data){
+            let goodRow = true;
+            let errorRow = [];
+
+            let rst = data[k];
+            let index = k;
             
-            let header = data.splice(0,1)[0];
-            
-            let rowHeaders = {};
-            
-            header.forEach(function(value,index){
-                
-                if(projectMapDb[value]){
-                    rowHeaders[index] = projectMapDb[value];
+            let row = {};
+            // let index = 0;
+            // for(index=0;index<rst.length;index++){
+            //     let result = rst[index];
+            //     if(rowHeaders[index]){
+            //         row[rowHeaders[index]] = (result+"").trim();
+            //     }
+            //     else{
+            //         row[rowHeaders[index]] = '';
+            //     }
+            // };
+
+            for(index in rowHeaders){
+                if(rst[index]){
+                    row[rowHeaders[index]] = (rst[index]+"").trim();
                 }
-            });
-            
-            let rows = [];
-            
-            let k = 0;
-            for(k in data){
-                let rst = data[k];
-                let index = k;
-                if(rst[1] && rst[16] && rst[5]){
-                    let row = {};
-                    rst.forEach(function(result,index){
-
-                        if(rowHeaders[index]){
-                            row[rowHeaders[index]] = result;
-                        }
-                    });
-
-                    let projectToFind = {
-                        query:{status:{$ne:'deleted'},concatenate:row['concatenate']}
-                    }
-                    const allProjectCount = await Project.allProjectCount(projectToFind);
-
-                    row['attemptCycle'] = "C"+(allProjectCount+1);
-                    
-                    row['projectStatus'] = "active";
-                    row['createAt'] = new Date();
-                    row['updatedAt'] = new Date();
-                    row['userId'] = userId;
-                    if(row['preDoneDate'])
-                        row['preDoneDate'] = getJsDateFromExcel(row['preDoneDate']);
-                    if(row['post_ActivityDoneDate'])
-                        row['post_ActivityDoneDate'] = getJsDateFromExcel(row['post_ActivityDoneDate']);
-                    const addToProject = Project(row);
-                    await Project.addProject(addToProject);
+                else{
+                    row[rowHeaders[index]] = '';
                 }
             }
             
+            row['projectStatus'] = "active";
+            row['createAt'] = new Date();
+            row['updatedAt'] = new Date();
+            row['userId'] = userId;
+            if(row['preDoneDate'])
+                row['preDoneDate'] = getJsDateFromExcel(row['preDoneDate']);
+            if(row['post_ActivityDoneDate'])
+                row['post_ActivityDoneDate'] = getJsDateFromExcel(row['post_ActivityDoneDate']);
+            
+            row['departmentId'] = req.body.departmentId;
+            row['projectTypeId'] = req.body.projectTypeId;
+            row['projectCode'] = coOrdinatorData.projectCode;
+            row['operator'] = coOrdinatorClient.name;
+
+            /* Activity check */
+            const activityToFind = {
+                query:{description: row['activity']},
+                projection:{}
+            };
+            const activityDescription = await Activity.getOneActivity(activityToFind);
+            
+            if(!activityDescription){
+                goodRow = false;
+                errorRow.push('activity');
+            }
+            
+            /* /Activity check */
+
+            /* Employee check */
+            const employeeToFind = {employeeId: row['employeeId']};
+
+            const userData = await User.getOne(employeeToFind);
+            
+            if(!userData){
+                goodRow = false;
+                errorRow.push('employeeId');
+            }
+            /* /Employee check */
+            
+            if(!goodRow){
+                goodData = false;
+                errorList.push(
+                    {
+                        errors:errorRow,
+                        data:row
+                    }
+                );
+            }
+
+
+            if(goodData){
+                row['activityId'] = activityDescription._id;
+                row['activity'] = activityDescription.name;
+                row['itemDescription_Band'] = activityDescription.description;
+                row['employeeName'] = userData.fullname;
+
+                row['concatenate'] = row['siteId']+"-"+row['itemDescription_Band']+"-"+row['activity'];
+                let projectToFind = {
+                    query:{status:{$ne:'deleted'},concatenate:row['concatenate']}
+                }
+                const allProjectCount = await Project.allProjectCount(projectToFind);
+    
+                row['attemptCycle'] = "C"+(allProjectCount+1);
+
+                rows.push(row);
+            }
+            
+            
+        }
+        if(goodData){
+            let x = 0;
+            for(x in rows){
+                
+                const addToProject = Project(rows[x]);
+                await Project.addProject(addToProject);
+            }
             res.send({"success":true, "code":"200", "msg":successMsg.addProject});
-        //});
+        }
+        else{
+            res.send({"success":false, "code":"200", "msg":msg.addProject,data:errorList});
+        }
         
     }
     else{
@@ -203,10 +297,16 @@ service.oneProject = async (req,res) => {
 
 service.allProject = async (req,res) => {
     let projectToFind = {
-        query:{status:{$ne:'deleted'}},
+        query:{
+            status:{$ne:'deleted'},
+            createAt: {
+                $gte: new Date(req.body.fromDate),
+                $lte: new Date(req.body.toDate)
+            }
+        },
         projection:{},
-        limit:10,
-        skip:(req.query.page-1)*10
+        // limit:10,
+        // skip:(req.query.page-1)*10
     }
 
     const allProject = await Project.projectPagination(projectToFind);

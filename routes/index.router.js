@@ -9,11 +9,12 @@ import express from "express";
 const router = express.Router()
 
 
+
 import user from './user.router.js';
-import usertype from './usertype.router.js';
+// import usertype from './userType.router.js';
 
 router.get('/', function(req, res, next) {
-  res.render('admin/home', { title: 'Express' });
+  res.render('admin/home', { title: 'Dashboard' });
 });
 
 

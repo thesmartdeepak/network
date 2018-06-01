@@ -10,14 +10,12 @@
                 <th>Action</th>
             </thead>
             <tbody>
-                <tr ng-repeat="projecttype in projecttypes">
-                    <td>{{ projecttype.name }}</td>
-                    <td>{{ projecttype.departmentId }}</td>
-                    <!-- <td>{{ projecttype.description }}</td>
-                    <td>{{ projecttype.code }}</td> -->
+                <tr ng-repeat="projectType in projectTypes">
+                    <td>{{ projectType.name }}</td>
+                    <td>{{ departmentName(projectType.department) }}</td>
                     <td>
-                        <a class="btn btn-info" href="/edit-projecttype?projecttypeId={{ projecttype._id }}">Edit</a>
-                        <a class="btn btn-danger" ng-click="deleteprojecttype(projecttype._id)">Delete</a>
+                        <a class="btn btn-info" href="/edit-project-type?projectTypeId={{ projectType._id }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteProjectType(projectType._id)">Delete</a>
                     </td>
                 </tr>
             </tbody>
@@ -27,4 +25,4 @@
 </section>
 
 <script src="/admin/js/jquery.twbsPagination.min.js"></script>
-<script src="/admin/js/projecttype/view.js"></script>
+<script src="/admin/js/projectType/view.js"></script>

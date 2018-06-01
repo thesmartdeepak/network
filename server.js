@@ -8,14 +8,14 @@ import logger from './core/logger/app.logger';
 import config from './core/config/config.dev';
 import connectToDb from './db/connect';
 import index from './routes/index.router.js';
-import usertype from './routes/usertype.router.js';
+import userType from './routes/userType.router.js';
 import user from './routes/user.router.js';
 import region from './routes/region.router.js';
 import circle from './routes/circle.router.js';
 import activity from './routes/activity.router.js';
 import client from './routes/client.router.js';
 import project from './routes/project.router.js';
-import projecttype from './routes/projectType.router.js';
+import projectType from './routes/projectType.router.js';
 import statusRemark from './routes/statusRemark.router.js';
 import department from './routes/department.router.js';
 
@@ -92,7 +92,7 @@ app.use(function(req, res, next) {
         '/add-activity','/edit-activity','/view-activity',
         '/add-Client','/edit-client','/view-Client',
         '/add-project','/view-project',
-        '/add-projecttype','/edit-projecttype','/view-projecttype',
+        '/add-project-type','/edit-project-type','/project-type',
         '/add-department','/edit-department','/view-department',
         '/status-remark','/add-status-remark','/edit-status-remark'
     ];
@@ -112,7 +112,6 @@ app.use(function(req, res, next) {
         if(req.headers && req.headers.authorization ){
 
             jwt.verify(req.headers.authorization, "shhhhh", function(err,decode){
-                console.log(err,decode,"err decode")
                 if(err){
                     req.user = undefined;
                     if(err.name == "TokenExpiredError"){
@@ -157,13 +156,13 @@ app.post('/upload', function(req, res) {
 
 app.use(index);
 app.use(user);
-app.use(usertype);
+app.use(userType);
 app.use(region);
 app.use(circle);
 app.use(activity);
 app.use(client);
 app.use(project);
-app.use(projecttype);
+app.use(projectType);
 app.use(department);
 app.use(statusRemark);
 

@@ -1,12 +1,20 @@
-app.controller('ctrl', function($scope, $http) {
+app.controller('ctrl', function($scope, $http,$filter) {
     $scope.currentPage = 1;
     $scope.projects = [];
     $scope.startPage = 1;
     $scope.pagination = null;
-    $scope.projectList = function(page){
+
+    $scope.projectList = function(fromToDate){
+        let toDate = new Date(fromToDate['toDate']);
+        toDate.setDate(toDate.getDate() + 1);
+
+        fromToDate['toDate'] =   $filter('date')(toDate, "yyyy-MM-dd");
+        fromToDate['fromDate'] =   $filter('date')(fromToDate['fromDate'], "yyyy-MM-dd");
+        
         $http({
-            method:'get',
-            url:'/allProject?page='+page,
+            method:'post',
+            url:'/allProject',
+            data:fromToDate,
             headers: {
                 'authorization': localStorage.token
             }
@@ -14,36 +22,49 @@ app.controller('ctrl', function($scope, $http) {
             $scope.projects = response.data.data;
         });
     }
-    
-    $scope.setPagination = function(){
-        $scope.projectList(1);
-        // $http({
-        //     method:'get',
-        //     url:'/allProjectCount',
-        //     headers: {
-        //         'authorization': localStorage.token
-        //     }
-        // }).then(function(response){
-        //     let totalPage = Math.ceil(response.data.data/10);
-        //     if(totalPage > 0){
-                
-        //         $scope.pagination = $('#pagination').twbsPagination({
-        //             totalPages: totalPage,
-        //             visiblePages:3,
-        //             startPage:$scope.startPage,
-        //             onPageClick: function (event, page) {
-        //                 $scope.currentPage = page;
-        //                 $scope.projectList(page);
-        //             }
-        //         });
-        //     }
-        //     else{
-        //         $scope.projects = [];
-        //     }
-        // });
-    }
 
-    $scope.setPagination();
+    let fromToDate = {
+        fromDate: new Date(),
+        toDate: new Date()
+    };
+    $scope.projectList(fromToDate);
+
+    $(".dateFilter").change(function(){
+        let fromToDate = {
+            fromDate: $("#fromDate").val(),
+            toDate: $("#toDate").val(),
+        };
+        $scope.projectList(fromToDate);
+    });
+    // $scope.setPagination = function(){
+    //     $scope.projectList(1);
+    //     // $http({
+    //     //     method:'get',
+    //     //     url:'/allProjectCount',
+    //     //     headers: {
+    //     //         'authorization': localStorage.token
+    //     //     }
+    //     // }).then(function(response){
+    //     //     let totalPage = Math.ceil(response.data.data/10);
+    //     //     if(totalPage > 0){
+                
+    //     //         $scope.pagination = $('#pagination').twbsPagination({
+    //     //             totalPages: totalPage,
+    //     //             visiblePages:3,
+    //     //             startPage:$scope.startPage,
+    //     //             onPageClick: function (event, page) {
+    //     //                 $scope.currentPage = page;
+    //     //                 $scope.projectList(page);
+    //     //             }
+    //     //         });
+    //     //     }
+    //     //     else{
+    //     //         $scope.projects = [];
+    //     //     }
+    //     // });
+    // }
+
+    // $scope.setPagination();
 
     $scope.toUcFirst = function(oldTxt){
         return oldTxt.charAt(0).toUpperCase()+oldTxt.slice(1);
@@ -76,10 +97,6 @@ app.controller('ctrl', function($scope, $http) {
             coOrdinatorName = value.fullname;
         });
         return coOrdinatorName;
-    }
-
-    $scope.import = function(){
-        $("#excelFile").click();
     }
 
     $scope.exportTable = function(){
@@ -189,5 +206,12 @@ $("body").on('click','tr.dataRow',function() {
     $(".highlight").not(this).removeClass("highlight");
     $(this).toggleClass("highlight");
 });
+
+$('#fromDate').datepicker({
+    autoclose: true
+}).datepicker("setDate", new Date()).datepicker("option","dateFormat","dd/MM/yy");
+$('#toDate').datepicker({
+    autoclose: true
+}).datepicker("setDate", new Date()).datepicker("option","dateFormat","dd/MM/yy");
 
 sideBar('project');

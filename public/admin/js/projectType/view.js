@@ -2,15 +2,15 @@ app.controller('ctrl', function($scope, $http) {
     $scope.hideList = [];
     $scope.currentPage = 1;
     
-    $scope.projecttypeList = function(page){
+    $scope.projectTypeList = function(page){
         $http({
             method:'get',
-            url:'/allprojecttype?page='+page,
+            url:'/allProjectType?page='+page,
             headers: {
                 'authorization': localStorage.token
             }
         }).then(function(response){
-            $scope.projecttypes = response.data.data;
+            $scope.projectTypes = response.data.data;
         });
     }
 
@@ -31,31 +31,31 @@ app.controller('ctrl', function($scope, $http) {
                     startPage:$scope.startPage,
                     onPageClick: function (event, page) {
                         $scope.currentPage = page;
-                        $scope.projecttypeList(page);
+                        $scope.projectTypeList(page);
                     }
                 });
             }
             else{
-                $scope.projecttypes = [];
+                $scope.projectTypes = [];
             }
         });
     }
 
     $scope.setPagination();
 
-    $scope.deleteprojecttype = function(projecttypeId){
+    $scope.deleteProjectType = function(projectTypeId){
         $http({
             method:'post',
-            url:'/deleteprojecttype',
-            data:{projecttypeId:projecttypeId},
+            url:'/deleteProjectType',
+            data:{projectTypeId:projectTypeId},
             headers: {
                 'authorization': localStorage.token
             }
         }).then(function(response){
 
             alertBox('Deleted successfully','success');
-            if($scope.projecttypes.length > 1){
-                $scope.projecttypeList($scope.currentPage);
+            if($scope.projectTypes.length > 1){
+                $scope.projectTypeList($scope.currentPage);
             }
             else{
                 $('#pagination').twbsPagination('destroy');
@@ -75,4 +75,4 @@ app.controller('ctrl', function($scope, $http) {
     }
 });
 
-sideBar('projecttype');
+sideBar('projectType');

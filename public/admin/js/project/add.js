@@ -4,7 +4,6 @@ $("#addProjectForm").validate();
 app.controller('ctrl', function($scope, $http) {
 
     $scope.submit = function () {
-
         if($("#addProjectForm").valid()){
             var submitUrl = "/addProject";
             if(window.location.search){
@@ -17,6 +16,8 @@ app.controller('ctrl', function($scope, $http) {
             for (var i = 0; i < file_data.length; i++) {
                 formdata.append("excelFile", file_data[i]);
             }
+            formdata.append('departmentId',$scope.departmentModel);
+            formdata.append('projectTypeId',$scope.projectTypeModel);
             
             $http({
                 method: 'POST',
@@ -35,10 +36,24 @@ app.controller('ctrl', function($scope, $http) {
                 }
                 else{
                     alertBox(response.data.msg,'danger');
+                    $scope.errorDataList = response.data.data;
+                    $("#addFileSection").slideUp();
+                    $("#errorTbl").slideDown();
                 }
             });
         }
     };
+
+    $scope.reUpload = function(){
+        $("#addFileSection").slideDown();
+        $("#errorTbl").slideUp();
+    }
+
+    $scope.errorClass = function(errorList,type){
+        if(errorList.indexOf(type) != -1){
+            return 'text-danger';
+        }
+    }
 
     if(window.location.search){
         $http({
@@ -59,6 +74,34 @@ app.controller('ctrl', function($scope, $http) {
             $scope.editMode = true;
         });
     }
+
+    $scope.getDepartment = function(){
+        $http({
+            method:'get',
+            url:'/alldepartment',
+            headers: {
+                'authorization': localStorage.token
+            },
+        }).then(function(response){
+            $scope.departments = response.data.data;
+        });
+    }
+
+    $scope.getDepartment();
+
+    $scope.departmentChange = function(){
+        $http({
+            method: 'post',
+            url: '/projectTypeByDepartment',
+            data:{"departmentId":$scope.departmentModel},
+            headers: {
+                'authorization': localStorage.token
+            },
+        }).then(function(response){
+            $scope.projectTypes = response.data.data;
+        });
+    }
+
 });
 
 sideBar('project');

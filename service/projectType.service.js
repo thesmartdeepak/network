@@ -6,8 +6,8 @@
  * @lastModifedBy Shakshi
  */
 
-import projecttype from '../models/projectType.model'
-import department from '../models/department.model'
+import projectType from '../models/projectType.model'
+import Department from '../models/department.model'
 import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
@@ -16,6 +16,7 @@ import  crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import nm from 'nodemailer'
 import rand from 'csprng'
+import projectTypeModel from '../models/projectType.model';
 
 
 /**
@@ -31,7 +32,7 @@ const service = {};
  * @param  {[object]}
  * @return {[object]}
  */
-service.totalProjecttypeList = async(req,res)=>{
+service.totalProjectTypeList = async(req,res)=>{
     let dataFind = {};
 
     dataFind.query = {};
@@ -47,7 +48,7 @@ service.totalProjecttypeList = async(req,res)=>{
         dataFind.skip = (req.query.page-1)*10;
     }
     
-    let data = await projecttype.totalProjecttypeList(dataFind);
+    let data = await projectType.totalProjectTypeList(dataFind);
 
     let results = [];
 
@@ -71,107 +72,114 @@ service.totalProjecttypeList = async(req,res)=>{
 
     return res.send(response);
 }
-service.addprojecttype = async (req,res) =>{
-    let getOneDepartment = {
-        query:{_id:(req.body.departmentId)},
-        projection:{}
-    };
+service.addProjectType = async (req,res) =>{
 
-    let departmentOne = await department.getOnedepartment(getOneDepartment);
-
-    let projecttypeToAdd = projecttype({
+    let projectTypeToAdd = projectType({
         name:req.body.name,
-        departmentId:departmentOne._id,
+        departmentId:req.body.departmentId,
         status: 'active',
         createAt:new Date()
     });
-    const savedprojecttype = await projecttype.addprojecttype(projecttypeToAdd);
+    const savedProjectType = await projectType.addProjectType(projectTypeToAdd);
     try{
-        res.send({"success":true, "code":"200", "msg":successMsg.addprojecttype,"data":savedprojecttype});
+        res.send({"success":true, "code":"200", "msg":successMsg.addProjectType,"data":savedProjectType});
     }
     catch(err) {
-        res.send({"success":false, "code":"500", "msg":msg.addprojecttype,"err":err});
+        res.send({"success":false, "code":"500", "msg":msg.addProjectType,"err":err});
     }
 }
 
-service.editprojecttype = async (req,res) => {
+service.editProjectType = async (req,res) => {
 
-    let getOneDepartment = {
-        query:{_id:mongoose.Types.ObjectId(req.body.clientId)},
-        projection:{}
-    };
-
-    let departmentOne = await department.getOnedepartment(getOneDepartment);
-
-    let projecttypeEdit={
+    let projectTypeEdit={
         name:req.body.name,
-        departmentId:departmentOne._id,
+        departmentId:req.body.departmentId,
         updatedAt: new Date()
     }
-    let projecttypeToEdit={
-        query:{"_id":req.query.projecttypeId},
-        set:{"$set":projecttypeEdit}
+    let projectTypeToEdit={
+        query:{"_id":req.query.projectTypeId},
+        set:{"$set":projectTypeEdit}
     };
     try{
-        const editprojecttype= await projecttype.updateprojecttype(projecttypeToEdit);
-        res.send({"success":true,"code":200,"msg":successMsg.editprojecttype,"data":editprojecttype});
+        const editProjectType= await projectType.updateProjectType(projectTypeToEdit);
+        res.send({"success":true,"code":200,"msg":successMsg.editProjectType,"data":editProjectType});
 
     }
     catch(err){
-        res.send({"success":false, "code":"500", "msg":msg.editprojecttype,"err":err});
+        res.send({"success":false, "code":"500", "msg":msg.editProjectType,"err":err});
     }
 }
 
-service.oneprojecttype = async (req,res) => {
-    let projecttypeToFind = {
-        query: {_id:req.query.projecttypeId},
+service.oneProjectType = async (req,res) => {
+    let projectTypeToFind = {
+        query: {_id:req.query.projectTypeId},
         projection:{}
     }
 
-    const oneprojecttype = await projecttype.getOneprojecttype(projecttypeToFind);
-    res.send({"success":true,"code":200,"msg":successMsg.getOneprojecttype,"data":oneprojecttype});
+    const oneProjectType = await projectType.getOneProjectType(projectTypeToFind);
+
+    let departmentToFind = {
+        query: {_id:oneProjectType.departmentId},
+        projection:{}
+    }
+    const oneDepartment = await Department.getOnedepartment(departmentToFind);
+
+    const data = {
+        oneProjectType:oneProjectType,
+        oneDepartment:oneDepartment
+    }
+    res.send({"success":true,"code":200,"msg":successMsg.getOneProjectType,"data":data});
 }
 
-service.allprojecttype = async(req,res) => {
+service.allProjectType = async(req,res) => {
    
-    let projecttypeToFind = {
+    let projectTypeToFind = {
         query:{"status":{$ne:"deleted"}},
         projection:{}, 
         limit: 10,
         skip: (req.query.page-1)*10
     }
 
-    const allprojecttype = await projecttype.getAllprojecttype(projecttypeToFind);
+    const allProjectType = await projectType.getAllProjectType(projectTypeToFind);
 
-    res.send({"success":true,"code":200,"msg":successMsg.allprojecttype,"data":allprojecttype});
+    res.send({"success":true,"code":200,"msg":successMsg.allProjectType,"data":allProjectType});
 }
 
 service.allProjectTypeCount = async(req,res) => {
     let projectTypeToFind = {
         query:{"status":{$ne:"deleted"}}
     }
-    const allProjectTypeCount = await projecttype.getAllProjectTypeCount(projectTypeToFind);
+    const allProjectTypeCount = await projectType.getAllProjectTypeCount(projectTypeToFind);
 
-    res.send({"success":true,"code":200,"msg":successMsg.allprojecttype,"data":allProjectTypeCount});
+    res.send({"success":true,"code":200,"msg":successMsg.allProjectType,"data":allProjectTypeCount});
 }
 
-service.deleteprojecttype = async(req,res) => {
-    let projecttypeEdit={
+service.deleteProjectType = async(req,res) => {
+    let projectTypeEdit={
         status: 'deleted',
         updatedAt: new Date()
     }
-    let projecttypeToEdit={
-        query:{"_id":req.body.projecttypeId},
-        set:{"$set":projecttypeEdit}
+    let projectTypeToEdit={
+        query:{"_id":req.body.projectTypeId},
+        set:{"$set":projectTypeEdit}
     };
     try{
-        const editprojecttype= await projecttype.updateprojecttype(projecttypeToEdit);
-        res.send({"success":true,"code":200,"msg":successMsg.deleteprojecttype,"data":editprojecttype});
+        const editProjectType= await projectType.updateProjectType(projectTypeToEdit);
+        res.send({"success":true,"code":200,"msg":successMsg.deleteProjectType,"data":editProjectType});
 
     }
     catch(err){
-        res.send({"success":false, "code":"500", "msg":msg.deleteprojecttype,"err":err});
+        res.send({"success":false, "code":"500", "msg":msg.deleteProjectType,"err":err});
     }
+}
+
+service.projectTypeByDepartment = async(req,res) => {
+    let projectTypeToFind = {
+        query:{departmentId:req.body.departmentId},
+        projection:{}
+    }
+    const projectTypeData = await projectTypeModel.totalProjectTypeList(projectTypeToFind);
+    res.send({"success":true,"code":200,"msg":successMsg.allProjectType,"data":projectTypeData});
 }
 
 export default service;

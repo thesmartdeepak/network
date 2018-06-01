@@ -1,7 +1,7 @@
-$("#addprojecttypeForm").validate();
+$("#addProjectTypeForm").validate();
 
 app.controller('ctrl', function($scope, $http) {
-    $scope.defaultdepartmentName = {
+    $scope.defaultDepartmentName = {
         _id:"",
         name:"Select a Department"
     };
@@ -12,10 +12,10 @@ app.controller('ctrl', function($scope, $http) {
   
     $scope.submit = function () {
         $scope.formData.departmentId = $("#departmentNameList").val();
-        if($("#addprojecttypeForm").valid()){
-            var submitUrl = "/addprojecttype";
+        if($("#addProjectTypeForm").valid()){
+            var submitUrl = "/addProjectType";
             if(window.location.search){
-                submitUrl = "/editprojecttype"+window.location.search;
+                submitUrl = "/editProjectType"+window.location.search;
             }
             $http({
                 method: 'POST',
@@ -28,7 +28,7 @@ app.controller('ctrl', function($scope, $http) {
                 if (response.data.success){
                     alertBox(response.data.msg,'success');
                     setTimeout(function(){
-                        window.location.href = "/view-projecttype";
+                        window.location.href = "/project-type";
                     },1000);
                 }
                 else{
@@ -41,16 +41,17 @@ app.controller('ctrl', function($scope, $http) {
     if(window.location.search){
         $http({
             method: 'get',
-            url: '/oneprojecttype'+window.location.search,
+            url: '/oneProjectType'+window.location.search,
             data:$scope.formData,
             headers: {
                 'authorization': localStorage.token
             },
         }).then(function(response){
             $scope.formData = {
-                name:response.data.data.name,
+                name:response.data.data.oneProjectType.name,
             };
-            $scope.defaultdepartmentName = response.data.data.departmentOne;
+            $scope.defaultDepartmentName = response.data.data.oneDepartment;
+            
             $scope.editMode = true;
         });
     }
@@ -65,4 +66,4 @@ $('#departmentNameList').select2({
     },
     placeholder: "Select a Co-ordinator"
 });
-sideBar('projecttype');
+sideBar('projectType');

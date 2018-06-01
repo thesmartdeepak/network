@@ -2,10 +2,14 @@
 <!-- Main content -->
 <div ng-controller="ctrl">
     <button ng-click="exportTable()" data-export="export">Download csv</button>
-    <!--<div>
-        <input id="excelFile" type="file" class="hide" name="excelFile" required>
-        <button ng-click="import()">Import</button>
-    </div>-->
+
+    <div class="input-group date">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input class="form-control pull-right dateFilter" id="fromDate" type="text">
+        <input class="form-control pull-right dateFilter" id="toDate" type="text">
+    </div>
     <div class="tableMainBox">
         <table id="mainTable" class="mainTable" width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr class="alphaRow">
@@ -22,12 +26,12 @@
                 <td class="alphaCell">K</td>
                 <td class="alphaCell">L</td>
                 <td class="alphaCell">M</td>
-                <td class="alphaCell">N</td>
+                <td class="alphaCell width300">N</td>
                 <td class="alphaCell">O</td>
-                <td class="alphaCell width300">P</td>
+                <td class="alphaCell">P</td>
                 <td class="alphaCell">Q</td>
                 <td class="alphaCell">R</td>
-                <td class="alphaCell">S</td>
+                <!--<td class="alphaCell">S</td>
                 <td class="alphaCell">T</td>
                 <td class="alphaCell">U</td>
                 <td class="alphaCell">V</td>
@@ -37,7 +41,7 @@
                 <td class="alphaCell">Z</td>
                 <td class="alphaCell">AA</td>
                 <td class="alphaCell">AB</td>
-                <td class="alphaCell">AC</td>
+                <td class="alphaCell">AC</td>-->
             </tr>
             <tr class="headingRow">
                 <td>Project_Code</td>
@@ -46,9 +50,9 @@
                 <td>Item_Description_Band</td>
                 <td>Site_Id</td>
                 <td>Site_Count</td>
-                <td>Pre_Done_Month</td>
+                <!--<td>Pre_Done_Month</td>-->
                 <td>Pre_Done_Date</td>
-                <td>Post_Activity_Done_Month</td>
+                <!--<td>Post_Activity_Done_Month</td>-->
                 <td>Post_Activity_Done_Date</td>
                 <td>Activity_Status</td>
                 <td>Remark</td>
@@ -59,7 +63,7 @@
                 <td>Attempt_Cycle</td>
                 <td>Employee_Id</td>
                 <td>Employee_Name</td>
-                <td>Po_Number</td>
+                <!--<td>Po_Number</td>
                 <td>Shippment_No</td>
                 <td>L1_Approval</td>
                 <td>L2_Approval</td>
@@ -67,7 +71,7 @@
                 <td>Start_Time</td>
                 <td>End_Time</td>
                 <td>Advance</td>
-                <td>Approved</td>
+                <td>Approved</td>-->
                 <td>Co_Ordinator</td>
             </tr>
             <tr class="dataRow" ng-repeat="project in projects">
@@ -77,9 +81,9 @@
                 <td>{{ project.itemDescription_Band }}</td>
                 <td>{{ project.siteId }}</td>
                 <td>{{ project.siteCount }}</td>
-                <td>{{ project.preDoneMonth }}</td>
+                <!--<td>{{ project.preDoneMonth }}</td>-->
                 <td>{{ project.preDoneDate| date : "dd/MMM/yyyy" }}</td>
-                <td>{{ project.post_ActivityDoneMonth }}</td>
+                <!--<td>{{ project.post_ActivityDoneMonth }}</td>-->
                 <td>{{ project.post_ActivityDoneDate| date : "dd/MMM/yyyy" }}</td>
                 <td class="statusRemarkTr1">
                     <div class="statusRemarkTxt">
@@ -130,7 +134,7 @@
                 <td>{{ project.attemptCycle }}</td>
                 <td>{{ project.employeeId }}</td>
                 <td>{{ project.employeeName }}</td>
-                <td>{{ project.poNumber }}</td>
+                <!--<td>{{ project.poNumber }}</td>
                 <td>{{ project.shippmentNo }}</td>
                 <td>{{ project.l1Approval }}</td>
                 <td>{{ project.l2Approval }}</td>
@@ -138,7 +142,7 @@
                 <td>{{ project.startTime }}</td>
                 <td>{{ project.endTime }}</td>
                 <td>{{ project.advance }}</td>
-                <td>{{ project.approved }}</td>
+                <td>{{ project.approved }}</td>-->
                 <td>{{ coOrdinatorName(project.user) }}</td>
             </tr>
         </table>
