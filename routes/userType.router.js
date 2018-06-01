@@ -6,7 +6,7 @@
  * @lastModifedBy Deepak
  */
 import express from "express";
-import userTypeService from "../service/usertype.service";
+import userTypeService from "../service/userType.service";
 
 const router = express.Router()
 
@@ -25,15 +25,15 @@ router.get('/allUserType', (req, res) => {
 });
 
 router.post('/addUserType', (req, res) => {
-    userTypeService.addUsertype(req, res);
+    userTypeService.addUserType(req, res);
 });
 
 router.post('/deleteUserType', (req, res) => {
-    userTypeService.deleteUsertype(req, res);
+    userTypeService.deleteUserType(req, res);
 });
 
 router.post('/editUserType', (req, res) => {
-    userTypeService.editUsertype(req, res);
+    userTypeService.editUserType(req, res);
 });
 
 

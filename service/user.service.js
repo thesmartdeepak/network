@@ -7,12 +7,12 @@
  */
 
 import User from '../models/user.model'
-import UserType from '../models/usertype.model'
+import UserType from '../models/userType.model'
 import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
 import utility from '../core/utility.js' 
-import  crypto from 'crypto'
+import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import nm from 'nodemailer'
 import rand from 'csprng'

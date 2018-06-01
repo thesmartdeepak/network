@@ -21,11 +21,11 @@ const UserTypeSchema = mongoose.Schema({
     status:{type: String },
     createAt:{type: Date},
     updatedAt:{type: Date}
-}, {collection : 'usertype'});
+}, {collection : 'userType'});
 
-UserTypeSchema.plugin(AutoIncrement.plugin,{model:'usertype',field:'userTypeId',startAt:1,incrementBy:1});
+UserTypeSchema.plugin(AutoIncrement.plugin,{model:'userType',field:'userTypeId',startAt:1,incrementBy:1});
 
-let UserTypeModel = mongoose.model('usertype', UserTypeSchema);
+let UserTypeModel = mongoose.model('userType', UserTypeSchema);
 
 /**
  *@description [is used for getting all data of devices from db]
@@ -53,7 +53,7 @@ UserTypeModel.getOne = (deviceToFind) => {
  * @param  {object}
  * @return {[object]}
  */
-UserTypeModel.addUsertype = (userTypeToAdd) => {
+UserTypeModel.addUserType = (userTypeToAdd) => {
     return userTypeToAdd.save();
 }
 
@@ -62,7 +62,7 @@ UserTypeModel.addUsertype = (userTypeToAdd) => {
  * @param  {object}
  * @return {[object]}
  */
-UserTypeModel.editUsertype = (userTypeToEdit) =>{
+UserTypeModel.editUserType = (userTypeToEdit) =>{
     return UserTypeModel.update(userTypeToEdit.query,userTypeToEdit.data)
 }
 

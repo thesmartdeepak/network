@@ -5,9 +5,12 @@ AutoIncrement.initialize(mongoose);
 const projectSchema = mongoose.Schema({
     projectId:{type:Number},
     userId:{type: mongoose.Schema.ObjectId},
+    departmentId:{type: mongoose.Schema.ObjectId},
+    projectTypeId:{type: mongoose.Schema.ObjectId},
     projectCode: {type:String},
     operator:{type:String},
     activity: {type: String},
+    activityId: {type: mongoose.Schema.ObjectId},
     itemDescription_Band: {type:String},
     siteId: {type:String},
     siteCount: {type:String},

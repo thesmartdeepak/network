@@ -2,38 +2,38 @@ import mongoose from 'mongoose';
 import AutoIncrement from "mongoose-auto-increment";
 AutoIncrement.initialize(mongoose);
 
-const projecttypeSchema = mongoose.Schema({
-    projecttypeId: {type: Number },
+const projectTypeSchema = mongoose.Schema({
+    projectTypeId: {type: Number },
     name: {type:String , index:{unique:true} },
     departmentId:{type:mongoose.Schema.ObjectId},
     status:{type: String },
     createAt:{type: Date},
     updatedAt:{type: Date}
-  }, {collection : 'projecttype'});
+  }, {collection : 'projectType'});
 
-  projecttypeSchema.plugin(AutoIncrement.plugin,{model:'projecttype',field:'projecttypeId',startAt:1,incrementBy:1});
+  projectTypeSchema.plugin(AutoIncrement.plugin,{model:'projectType',field:'projectTypeId',startAt:1,incrementBy:1});
 
-let projecttypeModel = mongoose.model('projecttype',projecttypeSchema);
+let projectTypeModel = mongoose.model('projectType',projectTypeSchema);
 
 
-projecttypeModel.addprojecttype = (addToprojecttype)=> {
-  return addToprojecttype.save();
+projectTypeModel.addProjectType = (addToProjectType)=> {
+  return addToProjectType.save();
 }
 
-projecttypeModel.updateprojecttype = (Editprojecttype) => {
-  return projecttypeModel.update(Editprojecttype.query,Editprojecttype.set);
+projectTypeModel.updateProjectType = (EditProjectType) => {
+  return projectTypeModel.update(EditProjectType.query,EditProjectType.set);
 }
 
-projecttypeModel.getOneprojecttype = (projecttypeToFind) => {
-  return projecttypeModel.findOne(projecttypeToFind.query,projecttypeToFind.projection)
+projectTypeModel.getOneProjectType = (projectTypeToFind) => {
+  return projectTypeModel.findOne(projectTypeToFind.query,projectTypeToFind.projection)
 }
 
-// projecttypeModel.getAllprojecttype = (projecttypeToFind) => {
-//   return projecttypeModel.find(projecttypeToFind.query,projecttypeToFind.projection).sort({_id:-1});
+// projectTypeModel.getAllProjectType = (projectTypeToFind) => {
+//   return projectTypeModel.find(projectTypeToFind.query,projectTypeToFind.projection).sort({_id:-1});
 // }
 
-projecttypeModel.getAllprojecttype = (projecttypeToFind) => {
-  console.log(projecttypeToFind);
+projectTypeModel.getAllProjectType = (projectTypeToFind) => {
+
   // return CircleModel.find(circleToFind.query,circleToFind.projection).sort({_id:-1}).limit(circleToFind.limit).skip(circleToFind.skip);
   let aggregate = [
     { 
@@ -47,18 +47,18 @@ projecttypeModel.getAllprojecttype = (projecttypeToFind) => {
     
     { $match: { status: {$ne:"deleted"} } },
     { $sort: { _id:-1} },
-    { $limit: projecttypeToFind.limit },
-    { $skip: projecttypeToFind.skip }
+    { $skip: projectTypeToFind.skip },
+    { $limit: projectTypeToFind.limit },
   ];
-  return projecttypeModel.aggregate(aggregate);
+  return projectTypeModel.aggregate(aggregate);
 }
-projecttypeModel.totalProjecttypeList = (projecttypeToFind) => {
+projectTypeModel.totalProjectTypeList = (projectTypeToFind) => {
   
-  return projecttypeModel.find(projecttypeToFind.query,projecttypeToFind.projection).skip(projecttypeToFind.skip).limit(projecttypeToFind.limit);
+  return projectTypeModel.find(projectTypeToFind.query,projectTypeToFind.projection);
 }
 
-projecttypeModel.getAllProjectTypeCount = (projecttypeToFind) => {
+projectTypeModel.getAllProjectTypeCount = (projectTypeToFind) => {
   
-  return projecttypeModel.find(projecttypeToFind.query).count();
+  return projectTypeModel.find(projectTypeToFind.query).count();
 }
-export default projecttypeModel;
+export default projectTypeModel;

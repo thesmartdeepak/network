@@ -18,7 +18,7 @@ msg._id ="_id is missing"
 
 
 /** Error message for status*/
-msg.status ="status is missing"
+msg.status ="Status is missing"
 
 
 /******                                    */
@@ -156,7 +156,7 @@ msg.activityId ="Activity Id is missing"
 /******                                    */
 /** Error message for Project */
 /******                                    */
-msg.addProject ="Invalid file. Please upload csv file."
+msg.addProject ="Unable to upload file.";
 
 
 /******                                    */

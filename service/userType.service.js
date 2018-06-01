@@ -1,5 +1,5 @@
 /**
- * @file(usertype.service.js) All service realted to asset
+ * @file(userType.service.js) All service realted to asset
  * @author Shakshi Pandey <shakshi.kumari@limitlessmobile.com>
  * @version 1.0.0
  * @lastModifed 15-Jan-2018
@@ -7,7 +7,7 @@
  */
 
 
-import userTypeConfig from '../models/usertype.model'
+import userTypeConfig from '../models/userType.model'
 import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import utility from '../core/utility.js'
@@ -50,11 +50,11 @@ service.getAll = async (req,res) =>{
         //     }
 		// }
         
-		const usertype = await userTypeConfig.getAll(dataToFind);
-        logger.info('sending all usertype...');
-		res.send({"success":true, "code":200, "msg":successMsg.allUserType, "data":usertype});
+		const userType = await userTypeConfig.getAll(dataToFind);
+        logger.info('sending all userType...');
+		res.send({"success":true, "code":200, "msg":successMsg.allUserType, "data":userType});
 	}catch(err){
-		logger.error('Error in getting usertype- ' + err);
+		logger.error('Error in getting userType- ' + err);
 		res.send({"success":false, "code":500, "msg":msg.getUserType, "err":err});
 
 	}
@@ -75,7 +75,7 @@ service.countAll = async (req,res) => {
  * @return {[object]}
  */
 
-service.editUsertype = async (req, res) => {
+service.editUserType = async (req, res) => {
     if(req.body.clientId=='')
     {
         res.send({"success":false, "code":"500", "msg":msg.clientId});
@@ -101,12 +101,12 @@ service.editUsertype = async (req, res) => {
         }
     };
     try {
-        const savedUsertype = await userTypeConfig.editUsertype(userTypeToUpdate);
+        const savedUserType = await userTypeConfig.editUserType(userTypeToUpdate);
         logger.info('Updating user type ...');
-        res.send({"success":true, "code":"200", "msg":"user Type update succesfully","data":savedUsertype});
+        res.send({"success":true, "code":"200", "msg":"user Type update succesfully","data":savedUserType});
     }
     catch(err) {
-        logger.error('Error in updating Usertype- ' + err);
+        logger.error('Error in updating UserType- ' + err);
         res.send({"success":false, "code":"500", "msg":msg.editUserType,"err":err});
     }
 }
@@ -117,7 +117,7 @@ service.editUsertype = async (req, res) => {
  * @param  {[object]}
  * @return {[object]}
  */
-service.addUsertype = async (req, res) => {
+service.addUserType = async (req, res) => {
     if(!req.body.clientId)
     {
         res.send({"success":false, "code":"500", "msg":msg.clientId});
@@ -135,12 +135,12 @@ service.addUsertype = async (req, res) => {
         createAt: new Date()
     });
     try {
-        const savedUsertype = await userTypeConfig.addUsertype(userTypeToAdd);
+        const savedUserType = await userTypeConfig.addUserType(userTypeToAdd);
         logger.info('Adding user type ...');
-        res.send({"success":true, "code":"200", "msg":"user Type added successfully!!","data":savedUsertype});
+        res.send({"success":true, "code":"200", "msg":"user Type added successfully!!","data":savedUserType});
     }
     catch(err) {
-        logger.error('Error in getting Usertype- ' + err);
+        logger.error('Error in getting UserType- ' + err);
         res.send({"success":false, "code":"500", "msg":msg.addUserType,"err":err});
     }
 }
@@ -152,22 +152,22 @@ service.addUsertype = async (req, res) => {
  * @param  {[type]}
  * @return {[type]}
  */
-service.deleteUsertype = async (req, res) => {
+service.deleteUserType = async (req, res) => {
 
     if(!req.body._id)
     {
         res.send({"success":false, "code":"500", "msg":msg._id});
     }
-    let usertypeToDelete = req.body._id;
+    let userTypeToDelete = req.body._id;
     
-    console.log(usertypeToDelete);
+    console.log(userTypeToDelete);
     try{
-        const removedUsertype = await userTypeConfig.removedUsertype(usertypeToDelete);
-        logger.info('Deleted user type- ' + removedUsertype);
-        res.send({"success":true, "code":"200", "msg":successMsg.deleteUsertype,"data":removedUsertype});
+        const removedUserType = await userTypeConfig.removedUserType(userTypeToDelete);
+        logger.info('Deleted user type- ' + removedUserType);
+        res.send({"success":true, "code":"200", "msg":successMsg.deleteUserType,"data":removedUserType});
     }
     catch(err) {
-        logger.error('Failed to delete usertype- ' + err);
+        logger.error('Failed to delete userType- ' + err);
         res.send({"success":false, "code":"500", "msg":msg.deleteUserType,"err":err});
     }
 }

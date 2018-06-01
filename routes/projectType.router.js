@@ -1,5 +1,5 @@
 /**
- * @file(projecttype.router.js) All routing of projecttype
+ * @file(projectType.router.js) All routing of projectType
  * @author Deepak Nagar <deepak.nagarmca@gmail.com>
  * @version 1.0.0
  * @lastModifed 05-May-2018
@@ -7,33 +7,34 @@
  */
 
 import express from "express";
-import projecttypeService from "../service/projectType.service";
+import projectTypeService from "../service/projectType.service";
 
-const router = express.Router()
+const router = express.Router();
 
-router.get("/add-projecttype",function(req, res){
-    res.render('admin/projecttype/add',{title:'Add Project Type'})
+router.get("/add-project-type",function(req, res){
+    res.render('admin/projectType/add',{title:'Add Project Type'})
 });
 
-router.post("/addprojecttype",projecttypeService.addprojecttype);
+router.post("/addProjectType",projectTypeService.addProjectType);
 
-router.get("/edit-projecttype",function(req, res){
-    res.render('admin/projecttype/add',{title:'Edit Project Type'})
+router.get("/edit-project-type",function(req, res){
+    res.render('admin/projectType/add',{title:'Edit Project Type'})
 });
 
-router.post("/editprojecttype",projecttypeService.editprojecttype);
+router.post("/editProjectType",projectTypeService.editProjectType);
 
-router.get("/oneprojecttype",projecttypeService.oneprojecttype);
+router.get("/oneProjectType",projectTypeService.oneProjectType);
 
-router.get("/view-projecttype",function(req, res){
-    res.render('admin/projecttype/view',{title:'View Project Type'})
+router.get("/project-type",function(req, res){
+    res.render('admin/projectType/view',{title:'View Project Type'})
 });
 
-router.get('/allprojecttype',projecttypeService.allprojecttype);
-router.get('/allProjectTypeCount',projecttypeService.allProjectTypeCount);
+router.get('/allProjectType',projectTypeService.allProjectType);
+router.get('/allProjectTypeCount',projectTypeService.allProjectTypeCount);
 
-router.post('/deleteprojecttype',projecttypeService.deleteprojecttype);
-router.get("/totalProjecttypeList",projecttypeService.totalProjecttypeList);
+router.post('/deleteProjectType',projectTypeService.deleteProjectType);
+router.get("/totalProjectTypeList",projectTypeService.totalProjectTypeList);
 
+router.post('/projectTypeByDepartment',projectTypeService.projectTypeByDepartment);
 
 export default router;
