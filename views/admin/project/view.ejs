@@ -16,8 +16,8 @@
                 <td class="alphaCell serialNum">A</td>
                 <td class="alphaCell">B</td>
                 <td class="alphaCell">C</td>
-                <td class="alphaCell width200">D</td>
-                <td class="alphaCell">E</td>
+                <td class="alphaCell">D</td>
+                <td class="alphaCell width200">E</td>
                 <td class="alphaCell">F</td>
                 <td class="alphaCell">G</td>
                 <td class="alphaCell">H</td>
@@ -26,13 +26,13 @@
                 <td class="alphaCell">K</td>
                 <td class="alphaCell">L</td>
                 <td class="alphaCell">M</td>
-                <td class="alphaCell width300">N</td>
-                <td class="alphaCell">O</td>
+                <td class="alphaCell">N</td>
+                <td class="alphaCell width300">O</td>
                 <td class="alphaCell">P</td>
                 <td class="alphaCell">Q</td>
                 <td class="alphaCell">R</td>
-                <!--<td class="alphaCell">S</td>
-                <td class="alphaCell">T</td>
+                <td class="alphaCell">S</td>
+                <!--<td class="alphaCell">T</td>
                 <td class="alphaCell">U</td>
                 <td class="alphaCell">V</td>
                 <td class="alphaCell">W</td>
@@ -44,6 +44,7 @@
                 <td class="alphaCell">AC</td>-->
             </tr>
             <tr class="headingRow">
+                <td>Sr. No.</td>
                 <td>Project_Code</td>
                 <td>Operator</td>
                 <td>Activity</td>
@@ -74,7 +75,8 @@
                 <td>Approved</td>-->
                 <td>Co_Ordinator</td>
             </tr>
-            <tr class="dataRow" ng-repeat="project in projects">
+            <tr class="dataRow" ng-repeat="(index,project) in projects">
+                <td>{{ index+1 }}</td>
                 <td>{{ project.projectCode }}</td>
                 <td>{{ project.operator }}</td>
                 <td>{{ project.activity }}</td>

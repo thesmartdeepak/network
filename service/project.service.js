@@ -20,6 +20,7 @@ import fs from 'fs';
 import jwt from 'jsonwebtoken';
 import projectModel from '../models/project.model';
 const { getJsDateFromExcel } = require('excel-date-to-js');
+import mongoose from 'mongoose';
 
 /**
  * [service is a object ]
@@ -303,18 +304,29 @@ service.oneProject = async (req,res) => {
 }
 
 service.allProject = async (req,res) => {
+    
+    let query = [
+                {status:{$ne:'deleted'}},
+                {
+                    createAt: {
+                        $gte: new Date(req.body.fromDate),
+                        $lte: new Date(req.body.toDate)
+                    }
+                }
+            ]
+    
+    const userDecoded = jwt.verify(req.headers.authorization, 'shhhhh');
+    if(userDecoded.userType != 'admin'){
+        let rowQuery = {userId:mongoose.Types.ObjectId(userDecoded._id)};
+        query.push(rowQuery);
+    }
+
     let projectToFind = {
-        query:{
-            status:{$ne:'deleted'},
-            createAt: {
-                $gte: new Date(req.body.fromDate),
-                $lte: new Date(req.body.toDate)
-            }
-        },
-        projection:{},
+        query:{$and:query}
         // limit:10,
         // skip:(req.query.page-1)*10
     }
+    console.log(query);
 
     const allProject = await Project.projectPagination(projectToFind);
 

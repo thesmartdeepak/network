@@ -290,13 +290,13 @@ service.login = async (req, res) =>{
             var hash_db=loggedUser.password;
             var id=loggedUser.token;
             var userId=loggedUser.userId;
-            var name=loggedUser.name;
+            var fullname=loggedUser.fullname;
             var email=loggedUser.email;
             var newpass=temp+req.body.password;
             var hashed_password1=crypto.createHash('sha512').update(newpass).digest("hex");
             if(hash_db==hashed_password1)
             {
-                var token = jwt.sign({name:loggedUser.name,email:loggedUser.email,_id:loggedUser._id}, 'shhhhh');
+                var token = jwt.sign({email:loggedUser.email,_id:loggedUser._id,userType:loggedUser.userType}, 'shhhhh');
                 res.send({success:true, code:200, msg:successMsg.loginUser, data:token });
             }
             else

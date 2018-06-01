@@ -112,6 +112,7 @@ app.use(function(req, res, next) {
         if(req.headers && req.headers.authorization ){
 
             jwt.verify(req.headers.authorization, "shhhhh", function(err,decode){
+                
                 if(err){
                     req.user = undefined;
                     if(err.name == "TokenExpiredError"){
