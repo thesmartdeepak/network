@@ -23,7 +23,7 @@
                     <td>
                         <a class="btn btn-info" href="/edit-user?userId={{ user._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteUser(user._id)">Delete</a>
-                        <a class="btn btn-danger" data-name={{ user.fullname }} ng-click="changePassword(user._id,user.fullname)">Change password</a>
+                        <a class="btn btn-warning" data-name={{ user.fullname }} ng-click="changePassword(user._id,user.fullname)">Change password</a>
                     </td>
                 </tr>
             </tbody>
