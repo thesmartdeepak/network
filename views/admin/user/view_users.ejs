@@ -9,6 +9,7 @@
                 <th>Employee id</th>
                 <th>Phone</th>
                 <th>User Type</th>
+                <th>Project code</th>
                 <th>Action</th>
             </thead>
             <tbody>
@@ -18,6 +19,7 @@
                     <td>{{ user.employeeId }}</td>
                     <td>{{ user.phone }}</td>
                     <td>{{ toUcFirst(user.userType) }}</td>
+                    <td>{{ showProjectCode(user.projectCode) }}</td>
                     <td>
                         <a class="btn btn-info" href="/edit-user?userId={{ user._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteUser(user._id)">Delete</a>

@@ -19,6 +19,8 @@ const UserSchema = mongoose.Schema({
     status:{type: String },
     pincode:{type:String},
     phone:{type:String},
+    lat:{type:String},
+    long:{type:String},
     imgPath:{type:String},
     googleId: { type: String }, 
     facebookId: { type: String },

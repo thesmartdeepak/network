@@ -17,7 +17,9 @@ app.controller('ctrl', function($scope, $http) {
         city:'',
         state:'',
         pincode:'',
-        phone:''
+        phone:'',
+        lat:'',
+        long:''
     };
   
     $scope.getMasterData = function(){
@@ -83,6 +85,8 @@ app.controller('ctrl', function($scope, $http) {
                 state:response.data.data.state,
                 pincode:response.data.data.pincode,
                 phone:response.data.data.phone,
+                lat:response.data.data.lat,
+                long:response.data.data.long
             };
 
             $scope.defaultProjectCode = {

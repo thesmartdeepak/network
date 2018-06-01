@@ -47,6 +47,15 @@ app.controller('ctrl', function($scope, $http) {
         return oldTxt.charAt(0).toUpperCase()+oldTxt.slice(1);
     }
 
+    $scope.showProjectCode = function(value){
+        if(value){
+            return value;
+        }
+        else{
+            return '--';
+        }
+    }
+
     $scope.deleteUser = function(userId){
         $http({
             method:'post',

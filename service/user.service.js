@@ -97,7 +97,6 @@ service.addUserRequiredData = async(req,res)=>{
     dataFind.projection = {"_id":0};
     let data = await UserType.getAll(dataFind);
     // console.log('----------------');
-    console.log(data);
     return res.send({success:true,code:200,msg:data});
 }
 
@@ -153,8 +152,12 @@ service.addUser = async (req, res) => {
     var token= crypto.createHash('sha512').update(req.body.password+rand).digest("hex");
     var hashed_password=crypto.createHash('sha512').update(newPassword).digest("hex");
 
-    let userToAdd = User({
+    let projectCode = "";
+    if(req.body.userType=='co-ordinator'){
+        projectCode = req.body.projectCode;
+    }
 
+    let userToAdd = User({
       token:token,
       salt:temp,
       temp_str:"",
@@ -163,6 +166,8 @@ service.addUser = async (req, res) => {
       email: req.body.email,
       password: hashed_password,
       phone:req.body.phone,
+      lat:req.body.lat,
+      long:req.body.long,
       address:req.body.address,
       city:req.body.city,
       state: req.body.state,
@@ -170,7 +175,7 @@ service.addUser = async (req, res) => {
       name:req.body.name,
       status:req.body.status || "active",
       userType: req.body.userType,
-      projectCode: req.body.projectCode,
+      projectCode: projectCode,
       createAt: new Date(),
       updatedAt: new Date()
     });
@@ -206,11 +211,18 @@ service.editUser = async(req,res)=>{
         return res.send({success:false, code:500, msg:"This email is not available."});
     }
 
+    let projectCode = "";
+    if(req.body.userType=='co-ordinator'){
+        projectCode = req.body.projectCode;
+    }
+
     let userEdit={
         fullname:req.body.fullname,
         employeeId:req.body.employeeId,
         email: req.body.email,
         phone:req.body.phone,
+        lat:req.body.lat,
+        long:req.body.long,
         address:req.body.address,
         city:req.body.city,
         state: req.body.state,
@@ -218,7 +230,7 @@ service.editUser = async(req,res)=>{
         name:req.body.name,
         status:req.body.status || "active",
         userType: req.body.userType,
-        projectCode: req.body.projectCode,
+        projectCode: projectCode,
         updatedAt: new Date()
     }
     
