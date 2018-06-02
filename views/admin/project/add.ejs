@@ -34,32 +34,17 @@
   </div>
 
   <div class="tableMainBox" id="errorTbl" style="display:none;">
-    <table class="mainTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+    <div>File cannot process. Uploaded file having following issues. Please correct them and re-upload.</div>
+    <table class="mainTable">
       <tr class="headingRow">
-        <td>Activity_Description</td>
-        <td>Site_Id</td>
-        <td>Site_Count</td>
-        <td>Pre_Done_Date</td>
-        <td>Post_Activity_Done_Date</td>
-        <td>Activity_Status</td>
-        <td>Remarks</td>
-        <td>Report_Status</td>
-        <td>Report_Acceptance_Status</td>
-        <td>Client_Remark</td>
-        <td>Employee_Id</td>
+        <td>Row no.</td>
+        <td>Column name</td>
+        <td>Error</td>
       </tr>
       <tr class="dataRow" ng-repeat="errorData in errorDataList">
-        <td class="{{ errorClass(errorData.errors,'activity') }}">{{ errorData.data.activity }}</td>
-        <td class="{{ errorClass(errorData.errors,'siteId') }}">{{ errorData.data.siteId }}</td>
-        <td class="{{ errorClass(errorData.errors,'siteCount') }}">{{ errorData.data.siteCount }}</td>
-        <td class="{{ errorClass(errorData.errors,'preDoneDate') }}">{{ errorData.data.preDoneDate }}</td>
-        <td class="{{ errorClass(errorData.errors,'preDoneDate') }}">{{ errorData.data.post_ActivityDoneDate }}</td>
-        <td class="{{ errorClass(errorData.errors,'activityStatus') }}">{{ errorData.data.activityStatus }}</td>
-        <td class="{{ errorClass(errorData.errors,'remark') }}">{{ errorData.data.remark }}</td>
-        <td class="{{ errorClass(errorData.errors,'reportStatus') }}">{{ errorData.data.reportStatus }}</td>
-        <td class="{{ errorClass(errorData.errors,'reportAcceptanceStatus') }}">{{ errorData.data.reportAcceptanceStatus }}</td>
-        <td class="{{ errorClass(errorData.errors,'clientRemark') }}">{{ errorData.data.clientRemark }}</td>
-        <td class="{{ errorClass(errorData.errors,'employeeId') }}">{{ errorData.data.employeeId }}</td>
+        <td>{{ errorData.index }}</td>
+        <td>{{ errorData.key }}</td>
+        <td>{{ errorData.error }}</td>
       </tr>
     </table>
     <button ng-click="reUpload()">Re-upload</button>

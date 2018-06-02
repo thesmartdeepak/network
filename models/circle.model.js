@@ -13,8 +13,8 @@ const CircleSchema = mongoose.Schema({
     code: {type: String},
     clientCircleCode:{type:String},
     status:{type: String },
-    createAt:{type: Date},
-    updatedAt:{type: Date}
+    createAt:{type: Date, default: new Date()},
+    updatedAt:{type: Date, default: new Date()}
   }, {collection : 'circle'});
 
 CircleSchema.plugin(AutoIncrement.plugin,{model:'circle',field:'circleId',startAt:1,incrementBy:1});

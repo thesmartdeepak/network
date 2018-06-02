@@ -194,7 +194,12 @@ service.addProject = async (req,res) =>{
             
             if(!activityDescription){
                 goodRow = false;
-                errorRow.push('activity');
+                errorList.push({
+                    index:(parseInt(k))+1,
+                    key:"Activity_Description",
+                    error:"Not found in activity list in database."
+                });
+                
             }
             
             /* /Activity check */
@@ -206,18 +211,23 @@ service.addProject = async (req,res) =>{
             
             if(!userData){
                 goodRow = false;
-                errorRow.push('employeeId');
+                errorList.push({
+                    index:(parseInt(k))+1,
+                    key:"Employee_Id",
+                    error:"Not found in user list in database."
+                });
+                // errorRow.push('employeeId');
             }
             /* /Employee check */
             
             if(!goodRow){
                 goodData = false;
-                errorList.push(
-                    {
-                        errors:errorRow,
-                        data:row
-                    }
-                );
+                // errorList.push(
+                //     {
+                //         errors:errorRow,
+                //         data:row
+                //     }
+                // );
             }
 
 
@@ -326,7 +336,6 @@ service.allProject = async (req,res) => {
         // limit:10,
         // skip:(req.query.page-1)*10
     }
-    console.log(query);
 
     const allProject = await Project.projectPagination(projectToFind);
 

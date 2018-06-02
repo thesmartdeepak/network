@@ -4,7 +4,7 @@ AutoIncrement.initialize(mongoose);
 
 const ActivitySchema = mongoose.Schema({
     activityId: {type: Number },
-    name: {type:String , index:{unique:true} },
+    name: {type:String  },
     description: {type: String},
     status:{type: String },
     createAt:{type: Date},

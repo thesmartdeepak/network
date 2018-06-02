@@ -29,12 +29,17 @@ app.controller('ctrl', function($scope, $http,$filter) {
     };
     $scope.projectList(fromToDate);
 
-    $(".dateFilter").change(function(){
+
+    $scope.dateFilterChange = function(){
         let fromToDate = {
             fromDate: $("#fromDate").val(),
             toDate: $("#toDate").val(),
         };
         $scope.projectList(fromToDate);
+    }
+
+    $(".dateFilter").change(function(){
+        $scope.dateFilterChange();
     });
     // $scope.setPagination = function(){
     //     $scope.projectList(1);
@@ -104,8 +109,11 @@ app.controller('ctrl', function($scope, $http,$filter) {
     $scope.exportTable = function(){
         let alphaRow = $(".alphaRow");
         $(".alphaRow").remove();
+        $("select").remove();
         $("#mainTable").tableToCSV();
         $("#mainTable").prepend(alphaRow);
+
+        $scope.dateFilterChange();
     }
 
     $scope.activityStatusList = [];
