@@ -7,6 +7,11 @@ const UserSchema = mongoose.Schema({
     salt:{type:String},
     temp_str:{type:String},
     userId: {type: Number },
+    parentUserId:{type:mongoose.Schema.ObjectId},
+    departmentId:{type:mongoose.Schema.ObjectId},
+    departmentName:{type: String },
+    projectTypeId:{type:mongoose.Schema.ObjectId},
+    projectTypeName:{type: String },
     fullname:{type: String },
     employeeId:{type:String},
     userType: {type:String},
@@ -46,7 +51,6 @@ UserModel.addUser = (userToAdd) => {
 }
 
 UserModel.editUser = (userToEdit) =>{
-    console.log(userToEdit);
     return UserModel.update(userToEdit.query,{$set:{temp_str:"ttdd21"}});
 }
 
@@ -66,7 +70,7 @@ UserModel.getCount = (userToCount)=>{
  * @return {[type]}      [object]
  */
 UserModel.login = (user) =>{
-    return UserModel.findOne({email:user.email},{clientId:1,password:1, userId:1, name:1,email:1, userType:1,salt:1, status:1 });
+    return UserModel.findOne({email:user.email});
 }
 
 UserModel.forgetPassword = (user)=>{

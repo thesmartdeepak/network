@@ -8,6 +8,7 @@
 
 import express from "express";
 import projectTypeService from "../service/projectType.service";
+import access from '../core/access';
 
 const router = express.Router();
 
@@ -15,13 +16,13 @@ router.get("/add-project-type",function(req, res){
     res.render('admin/projectType/add',{title:'Add Project Type'})
 });
 
-router.post("/addProjectType",projectTypeService.addProjectType);
+router.post("/addProjectType",access.managerAdmin,projectTypeService.addProjectType);
 
 router.get("/edit-project-type",function(req, res){
     res.render('admin/projectType/add',{title:'Edit Project Type'})
 });
 
-router.post("/editProjectType",projectTypeService.editProjectType);
+router.post("/editProjectType",access.managerAdmin,projectTypeService.editProjectType);
 
 router.get("/oneProjectType",projectTypeService.oneProjectType);
 
@@ -32,7 +33,7 @@ router.get("/project-type",function(req, res){
 router.get('/allProjectType',projectTypeService.allProjectType);
 router.get('/allProjectTypeCount',projectTypeService.allProjectTypeCount);
 
-router.post('/deleteProjectType',projectTypeService.deleteProjectType);
+router.post('/deleteProjectType',access.managerAdmin,projectTypeService.deleteProjectType);
 router.get("/totalProjectTypeList",projectTypeService.totalProjectTypeList);
 
 router.post('/projectTypeByDepartment',projectTypeService.projectTypeByDepartment);

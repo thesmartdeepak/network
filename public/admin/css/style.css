@@ -8,3 +8,6 @@
 .process_div{
     padding: 5px;
 }
+.mangerAdminAccess,.coOrdinatorAccess{
+    display:none;
+}

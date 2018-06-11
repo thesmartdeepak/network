@@ -8,6 +8,7 @@
 
 import express from "express";
 import circleService from "../service/circle.service";
+import access from '../core/access';
 
 const router = express.Router()
 
@@ -15,13 +16,13 @@ router.get("/add-circle",function(req, res){
     res.render('admin/circle/add',{title:'Add circle'})
 });
 
-router.post("/addCircle",circleService.addCircle);
+router.post("/addCircle",access.managerAdmin,circleService.addCircle);
 
 router.get("/edit-circle",function(req, res){
     res.render('admin/circle/add',{title:'Edit circle'})
 });
 
-router.post("/editCircle",circleService.editCircle);
+router.post("/editCircle",access.managerAdmin,circleService.editCircle);
 
 router.get("/oneCircle",circleService.oneCircle);
 
@@ -33,7 +34,7 @@ router.get('/allCircle',circleService.allCircle);
 
 router.get('/allCircleCount',circleService.allCircleCount);
 
-router.post('/deleteCircle',circleService.deleteCircle);
+router.post('/deleteCircle',access.managerAdmin,circleService.deleteCircle);
 
 router.get('/addCircleRequiredData',circleService.addCircleRequiredData);
 router.get("/totalProjectCodeList",circleService.totalProjectCodeList);

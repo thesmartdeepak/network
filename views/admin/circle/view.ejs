@@ -10,7 +10,7 @@
                 <th>Client</th>
                 <th>Project Code</th>
                 <th>Region</th>
-                <th>Action</th>
+                <th class="mangerAdminAccess">Action</th>
             </thead>
             <tbody>
                 <tr ng-repeat="circle in circles" ng-hide="hideCircle(circle._id)">
@@ -20,7 +20,7 @@
                     <td>{{ clientName(circle.client) }}</td>
                     <td>{{ circle.clientCircleCode }}</td>
                     <td>{{ regionName(circle.region) }}</td>
-                    <td>
+                    <td class="mangerAdminAccess">
                         <a class="btn btn-info" href="/edit-circle?circleId={{ circle._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteCircle(circle._id)">Delete</a>
                     </td>

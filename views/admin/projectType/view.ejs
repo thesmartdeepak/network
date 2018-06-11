@@ -7,13 +7,13 @@
                 <th>Name</th>
                <th>Department</th>
                  <!-- <th>Code</th> -->
-                <th>Action</th>
+                <th class="mangerAdminAccess">Action</th>
             </thead>
             <tbody>
                 <tr ng-repeat="projectType in projectTypes">
                     <td>{{ projectType.name }}</td>
                     <td>{{ departmentName(projectType.department) }}</td>
-                    <td>
+                    <td class="mangerAdminAccess">
                         <a class="btn btn-info" href="/edit-project-type?projectTypeId={{ projectType._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteProjectType(projectType._id)">Delete</a>
                     </td>

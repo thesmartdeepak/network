@@ -109,7 +109,7 @@ app.use(function(req, res, next) {
         
     }else{
         
-        if(req.headers && req.headers.authorization ){
+        if(req.headers && req.headers.authorization){
 
             jwt.verify(req.headers.authorization, "shhhhh", function(err,decode){
                 

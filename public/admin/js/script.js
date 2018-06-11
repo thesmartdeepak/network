@@ -1,5 +1,23 @@
 var app = angular.module("App",[]);
 
+app.controller('headerSidebarCtrl', function($scope) {
+    $scope.name = localStorage.fullname;
+});
+
+angular.module('App').factory('httpInterceptor', ['$q', '$rootScope',
+    function ($q, $rootScope) {
+        var loadingCount = 0;
+        return {
+            response: function (response) {
+                manageAccess();
+                return response;
+            }
+        };
+    }
+]).config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push('httpInterceptor');
+}]);
+
 function alertBox(alertTxt,alertType){
     var alertClass = 'alert-'+alertType;
 
@@ -27,3 +45,21 @@ function sideBar(sideBarName){
     $("."+sideBarClass).addClass('menu-open');
     $("."+sideBarClass+" .treeview-menu").show();
 }
+
+function manageAccess(){
+   setTimeout(function(){
+        if(localStorage.userType == 'admin' || localStorage.userType == 'manager'){
+            $(".mangerAdminAccess").css('display','block');
+        }
+        else if(localStorage.userType == 'co-ordinator'){
+            $(".coOrdinatorAccess").show();
+        }
+   },100);
+}
+
+manageAccess();
+
+$( document ).ajaxComplete(function() {
+    manageAccess();
+    alert(1);
+});

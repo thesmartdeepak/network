@@ -10,7 +10,7 @@
                 <th>Contact Person</th>
                 <th>Contact Person Number</th>
                 <th>Contact Adress</th>
-                <th>Action</th>
+                <th class="mangerAdminAccess">Action</th>
             </thead>
             <tbody>
                 <tr ng-repeat="client in clients">
@@ -21,7 +21,7 @@
                     <td>{{ client.contactPersonNo }}</td>
                     <td>{{ client.contactAddress }}</td>
                     
-                    <td>
+                    <td class="mangerAdminAccess">
                         <a class="btn btn-info" href="/edit-client?clientId={{ client._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteclient(client._id)">Delete</a>
                     </td>

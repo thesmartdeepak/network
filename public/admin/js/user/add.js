@@ -1,17 +1,23 @@
 $("#addUserForm").validate();
 
 app.controller('ctrl', function($scope, $http) {
+    if(window.location.search){
+        $scope.editMode = true;
+    }
     $scope.defaultProjectCode = {
         _id:"",
         name:"Select a project code"
     };
-   $scope.formData = {
+
+    $scope.userTypes = [];
+
+    $scope.formData = {
         // image:'',
         fullname:'',
         employeeId:'',
         email: "",
         password: "",
-        userType:'co-ordinator',
+        userType:'',
         projectCode:"",
         address:'',
         city:'',
@@ -30,13 +36,63 @@ app.controller('ctrl', function($scope, $http) {
                 'authorization': localStorage.token
             },
         }).then(function(response){
-          $scope.userTypes = response.data.msg;
+          
+            response.data.data.forEach(function(value,index){
+                if(localStorage.userType == 'admin' && value.userType == 'manager'){
+                    $scope.userTypes.push(value);
+                }
+                else if(localStorage.userType == 'manager' && value.userType != 'manager'){
+                    $scope.userTypes.push(value);
+                }
+            });
+
+            if(localStorage.userType == 'admin'){
+                $scope.formData.userType = 'manager';
+                $scope.getDepartment();
+            }
+            else if(localStorage.userType == 'manager'){
+                $scope.formData.userType = 'co-ordinator';
+                $scope.getProjectType();
+            }
         });
     }
     $scope.getMasterData();
 
+    $scope.getProjectType = function(){
+        $http({
+            method:'post',
+            url:'/projectTypeByDepartment',
+            data:{departmentId:localStorage.departmentId},
+            headers: {
+                'authorization': localStorage.token
+            },
+        }).then(function(response){
+            $scope.projectTypes = response.data.data;
+            if($scope.projectTypes && !$scope.editMode){
+                $scope.formData.projectType = $scope.projectTypes[0]._id;
+            }
+        });
+    }
+
+    $scope.getDepartment = function(){
+        $http({
+            method:'get',
+            url:'/alldepartment',
+            headers: {
+                'authorization': localStorage.token
+            },
+        }).then(function(response){
+            $scope.departments = response.data.data;
+            if($scope.departments && !$scope.editMode){
+                $scope.formData.department = $scope.departments[0]._id;
+            }
+        });
+    }
+
     $scope.submit = function () {
         $scope.formData.projectCode = $("#projectCodeList").val();
+        $scope.formData.departmentName = $("#department option:selected").text();
+        $scope.formData.projectTypeName = $("#projectType option:selected").text();
         if($("#addUserForm").valid()){
             var submitUrl = "/addUser";
             if(window.location.search){
@@ -86,22 +142,21 @@ app.controller('ctrl', function($scope, $http) {
                 pincode:response.data.data.pincode,
                 phone:response.data.data.phone,
                 lat:response.data.data.lat,
-                long:response.data.data.long
+                long:response.data.data.long,
+                department:response.data.data.departmentId,
+                projectType:response.data.data.projectTypeId
             };
 
             $scope.defaultProjectCode = {
                 _id:response.data.data.projectCode,
                 name:response.data.data.projectCode
             };
-
-            $scope.editMode = true;
         });
     }
 
     $scope.toUcFirst = function(oldTxt){
         return oldTxt.charAt(0).toUpperCase()+oldTxt.slice(1);
     }
-
 });
 
 $('#projectCodeList').select2({
