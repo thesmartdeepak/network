@@ -39,13 +39,12 @@ service.getAll = async (req,res) =>{
 	try{
         let query = [{'status':{ $ne:"deleted"}}];
         
-        const decord = jwt.verify(req.headers.authorization, "shhhhh");
+        const decord = req.user;
         
         if(decord.userType == 'manager'){
             query.push({"parentUserId":decord._id});
             
         }
-        
 
 		let dataToFind = {
             query: {$and:query},
@@ -160,7 +159,7 @@ service.addUser = async (req, res) => {
     let userDate = jwt.verify(req.headers.authorization, "shhhhh");
 
     let projectCode = "";
-    let departmentId = "";
+    let departmentId = null;
     let departmentName = "";
     let projectTypeId = null;
     let projectTypeName = "";
@@ -174,6 +173,10 @@ service.addUser = async (req, res) => {
     else if(req.body.userType=='manager'){
         departmentId = req.body.department;
         departmentName = req.body.departmentName;
+    }
+    else if(req.body.userType=='site-engineer'){
+        departmentId = userDate.departmentId;
+        departmentName = userDate.departmentName;
     }
 
     
@@ -240,7 +243,7 @@ service.editUser = async(req,res)=>{
     let userDate = jwt.verify(req.headers.authorization, "shhhhh");
 
     let projectCode = "";
-    let departmentId = "";
+    let departmentId = null;
     let departmentName = "";
     let projectTypeId = null;
     let projectTypeName = "";
@@ -254,6 +257,10 @@ service.editUser = async(req,res)=>{
     else if(req.body.userType=='manager'){
         departmentId = req.body.department;
         departmentName = req.body.departmentName;
+    }
+    else if(req.body.userType=='site-engineer'){
+        departmentId = userDate.departmentId;
+        departmentName = userDate.departmentName;
     }
 
     let userEdit={
@@ -278,8 +285,6 @@ service.editUser = async(req,res)=>{
         updatedAt: new Date()
     }
 
-    console.log(userEdit);
-    
     let userToEdit={
         query:{"_id":req.query.userId},
         set:{"$set":userEdit}

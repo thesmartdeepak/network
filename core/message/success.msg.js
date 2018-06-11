@@ -59,9 +59,9 @@ msg.editClient="client updated successfully!!!"
  */ 
 msg.allProject="Found successfully!!!!"
 msg.getOneProject="Found one project successfully!!!!"
-msg.addProject="projects added successfully!!!!"
-msg.deleteProject="project deleted successfully!!!"
-msg.editProject="project updated successfully!!!"
+msg.addProject="Projects added successfully!!!!"
+msg.deleteProject="Project deleted successfully!!!"
+msg.editProject="Project updated successfully!!!"
 
 /**
  * ProjectType related msg

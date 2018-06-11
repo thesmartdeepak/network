@@ -74,34 +74,6 @@ app.controller('ctrl', function($scope, $http) {
             $scope.editMode = true;
         });
     }
-
-    $scope.getDepartment = function(){
-        $http({
-            method:'get',
-            url:'/alldepartment',
-            headers: {
-                'authorization': localStorage.token
-            },
-        }).then(function(response){
-            $scope.departments = response.data.data;
-        });
-    }
-
-    $scope.getDepartment();
-
-    $scope.departmentChange = function(){
-        $http({
-            method: 'post',
-            url: '/projectTypeByDepartment',
-            data:{"departmentId":$scope.departmentModel},
-            headers: {
-                'authorization': localStorage.token
-            },
-        }).then(function(response){
-            $scope.projectTypes = response.data.data;
-        });
-    }
-
 });
 
 sideBar('project');

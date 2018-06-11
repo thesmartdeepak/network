@@ -81,10 +81,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
                 'authorization': localStorage.token
             }
         }).then(function(response){
-            let count = 0;
-            if(response.data.data[0] && response.data.data[0].count){
-                count = response.data.data[0].count;
-            }
+            let count = response.data.data;
 
             let totalPage = Math.ceil(count/parseInt($scope.pageCount));
             if(totalPage > 0){

@@ -61,7 +61,7 @@
                 <td><input class="form-control filterData" placeholder="Attempt Cycle" name="attemptCycle" required></td>
                 <td><input class="form-control filterData" placeholder="Employee Id" name="employeeId" required></td>
                 <td><input class="form-control filterData" placeholder="Employee Name" name="employeeName" required></td>
-                <td><input class="form-control filterData" placeholder="Co_Ordinator" name="coOrdinatorName" required></td>
+                <td><input class="form-control filterData" placeholder="Co_Ordinator" name="userName" required></td>
             </tr>
             <tr class="alphaRow">
                 <td class="alphaCell serialNum">A</td>
@@ -197,7 +197,7 @@
                 <td>{{ project.endTime }}</td>
                 <td>{{ project.advance }}</td>
                 <td>{{ project.approved }}</td>-->
-                <td>{{ coOrdinatorName(project.user) }}</td>
+                <td>{{ project.userName }}</td>
             </tr>
         </table>
        

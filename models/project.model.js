@@ -5,8 +5,11 @@ AutoIncrement.initialize(mongoose);
 const projectSchema = mongoose.Schema({
     projectId:{type:Number},
     userId:{type: mongoose.Schema.ObjectId},
+    userName:{type:String},
     departmentId:{type: mongoose.Schema.ObjectId},
+    departmentName:{type:String},
     projectTypeId:{type: mongoose.Schema.ObjectId},
+    projectTypeName:{type: String},
     projectCode: {type:String},
     operator:{type:String},
     activity: {type: String},
@@ -62,28 +65,26 @@ projectModel.getOneProject = (editToProject) => {
 }
 
 projectModel.projectPagination = (projectToFind,type) => {
-    let aggregate = [
-        { 
-          $lookup:{
-              from: "user",
-              localField: "userId",
-              foreignField: "_id",
-              as: "user"
-            }
-        },
-        { $match: projectToFind.query }
-    ];
+    // let aggregate = [
+    //     { 
+    //       $lookup:{
+    //           from: "user",
+    //           localField: "userId",
+    //           foreignField: "_id",
+    //           as: "user"
+    //         }
+    //     },
+    //     { $match: projectToFind.query }
+    // ];
     if(type == 'count'){
-        // return projectModel.find(projectToFind.query).count();
-        aggregate.push({$count: "count"});
-        let responseData = projectModel.aggregate(aggregate);
-        return responseData;
+        return projectModel.find(projectToFind.query).count();
     }
     else{
-        aggregate.push({ $sort: { _id:-1} });
-        aggregate.push({ $skip: projectToFind.skip });
-        aggregate.push({ $limit: projectToFind.limit });
-        return projectModel.aggregate(aggregate);
+        // aggregate.push({ $sort: { _id:-1} });
+        // aggregate.push({ $skip: projectToFind.skip });
+        // aggregate.push({ $limit: projectToFind.limit });
+        // return projectModel.aggregate(aggregate);
+        return projectModel.find(projectToFind.query).sort({ _id:-1}).skip(projectToFind.skip).limit(projectToFind.limit);
     }
 }
 

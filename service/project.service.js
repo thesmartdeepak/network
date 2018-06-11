@@ -93,13 +93,8 @@ let projectDbHeader = [
 ];
  
 service.addProject = async (req,res) =>{
-    let userId = "";
-    jwt.verify(req.headers.authorization, "shhhhh", function(err,decode){
-        userId = decode._id;
-    });
 
-    const coOrdinatorToFind = {_id: userId};
-    const coOrdinatorData = await User.getOne(coOrdinatorToFind);
+    const coOrdinatorData = req.user;
 
     const circleToFind = {
         query:{clientCircleCode: coOrdinatorData.projectCode},
@@ -151,16 +146,7 @@ service.addProject = async (req,res) =>{
             let index = k;
             
             let row = {};
-            // let index = 0;
-            // for(index=0;index<rst.length;index++){
-            //     let result = rst[index];
-            //     if(rowHeaders[index]){
-            //         row[rowHeaders[index]] = (result+"").trim();
-            //     }
-            //     else{
-            //         row[rowHeaders[index]] = '';
-            //     }
-            // };
+
 
             for(index in rowHeaders){
                 if(rst[index]){
@@ -174,14 +160,17 @@ service.addProject = async (req,res) =>{
             row['projectStatus'] = "active";
             row['createAt'] = new Date();
             row['updatedAt'] = new Date();
-            row['userId'] = userId;
+            row['userId'] = coOrdinatorData._id;
+            row['userName'] = coOrdinatorData.fullname;
             if(row['preDoneDate'])
                 row['preDoneDate'] = getJsDateFromExcel(row['preDoneDate']);
             if(row['post_ActivityDoneDate'])
                 row['post_ActivityDoneDate'] = getJsDateFromExcel(row['post_ActivityDoneDate']);
             
-            row['departmentId'] = req.body.departmentId;
-            row['projectTypeId'] = req.body.projectTypeId;
+            row['departmentId'] = coOrdinatorData.departmentId;
+            row['departmentName'] = coOrdinatorData.departmentName;
+            row['projectTypeId'] = coOrdinatorData.projectTypeId;
+            row['projectTypeName'] = coOrdinatorData.projectTypeName;
             row['projectCode'] = coOrdinatorData.projectCode;
             row['operator'] = coOrdinatorClient.name;
 
@@ -253,14 +242,31 @@ service.addProject = async (req,res) =>{
             for(x in rows){
 
                 let projectToFind = {
-                    query:{status:{$ne:'deleted'},concatenate:rows[x]['concatenate']}
+                    query:{$and:[{status:{$ne:'deleted'}},{concatenate:rows[x]['concatenate']}]},
                 }
                 const allProjectCount = await Project.allProjectCount(projectToFind);
     
                 rows[x]['attemptCycle'] = "C"+(allProjectCount+1);
+                if(!rows[x]['post_ActivityDoneDate']){
+                    rows[x]['activityStatus'] = "Partial Done";
+                }
+                else{
+                    rows[x]['activityStatus'] = "Done";
+                }
                 
-                const addToProject = Project(rows[x]);
-                await Project.addProject(addToProject);
+                if(allProjectCount > 0){
+                    const editToProject = {
+                        query:{$and:[{status:{$ne:'deleted'}},{concatenate:rows[x]['concatenate']}]},
+                        set:rows[x]
+                    }
+                    const updateProject = await Project.editProject(editToProject);
+                }
+                else{
+                    const addToProject = Project(rows[x]);
+                    await Project.addProject(addToProject);
+                }
+
+                
             }
             res.send({"success":true, "code":"200", "msg":successMsg.addProject});
         }
@@ -274,32 +280,32 @@ service.addProject = async (req,res) =>{
     }
 }
 
-service.editProject = async (req,res) => {
-    let editProjectData = {
-        name:req.body.name,
-        poNumber:req.body.poNumber,
-        shipmentNo:req.body.shipmentNo,
-        projectCode:req.body.projectCode,
-        contactPerson:req.body.contactPerson,
-        contactPersonNo:req.body.contactPersonNo,
-        contactAddress:req.body.contactAddress,
-        updatedAt: new Date()
-    }
+// service.editProject = async (req,res) => {
+//     let editProjectData = {
+//         name:req.body.name,
+//         poNumber:req.body.poNumber,
+//         shipmentNo:req.body.shipmentNo,
+//         projectCode:req.body.projectCode,
+//         contactPerson:req.body.contactPerson,
+//         contactPersonNo:req.body.contactPersonNo,
+//         contactAddress:req.body.contactAddress,
+//         updatedAt: new Date()
+//     }
 
-    let editToProject = {
-        query:{_id:req.query.projectId},
-        set:{"$set":editProjectData}
-    }
+//     let editToProject = {
+//         query:{_id:req.query.projectId},
+//         set:{"$set":editProjectData}
+//     }
     
-    const editProject = await project.editProject(editToProject);
+//     const editProject = await project.editProject(editToProject);
 
-    try{
-        res.send({"success":true, "code":"200", "msg":successMsg.editProject,"data":editProject});
-    }
-    catch(err) {
-        res.send({"success":false, "code":"500", "msg":msg.editProject,"err":err});
-    }
-}
+//     try{
+//         res.send({"success":true, "code":"200", "msg":successMsg.editProject,"data":editProject});
+//     }
+//     catch(err) {
+//         res.send({"success":false, "code":"500", "msg":msg.editProject,"err":err});
+//     }
+// }
 
 service.oneProject = async (req,res) => {
     let projectToFind = {
@@ -312,13 +318,15 @@ service.oneProject = async (req,res) => {
 }
 
 service.allProject = async (req,res) => {
-    
+    var toDate = new Date(req.body.toDate);
+    toDate.setDate(toDate.getDate() + 1);
+
     let query = [
                 {status:{$ne:'deleted'}},
                 {
                     createAt: {
                         $gte: new Date(req.body.fromDate),
-                        $lte: new Date(req.body.toDate)
+                        $lte: toDate
                     }
                 }
             ]
@@ -333,11 +341,8 @@ service.allProject = async (req,res) => {
 
                 rowQuery[x] = {
                     $gte:new Date(req.body.filter[x]),
-                    $lte:new Date(searchDate),
+                    $lte:searchDate,
                 };
-            }
-            else if(x == 'coOrdinatorName'){
-                rowQuery['user.fullname'] = new RegExp(req.body.filter[x],'i');
             }
             else{
                 rowQuery[x] = new RegExp(req.body.filter[x],'i');
