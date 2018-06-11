@@ -336,6 +336,9 @@ service.allProject = async (req,res) => {
                     $lte:new Date(searchDate),
                 };
             }
+            else if(x == 'coOrdinatorName'){
+                rowQuery['user.fullname'] = new RegExp(req.body.filter[x],'i');
+            }
             else{
                 rowQuery[x] = new RegExp(req.body.filter[x],'i');
             }
@@ -344,7 +347,6 @@ service.allProject = async (req,res) => {
         }
     }
 
-    console.log(query);
     
     const userDecoded = jwt.verify(req.headers.authorization, 'shhhhh');
     if(userDecoded.userType != 'admin'){
@@ -357,6 +359,8 @@ service.allProject = async (req,res) => {
         limit:req.body.pageCount,
         skip:(req.query.page-1)*req.body.pageCount
     }
+
+    // console.log(projectToFind);
 
     let listType = 'list';
     if(req.query.type || req.query.type == 'count'){

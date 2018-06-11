@@ -62,25 +62,27 @@ projectModel.getOneProject = (editToProject) => {
 }
 
 projectModel.projectPagination = (projectToFind,type) => {
-    
+    let aggregate = [
+        { 
+          $lookup:{
+              from: "user",
+              localField: "userId",
+              foreignField: "_id",
+              as: "user"
+            }
+        },
+        { $match: projectToFind.query }
+    ];
     if(type == 'count'){
-        return projectModel.find(projectToFind.query).count();
+        // return projectModel.find(projectToFind.query).count();
+        aggregate.push({$count: "count"});
+        let responseData = projectModel.aggregate(aggregate);
+        return responseData;
     }
     else{
-        let aggregate = [
-            { 
-              $lookup:{
-                  from: "user",
-                  localField: "userId",
-                  foreignField: "_id",
-                  as: "user"
-                }
-            },
-            { $match: projectToFind.query },
-            { $sort: { _id:-1} },
-            { $skip: projectToFind.skip },
-            { $limit: projectToFind.limit },
-          ];
+        aggregate.push({ $sort: { _id:-1} });
+        aggregate.push({ $skip: projectToFind.skip });
+        aggregate.push({ $limit: projectToFind.limit });
         return projectModel.aggregate(aggregate);
     }
 }

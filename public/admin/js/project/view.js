@@ -67,6 +67,10 @@ app.controller('ctrl', function($scope, $http,$filter) {
         $scope.resetPagination();
     });
 
+    $(".filterData").keyup(function(){
+        $scope.resetPagination();
+    });
+
     $scope.setPagination = function(){
         let submitData = $scope.submitData();
         $http({
@@ -77,7 +81,12 @@ app.controller('ctrl', function($scope, $http,$filter) {
                 'authorization': localStorage.token
             }
         }).then(function(response){
-            let totalPage = Math.ceil(response.data.data/parseInt($scope.pageCount));
+            let count = 0;
+            if(response.data.data[0] && response.data.data[0].count){
+                count = response.data.data[0].count;
+            }
+
+            let totalPage = Math.ceil(count/parseInt($scope.pageCount));
             if(totalPage > 0){
                 
                 $scope.pagination = $('#pagination').twbsPagination({
