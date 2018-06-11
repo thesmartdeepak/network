@@ -8,6 +8,7 @@
 
 import express from "express";
 import activityService from "../service/activity.service";
+import access from '../core/access';
 
 const router = express.Router()
 
@@ -15,13 +16,13 @@ router.get("/add-activity",function(req, res){
     res.render('admin/activity/add',{title:'Add activity'})
 });
 
-router.post("/addActivity",activityService.addActivity);
+router.post("/addActivity",access.managerAdmin,activityService.addActivity);
 
 router.get("/edit-activity",function(req, res){
     res.render('admin/activity/add',{title:'Edit activity'})
 });
 
-router.post("/editActivity",activityService.editActivity);
+router.post("/editActivity",access.managerAdmin,activityService.editActivity);
 
 router.get("/oneActivity",activityService.oneActivity);
 
@@ -33,6 +34,6 @@ router.get('/allActivity',activityService.allActivity);
 
 router.get('/allActivityCount',activityService.allActivityCount);
 
-router.post('/deleteActivity',activityService.deleteActivity);
+router.post('/deleteActivity',access.managerAdmin,activityService.deleteActivity);
 
 export default router;

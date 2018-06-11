@@ -8,6 +8,7 @@
 
 import express from "express";
 import regionService from "../service/region.service";
+import access from '../core/access';
 
 const router = express.Router()
 
@@ -15,13 +16,13 @@ router.get("/add-region",function(req, res){
     res.render('admin/region/add',{title:'Add region'})
 });
 
-router.post("/addRegion",regionService.addRegion);
+router.post("/addRegion",access.managerAdmin,regionService.addRegion);
 
 router.get("/edit-region",function(req, res){
     res.render('admin/region/add',{title:'Edit region'})
 });
 
-router.post("/editRegion",regionService.editRegion);
+router.post("/editRegion",access.managerAdmin,regionService.editRegion);
 
 router.get("/oneRegion",regionService.oneRegion);
 
@@ -31,6 +32,6 @@ router.get("/view-region",function(req, res){
 
 router.get('/allRegion',regionService.allRegion);
 
-router.post('/deleteRegion',regionService.deleteRegion);
+router.post('/deleteRegion',access.managerAdmin,regionService.deleteRegion);
 
 export default router;

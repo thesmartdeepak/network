@@ -7,6 +7,7 @@
  */
 import express from "express";
 import userTypeService from "../service/userType.service";
+import access from '../core/access';
 
 const router = express.Router()
 
@@ -24,17 +25,11 @@ router.get('/allUserType', (req, res) => {
     userTypeService.getAll(req, res);
 });
 
-router.post('/addUserType', (req, res) => {
-    userTypeService.addUserType(req, res);
-});
+router.post('/addUserType',access.managerAdmin,userTypeService.addUserType);
 
-router.post('/deleteUserType', (req, res) => {
-    userTypeService.deleteUserType(req, res);
-});
+router.post('/deleteUserType',access.managerAdmin,userTypeService.deleteUserType);
 
-router.post('/editUserType', (req, res) => {
-    userTypeService.editUserType(req, res);
-});
+router.post('/editUserType',access.managerAdmin,userTypeService.editUserType);
 
 
 export default router;

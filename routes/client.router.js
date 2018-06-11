@@ -8,6 +8,7 @@
 
 import express from "express";
 import clientService from "../service/client.service";
+import access from '../core/access';
 
 const router = express.Router()
 
@@ -15,13 +16,13 @@ router.get("/add-client",function(req, res){
     res.render('admin/client/add',{title:'Add client'})
 });
 
-router.post("/addclient",clientService.addClient);
+router.post("/addclient",access.managerAdmin,clientService.addClient);
 
 router.get("/edit-client",function(req, res){
     res.render('admin/client/add',{title:'Edit client'})
 });
 
-router.post("/editclient",clientService.editClient);
+router.post("/editclient",access.managerAdmin,clientService.editClient);
 
 router.get("/oneclient",clientService.oneClient);
 
@@ -33,7 +34,7 @@ router.get('/allclient',clientService.allClient);
 
 router.get('/allclientCount',clientService.allClientCount);
 
-router.post('/deleteclient',clientService.deleteClient);
+router.post('/deleteclient',access.managerAdmin,clientService.deleteClient);
 
 router.get('/totalClintList',clientService.totalClintList);
 

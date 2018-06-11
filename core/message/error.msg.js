@@ -13,6 +13,8 @@
 
 const msg = {};
 
+msg.accessDenied = "Access denied";
+
 /** Error message for _id*/
 msg._id ="_id is missing"
 

@@ -7,14 +7,14 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Code</th>
-                <th>Action</th>
+                <th class="mangerAdminAccess">Action</th>
             </thead>
             <tbody>
                 <tr ng-repeat="region in regions" ng-hide="hideRegion(region._id)">
                     <td>{{ region.name }}</td>
                     <td>{{ region.description }}</td>
                     <td>{{ region.code }}</td>
-                    <td>
+                    <td class="mangerAdminAccess">
                         <a class="btn btn-info" href="/edit-region?regionId={{ region._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteRegion(region._id)">Delete</a>
                     </td>

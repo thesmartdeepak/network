@@ -16,6 +16,7 @@ import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import nm from 'nodemailer'
 import rand from 'csprng'
+import { Mongoose } from 'mongoose';
 
 
 
@@ -35,15 +36,19 @@ const service = {};
  */
 
 service.getAll = async (req,res) =>{
-    //console.log("hiiiiii");
-    // if(!req.query._id){
-    //    return res.send({"success":false,"code":"500","msg":msg.clientId});
-    // }
-    // let clientId = utility.removeQuotationMarks(req.query.clientId);
 	try{
+        let query = [{'status':{ $ne:"deleted"}}];
+        
+        const decord = jwt.verify(req.headers.authorization, "shhhhh");
+        
+        if(decord.userType == 'manager'){
+            query.push({"parentUserId":decord._id});
+            
+        }
+        
+
 		let dataToFind = {
-            // query:{_id:req.query._id}
-            query: {'status' : { $not : {$eq:"deleted"}}},
+            query: {$and:query},
             projection:{},
             limit:10,
             skip:(req.query.page-1)*10
@@ -93,11 +98,11 @@ service.getOne=async(req,res)=>{
 
 service.addUserRequiredData = async(req,res)=>{
     let dataFind = {};
-    dataFind.query = {};
+    dataFind.query = {"userType":{$ne:"admin"}};
     dataFind.projection = {"_id":0};
-    let data = await UserType.getAll(dataFind);
-    // console.log('----------------');
-    return res.send({success:true,code:200,msg:data});
+    const userTypes = await UserType.getAll(dataFind);
+    
+    return res.send({success:true,code:200,data:userTypes});
 }
 
 /**
@@ -152,17 +157,38 @@ service.addUser = async (req, res) => {
     var token= crypto.createHash('sha512').update(req.body.password+rand).digest("hex");
     var hashed_password=crypto.createHash('sha512').update(newPassword).digest("hex");
 
+    let userDate = jwt.verify(req.headers.authorization, "shhhhh");
+
     let projectCode = "";
+    let departmentId = "";
+    let departmentName = "";
+    let projectTypeId = null;
+    let projectTypeName = "";
     if(req.body.userType=='co-ordinator'){
         projectCode = req.body.projectCode;
+        departmentId = userDate.departmentId;
+        departmentName = userDate.departmentName;
+        projectTypeId = req.body.projectType;
+        projectTypeName = req.body.projectTypeName;
     }
+    else if(req.body.userType=='manager'){
+        departmentId = req.body.department;
+        departmentName = req.body.departmentName;
+    }
+
+    
 
     let userToAdd = User({
       token:token,
       salt:temp,
       temp_str:"",
-      fullname:req.body.fullname,
       employeeId:req.body.employeeId,
+      parentUserId:userDate._id,
+      departmentId:departmentId,
+      departmentName:departmentName,
+      projectTypeId:projectTypeId,
+      projectTypeName:projectTypeName,
+      fullname:req.body.fullname,
       email: req.body.email,
       password: hashed_password,
       phone:req.body.phone,
@@ -172,7 +198,6 @@ service.addUser = async (req, res) => {
       city:req.body.city,
       state: req.body.state,
       pincode: req.body.pincode,
-      name:req.body.name,
       status:req.body.status || "active",
       userType: req.body.userType,
       projectCode: projectCode,
@@ -210,15 +235,35 @@ service.editUser = async(req,res)=>{
     if(userByEmail){
         return res.send({success:false, code:500, msg:"This email is not available."});
     }
+    
+
+    let userDate = jwt.verify(req.headers.authorization, "shhhhh");
 
     let projectCode = "";
+    let departmentId = "";
+    let departmentName = "";
+    let projectTypeId = null;
+    let projectTypeName = "";
     if(req.body.userType=='co-ordinator'){
         projectCode = req.body.projectCode;
+        departmentId = userDate.departmentId;
+        departmentName = userDate.departmentName;
+        projectTypeId = req.body.projectType;
+        projectTypeName = req.body.projectTypeName;
+    }
+    else if(req.body.userType=='manager'){
+        departmentId = req.body.department;
+        departmentName = req.body.departmentName;
     }
 
     let userEdit={
         fullname:req.body.fullname,
         employeeId:req.body.employeeId,
+        parentUserId:userDate._id,
+        departmentId:departmentId,
+        departmentName:departmentName,
+        projectTypeId:projectTypeId,
+        projectTypeName:projectTypeName,
         email: req.body.email,
         phone:req.body.phone,
         lat:req.body.lat,
@@ -227,12 +272,13 @@ service.editUser = async(req,res)=>{
         city:req.body.city,
         state: req.body.state,
         pincode: req.body.pincode,
-        name:req.body.name,
         status:req.body.status || "active",
         userType: req.body.userType,
         projectCode: projectCode,
         updatedAt: new Date()
     }
+
+    console.log(userEdit);
     
     let userToEdit={
         query:{"_id":req.query.userId},
@@ -295,7 +341,7 @@ service.login = async (req, res) =>{
     
     try{
        
-        const loggedUser = await User.login(query);
+        let loggedUser = await User.login(query);
      
         if(loggedUser )
         {   var temp=loggedUser.salt;
@@ -308,8 +354,23 @@ service.login = async (req, res) =>{
             var hashed_password1=crypto.createHash('sha512').update(newpass).digest("hex");
             if(hash_db==hashed_password1)
             {
-                var token = jwt.sign({email:loggedUser.email,_id:loggedUser._id,userType:loggedUser.userType}, 'shhhhh');
-                res.send({success:true, code:200, msg:successMsg.loginUser, data:token });
+                let jwtLoginData = {
+                    _id:loggedUser._id,
+                    fullname:loggedUser.fullname,
+                    parentUserId:loggedUser.parentUserId,
+                    departmentId:loggedUser.departmentId,
+                    departmentName:loggedUser.departmentName,
+                    projectTypeId:loggedUser.projectTypeId,
+                    projectTypeName:loggedUser.projectTypeName,
+                    employeeId:loggedUser.employeeId,
+                    userType:loggedUser.userType,
+                    projectCode:loggedUser.projectCode,
+                    email:loggedUser.email
+                };
+                var token = jwt.sign(jwtLoginData, 'shhhhh');
+                
+                jwtLoginData.token = token;
+                res.send({success:true, code:200, msg:successMsg.loginUser, data:jwtLoginData });
             }
             else
             {

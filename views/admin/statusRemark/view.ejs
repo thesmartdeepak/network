@@ -6,13 +6,13 @@
             <thead>
                 <th>Status/Remark</th>
                 <th>Type</th>
-                <th>Action</th>
+                <th class="mangerAdminAccess">Action</th>
             </thead>
             <tbody>
                 <tr ng-repeat="statusRemark in statusRemarks">
                     <td>{{ statusRemark.statusRemark }}</td>
                     <td>{{ type(statusRemark.type) }}</td>
-                    <td>
+                    <td class="mangerAdminAccess">
                         <a class="btn btn-info" href="/edit-status-remark?statusRemarkId={{ statusRemark._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteStatusRemark(statusRemark._id)">Delete</a>
                     </td>

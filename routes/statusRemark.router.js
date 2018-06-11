@@ -7,6 +7,7 @@
  */
 import express from "express";
 import statusRemarkService from "../service/statusRemark.service";
+import access from '../core/access';
 
 const router = express.Router()
 
@@ -28,11 +29,11 @@ router.get('/add-status-remark', (req, res) => {
     res.render('admin/statusRemark/add',{title:'Add Status/Remark'});
 });
 
-router.post('/addStatusRemark', (req, res) => {
+router.post('/addStatusRemark',access.managerAdmin, (req, res) => {
     statusRemarkService.addStatusRemark(req, res);
 });
 
-router.post('/deleteStatusRemark', (req, res) => {
+router.post('/deleteStatusRemark',access.managerAdmin, (req, res) => {
     statusRemarkService.deleteStatusRemark(req, res);
 });
 
@@ -40,7 +41,7 @@ router.get('/edit-status-remark', (req, res) => {
     res.render('admin/statusRemark/add',{title:'Edit Status/Remark'});
 });
 
-router.post('/editStatusRemark', (req, res) => {
+router.post('/editStatusRemark',access.managerAdmin, (req, res) => {
     statusRemarkService.editStatusRemark(req, res);
 });
 

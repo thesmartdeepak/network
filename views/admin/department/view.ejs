@@ -7,14 +7,14 @@
                 <th>Name</th>
                 <!-- <th>Description</th>
                 <th>Code</th> -->
-                <th>Action</th>
+                <th class="mangerAdminAccess">Action</th>
             </thead>
             <tbody>
                 <tr ng-repeat="department in departments" ng-hide="hidedepartment(department._id)">
                     <td>{{ department.name }}</td>
                     <!-- <td>{{ department.description }}</td>
                     <td>{{ department.code }}</td> -->
-                    <td>
+                    <td class="mangerAdminAccess">
                         <a class="btn btn-info" href="/edit-department?departmentId={{ department._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deletedepartment(department._id)">Delete</a>
                     </td>

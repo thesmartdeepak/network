@@ -8,6 +8,7 @@
 
 import express from "express";
 import projectService from "../service/project.service";
+import access from '../core/access';
 
 const router = express.Router()
 
@@ -15,7 +16,7 @@ router.get("/add-project",function(req, res){
     res.render('admin/project/add',{title:'Add project'})
 });
 
-router.post("/addProject",projectService.addProject);
+router.post("/addProject",access.coOrdinator,projectService.addProject);
 
 // router.get("/edit-project",function(req, res){
 //     res.render('admin/project/add',{title:'Edit project'})

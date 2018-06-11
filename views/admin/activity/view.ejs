@@ -7,14 +7,14 @@
                 <th>Name</th>
                 <!-- <th>Seq</th> -->
                 <th>Description</th>
-                <th>Action</th>
+                <th class="mangerAdminAccess">Action</th>
             </thead>
             <tbody>
                 <tr ng-repeat="activity in activitys">
                     <td>{{ activity.name }}</td>
                     <!-- <td>{{ activity.seq }}</td> -->
                     <td>{{ activity.description }}</td>
-                    <td>
+                    <td class="mangerAdminAccess">
                         <a class="btn btn-info" href="/edit-activity?activityId={{ activity._id }}">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteActivity(activity._id)">Delete</a>
                     </td>

@@ -8,6 +8,7 @@
 
 import express from "express";
 import departmentService from "../service/department.service";
+import access from '../core/access';
 
 const router = express.Router()
 
@@ -15,13 +16,13 @@ router.get("/add-department",function(req, res){
     res.render('admin/department/add',{title:'Add department'})
 });
 
-router.post("/adddepartment",departmentService.adddepartment);
+router.post("/adddepartment",access.managerAdmin,departmentService.adddepartment);
 
 router.get("/edit-department",function(req, res){
     res.render('admin/department/add',{title:'Edit department'})
 });
 
-router.post("/editdepartment",departmentService.editdepartment);
+router.post("/editdepartment",access.managerAdmin,departmentService.editdepartment);
 
 router.get("/onedepartment",departmentService.onedepartment);
 
@@ -31,7 +32,7 @@ router.get("/view-department",function(req, res){
 
 router.get('/alldepartment',departmentService.alldepartment);
 
-router.post('/deletedepartment',departmentService.deletedepartment);
+router.post('/deletedepartment',access.managerAdmin,departmentService.deletedepartment);
 router.get("/totaldepartmentList",departmentService.totaldepartmentList);
 
 
