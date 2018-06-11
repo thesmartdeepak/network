@@ -2,19 +2,17 @@ app.controller('ctrl', function($scope, $http,$filter) {
     $scope.currentPage = 1;
     $scope.projects = [];
     $scope.startPage = 1;
-    $scope.pagination = null;
+    $scope.pageCount = "25";
+   // $scope.pagination = null;
 
-    $scope.projectList = function(fromToDate){
-        let toDate = new Date(fromToDate['toDate']);
-        toDate.setDate(toDate.getDate() + 1);
+    $scope.projectList = function(page){
 
-        fromToDate['toDate'] =   $filter('date')(toDate, "yyyy-MM-dd");
-        fromToDate['fromDate'] =   $filter('date')(fromToDate['fromDate'], "yyyy-MM-dd");
-        
-        $http({
+        let submitData = $scope.submitData();
+
+       $http({
             method:'post',
-            url:'/allProject',
-            data:fromToDate,
+            url:'/allProject?page='+page,
+            data:submitData,
             headers: {
                 'authorization': localStorage.token
             }
@@ -23,53 +21,82 @@ app.controller('ctrl', function($scope, $http,$filter) {
         });
     }
 
-    let fromToDate = {
-        fromDate: new Date(),
-        toDate: new Date()
-    };
-    $scope.projectList(fromToDate);
+    $scope.currentIndex = function(index){
+        return ($scope.currentPage-1)*parseInt($scope.pageCount)+index;
+    }
 
+    // let fromToDate = {
+    //     fromDate: new Date(),
+    //     toDate: new Date(),
+    // };
 
-    $scope.dateFilterChange = function(){
-        let fromToDate = {
+    $scope.submitData = function(){
+        let dataToFind = {
             fromDate: $("#fromDate").val(),
             toDate: $("#toDate").val(),
+            pageCount:parseInt($scope.pageCount),
+            filter:{}
         };
-        $scope.projectList(fromToDate);
+
+        $(".filterData").each(function(){
+            
+            if($(this).val()){
+                let name = $(this).attr('name');
+                let value = $(this).val();
+                dataToFind.filter[name] = value;
+            }
+        });
+
+        return dataToFind;
+    }
+
+
+
+    $scope.resetPagination = function(){
+        $('#pagination').twbsPagination('destroy');
+        $scope.startPage = 1;
+        $scope.setPagination();
     }
 
     $(".dateFilter").change(function(){
-        $scope.dateFilterChange();
+        $scope.resetPagination();
     });
-    // $scope.setPagination = function(){
-    //     $scope.projectList(1);
-    //     // $http({
-    //     //     method:'get',
-    //     //     url:'/allProjectCount',
-    //     //     headers: {
-    //     //         'authorization': localStorage.token
-    //     //     }
-    //     // }).then(function(response){
-    //     //     let totalPage = Math.ceil(response.data.data/10);
-    //     //     if(totalPage > 0){
-                
-    //     //         $scope.pagination = $('#pagination').twbsPagination({
-    //     //             totalPages: totalPage,
-    //     //             visiblePages:3,
-    //     //             startPage:$scope.startPage,
-    //     //             onPageClick: function (event, page) {
-    //     //                 $scope.currentPage = page;
-    //     //                 $scope.projectList(page);
-    //     //             }
-    //     //         });
-    //     //     }
-    //     //     else{
-    //     //         $scope.projects = [];
-    //     //     }
-    //     // });
-    // }
 
-    // $scope.setPagination();
+
+    $(".filterData").change(function(){
+        $scope.resetPagination();
+    });
+
+    $scope.setPagination = function(){
+        let submitData = $scope.submitData();
+        $http({
+            method:'post',
+            url:'/allProject?type=count',
+            data:submitData,
+            headers: {
+                'authorization': localStorage.token
+            }
+        }).then(function(response){
+            let totalPage = Math.ceil(response.data.data/parseInt($scope.pageCount));
+            if(totalPage > 0){
+                
+                $scope.pagination = $('#pagination').twbsPagination({
+                    totalPages: totalPage,
+                    visiblePages:3,
+                    startPage:$scope.startPage,
+                    onPageClick: function (event, page) {
+                        $scope.currentPage = page;
+                        $scope.projectList(page);
+                    }
+                });
+            }
+            else{
+                $scope.projects = [];
+            }
+        });
+    }
+
+    $scope.setPagination();
 
     $scope.toUcFirst = function(oldTxt){
         return oldTxt.charAt(0).toUpperCase()+oldTxt.slice(1);
@@ -227,5 +254,31 @@ $('#toDate').datepicker({
     autoclose: true
 }).datepicker("setDate", new Date()).datepicker("option","dateFormat","dd/MM/yy");
 
+$('#searchPreDoneDate').datepicker({
+    autoclose: true
+});
+
+$('#searchPostDoneDate').datepicker({
+    autoclose: true
+});
+
+function myFunction() {
+    
+    var input, filter, table, tr, td, i;
+    input = document.getElementById("projectCodeSearch");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("mainTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
 
 sideBar('project');

@@ -247,8 +247,6 @@ service.addProject = async (req,res) =>{
 
                 rows.push(row);
             }
-            
-            
         }
         if(goodData){
             let x = 0;
@@ -324,6 +322,29 @@ service.allProject = async (req,res) => {
                     }
                 }
             ]
+
+    if(req.body.filter){
+        let x = '';
+        for(x in req.body.filter){
+            let rowQuery = {};
+            if(x == 'preDoneDate' || x=='post_ActivityDoneDate'){
+                var searchDate = new Date(req.body.filter[x]);
+                searchDate.setDate(searchDate.getDate() + 1);
+
+                rowQuery[x] = {
+                    $gte:new Date(req.body.filter[x]),
+                    $lte:new Date(searchDate),
+                };
+            }
+            else{
+                rowQuery[x] = new RegExp(req.body.filter[x],'i');
+            }
+            
+            query.push(rowQuery);
+        }
+    }
+
+    console.log(query);
     
     const userDecoded = jwt.verify(req.headers.authorization, 'shhhhh');
     if(userDecoded.userType != 'admin'){
@@ -332,12 +353,17 @@ service.allProject = async (req,res) => {
     }
 
     let projectToFind = {
-        query:{$and:query}
-        // limit:10,
-        // skip:(req.query.page-1)*10
+        query:{$and:query},
+        limit:req.body.pageCount,
+        skip:(req.query.page-1)*req.body.pageCount
     }
 
-    const allProject = await Project.projectPagination(projectToFind);
+    let listType = 'list';
+    if(req.query.type || req.query.type == 'count'){
+        listType = 'count';
+    }
+
+    const allProject = await Project.projectPagination(projectToFind,listType);
 
     res.send({"success":true,"code":200,"msg":successMsg.allProject,"data":allProject});
 }

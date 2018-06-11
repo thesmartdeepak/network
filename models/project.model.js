@@ -61,24 +61,28 @@ projectModel.getOneProject = (editToProject) => {
     return projectModel.findOne(editToProject.query,editToProject.projection)
 }
 
-projectModel.projectPagination = (projectToFind) => {
-    let aggregate = [
-        { 
-          $lookup:{
-              from: "user",
-              localField: "userId",
-              foreignField: "_id",
-              as: "user"
-            }
-        },
-        { $match: projectToFind.query },
-        { $sort: { _id:-1} },
-        // { $skip: projectToFind.skip },
-        // { $limit: projectToFind.limit },
-        
-      ];
-      return projectModel.aggregate(aggregate);
-    // return projectModel.find(projectToFind.query,projectToFind.projection).sort({_id:-1}).skip(projectToFind.skip).limit(projectToFind.limit);
+projectModel.projectPagination = (projectToFind,type) => {
+    
+    if(type == 'count'){
+        return projectModel.find(projectToFind.query).count();
+    }
+    else{
+        let aggregate = [
+            { 
+              $lookup:{
+                  from: "user",
+                  localField: "userId",
+                  foreignField: "_id",
+                  as: "user"
+                }
+            },
+            { $match: projectToFind.query },
+            { $sort: { _id:-1} },
+            { $skip: projectToFind.skip },
+            { $limit: projectToFind.limit },
+          ];
+        return projectModel.aggregate(aggregate);
+    }
 }
 
 projectModel.allProjectCount = (projectToFind) => {
