@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import AutoIncrement from "mongoose-auto-increment";
 AutoIncrement.initialize(mongoose);
 
@@ -10,6 +10,7 @@ const projectSchema = mongoose.Schema({
     departmentName:{type:String},
     projectTypeId:{type: mongoose.Schema.ObjectId},
     projectTypeName:{type: String},
+    managerId:{type:mongoose.Schema.ObjectId},
     projectCode: {type:String},
     operator:{type:String},
     activity: {type: String},
@@ -78,6 +79,29 @@ projectModel.projectPagination = (projectToFind,type) => {
     // ];
     if(type == 'count'){
         return projectModel.find(projectToFind.query).count();
+    }
+    else if(type=='download'){
+        let projection = {
+            "projectCode":1,
+            "operator":1,
+            "activity":1,
+            "itemDescription_Band":1,
+            "siteId":1,
+            "siteCount":1,
+            "preDoneDate":1,
+            "post_ActivityDoneDate":1,
+            "activityStatus":1,
+            "remark":1,
+            "reportStatus":1,
+            "reportAcceptanceStatus":1,
+            "clientRemark":1,
+            "concatenate":1,
+            "attemptCycle":1,
+            "employeeId":1,
+            "employeeName":1,
+            "userName":1
+        };
+        return projectModel.find(projectToFind.query,projection);
     }
     else{
         // aggregate.push({ $sort: { _id:-1} });

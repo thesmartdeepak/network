@@ -61,5 +61,4 @@ manageAccess();
 
 $( document ).ajaxComplete(function() {
     manageAccess();
-    alert(1);
 });

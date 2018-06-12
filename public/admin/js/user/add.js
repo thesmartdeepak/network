@@ -165,8 +165,7 @@ $('#projectCodeList').select2({
         headers: {
             'authorization': localStorage.token
         }
-    },
-    placeholder: "Select a Co-ordinator"
+    }
 });
 
 sideBar('user');

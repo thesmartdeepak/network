@@ -9,7 +9,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
 
         let submitData = $scope.submitData();
 
-       $http({
+        $http({
             method:'post',
             url:'/allProject?page='+page,
             data:submitData,
@@ -140,13 +140,25 @@ app.controller('ctrl', function($scope, $http,$filter) {
     }
 
     $scope.exportTable = function(){
-        let alphaRow = $(".alphaRow");
-        $(".alphaRow").remove();
-        $("select").remove();
-        $("#mainTable").tableToCSV();
-        $("#mainTable").prepend(alphaRow);
+        let submitData = $scope.submitData();
 
-        $scope.dateFilterChange();
+        $http({
+            method:'post',
+            url:'/allProject?type=download',
+            data:submitData,
+            headers: {
+                'authorization': localStorage.token,
+                // 'Content-type': 'application/json'
+            },
+            // responseType: 'arraybuffer'
+        }).then(function(response){
+            // var blob = new Blob([response.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+            // var objectUrl = URL.createObjectURL(blob);
+            // window.open(objectUrl)
+            
+            // console.log(response);
+            window.location.href = response.data;
+        });
     }
 
     $scope.activityStatusList = [];
@@ -267,24 +279,5 @@ $('#searchPreDoneDate').datepicker({
 $('#searchPostDoneDate').datepicker({
     autoclose: true
 });
-
-function myFunction() {
-    
-    var input, filter, table, tr, td, i;
-    input = document.getElementById("projectCodeSearch");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("mainTable");
-    tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[1];
-      if (td) {
-        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }       
-    }
-  }
 
 sideBar('project');

@@ -17,10 +17,10 @@ import msg from '../core/message/error.msg.js';
 import path from 'path';
 import xlsx from 'node-xlsx';
 import fs from 'fs';
-import jwt from 'jsonwebtoken';
-import projectModel from '../models/project.model';
 const { getJsDateFromExcel } = require('excel-date-to-js');
 import mongoose from 'mongoose';
+import creatCsvFile from 'download-csv';
+// import excel from 'node-excel-export';
 
 /**
  * [service is a object ]
@@ -227,12 +227,13 @@ service.addProject = async (req,res) =>{
                 row['employeeName'] = userData.fullname;
 
                 row['concatenate'] = row['siteId']+"-"+row['itemDescription_Band']+"-"+row['activity'];
-                let projectToFind = {
-                    query:{status:{$ne:'deleted'},concatenate:row['concatenate']}
-                }
-                const allProjectCount = await Project.allProjectCount(projectToFind);
+                row['managerId'] = coOrdinatorData.parentUserId;
+                // let projectToFind = {
+                //     query:{status:{$ne:'deleted'},concatenate:row['concatenate']}
+                // }
+                // const allProjectCount = await Project.allProjectCount(projectToFind);
     
-                row['attemptCycle'] = "C"+(allProjectCount+1);
+                // row['attemptCycle'] = "C"+(allProjectCount+1);
 
                 rows.push(row);
             }
@@ -280,32 +281,6 @@ service.addProject = async (req,res) =>{
     }
 }
 
-// service.editProject = async (req,res) => {
-//     let editProjectData = {
-//         name:req.body.name,
-//         poNumber:req.body.poNumber,
-//         shipmentNo:req.body.shipmentNo,
-//         projectCode:req.body.projectCode,
-//         contactPerson:req.body.contactPerson,
-//         contactPersonNo:req.body.contactPersonNo,
-//         contactAddress:req.body.contactAddress,
-//         updatedAt: new Date()
-//     }
-
-//     let editToProject = {
-//         query:{_id:req.query.projectId},
-//         set:{"$set":editProjectData}
-//     }
-    
-//     const editProject = await project.editProject(editToProject);
-
-//     try{
-//         res.send({"success":true, "code":"200", "msg":successMsg.editProject,"data":editProject});
-//     }
-//     catch(err) {
-//         res.send({"success":false, "code":"500", "msg":msg.editProject,"err":err});
-//     }
-// }
 
 service.oneProject = async (req,res) => {
     let projectToFind = {
@@ -317,6 +292,7 @@ service.oneProject = async (req,res) => {
     res.send({"success":true,"code":200,"msg":successMsg.getOneProject,"data":oneProject});
 }
 
+var Excel = require('exceljs');
 service.allProject = async (req,res) => {
     var toDate = new Date(req.body.toDate);
     toDate.setDate(toDate.getDate() + 1);
@@ -353,10 +329,16 @@ service.allProject = async (req,res) => {
     }
 
     
-    const userDecoded = jwt.verify(req.headers.authorization, 'shhhhh');
+    const userDecoded = req.user;
     if(userDecoded.userType != 'admin'){
-        let rowQuery = {userId:mongoose.Types.ObjectId(userDecoded._id)};
-        query.push(rowQuery);
+        if(userDecoded.userType == 'manager'){
+            let rowQuery = {managerId:mongoose.Types.ObjectId(userDecoded._id)};
+            query.push(rowQuery);
+        }
+        else{
+            let rowQuery = {userId:mongoose.Types.ObjectId(userDecoded._id)};
+            query.push(rowQuery);
+        }
     }
 
     let projectToFind = {
@@ -365,16 +347,61 @@ service.allProject = async (req,res) => {
         skip:(req.query.page-1)*req.body.pageCount
     }
 
-    // console.log(projectToFind);
-
     let listType = 'list';
-    if(req.query.type || req.query.type == 'count'){
+    if(req.query.type && req.query.type == 'count'){
         listType = 'count';
+    }
+    else if(req.query.type && req.query.type == 'download'){
+        listType = 'download';
     }
 
     const allProject = await Project.projectPagination(projectToFind,listType);
 
-    res.send({"success":true,"code":200,"msg":successMsg.allProject,"data":allProject});
+    if(req.query.type && req.query.type == 'download'){
+
+        var workbook = new Excel.Workbook();
+        var worksheet = workbook.addWorksheet('Input');
+
+        worksheet.columns = [
+            { header: 'Sr. No.', key: 'srNo', width: 10 },
+            { header: 'Project_Code', key: 'projectCode', width: 10 },
+            { header: 'Operator', key: 'operator', width: 10 },
+            { header: 'Activity', key: 'activity', width: 10 },
+            { header: 'Item_Description_Band', key: 'itemDescription_Band', width: 25 },
+            { header: 'Site_Id', key: 'siteId', width: 10 },
+            { header: 'Site_Count', key: 'siteCount', width: 10 },
+            { header: 'Pre_Done_Date', key: 'preDoneDate', width: 15 },
+            { header: 'Post_Activity_Done_Date', key: 'post_ActivityDoneDate', width: 15 },
+            { header: 'Activity_Status', key: 'activityStatus', width: 10 },
+            { header: 'Remark', key: 'remark', width: 10 },
+            { header: 'Report_Status', key: 'reportStatus', width: 10 },
+            { header: 'Report_Acceptance_Status', key: 'reportAcceptanceStatus', width: 10 },
+            { header: 'Client_Remark', key: 'clientRemark', width: 10 },
+            { header: 'Concatenate', key: 'concatenate', width: 50 },
+            { header: 'Attempt_Cycle', key: 'attemptCycle', width: 10 },
+            { header: 'Employee_Id', key: 'employeeId', width: 10 },
+            { header: 'Employee_Name', key: 'employeeName', width: 20 },
+            { header: 'Co_Ordinator', key: 'userName', width: 20 }
+        ];
+
+        
+        let x=0;
+        for(x in allProject){
+            let rowDownloadData = allProject[x];
+            rowDownloadData['srNo'] = parseInt(x)+1;
+            worksheet.addRow(rowDownloadData);
+        }
+
+        var filePath = "public/uploads/excel/"+Math.random()+".xlsx"
+        workbook.xlsx.writeFile(filePath).then(function(){
+            res.send(filePath);
+        });
+    }
+    else{
+        res.send({"success":true,"code":200,"msg":successMsg.allProject,"data":allProject});
+    }
+
+    
 }
 
 service.allProjectCount = async(req,res) => {
@@ -415,7 +442,7 @@ service.changeStatusRemark = async(req,res) => {
         set:{"$set":set}
     };
     try{
-        await projectModel.editProject(projectScatusRemarkUpdate);
+        await Project.editProject(projectScatusRemarkUpdate);
         res.send({"success":true,"code":200,"msg":successMsg.editStatusRemark,"data":""});
     }
     catch(err){
