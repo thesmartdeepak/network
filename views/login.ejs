@@ -9,12 +9,14 @@
         <form class="form-signin" ng-submit="submit()" name="myForm" id="myForm">
             <h2 class="form-signin-heading">Please sign in</h2>
             <h3 class="{{ submitLoginClass }}">{{ submitLoginTxt }}</h3>
+            <div class="email-box">
             <label for="inputEmail" class="sr-only">Email address</label>
             <input name="email" class="form-control" placeholder="Email address" ng-model="loginData.email" required>
-
+            </div>
+            <div class="password-box">
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" name="password" class="form-control" placeholder="Password" ng-model="loginData.password">
-
+            </div>
             <button class="btn btn-lg btn-primary btn-block">Sign in</button>
         </form>
 

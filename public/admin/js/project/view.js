@@ -240,6 +240,10 @@ app.controller('ctrl', function($scope, $http,$filter) {
             return false;
         }
     }
+
+    $scope.downloadDemoFile = function(){
+        window.location.href = "/public/demoFiles/network.xlsx";
+    }
 });
 
 

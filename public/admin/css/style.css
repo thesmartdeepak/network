@@ -11,3 +11,102 @@
 .mangerAdminAccess,.coOrdinatorAccess{
     display:none;
 }
+
+
+
+/*12-6-2018*/
+
+.label-text.select-tag select {
+    margin: 0;
+}
+
+.label-text.select-tag {
+    margin: 15px 0;
+}
+.label-text-fromtodate {
+    width: 20%;
+    float: right;
+    margin: 0 10px;
+}
+.label-text-viewpagination.select-tag {
+    width: 20%;
+    float: left;
+}
+.input-group {
+   width: 100%;
+   padding: 5px;
+}
+.content-header > h1 {
+    font-weight: 600;
+}
+.btn-dwnld-grp {
+    padding: 15px 5px;
+}
+.content-header > h1 {
+   font-weight: 600;
+}
+.reupload-btn {
+    margin: 15px 0;
+}
+.tableMainBox-content {
+    margin: 0 0 10px 0;
+}
+.mainTable-addproject td,th {
+    width: 200px;
+}
+#mainTable-addproject td,th {
+    padding: 3px;
+    height: 20px;
+    border: 1px solid #000;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 14px;
+    
+}
+#mainTable th {
+    border-top: 1px solid #000;
+}
+#mainTable td, th {
+    border: 1px solid #000;
+    vertical-align: middle;
+    text-align: center;
+}
+.alphaCell.row-cell-width {
+    width: 50px;
+}
+#myForm {
+    padding: 15px;
+    background: #e6e6e6;
+    width: 50%;
+    margin: 100px auto;
+    
+}
+.email-box label {
+    width: 100%;
+    margin: 10px;
+}
+.email-box input.form-control {
+    width: 100%;
+    margin: 10px;
+    height: 45px;
+}
+
+.password-box label {
+    width: 100%;
+    margin: 10px;
+}
+.password-box input.form-control {
+    width: 100%;
+    margin: 10px;
+    height: 45px;
+}
+.email-box{
+    margin: 15px 0;
+}
+.password-box{
+    margin: 15px 0;
+}
+.btn.btn-lg.btn-primary.btn-block {
+    margin: 10px;
+    padding: 6px 25px;
+}

@@ -1,19 +1,27 @@
 <% layout('../layout/layout') -%>
 <!-- Main content -->
 <div ng-controller="ctrl">
-    <button ng-click="exportTable()" data-export="export">Download csv</button>
-    <a href="/public/demoFiles/network.xlsx">Download Demo file</a>
+    <div class="btn-dwnld-grp">
+        <button class="btn-download" ng-click="exportTable()" data-export="export">Download csv</button>
+        <button class="btn-download" ng-click="downloadDemoFile()">Download Demo file</button>
+    </div>
     <div class="input-group date">
-        <div class="input-group-addon">
-            <i class="fa fa-calendar"></i>
-        </div>
+       <div class="label-text-fromtodate">
+       <label>From Date</label>
         <input class="form-control pull-right dateFilter" id="fromDate" type="text">
+        </div>
+        <div class="label-text-fromtodate">
+        <label>To Date</label>
         <input class="form-control pull-right dateFilter" id="toDate" type="text">
+        </div>
+        <div class="label-text-viewpagination select-tag">
+        <label>View</label>
         <select class="form-control" ng-model="pageCount" ng-change="resetPagination()">
             <option value="25">25</option>
             <option value="50">50</option>
             <option value="100">100</option>
         </select>
+        </div>
     </div>
     <div class="tableMainBox">
         <table id="mainTable" class="mainTable" width="100%" border="0" cellpadding="0" cellspacing="0">
