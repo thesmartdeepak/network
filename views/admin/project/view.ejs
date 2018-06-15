@@ -2,31 +2,36 @@
 <!-- Main content -->
 <div ng-controller="ctrl">
     <div class="btn-dwnld-grp">
-        <button class="btn-download" ng-click="exportTable()" data-export="export">Download csv</button>
-        <button class="btn-download" ng-click="downloadDemoFile()">Download Demo file</button>
-    </div>
-    <div class="input-group date">
-       <div class="label-text-fromtodate">
-       <label>From Date</label>
-        <input class="form-control pull-right dateFilter" id="fromDate" type="text">
+        <div class="btnBlock">
+            <button class="btn-download" ng-click="exportTable()" data-export="export">Download Report</button>
+            <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button>
+        </div>
+        <div class="input-group date">
+        <div class="label-text-fromtodate">
+            <label>To Date</label>
+            <input class="form-control pull-right dateFilter" id="toDate" type="text">
         </div>
         <div class="label-text-fromtodate">
-        <label>To Date</label>
-        <input class="form-control pull-right dateFilter" id="toDate" type="text">
+            <label>From Date</label>
+            <input class="form-control pull-right dateFilter" id="fromDate" type="text">
         </div>
+        
         <div class="label-text-viewpagination select-tag">
-        <label>View</label>
-        <select class="form-control" ng-model="pageCount" ng-change="resetPagination()">
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select>
+            <label>View</label>
+            <select class="form-control" ng-model="pageCount" ng-change="resetPagination()">
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
         </div>
     </div>
+    </div>
+    
     <div class="tableMainBox">
         <table id="mainTable" class="mainTable" width="100%" border="0" cellpadding="0" cellspacing="0">
-            <tr>
-                <td></td>
+            <thead class="">
+                <tr class="filter-row sticky1">
+                <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
                 <td><input class="form-control filterData"  id="projectCodeSearch1" placeholder="Project Code" name="projectCode" required></td>
                 <td><input class="form-control filterData" placeholder="Operator" name="operator" required></td>
                 <td><input class="form-control filterData" placeholder="Activity" name="activity" required></td>
@@ -37,33 +42,33 @@
                 <td><input class="form-control pull-right dateFilter filterData" id="searchPostDoneDate" name="post_ActivityDoneDate" type="text" placeholder="Post Activity Done Date"></td>
                 <td>
                     <select class="form-control filterData" name="activityStatus">
-                        <option value="">Select activity</option>
+                        <option value="">Activity</option>
                         <option  ng-repeat="activityStatus in activityStatusList" value="{{ activityStatus.statusRemark }}">{{ activityStatus.statusRemark }}</option>
                     </select>
                 </td>
                 <td>
                     <select class="form-control filterData" name="remark">
-                            <option value="">Select remark</option>
-                            <option ng-repeat="remark in remarkList" value="{{ remark.statusRemark }}">{{ remark.statusRemark }}</option>
-                        </select>
+                        <option value="">Remark</option>
+                        <option ng-repeat="remark in remarkList" value="{{ remark.statusRemark }}">{{ remark.statusRemark }}</option>
+                    </select>
                 </td>
                 <td>
-                        <select class="form-control filterData" name="reportStatus">
-                                <option value="">Select remark</option>
-                                <option ng-repeat="reportStatus in reportStatusList" value="{{ reportStatus.statusRemark }}">{{ reportStatus.statusRemark }}</option>
-                            </select>
+                    <select class="form-control filterData" name="reportStatus">
+                        <option value="">Report Status</option>
+                        <option ng-repeat="reportStatus in reportStatusList" value="{{ reportStatus.statusRemark }}">{{ reportStatus.statusRemark }}</option>
+                    </select>
                 </td>
                 <td>
-                        <select class="form-control filterData" name="reportAcceptanceStatus">
-                                <option value="">Select remark</option>
-                                <option ng-repeat="reportAcceptanceStatus in reportAcceptanceStatusList" value="{{ reportAcceptanceStatus.statusRemark }}">{{ reportAcceptanceStatus.statusRemark }}</option>
-                            </select>
+                    <select class="form-control filterData" name="reportAcceptanceStatus">
+                        <option value="">Report Acceptance Status</option>
+                        <option ng-repeat="reportAcceptanceStatus in reportAcceptanceStatusList" value="{{ reportAcceptanceStatus.statusRemark }}">{{ reportAcceptanceStatus.statusRemark }}</option>
+                    </select>
                 </td>
                 <td>
-                        <select class="form-control filterData" name="clientRemark">
-                                <option value="">Select remark</option>
-                                <option ng-repeat="clientRemark in clientRemarkList" value="{{ clientRemark.statusRemark }}">{{ clientRemark.statusRemark }}</option>
-                            </select>
+                    <select class="form-control filterData" name="clientRemark">
+                        <option value="">Client Remark</option>
+                        <option ng-repeat="clientRemark in clientRemarkList" value="{{ clientRemark.statusRemark }}">{{ clientRemark.statusRemark }}</option>
+                    </select>
                 </td>
                 <td><input class="form-control filterData" placeholder="Concatenate" name="concatenate" required></td>
                 <td><input class="form-control filterData" placeholder="Attempt Cycle" name="attemptCycle" required></td>
@@ -71,7 +76,7 @@
                 <td><input class="form-control filterData" placeholder="Employee Name" name="employeeName" required></td>
                 <td><input class="form-control filterData" placeholder="Co_Ordinator" name="userName" required></td>
             </tr>
-            <tr class="alphaRow">
+            <!--<tr class="alphaRow sticky2">
                 <td class="alphaCell serialNum">A</td>
                 <td class="alphaCell">B</td>
                 <td class="alphaCell">C</td>
@@ -91,7 +96,7 @@
                 <td class="alphaCell">Q</td>
                 <td class="alphaCell">R</td>
                 <td class="alphaCell">S</td>
-                <!--<td class="alphaCell">T</td>
+                <td class="alphaCell">T</td>
                 <td class="alphaCell">U</td>
                 <td class="alphaCell">V</td>
                 <td class="alphaCell">W</td>
@@ -100,14 +105,14 @@
                 <td class="alphaCell">Z</td>
                 <td class="alphaCell">AA</td>
                 <td class="alphaCell">AB</td>
-                <td class="alphaCell">AC</td>-->
-            </tr>
-            <tr class="headingRow">
-                <td>Sr. No.</td>
+                <td class="alphaCell">AC</td>
+            </tr>-->
+            <tr class="headingRow sticky3">
+                <td class="serialNum">Sr. No.</td>
                 <td>Project_Code</td>
                 <td>Operator</td>
                 <td>Activity</td>
-                <td>Item_Description_Band</td>
+                <td class="width200">Item_Description_Band</td>
                 <td>Site_Id</td>
                 <td>Site_Count</td>
                 <!--<td>Pre_Done_Month</td>-->
@@ -119,7 +124,7 @@
                 <td>Report_Status</td>
                 <td>Report_Acceptance_Status</td>
                 <td>Client_Remark</td>
-                <td>Concatenate</td>
+                <td class="width300">Concatenate</td>
                 <td>Attempt_Cycle</td>
                 <td>Employee_Id</td>
                 <td>Employee_Name</td>
@@ -134,6 +139,8 @@
                 <td>Approved</td>-->
                 <td>Co_Ordinator</td>
             </tr>
+            </thead>
+            
             <tr class="dataRow" ng-repeat="(index,project) in projects">
                
                 <td>{{ currentIndex(index+1) }}</td>

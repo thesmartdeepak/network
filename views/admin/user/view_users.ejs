@@ -21,8 +21,8 @@
                     <td>{{ toUcFirst(user.userType) }}</td>
                     <td>{{ showProjectCode(user.projectCode) }}</td>
                     <td class="mangerAdminAccess">
-                        <a class="btn btn-info" href="/edit-user?userId={{ user._id }}">Edit</a>
-                        <a class="btn btn-danger" ng-click="deleteUser(user._id)">Delete</a>
+                        <a class="btn btn-info" href="/edit-user?userId={{ user._id }}" ng-hide="hide_edit_delete(user)">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteUser(user._id)" ng-hide="hide_edit_delete(user)">Delete</a>
                         <a class="btn btn-warning" data-name={{ user.fullname }} ng-click="changePassword(user._id,user.fullname)">Change password</a>
                     </td>
                 </tr>

@@ -29,7 +29,7 @@
     margin: 0 10px;
 }
 .label-text-viewpagination.select-tag {
-    width: 20%;
+    width: 71px;
     float: left;
 }
 .input-group {
@@ -51,10 +51,10 @@
 .tableMainBox-content {
     margin: 0 0 10px 0;
 }
-.mainTable-addproject td,th {
+.mainTable-addproject td,.mainTable-addproject th {
     width: 200px;
 }
-#mainTable-addproject td,th {
+#mainTable-addproject td,#mainTable-addproject th {
     padding: 3px;
     height: 20px;
     border: 1px solid #000;
@@ -66,7 +66,7 @@
 #mainTable th {
     border-top: 1px solid #000;
 }
-#mainTable td, th {
+#mainTable td, #mainTable th {
     border: 1px solid #000;
     vertical-align: middle;
     text-align: center;
@@ -86,9 +86,10 @@
     margin: 10px;
 }
 .email-box input.form-control {
-    width: 100%;
+    width: 90%;
     margin: 10px;
     height: 45px;
+    padding: 0 15px;
 }
 
 .password-box label {
@@ -96,9 +97,10 @@
     margin: 10px;
 }
 .password-box input.form-control {
-    width: 100%;
+    width: 90%;
     margin: 10px;
     height: 45px;
+    padding: 0 15px;
 }
 .email-box{
     margin: 15px 0;
@@ -109,4 +111,32 @@
 .btn.btn-lg.btn-primary.btn-block {
     margin: 10px;
     padding: 6px 25px;
+}
+.btn.btn-warning:hover {
+    background-color: #2b6d94;
+    border-color: #2b6d94;
+}
+.btn-warning {
+    background-color: #367fa9;
+    border-color: #367fa9;
+}
+table#mainTable td h4 {
+    vertical-align: middle;
+    display: inline-flex;
+}
+table#mainTable td h4 b{
+    margin-right: 7px;
+}
+table#mainTable tbody tr td.filter_td {
+    background: #377fa9;
+    color: #fff;
+}
+.btnBlock {
+    display: inline-block;
+}
+.input-group.date {
+    display: inline-block;
+    float: right;
+    width: auto;
+    margin-top:-27px;
 }

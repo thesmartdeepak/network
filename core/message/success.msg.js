@@ -17,7 +17,7 @@ msg.getOneUser="Found one User successfully!!!!"
 msg.addUser="User added successfully!!!!"
 msg.deleteUser="User deleted successfully!!!"
 msg.editUser="User updated successfully!!!"
-msg.loginUser=" login successfully!!!!"
+msg.loginUser="Login successfully!!!!"
 
 /**
  * UserType related msg
@@ -50,9 +50,9 @@ msg.editActivity="Activity updated successfully!!!"
  */ 
 msg.allClient="Found successfully!!!!"
 msg.getOneClient="Found one client successfully!!!!"
-msg.addClient="client added successfully!!!!"
-msg.deleteClient="client deleted successfully!!!"
-msg.editClient="client updated successfully!!!"
+msg.addClient="Client added successfully!!!!"
+msg.deleteClient="Client deleted successfully!!!"
+msg.editClient="Client updated successfully!!!"
 
 /**
  * project related msg

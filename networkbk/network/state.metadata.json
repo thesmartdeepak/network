@@ -1,1 +1,0 @@
-{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"network.state"},{"v":1,"unique":true,"key":{"stateId":1},"name":"stateId_1","ns":"network.state","background":true}]}

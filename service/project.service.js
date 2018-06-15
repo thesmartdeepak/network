@@ -19,8 +19,7 @@ import xlsx from 'node-xlsx';
 import fs from 'fs';
 const { getJsDateFromExcel } = require('excel-date-to-js');
 import mongoose from 'mongoose';
-import creatCsvFile from 'download-csv';
-// import excel from 'node-excel-export';
+var Excel = require('exceljs');
 
 /**
  * [service is a object ]
@@ -292,7 +291,7 @@ service.oneProject = async (req,res) => {
     res.send({"success":true,"code":200,"msg":successMsg.getOneProject,"data":oneProject});
 }
 
-var Excel = require('exceljs');
+
 service.allProject = async (req,res) => {
     var toDate = new Date(req.body.toDate);
     toDate.setDate(toDate.getDate() + 1);

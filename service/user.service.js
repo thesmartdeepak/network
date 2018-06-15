@@ -37,13 +37,14 @@ const service = {};
 
 service.getAll = async (req,res) =>{
 	try{
-        let query = [{'status':{ $ne:"deleted"}}];
+        let query = [
+            {'status':{ $ne:"deleted"}}
+        ];
         
         const decord = req.user;
         
         if(decord.userType == 'manager'){
             query.push({"parentUserId":decord._id});
-            
         }
 
 		let dataToFind = {

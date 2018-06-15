@@ -112,6 +112,16 @@ app.controller('ctrl', function($scope, $http) {
             }
         }
     }
+
+
+    $scope.hide_edit_delete = function(user){
+        if(user.userType=='admin'){
+            return true;
+        }
+        else if(user.userType != 'manager' && localStorage.userType=='admin'){
+            return true;
+        }
+    }
 });
 
 sideBar('user');

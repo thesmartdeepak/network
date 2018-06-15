@@ -2,6 +2,7 @@ var app = angular.module("App",[]);
 
 app.controller('headerSidebarCtrl', function($scope) {
     $scope.name = localStorage.fullname;
+    $scope.userType = (localStorage.userType[0]).toUpperCase()+localStorage.userType.slice(1);
 });
 
 angular.module('App').factory('httpInterceptor', ['$q', '$rootScope',
