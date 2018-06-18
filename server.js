@@ -18,8 +18,7 @@ import project from './routes/project.router.js';
 import projectType from './routes/projectType.router.js';
 import statusRemark from './routes/statusRemark.router.js';
 import department from './routes/department.router.js';
-
-import net from 'net';
+import report from './routes/report.router.js';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import engine from 'ejs-locals';
@@ -94,7 +93,8 @@ app.use(function(req, res, next) {
         '/add-project','/view-project',
         '/add-project-type','/edit-project-type','/project-type',
         '/add-department','/edit-department','/view-department',
-        '/status-remark','/add-status-remark','/edit-status-remark'
+        '/status-remark','/add-status-remark','/edit-status-remark',
+        '/basic-reporting','/graphical-reporting'
     ];
 
     if(arr_allowed.indexOf(req._parsedUrl.pathname)>=0){
@@ -166,6 +166,7 @@ app.use(project);
 app.use(projectType);
 app.use(department);
 app.use(statusRemark);
+app.use(report);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

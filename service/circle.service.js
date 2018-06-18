@@ -9,14 +9,8 @@
 import Circle from '../models/circle.model'
 import Region from '../models/region.model'
 import Client from '../models/client.model'
-import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
-import utility from '../core/utility.js' 
-import  crypto from 'crypto'
-import jwt from 'jsonwebtoken'
-import nm from 'nodemailer'
-import rand from 'csprng'
 import mongoose from 'mongoose'
 
 
@@ -114,13 +108,14 @@ service.addCircle = async (req,res) =>{
 }
 
 service.editCircle = async (req,res) => {
+
     let getOneClient = {
         query:{_id:mongoose.Types.ObjectId(req.body.clientId)},
         projection:{}
     };
-
+    
     let clientOne = await Client.getOneClient(getOneClient);
-     
+    
     const clientCircleCode = clientOne.code+req.body.code;
     
     let circleEdit={

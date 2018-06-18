@@ -7,7 +7,6 @@
  */
 
 import Client from '../models/client.model'
-import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
 

@@ -14,6 +14,6 @@ config.logFileName = 'app.log';
 config.dbHost = process.env.dbHost || 'localhost';
 config.dbPort = process.env.dbPort || '27017';
 config.dbName = process.env.dbName || 'network';
-config.serverPort = process.env.serverPort || 8080;
+config.serverPort = process.env.serverPort || 84;
 
 export default config;

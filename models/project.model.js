@@ -12,6 +12,10 @@ const projectSchema = mongoose.Schema({
     projectTypeName:{type: String},
     managerId:{type:mongoose.Schema.ObjectId},
     projectCode: {type:String},
+    circleId:{type:mongoose.Schema.ObjectId},
+    circleCode:{type:String},
+    regionId:{type:mongoose.Schema.ObjectId},
+    clientId:{type:mongoose.Schema.ObjectId},
     operator:{type:String},
     activity: {type: String},
     activityId: {type: mongoose.Schema.ObjectId},
@@ -114,6 +118,23 @@ projectModel.projectPagination = (projectToFind,type) => {
 
 projectModel.allProjectCount = (projectToFind) => {
     return projectModel.find(projectToFind.query,projectToFind.projection).count();
+}
+
+projectModel.getReport = (projectToFind) => {
+    let aggregate = [];
+    if(projectToFind.query){
+        aggregate.push({
+            "$match":projectToFind.query
+        });
+    }
+
+    if(projectToFind.sort){
+        aggregate.push({ $sort : projectToFind.sort });
+    }
+
+    aggregate.push({"$group" : {_id:projectToFind.group, count:{$sum:1}}});
+
+    return projectModel.aggregate(aggregate);
 }
 
 export default projectModel;

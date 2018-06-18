@@ -7,14 +7,8 @@
  */
 
 import Region from '../models/region.model'
-import logger from '../core/logger/app.logger'
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
-import utility from '../core/utility.js' 
-import  crypto from 'crypto'
-import jwt from 'jsonwebtoken'
-import nm from 'nodemailer'
-import rand from 'csprng'
 
 
 /**

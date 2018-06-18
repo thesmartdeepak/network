@@ -11,12 +11,9 @@ import Activity from '../models/activity.model';
 import User from '../models/user.model';
 import Circle from '../models/circle.model';
 import Client from '../models/client.model';
-import logger from '../core/logger/app.logger';
 import successMsg from '../core/message/success.msg';
 import msg from '../core/message/error.msg.js';
-import path from 'path';
 import xlsx from 'node-xlsx';
-import fs from 'fs';
 const { getJsDateFromExcel } = require('excel-date-to-js');
 import mongoose from 'mongoose';
 var Excel = require('exceljs');
@@ -97,7 +94,7 @@ service.addProject = async (req,res) =>{
 
     const circleToFind = {
         query:{clientCircleCode: coOrdinatorData.projectCode},
-        projection:{clientId:1}
+        projection:{clientId:1,code:1,regionId:1}
     };
     const coOrdinatorCircle = await Circle.getOneCircle(circleToFind);
 
@@ -139,7 +136,6 @@ service.addProject = async (req,res) =>{
         
         for(k in data){
             let goodRow = true;
-            let errorRow = [];
 
             let rst = data[k];
             let index = k;
@@ -157,7 +153,7 @@ service.addProject = async (req,res) =>{
             }
             
             row['projectStatus'] = "active";
-            row['createAt'] = new Date();
+            
             row['updatedAt'] = new Date();
             row['userId'] = coOrdinatorData._id;
             row['userName'] = coOrdinatorData.fullname;
@@ -172,6 +168,11 @@ service.addProject = async (req,res) =>{
             row['projectTypeName'] = coOrdinatorData.projectTypeName;
             row['projectCode'] = coOrdinatorData.projectCode;
             row['operator'] = coOrdinatorClient.name;
+            row['circleId'] = coOrdinatorCircle._id;
+            row['circleCode'] = coOrdinatorCircle.code;
+            row['regionId'] = coOrdinatorCircle.regionId;
+            row['clientId'] = coOrdinatorCircle.clientId;
+            
 
             /* Activity check */
             const activityToFind = {
@@ -259,9 +260,10 @@ service.addProject = async (req,res) =>{
                         query:{$and:[{status:{$ne:'deleted'}},{concatenate:rows[x]['concatenate']}]},
                         set:rows[x]
                     }
-                    const updateProject = await Project.editProject(editToProject);
+                    await Project.editProject(editToProject);
                 }
                 else{
+                    rows[x]['createAt'] = new Date();
                     const addToProject = Project(rows[x]);
                     await Project.addProject(addToProject);
                 }

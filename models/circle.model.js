@@ -70,4 +70,8 @@ CircleModel.totalProjectCodeList = (circleToFind) => {
   return CircleModel.find(circleToFind.query,circleToFind.projection).skip(circleToFind.skip).limit(circleToFind.limit);
 }
 
+CircleModel.getSimpleCircle = (circleTOFind) => {
+  return CircleModel.find(circleTOFind.query,circleTOFind.projection);
+}
+
 export default CircleModel;

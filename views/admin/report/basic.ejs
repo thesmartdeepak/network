@@ -1,0 +1,96 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    
+    <!--=========== Circle client report ==-->
+    <div class="circleClients">
+        <h2>Circle client report</h2>
+        <!--<table class="mainTable">
+            <tr ng-repeat="(index,clientList) in circleClient">
+                <td class="ccm1">{{ circleName[index] }}</td>
+                <td class="ccm1">{{ circleCountFromClient(clientList,'total') }}</td>
+                <td class="ccm1">{{ circleCountFromClient(clientList,'current') }}</td>
+                <td class="ccm2">
+                    <table>
+                        <tr ng-repeat="client in clientList">
+                            <td class="cc50">{{ client.operator }}</td>
+                            <td class="cc50">{{ client.totalCount }}</td>
+                            <td class="cc50">{{ client.curruntCount }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>-->
+        
+
+        <table class="mainTable">
+            <tr>
+                <td class="ccm1"><strong>Circle</strong></td>
+                <td class="ccm1"><strong>Total count</strong></td>
+                <td class="ccm1"><strong>Current month count</strong></td>
+                <td class="ccm1"><strong>Client</strong></td>
+                <td class="ccm1"><strong>Total count</strong></td>
+                <td class="ccm1"><strong>Current month count</strong></td>
+            </tr>
+            <tbody ng-repeat="(index,clientList) in circleClient" class="tbodyBorder">
+                <tr ng-repeat="client in clientList" ng-init="parentIndex = $index;count = objectCount(clientList);">
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="parentIndex == 0"><strong>{{ circleName[index] }}</strong></td>
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="parentIndex == 0">{{ circleCountFromClient(clientList,'total') }}</td>
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="parentIndex == 0">{{ circleCountFromClient(clientList,'current') }}</td>
+                    <td class="ccm1">{{ client.operator }}</td>
+                    <td class="ccm1">{{ client.totalCount }}</td>
+                    <td class="ccm1">{{ client.curruntCount }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--=========== /Circle client report ==-->
+
+    <!--=========== Client report ==-->
+    <div class="circleClients">
+        <h2>Client report</h2>
+        <table class="mainTable">
+            <tr>
+                <td class="ccm1"><strong>Client</strong></td>
+                <td class="ccm1"><strong>Total count</strong></td>
+                <td class="ccm1"><strong>Current month count</strong></td>
+            </tr>
+            <tr ng-repeat="client in clients">
+                <td class="ccm1"><strong>{{ client._id }}</strong></td>
+                <td class="ccm1">{{ client.count }}</td>
+                <td class="ccm1">{{ client.currentCount }}</td>
+            </tr>
+        </table>
+    </div>
+    <!--=========== /Client report ==-->
+
+    <!--=========== Department ProjectType report ==-->
+    <div class="circleClients">
+        <h2>Department ProjectType report</h2>
+
+        <table class="mainTable">
+            <tr>
+                <td class="ccm1"><strong>Department</strong></td>
+                <td class="ccm1"><strong>Total count</strong></td>
+                <td class="ccm1"><strong>Current month count</strong></td>
+                <td class="ccm1"><strong>Project Type</strong></td>
+                <td class="ccm1"><strong>Total count</strong></td>
+                <td class="ccm1"><strong>Current month count</strong></td>
+            </tr>
+            <tbody ng-repeat="(index,list) in departmentProejctType" class="tbodyBorder">
+                <tr ng-repeat="row in list" ng-init="parentIndex = $index;count = objectCount(list);">
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="parentIndex == 0"><strong>{{ row._id.departmentName }}</strong></td>
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="parentIndex == 0">{{ generalCountFromChild(list,'total') }}</td>
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="parentIndex == 0">{{ generalCountFromChild(list,'current') }}</td>
+                    <td class="ccm1">{{ row._id.projectTypeName }}</td>
+                    <td class="ccm1">{{ row.count }}</td>
+                    <td class="ccm1">{{ row.currentCount }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--=========== /Department ProjectType report ==-->
+
+</section>
+
+<script src="/admin/js/report/basic.js"></script>

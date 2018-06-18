@@ -140,3 +140,30 @@ table#mainTable tbody tr td.filter_td {
     width: auto;
     margin-top:-27px;
 }
+.circleClients {
+    width: 100%;
+    display:block;
+}
+.circleClients table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.circleClients table.mainTable td {
+    border: 1px solid #ccc;
+    padding: 0px;
+}
+.circleClients table td {
+    border: 0px;
+    padding: 0px;
+}
+.circleClients table td.ccm1 {
+    width: 200px;
+    padding: 0 10px;
+}
+
+/* .tbodyBorder{
+    border:2px black solid;
+} */
+.marginTop10{
+    margin-top: 10px;
+}
