@@ -7,8 +7,10 @@
  */
 import Project from '../models/project.model';
 import Circle from '../models/circle.model';
+import Client from '../models/client.model';
 import successMsg from '../core/message/success.msg'
 import msg from '../core/message/error.msg.js'
+import mongoose from 'mongoose';
 
 
 /**
@@ -173,6 +175,73 @@ service.getGraphicalReport = async (req,res) => {
     /* /Department pie */
 
     return res.send({success:true,code:200,data:data});
+}
+
+service.getMisClientCircle = async (req,res) =>{
+    let data = {};
+
+    let query = [];
+    if(req.body.fromDate){
+        query.push({"createAt":{$gte:new Date(req.body.fromDate)}});
+    }
+
+    if(req.body.toDate){
+        let toDate = new Date(req.body.toDate);
+        toDate.setDate(toDate.getDate() + 1);
+        query.push({"createAt":{$lte:toDate}});
+    }
+
+    if(req.body.client){
+        query.push({"clientId":mongoose.Types.ObjectId(req.body.client)});
+    }
+
+
+    let projectToFind = {
+        group:{
+            client:"$clientName",
+            circle:"$circleCode"
+        }
+    }
+
+    if(query[0]){
+        projectToFind.query = {$and:query};
+    }
+
+    
+
+    data.circleClientSite = await Project.getReport(projectToFind);
+    
+    query.push({reportAcceptanceStatus:"Accepted"});
+    let aggregate = [
+        {$match:{$and:query}},
+        {
+            $group:{ _id:{client:"$clientName",circle:"$circleCode"},amount:{$sum:"$poAmount"},acceptance:{$sum:1}},
+        }
+    ];
+
+    data.circleClientAcceptance = await Project.getAggregate(aggregate);
+
+    return res.send({success:true,code:200,data:data,proj:projectToFind,agg:aggregate});
+}
+
+service.getAllCircleForReporting = async (req,res) =>{
+    /* Circle */
+    let circleToFind = {
+        query:{},
+        projection:{code:1,name:1}
+    }
+    let circle = await Circle.getSimpleCircle(circleToFind);
+    /* /Circle */
+    return res.send({success:true,code:200,data:circle});
+}
+
+service.getAllClinetForReporting = async (req,res) => {
+    let clientToFind = {
+        query:{},
+        projection:{_id:1,name:1}
+    }
+    let client = await Client.getAll(clientToFind);
+    return res.send({success:true,code:200,data:client});
 }
 
 export default service;

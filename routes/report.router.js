@@ -23,4 +23,14 @@ router.get("/graphical-reporting",function(req, res){
 
 router.get('/getGraphicalReport',reportService.getGraphicalReport);
 
+router.get('/mis-client',function(req,res){
+    res.render('admin/report/misClient',{title:'Client report'});
+});
+
+router.post('/getMisClientCircle',reportService.getMisClientCircle);
+
+router.get('/getAllCircleForReporting',reportService.getAllCircleForReporting);
+
+router.get('/getAllClinetForReporting',reportService.getAllClinetForReporting);
+
 export default router;

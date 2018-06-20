@@ -46,4 +46,8 @@ clientModel.totalClintList = (clientToFind) => {
     return clientModel.find(clientToFind.query,clientToFind.projection).skip(clientToFind.skip).limit(clientToFind.limit);
 }
 
+clientModel.getAll = (clientToFind) => {
+    return clientModel.find(clientToFind.query,clientToFind.projection);
+}
+
 export default clientModel;

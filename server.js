@@ -94,7 +94,8 @@ app.use(function(req, res, next) {
         '/add-project-type','/edit-project-type','/project-type',
         '/add-department','/edit-department','/view-department',
         '/status-remark','/add-status-remark','/edit-status-remark',
-        '/basic-reporting','/graphical-reporting'
+        '/basic-reporting','/graphical-reporting',
+        '/mis-client','/mis-circle'
     ];
 
     if(arr_allowed.indexOf(req._parsedUrl.pathname)>=0){

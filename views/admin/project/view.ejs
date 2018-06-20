@@ -33,7 +33,7 @@
                 <tr class="filter-row sticky1">
                 <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
                 <td><input class="form-control filterData"  id="projectCodeSearch1" placeholder="Project Code" name="projectCode" required></td>
-                <td><input class="form-control filterData" placeholder="Operator" name="operator" required></td>
+                <td><input class="form-control filterData" placeholder="Client_Name" name="clientName" required></td>
                 <td><input class="form-control filterData" placeholder="Activity" name="activity" required></td>
                 <td><input class="form-control filterData" placeholder="Item Description Band" name="itemDescription_Band" required></td>
                 <td><input class="form-control filterData" placeholder="Site Id" name="siteId" required></td>
@@ -110,7 +110,7 @@
             <tr class="headingRow sticky3">
                 <td class="serialNum">Sr. No.</td>
                 <td>Project_Code</td>
-                <td>Operator</td>
+                <td>Client_Name</td>
                 <td>Activity</td>
                 <td class="width200">Item_Description_Band</td>
                 <td>Site_Id</td>
@@ -145,7 +145,7 @@
                
                 <td>{{ currentIndex(index+1) }}</td>
                 <td>{{ project.projectCode }}</td>
-                <td>{{ project.operator }}</td>
+                <td>{{ project.clientName }}</td>
                 <td>{{ project.activity }}</td>
                 <td>{{ project.itemDescription_Band }}</td>
                 <td>{{ project.siteId }}</td>

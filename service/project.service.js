@@ -28,7 +28,7 @@ const service = {};
 
 let projectMapDb = {
     "Project_Code": "projectCode",
-    "Operator": "operator",
+    "Client_Name": "clientName",
     "Activity_Description": "activity",
     "Item_Description_Band": "itemDescription_Band",
     "Site_Id": "siteId",
@@ -47,10 +47,10 @@ let projectMapDb = {
     "Employee_Id": "employeeId",
     "Employee_Name": "employeeName",
     "Po_Number": "poNumber",
+    "PO_Amount": "poAmount",
     "Shippment_No": "shippmentNo",
     "L1_Approval": "l1Approval",
     "L2_Approval": "l2Approval",
-    "Po_Value": "poValue",
     "Start_Time": "startTime",
     "End_Time": "endTime",
     "Advance": "advance",
@@ -59,7 +59,7 @@ let projectMapDb = {
 
 let projectDbHeader = [
     "projectCode",
-    "operator",
+    "clientName",
     "activity",
     "itemDescription_Band",
     "siteId",
@@ -81,7 +81,7 @@ let projectDbHeader = [
     "shippmentNo",
     "l1Approval",
     "l2Approval",
-    "poValue",
+    "poAmount",
     "startTime",
     "endTime",
     "advance",
@@ -167,7 +167,7 @@ service.addProject = async (req,res) =>{
             row['projectTypeId'] = coOrdinatorData.projectTypeId;
             row['projectTypeName'] = coOrdinatorData.projectTypeName;
             row['projectCode'] = coOrdinatorData.projectCode;
-            row['operator'] = coOrdinatorClient.name;
+            row['clientName'] = coOrdinatorClient.name;
             row['circleId'] = coOrdinatorCircle._id;
             row['circleCode'] = coOrdinatorCircle.code;
             row['regionId'] = coOrdinatorCircle.regionId;
@@ -366,7 +366,7 @@ service.allProject = async (req,res) => {
         worksheet.columns = [
             { header: 'Sr. No.', key: 'srNo', width: 10 },
             { header: 'Project_Code', key: 'projectCode', width: 10 },
-            { header: 'Operator', key: 'operator', width: 10 },
+            { header: 'Client_Name', key: 'clientName', width: 10 },
             { header: 'Activity', key: 'activity', width: 10 },
             { header: 'Item_Description_Band', key: 'itemDescription_Band', width: 25 },
             { header: 'Site_Id', key: 'siteId', width: 10 },

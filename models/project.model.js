@@ -16,7 +16,7 @@ const projectSchema = mongoose.Schema({
     circleCode:{type:String},
     regionId:{type:mongoose.Schema.ObjectId},
     clientId:{type:mongoose.Schema.ObjectId},
-    operator:{type:String},
+    clientName:{type:String},
     activity: {type: String},
     activityId: {type: mongoose.Schema.ObjectId},
     itemDescription_Band: {type:String},
@@ -36,10 +36,10 @@ const projectSchema = mongoose.Schema({
     employeeId:{type: String },
     employeeName:{type: String },
     poNumber:{type: String },
+    poAmount :{type: Number },
     shippmentNo:{type: String },
     l1Approval :{type: String },
     l2Approval :{type: String },
-    poValue :{type: String },
     startTime:{type: String },
     endTime:{type: String },
     advance:{type: String },
@@ -134,6 +134,10 @@ projectModel.getReport = (projectToFind) => {
 
     aggregate.push({"$group" : {_id:projectToFind.group, count:{$sum:1}}});
 
+    return projectModel.aggregate(aggregate);
+}
+
+projectModel.getAggregate = (aggregate) => {
     return projectModel.aggregate(aggregate);
 }
 

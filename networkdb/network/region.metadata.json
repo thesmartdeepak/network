@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"network.region"},{"v":1,"unique":true,"key":{"regionId":1},"name":"regionId_1","ns":"network.region","background":true},{"v":1,"unique":true,"key":{"name":1},"name":"name_1","ns":"network.region","background":true},{"v":1,"unique":true,"key":{"code":1},"name":"code_1","ns":"network.region","background":true}]}
