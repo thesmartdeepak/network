@@ -19,6 +19,7 @@ app.controller('ctrl', function($scope, $http) {
         password: "",
         userType:'',
         projectCode:"",
+        operator:"",
         address:'',
         city:'',
         state:'',
@@ -89,10 +90,29 @@ app.controller('ctrl', function($scope, $http) {
         });
     }
 
+    $scope.getOperator = function(){
+        $http({
+            method:'get',
+            url:'/alloperator',
+            headers: {
+                'authorization': localStorage.token
+            },
+        }).then(function(response){
+            //alert(response.data.results[0]['id']);
+            $scope.operators = response.data.data;
+            console.log($scope.operators);
+            // if($scope.operators && !$scope.editMode){
+            //     $scope.formData.operators = $scope.operators[0]['id'];
+            // }
+        });
+    }
+    $scope.getOperator();
     $scope.submit = function () {
+        debugger;
         $scope.formData.projectCode = $("#projectCodeList").val();
         $scope.formData.departmentName = $("#department option:selected").text();
         $scope.formData.projectTypeName = $("#projectType option:selected").text();
+        $scope.formData.operatorName = $("#operator option:selected").text();
         if($("#addUserForm").valid()){
             var submitUrl = "/addUser";
             if(window.location.search){
@@ -144,7 +164,9 @@ app.controller('ctrl', function($scope, $http) {
                 lat:response.data.data.lat,
                 long:response.data.data.long,
                 department:response.data.data.departmentId,
-                projectType:response.data.data.projectTypeId
+                projectType:response.data.data.projectTypeId,
+                operatorId:response.data.data.operatorId
+                
             };
 
             $scope.defaultProjectCode = {

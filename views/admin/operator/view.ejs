@@ -1,0 +1,28 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div class="box box-primary">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <!-- <th>Description</th>
+                <th>Code</th> -->
+                <th class="mangerAdminAccess">Action</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="operator in operators" ng-hide="hideoperator(operator._id)">
+                    <td>{{ operator.name }}</td>
+                    <!-- <td>{{ operator.description }}</td>
+                    <td>{{ operator.code }}</td> -->
+                    <td class="mangerAdminAccess">
+                        <a class="btn btn-info" href="/edit-operator?operatorId={{ operator._id }}">Edit</a>
+                        <a class="btn btn-danger" ng-click="deleteoperator(operator._id)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</section>
+
+<script src="/admin/js/operator/view.js"></script>

@@ -52,6 +52,13 @@
               <option ng-repeat="projectType in projectTypes"  value="{{projectType._id}}">{{projectType.name}}</option>
             </select>
           </div>
+          <div class="form-group" ng-show="formData.userType == 'co-ordinator'">
+              <label>Operator</label>
+              <select class="form-control" id="operator" name="operator" ng-model="formData.operatorId" required>
+                  <option value="">Select operator</option>
+                <option ng-repeat="operator in operators"  value="{{operator._id}}">{{operator.name}}</option>
+              </select>
+            </div>
 
           <div class="form-group">
             <label>Lat</label>

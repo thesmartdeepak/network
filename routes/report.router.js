@@ -26,6 +26,9 @@ router.get('/getGraphicalReport',reportService.getGraphicalReport);
 router.get('/mis-client',function(req,res){
     res.render('admin/report/misClient',{title:'Client report'});
 });
+router.get('/mis-circle',function(req,res){
+    res.render('admin/report/misCircle',{title:'Circle report'});
+});
 
 router.post('/getMisClientCircle',reportService.getMisClientCircle);
 

@@ -18,6 +18,7 @@ import project from './routes/project.router.js';
 import projectType from './routes/projectType.router.js';
 import statusRemark from './routes/statusRemark.router.js';
 import department from './routes/department.router.js';
+import operator from './routes/operator.router.js';
 import report from './routes/report.router.js';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
@@ -93,6 +94,7 @@ app.use(function(req, res, next) {
         '/add-project','/view-project',
         '/add-project-type','/edit-project-type','/project-type',
         '/add-department','/edit-department','/view-department',
+        '/add-operator','/edit-operator','/view-operator',
         '/status-remark','/add-status-remark','/edit-status-remark',
         '/basic-reporting','/graphical-reporting',
         '/mis-client','/mis-circle'
@@ -166,6 +168,7 @@ app.use(client);
 app.use(project);
 app.use(projectType);
 app.use(department);
+app.use(operator);
 app.use(statusRemark);
 app.use(report);
 

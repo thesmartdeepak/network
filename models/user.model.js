@@ -12,6 +12,8 @@ const UserSchema = mongoose.Schema({
     departmentName:{type: String },
     projectTypeId:{type:mongoose.Schema.ObjectId},
     projectTypeName:{type: String },
+    operatorId:{type:mongoose.Schema.ObjectId},
+    operatorName:{type: String },
     fullname:{type: String },
     employeeId:{type:String},
     userType: {type:String},

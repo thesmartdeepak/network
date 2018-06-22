@@ -15,6 +15,7 @@ import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import nm from 'nodemailer'
 import rand from 'csprng'
+import mongoose from 'mongoose';
 
 
 
@@ -162,12 +163,16 @@ service.addUser = async (req, res) => {
     let departmentName = "";
     let projectTypeId = null;
     let projectTypeName = "";
+    let operatorId = null;
+    let operatorName = "";
     if(req.body.userType=='co-ordinator'){
         projectCode = req.body.projectCode;
         departmentId = userDate.departmentId;
         departmentName = userDate.departmentName;
         projectTypeId = req.body.projectType;
         projectTypeName = req.body.projectTypeName;
+        operatorId = req.body.operatorId;
+        operatorName =req.body.operatorName;
     }
     else if(req.body.userType=='manager'){
         departmentId = req.body.department;
@@ -177,8 +182,6 @@ service.addUser = async (req, res) => {
         departmentId = userDate.departmentId;
         departmentName = userDate.departmentName;
     }
-
-    
 
     let userToAdd = User({
       token:token,
@@ -190,6 +193,8 @@ service.addUser = async (req, res) => {
       departmentName:departmentName,
       projectTypeId:projectTypeId,
       projectTypeName:projectTypeName,
+      operatorId:operatorId,
+      operatorName:operatorName,
       fullname:req.body.fullname,
       email: req.body.email,
       password: hashed_password,
@@ -246,12 +251,16 @@ service.editUser = async(req,res)=>{
     let departmentName = "";
     let projectTypeId = null;
     let projectTypeName = "";
+    let operatorId = null;
+    let operatorName ="";
     if(req.body.userType=='co-ordinator'){
         projectCode = req.body.projectCode;
         departmentId = userDate.departmentId;
         departmentName = userDate.departmentName;
         projectTypeId = req.body.projectType;
         projectTypeName = req.body.projectTypeName;
+        operatorId = req.body.operatorId;
+        operatorName = req.body.operatorName;
     }
     else if(req.body.userType=='manager'){
         departmentId = req.body.department;
@@ -270,6 +279,8 @@ service.editUser = async(req,res)=>{
         departmentName:departmentName,
         projectTypeId:projectTypeId,
         projectTypeName:projectTypeName,
+        operatorId:operatorId,
+        operatorName:operatorName,
         email: req.body.email,
         phone:req.body.phone,
         lat:req.body.lat,
@@ -283,6 +294,8 @@ service.editUser = async(req,res)=>{
         projectCode: projectCode,
         updatedAt: new Date()
     }
+
+    console.log(userEdit);
 
     let userToEdit={
         query:{"_id":req.query.userId},

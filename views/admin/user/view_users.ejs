@@ -10,6 +10,7 @@
                 <th>Phone</th>
                 <th>User Type</th>
                 <th>Project code</th>
+                <th>Operator</th>
                 <th class="mangerAdminAccess">Action</th>
             </thead>
             <tbody>
@@ -20,6 +21,7 @@
                     <td>{{ user.phone }}</td>
                     <td>{{ toUcFirst(user.userType) }}</td>
                     <td>{{ showProjectCode(user.projectCode) }}</td>
+                    <td>{{ user.operatorName }}</td>
                     <td class="mangerAdminAccess">
                         <a class="btn btn-info" href="/edit-user?userId={{ user._id }}" ng-hide="hide_edit_delete(user)">Edit</a>
                         <a class="btn btn-danger" ng-click="deleteUser(user._id)" ng-hide="hide_edit_delete(user)">Delete</a>

@@ -1,0 +1,63 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div>
+        <input placeholder="From date" id="fromDate" ng-model="fromDate" ng-change="getReport()">
+        <input placeholder="To date" id="toDate"  ng-model="toDate" ng-change="getReport()">
+        <select ng-model="client" ng-change="getReport()" id="client">
+            <option value="">Select client</option>
+            <option ng-repeat="client in clients" value="{{ client._id }}">{{ client.name }}</option>
+        </select>
+
+        <button ng-click="clearFilter()">Clear filter</button>
+    </div>
+    <div class="circleClients">
+        <h2>Client report</h2>
+        <table class="mainTable">
+            <tr>
+                <td class="ccm1"><strong>Circle</strong></td>
+                <td class="ccm1"><strong>Total count</strong></td>
+                <td class="ccm1"><strong>Accepted by Client</strong></td>
+                <td class="ccm1"><strong>Po-Amount</strong></td>
+                <td class="ccm1"><strong>Client</strong></td>
+                <td class="ccm1"><strong>Total count (In-Circle)</strong></td>
+                <td class="ccm1"><strong>Accepted by Client (In-Circle)</strong></td>
+                <td class="ccm1"><strong>Po-Amount (In-Circle)</strong></td>
+            </tr>
+            <tbody ng-repeat="circleList in report" class="tbodyBorder">
+                <tr ng-repeat="circle in circleList" ng-init="count = objectCount(circleList);">
+                    <td class="ccm1">{{ circleName(circle._id.circle) }}</td>
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ circleCountFromClient(circleList,'count') }}</td>
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ circleCountFromClient(circleList,'acceptance') }}</td>
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ circleCountFromClient(circleList,'amount') }}</td>
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0"><strong>{{ circle._id.client }}</strong></td>
+                    <td class="ccm1">{{ circle.count }}</td>
+                    <td class="ccm1">{{ circle.acceptance }}</td>
+                    <td class="ccm1">{{ circle.amount }}</td>
+                </tr>
+            </tbody>
+            <tr>
+                <td>&nbsp;</td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+            </tr>
+            <tr>
+                <td class="ccm1"><strong>Total</strong></td>
+                <td class="ccm1"><strong>{{ totalCount }}</strong></td>
+                <td class="ccm1"><strong>{{ totalAcceptance }}</strong></td>
+                <td class="ccm1"><strong>{{ totalPoAmount }}</strong></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<script src="/admin/js/report/misClient.js"></script>
