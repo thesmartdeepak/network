@@ -5,6 +5,8 @@ AutoIncrement.initialize(mongoose);
 const projectSchema = mongoose.Schema({
     projectId:{type:Number},
     userId:{type: mongoose.Schema.ObjectId},
+    operatorId:{type: mongoose.Schema.ObjectId},
+    operatorName:{type:String},
     userName:{type:String},
     departmentId:{type: mongoose.Schema.ObjectId},
     departmentName:{type:String},
@@ -38,6 +40,11 @@ const projectSchema = mongoose.Schema({
     poNumber:{type: String },
     poAmount :{type: Number },
     shippmentNo:{type: String },
+    esarOnScs:{type:String},
+    pacOnScs:{type:String},
+    wccStatus:{type:String},
+    grn_iaStatus:{type:String},
+    invoiceStatus:{type:String},
     l1Approval :{type: String },
     l2Approval :{type: String },
     startTime:{type: String },
@@ -47,6 +54,7 @@ const projectSchema = mongoose.Schema({
     projectStatus :{type:String},
     createAt:{type: Date},
     updatedAt:{type: Date}
+    
 }, {collection : 'project'});
 
 projectSchema.plugin(AutoIncrement.plugin,{model:'project',field:'projectId',startAt:1,incrementBy:1});
@@ -85,27 +93,26 @@ projectModel.projectPagination = (projectToFind,type) => {
         return projectModel.find(projectToFind.query).count();
     }
     else if(type=='download'){
-        let projection = {
-            "projectCode":1,
-            "operator":1,
-            "activity":1,
-            "itemDescription_Band":1,
-            "siteId":1,
-            "siteCount":1,
-            "preDoneDate":1,
-            "post_ActivityDoneDate":1,
-            "activityStatus":1,
-            "remark":1,
-            "reportStatus":1,
-            "reportAcceptanceStatus":1,
-            "clientRemark":1,
-            "concatenate":1,
-            "attemptCycle":1,
-            "employeeId":1,
-            "employeeName":1,
-            "userName":1
-        };
-        return projectModel.find(projectToFind.query,projection);
+        // let projection = {
+        //     "projectCode":1,
+        //     "activity":1,
+        //     "itemDescription_Band":1,
+        //     "siteId":1,
+        //     "siteCount":1,
+        //     "preDoneDate":1,
+        //     "post_ActivityDoneDate":1,
+        //     "activityStatus":1,
+        //     "remark":1,
+        //     "reportStatus":1,
+        //     "reportAcceptanceStatus":1,
+        //     "clientRemark":1,
+        //     "concatenate":1,
+        //     "attemptCycle":1,
+        //     "employeeId":1,
+        //     "employeeName":1,
+        //     "userName":1
+        // };
+        return projectModel.find(projectToFind.query);
     }
     else{
         // aggregate.push({ $sort: { _id:-1} });

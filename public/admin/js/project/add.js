@@ -2,8 +2,8 @@ $("#addProjectForm").validate();
 
 
 app.controller('ctrl', function($scope, $http) {
-
     $scope.submit = function () {
+        
         if($("#addProjectForm").valid()){
             var submitUrl = "/addProject";
             if(window.location.search){
@@ -16,8 +16,9 @@ app.controller('ctrl', function($scope, $http) {
             for (var i = 0; i < file_data.length; i++) {
                 formdata.append("excelFile", file_data[i]);
             }
-            formdata.append('departmentId',$scope.departmentModel);
-            formdata.append('projectTypeId',$scope.projectTypeModel);
+
+            formdata.append('operatorId',$scope.operatorId);
+            formdata.append('operatorName',$("#operator option:selected").text());
             
             $http({
                 method: 'POST',
@@ -74,6 +75,37 @@ app.controller('ctrl', function($scope, $http) {
             $scope.editMode = true;
         });
     }
+
+    
+    // $scope.getProjectType = function(){
+    //     $http({
+    //         method:'get',
+    //         url:'/alloperator',
+    //         headers: {
+    //             'authorization': localStorage.token
+    //         },
+    //     }).then(function(response){
+    //         $scope.operators = response.data.data;
+    //         // if($scope.projectTypes && !$scope.editMode){
+    //         //     $scope.formData.projectType = $scope.projectTypes[0]._id;
+    //         // }
+    //     });
+    // }
+    // $scope.getProjectType();
+
+    $scope.getLoggedinUser = function(){
+        $http({
+            method:'get',
+            url:'/getLoggedinUser',
+            headers: {
+                'authorization': localStorage.token
+            },
+        }).then(function(response){
+            $scope.operators = response.data.operator;
+        });
+    }
+
+    $scope.getLoggedinUser();
 });
 
 sideBar('project');

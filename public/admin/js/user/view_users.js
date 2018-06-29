@@ -48,8 +48,24 @@ app.controller('ctrl', function($scope, $http) {
     }
 
     $scope.showProjectCode = function(value){
+        
         if(value){
             return value;
+        }
+        else{
+            return '--';
+        }
+    }
+
+    $scope.showOperator = function(value){
+        
+         if(value && value[0]){
+            let operatorsName = [];
+            for(x in value){
+                operatorsName.push(value[x].operatorName);
+            }
+
+            return operatorsName.join(", ");
         }
         else{
             return '--';
@@ -118,7 +134,7 @@ app.controller('ctrl', function($scope, $http) {
         if(user.userType=='admin'){
             return true;
         }
-        else if(user.userType != 'manager' && localStorage.userType=='admin'){
+        else if((user.userType != 'manager' && user.userType != 'billing-admin') && localStorage.userType=='admin'){
             return true;
         }
     }

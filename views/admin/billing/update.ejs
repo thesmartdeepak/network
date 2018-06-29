@@ -1,0 +1,23 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+  <div class="box box-primary" id="addFileSection">
+    <form id="addProjectForm" method="post" ng-submit="submit()" enctype="multipart/form-data">
+      <div class="box-body">
+        
+        <div class="form-group">
+          <label>Upload Excel</label>
+          <input id="excelFile" type="file" class="" name="excelFile" required>
+        </div>
+      </div>
+      <!-- /.box-body -->
+
+      <div class="box-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+
+</section>
+
+<script src="/admin/js/billing/update.js"></script>

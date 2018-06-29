@@ -221,7 +221,47 @@ service.getMisClientCircle = async (req,res) =>{
 
     data.circleClientAcceptance = await Project.getAggregate(aggregate);
 
-    return res.send({success:true,code:200,data:data,proj:projectToFind,agg:aggregate});
+    return res.send({success:true,code:200,data:data});
+}
+
+service.getMisBusiness = async (req,res) => {
+    let data = {};
+
+    let query = [{reportAcceptanceStatus:"Accepted"}];
+
+    if(req.body.fromDate){
+        query.push({"createAt":{$gte:new Date(req.body.fromDate)}});
+    }
+
+    if(req.body.toDate){
+        let toDate = new Date(req.body.toDate);
+        toDate.setDate(toDate.getDate() + 1);
+        query.push({"createAt":{$lte:toDate}});
+    }
+
+    if(req.body.clientId){
+        query.push({"clientId":mongoose.Types.ObjectId(req.body.clientId)});
+    }
+
+    if(req.body.circleCode){
+        query.push({"circleCode":req.body.circleCode});
+    }
+    if(req.body.operatorId){
+        query.push({"operatorId":mongoose.Types.ObjectId(req.body.operatorId)});
+    }
+    if(req.body.activityId){
+        query.push({"activityId":mongoose.Types.ObjectId(req.body.activityId)});
+    }
+    let aggregate = [
+        {$match:{$and:query}},
+        {
+            $group:{ _id:{circle:"$circleCode",client:"$clientName",operator:"$operatorName",activity:"$activity"},amount:{$sum:"$poAmount"},acceptance:{$sum:1}},
+        }
+    ];
+
+    data.busniess = await Project.getAggregate(aggregate);
+
+    return res.send({success:true,code:200,data:data});
 }
 
 service.getAllCircleForReporting = async (req,res) =>{

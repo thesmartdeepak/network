@@ -60,6 +60,7 @@ service.editoperator = async (req,res) => {
 }
 
 service.oneoperator = async (req,res) => {
+    
     let operatorToFind = {
         query: {_id:req.query.operatorId},
         projection:{}

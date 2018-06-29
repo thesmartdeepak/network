@@ -38,4 +38,14 @@ router.get('/allProjectCount',projectService.allProjectCount);
 
 router.post('/changeStatusRemark',projectService.changeStatusRemark);
 
+router.get("/view-billing",function(req, res){
+    res.render('admin/billing/view',{title:'Billing'});
+});
+
+router.get('/update-billing',function(req,res){
+    res.render('admin/billing/update',{title:'Update billing'});
+});
+
+router.post('/updateBilling',projectService.updateBilling);
+
 export default router;

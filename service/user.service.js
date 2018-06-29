@@ -111,7 +111,7 @@ service.addUserRequiredData = async(req,res)=>{
  * @return {[object]}
  */
 service.addUser = async (req, res) => {
-
+console.log(req);
     if(!req.body.email){
       
       return res.send({success:false, code:500, msg:"EmailId is missing"})
@@ -163,16 +163,14 @@ service.addUser = async (req, res) => {
     let departmentName = "";
     let projectTypeId = null;
     let projectTypeName = "";
-    let operatorId = null;
-    let operatorName = "";
+    let operator = {};
     if(req.body.userType=='co-ordinator'){
         projectCode = req.body.projectCode;
         departmentId = userDate.departmentId;
         departmentName = userDate.departmentName;
         projectTypeId = req.body.projectType;
         projectTypeName = req.body.projectTypeName;
-        operatorId = req.body.operatorId;
-        operatorName =req.body.operatorName;
+        operator = req.body.operatorList;
     }
     else if(req.body.userType=='manager'){
         departmentId = req.body.department;
@@ -193,8 +191,7 @@ service.addUser = async (req, res) => {
       departmentName:departmentName,
       projectTypeId:projectTypeId,
       projectTypeName:projectTypeName,
-      operatorId:operatorId,
-      operatorName:operatorName,
+      operator:operator,
       fullname:req.body.fullname,
       email: req.body.email,
       password: hashed_password,
@@ -251,16 +248,14 @@ service.editUser = async(req,res)=>{
     let departmentName = "";
     let projectTypeId = null;
     let projectTypeName = "";
-    let operatorId = null;
-    let operatorName ="";
+    let operator = {};
     if(req.body.userType=='co-ordinator'){
         projectCode = req.body.projectCode;
         departmentId = userDate.departmentId;
         departmentName = userDate.departmentName;
         projectTypeId = req.body.projectType;
         projectTypeName = req.body.projectTypeName;
-        operatorId = req.body.operatorId;
-        operatorName = req.body.operatorName;
+        operator = req.body.operatorList;
     }
     else if(req.body.userType=='manager'){
         departmentId = req.body.department;
@@ -279,8 +274,7 @@ service.editUser = async(req,res)=>{
         departmentName:departmentName,
         projectTypeId:projectTypeId,
         projectTypeName:projectTypeName,
-        operatorId:operatorId,
-        operatorName:operatorName,
+        operator:operator,
         email: req.body.email,
         phone:req.body.phone,
         lat:req.body.lat,
@@ -295,8 +289,7 @@ service.editUser = async(req,res)=>{
         updatedAt: new Date()
     }
 
-    console.log(userEdit);
-
+    
     let userToEdit={
         query:{"_id":req.query.userId},
         set:{"$set":userEdit}
@@ -382,7 +375,8 @@ service.login = async (req, res) =>{
                     employeeId:loggedUser.employeeId,
                     userType:loggedUser.userType,
                     projectCode:loggedUser.projectCode,
-                    email:loggedUser.email
+                    email:loggedUser.email,
+                    operator:loggedUser.operator
                 };
                 var token = jwt.sign(jwtLoginData, 'shhhhh');
                 
@@ -553,4 +547,9 @@ service.changePassword = async(req,res)=>{
 
     }
 }
+
+service.getLoggedinUser = (req,res) => {
+    return res.send(req.user);
+}
+
 export default service;

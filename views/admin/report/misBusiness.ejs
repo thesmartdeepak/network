@@ -1,0 +1,66 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div>
+        <input placeholder="From date" id="fromDate" ng-model="fromDate" ng-change="getReport()">
+        <input placeholder="To date" id="toDate"  ng-model="toDate" ng-change="getReport()">
+        <select ng-model="circleCode" ng-change="getReport()" id="circle">
+            <option value="">Select circle</option>
+            <option ng-repeat="circle in circleByCode" value="{{ circle.code }}">{{ circle.name }}</option>
+        </select>
+        <select ng-model="clientId" ng-change="getReport()" id="client">
+            <option value="">Select client</option>
+            <option ng-repeat="client in clients" value="{{ client._id }}">{{ client.name }}</option>
+        </select>
+        <select ng-model="operatorId" ng-change="getReport()" id="operator">
+                <option value="">Select Operator</option>
+                <option ng-repeat="operator in operators"  value="{{operator._id}}">{{operator.name}}</option>
+            </select>
+            <select ng-model="activityId" ng-change="getReport()" id="activity">
+                    <option value="">Select Activity</option>
+                    <option ng-repeat="activity in activityList"  value="{{activity._id}}">{{activity.name}}</option>
+                </select>
+        <button ng-click="clearFilter()">Clear filter</button>
+    </div>
+    <div class="circleClients">
+        <h2>Business report</h2>
+        <table class="mainTable">
+            <tr>
+                <td class="ccm1"><strong>Circle</strong></td>
+                <td class="ccm1"><strong>Client</strong></td>
+                <td class="ccm1"><strong>Operator</strong></td>
+                <td class="ccm1"><strong>Site type</strong></td>
+                <td class="ccm1"><strong>Site Done</strong></td>
+                <td class="ccm1"><strong>Total INR</strong></td>
+                <!-- <td class="ccm1"><strong>Accepted by Client (In-Circle)</strong></td>
+                <td class="ccm1"><strong>Po-Amount (In-Circle)</strong></td>
+            </tr> -->
+            <tbody>
+                <tr ng-repeat="site in report">
+                    <td class="ccm1" rowspan='{{ site.circleCount }}' ng-show="site.showCircle">{{ site._id.circle }}</td>
+                    <td class="ccm1" rowspan='{{ site.clientCount }}' ng-show="site.showClient"><strong>{{ site._id.client }}</strong></td>
+                    <td class="ccm1" rowspan='{{ site.operatorCount }}' ng-show="site.showOperator">{{ site._id.operator }}</td>
+                    <td class="ccm1">{{ site._id.activity }}</td>
+                    <td class="ccm1">{{ site.acceptance }}</td>
+                    <td class="ccm1">{{ site.amount }}</td>
+                </tr>
+            </tbody>
+            <tr>
+                <td>&nbsp;</td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+            </tr>
+            <tr>
+                <td class="ccm1" colspan="3"><strong></strong></td>
+               <td class="ccm1" ><strong>Total</strong></td>
+                <td class="ccm1">{{ totalCount }}</td>
+                <td class="ccm1">{{ totalPoAmount }}</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<script src="/admin/js/report/misBusiness.js"></script>

@@ -64,4 +64,6 @@ router.post('/updateUser',(req,res)=>{
     userService.update(req,res);
 })
 
+router.get('/getLoggedinUser',userService.getLoggedinUser);
+
 export default router;

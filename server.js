@@ -97,7 +97,8 @@ app.use(function(req, res, next) {
         '/add-operator','/edit-operator','/view-operator',
         '/status-remark','/add-status-remark','/edit-status-remark',
         '/basic-reporting','/graphical-reporting',
-        '/mis-client','/mis-circle'
+        '/mis-client','/mis-circle','/mis-business',
+        '/view-billing','/update-billing'
     ];
 
     if(arr_allowed.indexOf(req._parsedUrl.pathname)>=0){

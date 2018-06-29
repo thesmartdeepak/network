@@ -1,0 +1,103 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<div ng-controller="ctrl">
+    <div class="btn-dwnld-grp">
+        <div class="btnBlock">
+            <button class="btn-download" ng-click="exportTable()" data-export="export">Download for billing</button>
+        </div>
+        <div class="btnBlock">
+            <button ng-click="changeShowBillType()">{{ showBillType }}</button>
+        </div>
+        <div class="input-group date">
+            <div class="label-text-fromtodate">
+                <label>To Date</label>
+                <input class="form-control pull-right dateFilter" id="toDate" type="text">
+            </div>
+            <div class="label-text-fromtodate">
+                <label>From Date</label>
+                <input class="form-control pull-right dateFilter" id="fromDate" type="text">
+            </div>
+            
+            <div class="label-text-viewpagination select-tag">
+                <label>View</label>
+                <select class="form-control" ng-model="pageCount" ng-change="resetPagination()">
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tableMainBox">
+        <table id="mainTable" class="mainTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+            <thead class="">
+                <tr class="filter-row sticky1">
+                    <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
+                    <td><input class="form-control filterData"  id="projectCodeSearch1" placeholder="Project Code" name="projectCode" required></td>
+                    <td><input class="form-control filterData" placeholder="Client_Name" name="clientName" required></td>
+                    <td><input class="form-control filterData" placeholder="Activity" name="activity" required></td>
+                    <td><input class="form-control filterData" placeholder="Site Id" name="siteId" required></td>
+                    <td>
+                        <select class="form-control filterData" name="clientRemark">
+                            <option value="">Client Remark</option>
+                            <option ng-repeat="clientRemark in clientRemarkList" value="{{ clientRemark.statusRemark }}">{{ clientRemark.statusRemark }}</option>
+                        </select>
+                    </td>
+                    <td><input class="form-control filterData" placeholder="Po Amount" name="poAmount" required></td>
+                    <td><input class="form-control filterData" placeholder="Concatenate" name="concatenate" required></td>
+                    <td><input class="form-control filterData" placeholder="Po_Number" name="poNumber" required></td>
+                    <td><input class="form-control filterData" placeholder="Shippment_No" name="shippmentNo" required></td>
+                    <td><input class="form-control filterData" placeholder="ESAR_On_SCS" name="esarOnScs" required></td>
+                    <td><input class="form-control filterData" placeholder="PAC_On_SCS" name="pacOnScs" required></td>
+                    <td><input class="form-control filterData" placeholder="WCC_Status" name="wccStatus" required></td>
+                    <td><input class="form-control filterData" placeholder="GRN_IA_Status" name="grn_iaStatus" required></td>
+                    <td><input class="form-control filterData" placeholder="Invoice_Status" name="invoiceStatus" required></td>
+                </tr>
+                <tr class="headingRow sticky3">
+                    <td class="serialNum">Sr. No.</td>
+                    <td>Project_Code</td>
+                    <td>Client_Name</td>
+                    <td>Activity</td>
+                    <td>Site_Id</td>
+                    <td>Client_Remark</td>
+                    <td>Po_Amount</td>
+                    <td class="width300">Concatenate</td>
+                    <td>Po_Number</td>
+                    <td>Shippment_No</td>
+                    <td>ESAR_On_SCS</td>
+                    <td>PAC_On_SCS</td>
+                    <td>WCC_Status</td>
+                    <td>GRN_IA_Status</td>
+                    <td>Invoice_Status</td>
+                </tr>
+            </thead>
+            
+            <tr class="dataRow" ng-repeat="(index,project) in projects">
+                <td>{{ currentIndex(index+1) }}</td>
+                <td>{{ project.projectCode }}</td>
+                <td>{{ project.clientName }}</td>
+                <td>{{ project.activity }}</td>
+                <td>{{ project.siteId }}</td>
+                <td>{{ project.clientRemark }}</td>
+                <td>{{ project.poAmount }}</td>
+                <td>{{ project.concatenate }}</td>
+                <td>{{ project.poNumber }}</td>
+                <td>{{ project.shippmentNo }}</td>
+                <td>{{ project.esarOnScs }}</td>
+                <td>{{ project.pacOnScs }}</td>
+                <td>{{ project.wccStatus }}</td>
+                <td>{{ project.grn_iaStatus }}</td>
+                <td>{{ project.invoiceStatus }}</td>
+            </tr>
+        </table>
+       
+    </div>
+    <ul id="pagination" class="pagination-sm"></ul>
+</div>
+
+<link href="admin/css/network.css" rel="stylesheet">
+<link rel="stylesheet" href="/admin/css/select2.css">
+<script src="/admin/js/select2.full.js"></script>
+<script src="/admin/js/jquery.twbsPagination.min.js"></script>
+<script src="/admin/js/billing/view.js"></script>

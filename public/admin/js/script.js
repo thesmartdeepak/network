@@ -47,15 +47,30 @@ function sideBar(sideBarName){
     $("."+sideBarClass+" .treeview-menu:first").show();
 }
 
+
 function manageAccess(){
-   setTimeout(function(){
+    
+    setTimeout(function(){
+        $(".mangerAdminAccess").hide();
+        $(".coOrdinatorAccess").hide();
+        $(".mangerAdmincoOrdinatorAccess").hide();
+        $(".billingAdminAccess").hide();
+        
         if(localStorage.userType == 'admin' || localStorage.userType == 'manager'){
-            $(".mangerAdminAccess").css('display','block');
+            $(".mangerAdminAccess").show();
         }
-        else if(localStorage.userType == 'co-ordinator'){
+        if(localStorage.userType == 'co-ordinator'){
             $(".coOrdinatorAccess").show();
         }
-   },100);
+        if(localStorage.userType == 'co-ordinator' || localStorage.userType == 'admin' || localStorage.userType == 'manager'){
+            $(".mangerAdmincoOrdinatorAccess").show();
+            
+        }
+        if(localStorage.userType=='admin' || localStorage.userType=='billing-admin'){
+            $(".billingAdminAccess").show();
+        }
+        
+    },100);
 }
 
 manageAccess();

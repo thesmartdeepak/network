@@ -11,7 +11,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
 
         $http({
             method:'post',
-            url:'/allProject?page='+page,
+            url:'/allProject?page='+page+'&pageType=project',
             data:submitData,
             headers: {
                 'authorization': localStorage.token
@@ -28,7 +28,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
     // let fromToDate = {
     //     fromDate: new Date(),
     //     toDate: new Date(),
-    // };
+    // };operatorId
 
     $scope.submitData = function(){
         let dataToFind = {
@@ -75,7 +75,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
         let submitData = $scope.submitData();
         $http({
             method:'post',
-            url:'/allProject?type=count',
+            url:'/allProject?type=count&pageType=project',
             data:submitData,
             headers: {
                 'authorization': localStorage.token
@@ -103,7 +103,19 @@ app.controller('ctrl', function($scope, $http,$filter) {
     }
 
     $scope.setPagination();
-
+    $scope.getLoggedinUser = function(){
+        $http({
+            method:'get',
+            url:'/alloperator',
+            headers: {
+                'authorization': localStorage.token
+            },
+        }).then(function(response){
+             $scope.operators = response.data.data;
+        });
+    }
+    
+    $scope.getLoggedinUser();
     $scope.toUcFirst = function(oldTxt){
         return oldTxt.charAt(0).toUpperCase()+oldTxt.slice(1);
     }
@@ -144,7 +156,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
 
         $http({
             method:'post',
-            url:'/allProject?type=download',
+            url:'/allProject?type=download&pageType=project',
             data:submitData,
             headers: {
                 'authorization': localStorage.token,
@@ -283,5 +295,7 @@ $('#searchPreDoneDate').datepicker({
 $('#searchPostDoneDate').datepicker({
     autoclose: true
 });
+
+
 
 sideBar('project');

@@ -29,11 +29,16 @@ router.get('/mis-client',function(req,res){
 router.get('/mis-circle',function(req,res){
     res.render('admin/report/misCircle',{title:'Circle report'});
 });
+router.get('/mis-business',function(req,res){
+    res.render('admin/report/misBusiness',{title:'Business report'})
+});
 
 router.post('/getMisClientCircle',reportService.getMisClientCircle);
 
 router.get('/getAllCircleForReporting',reportService.getAllCircleForReporting);
 
 router.get('/getAllClinetForReporting',reportService.getAllClinetForReporting);
+
+router.post('/getMisBusiness',reportService.getMisBusiness);
 
 export default router;

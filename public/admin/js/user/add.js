@@ -39,7 +39,7 @@ app.controller('ctrl', function($scope, $http) {
         }).then(function(response){
           
             response.data.data.forEach(function(value,index){
-                if(localStorage.userType == 'admin' && value.userType == 'manager'){
+                if(localStorage.userType == 'admin' && (value.userType == 'manager' || value.userType == 'billing-admin')){
                     $scope.userTypes.push(value);
                 }
                 else if(localStorage.userType == 'manager' && value.userType != 'manager'){
@@ -100,19 +100,32 @@ app.controller('ctrl', function($scope, $http) {
         }).then(function(response){
             //alert(response.data.results[0]['id']);
             $scope.operators = response.data.data;
-            console.log($scope.operators);
-            // if($scope.operators && !$scope.editMode){
-            //     $scope.formData.operators = $scope.operators[0]['id'];
-            // }
+            if(!window.location.search){
+                setTimeout(function(){
+                    $("#operator").select2({
+                        placeholder:"Select operator",
+                    });
+                },500);
+            }
         });
     }
     $scope.getOperator();
     $scope.submit = function () {
-        debugger;
+        
         $scope.formData.projectCode = $("#projectCodeList").val();
         $scope.formData.departmentName = $("#department option:selected").text();
         $scope.formData.projectTypeName = $("#projectType option:selected").text();
-        $scope.formData.operatorName = $("#operator option:selected").text();
+    //    $scope.formData.operatorName = $("#operator option:selected").text();
+        
+        $scope.formData.operatorList = [];
+        $("#operator option:selected").each(function(){
+            let row = {
+                "operatorId":$(this).val(),
+                "operatorName":$(this).text()
+            };
+            $scope.formData.operatorList.push(row);
+        });
+
         if($("#addUserForm").valid()){
             var submitUrl = "/addUser";
             if(window.location.search){
@@ -164,15 +177,25 @@ app.controller('ctrl', function($scope, $http) {
                 lat:response.data.data.lat,
                 long:response.data.data.long,
                 department:response.data.data.departmentId,
-                projectType:response.data.data.projectTypeId,
-                operatorId:response.data.data.operatorId
-                
+                projectType:response.data.data.projectTypeId
             };
 
             $scope.defaultProjectCode = {
                 _id:response.data.data.projectCode,
                 name:response.data.data.projectCode
             };
+
+            let operatorIds = [];
+            for(x in response.data.data.operator){
+                operatorIds.push(response.data.data.operator[x].operatorId);
+            }
+            
+            setTimeout(function(){
+                $("#operator").val(operatorIds);
+                $("#operator").select2({
+                    placeholder:"Select operator",
+                });
+            },500);
         });
     }
 
@@ -189,5 +212,6 @@ $('#projectCodeList').select2({
         }
     }
 });
+
 
 sideBar('user');

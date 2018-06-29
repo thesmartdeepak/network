@@ -46,48 +46,25 @@ let projectMapDb = {
     "Attempt_Cycle": "attemptCycle",
     "Employee_Id": "employeeId",
     "Employee_Name": "employeeName",
-    "Po_Number": "poNumber",
+    "PO_Number": "poNumber",
     "PO_Amount": "poAmount",
     "Shippment_No": "shippmentNo",
+    "ESAR_On_SCS": "esarOnScs",
+    "PAC_On_SCS": "pacOnScs",
+    "WCC_Status": "wccStatus",
+    "GRN_IA_Status": "grn_iaStatus",
+    "Invoice_Status": "invoiceStatus",
     "L1_Approval": "l1Approval",
     "L2_Approval": "l2Approval",
     "Start_Time": "startTime",
     "End_Time": "endTime",
     "Advance": "advance",
     "Approved": "approved",
+    "Operator_Id":"operatorId",
+    "Operator_Name":"operatorName",
+    "Co_ordinator":"userName",
 }
 
-let projectDbHeader = [
-    "projectCode",
-    "clientName",
-    "activity",
-    "itemDescription_Band",
-    "siteId",
-    "siteCount",
-    "preDoneMonth",
-    "preDoneDate",
-    "post_ActivityDoneMonth",
-    "post_ActivityDoneDate",
-    "coordinatorStatus",
-    "coordinatorRemark",
-    "reportStatus",
-    "reportAcceptanceStatus",
-    "clientRemark",
-    "concatenate",
-    "attemptCycle",
-    "employeeId",
-    "employeeName",
-    "poNumber",
-    "shippmentNo",
-    "l1Approval",
-    "l2Approval",
-    "poAmount",
-    "startTime",
-    "endTime",
-    "advance",
-    "approved"
-];
- 
 service.addProject = async (req,res) =>{
 
     const coOrdinatorData = req.user;
@@ -110,10 +87,6 @@ service.addProject = async (req,res) =>{
     let fileExt = excelFile.name.split('.').pop();
 
     if(fileExt == 'xlx' || fileExt == 'xlsx'){
-        let fileName = (String (new Date()))+"_"+(Math.random())+"."+fileExt;
-        
-        let path = 'public/uploads/csv/'+fileName;
-        let outFile = 'public/uploads/csv/'+(String (new Date()))+"_"+(Math.random())+'.csv';
         
         const obj = xlsx.parse(excelFile.data);
         const sheet = obj[0]; 
@@ -172,6 +145,8 @@ service.addProject = async (req,res) =>{
             row['circleCode'] = coOrdinatorCircle.code;
             row['regionId'] = coOrdinatorCircle.regionId;
             row['clientId'] = coOrdinatorCircle.clientId;
+            row['operatorId'] = req.body.operatorId;
+            row['operatorName'] = req.body.operatorName;
             
 
             /* Activity check */
@@ -321,6 +296,12 @@ service.allProject = async (req,res) => {
                     $lte:searchDate,
                 };
             }
+            else if(x=='poAmount'){
+                rowQuery[x] = req.body.filter[x];
+            }
+            else if(x=='operatorId'){
+                rowQuery[x] = req.body.filter[x];
+            }
             else{
                 rowQuery[x] = new RegExp(req.body.filter[x],'i');
             }
@@ -331,7 +312,7 @@ service.allProject = async (req,res) => {
 
     
     const userDecoded = req.user;
-    if(userDecoded.userType != 'admin'){
+    if(userDecoded.userType != 'admin' && userDecoded.userType != 'billing-admin'){
         if(userDecoded.userType == 'manager'){
             let rowQuery = {managerId:mongoose.Types.ObjectId(userDecoded._id)};
             query.push(rowQuery);
@@ -341,7 +322,22 @@ service.allProject = async (req,res) => {
             query.push(rowQuery);
         }
     }
+    
+    if(req.query.pageType == 'billing'){
+        let rowQuery = {clientRemark:"Accepted"};
+        query.push(rowQuery);
 
+        if(req.body.showBillType == 'blank'){
+            query.push({poNumber:null});
+            query.push({shippmentNo:null});
+            query.push({esarOnScs:null});
+            query.push({pacOnScs:null});
+            query.push({wccStatus:null});
+            query.push({grn_iaStatus:null});
+            query.push({invoiceStatus:null});
+        }
+    }
+    
     let projectToFind = {
         query:{$and:query},
         limit:req.body.pageCount,
@@ -363,30 +359,52 @@ service.allProject = async (req,res) => {
         var workbook = new Excel.Workbook();
         var worksheet = workbook.addWorksheet('Input');
 
-        worksheet.columns = [
-            { header: 'Sr. No.', key: 'srNo', width: 10 },
-            { header: 'Project_Code', key: 'projectCode', width: 10 },
-            { header: 'Client_Name', key: 'clientName', width: 10 },
-            { header: 'Activity', key: 'activity', width: 10 },
-            { header: 'Item_Description_Band', key: 'itemDescription_Band', width: 25 },
-            { header: 'Site_Id', key: 'siteId', width: 10 },
-            { header: 'Site_Count', key: 'siteCount', width: 10 },
-            { header: 'Pre_Done_Date', key: 'preDoneDate', width: 15 },
-            { header: 'Post_Activity_Done_Date', key: 'post_ActivityDoneDate', width: 15 },
-            { header: 'Activity_Status', key: 'activityStatus', width: 10 },
-            { header: 'Remark', key: 'remark', width: 10 },
-            { header: 'Report_Status', key: 'reportStatus', width: 10 },
-            { header: 'Report_Acceptance_Status', key: 'reportAcceptanceStatus', width: 10 },
-            { header: 'Client_Remark', key: 'clientRemark', width: 10 },
-            { header: 'Concatenate', key: 'concatenate', width: 50 },
-            { header: 'Attempt_Cycle', key: 'attemptCycle', width: 10 },
-            { header: 'Employee_Id', key: 'employeeId', width: 10 },
-            { header: 'Employee_Name', key: 'employeeName', width: 20 },
-            { header: 'Co_Ordinator', key: 'userName', width: 20 }
-        ];
+        if(req.query.pageType == 'billing'){
+            worksheet.columns = [
+                { header: 'Sr. No.', key: 'srNo', width: 10 },
+                { header: 'Project_Code', key: 'projectCode', width: 10 },
+                { header: 'Client_Name', key: 'clientName', width: 10 },
+                { header: 'Activity', key: 'activity', width: 10 },
+                { header: 'Site_Id', key: 'siteId', width: 10 },
+                { header: 'Client_Remark', key: 'clientRemark', width: 10 },
+                { header: 'PO_Amount', key: 'poAmount', width: 10 },
+                { header: 'Concatenate', key: 'concatenate', width: 50 },
+                { header: 'PO_Number', key: 'poNumber', width: 10 },
+                { header: 'Shippment_No', key: 'shippmentNo', width: 10 },
+                { header: 'ESAR_On_SCS', key: 'esarOnScs', width: 10 },
+                { header: 'PAC_On_SCS', key: 'pacOnScs', width: 10 },
+                { header: 'WCC_Status', key: 'wccStatus', width: 10 },
+                { header: 'GRN_IA_Status', key: 'grn_iaStatus', width: 10 },
+                { header: 'Invoice_Status', key: 'invoiceStatus', width: 10 },
+            ];
+        }
+        else{
+            worksheet.columns = [
+                { header: 'Sr. No.', key: 'srNo', width: 10 },
+                { header: 'Project_Code', key: 'projectCode', width: 10 },
+                { header: 'Client_Name', key: 'clientName', width: 10 },
+                { header: 'Activity', key: 'activity', width: 10 },
+                { header: 'Item_Description_Band', key: 'itemDescription_Band', width: 25 },
+                { header: 'Site_Id', key: 'siteId', width: 10 },
+                { header: 'Site_Count', key: 'siteCount', width: 10 },
+                { header: 'Pre_Done_Date', key: 'preDoneDate', width: 15 },
+                { header: 'Post_Activity_Done_Date', key: 'post_ActivityDoneDate', width: 15 },
+                { header: 'Activity_Status', key: 'activityStatus', width: 10 },
+                { header: 'Remark', key: 'remark', width: 10 },
+                { header: 'Report_Status', key: 'reportStatus', width: 10 },
+                { header: 'Report_Acceptance_Status', key: 'reportAcceptanceStatus', width: 10 },
+                { header: 'Client_Remark', key: 'clientRemark', width: 10 },
+                { header: 'Concatenate', key: 'concatenate', width: 50 },
+                { header: 'Attempt_Cycle', key: 'attemptCycle', width: 10 },
+                { header: 'Employee_Id', key: 'employeeId', width: 10 },
+                { header: 'Employee_Name', key: 'employeeName', width: 20 },
+                { header: 'PO_Amount', key: 'poAmount', width: 10 },
+                { header: 'Co_Ordinator', key: 'userName', width: 20 },
+                { header: 'Operator', key: 'operatorName', width: 20 }
+            ];
+        }
 
-        
-        let x=0;
+        let x=null;
         for(x in allProject){
             let rowDownloadData = allProject[x];
             rowDownloadData['srNo'] = parseInt(x)+1;
@@ -448,6 +466,51 @@ service.changeStatusRemark = async(req,res) => {
     }
     catch(err){
         res.send({"success":false, "code":"500", "msg":msg.editStatusRemark,"err":err});
+    }
+}
+
+service.updateBilling = async(req,res) => {
+    let excelFile = req.files.excelFile;
+
+    let fileExt = excelFile.name.split('.').pop();
+
+    if(fileExt == 'xlx' || fileExt == 'xlsx'){
+        
+        const obj = xlsx.parse(excelFile.data);
+        const sheet = obj[0]; 
+        let data = sheet['data'];
+
+        let header = data.splice(0,1)[0];
+        
+        let rowHeaders = {};
+        
+        header.forEach(function(value,index){
+            if(projectMapDb[value.trim()]){
+                rowHeaders[projectMapDb[value.trim()]] = index;
+            }
+        });
+
+        var x = null;
+        for(x in data){
+            let row = {
+                poNumber:data[x][rowHeaders["poNumber"]],
+                shippmentNo:data[x][rowHeaders["shippmentNo"]],
+                esarOnScs:data[x][rowHeaders["esarOnScs"]],
+                pacOnScs:data[x][rowHeaders["pacOnScs"]],
+                wccStatus:data[x][rowHeaders["wccStatus"]],
+                grn_iaStatus:data[x][rowHeaders["grn_iaStatus"]],
+                invoiceStatus:data[x][rowHeaders["invoiceStatus"]],
+            };
+
+            let projectToUpdate = {
+                query:{"concatenate":data[x][rowHeaders["concatenate"]]},
+                set:{"$set":row}
+            };
+            await Project.editProject(projectToUpdate);
+        }
+
+        res.send({"success":true,"code":200,"msg":successMsg.updateBilling,"data":""});
+        
     }
 }
 
