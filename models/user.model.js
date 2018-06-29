@@ -25,6 +25,7 @@ const UserSchema = mongoose.Schema({
     status:{type: String },
     pincode:{type:String},
     phone:{type:String},
+    salary:{type:String},
     lat:{type:String},
     long:{type:String},
     imgPath:{type:String},

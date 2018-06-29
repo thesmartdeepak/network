@@ -25,6 +25,7 @@ app.controller('ctrl', function($scope, $http) {
         state:'',
         pincode:'',
         phone:'',
+        salary:'',
         lat:'',
         long:''
     };
@@ -174,6 +175,7 @@ app.controller('ctrl', function($scope, $http) {
                 state:response.data.data.state,
                 pincode:response.data.data.pincode,
                 phone:response.data.data.phone,
+                salary:response.data.data.salary,
                 lat:response.data.data.lat,
                 long:response.data.data.long,
                 department:response.data.data.departmentId,
