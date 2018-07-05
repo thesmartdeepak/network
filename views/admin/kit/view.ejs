@@ -1,0 +1,91 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<div ng-controller="ctrl">
+    <div class="btn-dwnld-grp">
+        <div class="btnBlock">
+            <button class="btn-download" ng-click="exportTable()" data-export="export">Download Report</button>
+            <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button>
+        </div>
+        <div class="input-group date">
+        <div class="label-text-fromtodate">
+            <label>To Date</label>
+            <input class="form-control pull-right dateFilter" id="toDate" type="text">
+        </div>
+        <div class="label-text-fromtodate">
+            <label>From Date</label>
+            <input class="form-control pull-right dateFilter" id="fromDate" type="text">
+        </div>
+        
+        <div class="label-text-viewpagination select-tag">
+            <label>View</label>
+            <select class="form-control" ng-model="pageCount" ng-change="resetPagination()">
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+    </div>
+    </div>
+    
+    <div class="tableMainBox">
+        <table id="mainTable" class="mainTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+            <thead class="">
+                <tr class="filter-row sticky1">
+                <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
+                <td><input class="form-control filterData"  id="empId" placeholder="EMP Id" name="empId" required></td>
+                <td><input class="form-control filterData"  id="empName" placeholder="EMP Name" name="empName" required></td>
+                <td><input class="form-control filterData"  id="designation" placeholder="Designation" name="designation" required></td>
+                <td><input class="form-control filterData"  id="project" placeholder="Project" name="clientName" required></td>
+                <td><input class="form-control filterData" id="kitRent" placeholder="KitRent" name="kitRent" required></td>
+                <td><input class="form-control filterData" placeholder="Month" name="month" id="month" required></td>
+                <td><input class="form-control filterData" placeholder="Circle" name="circle" id="circle" required></td>
+                <td><input class="form-control filterData" placeholder="Paid Days" name="paidDays" id="paidDays" required></td>
+                <td><input class="form-control filterData" placeholder="Amount" name="amount" id="amount" required></td>
+                <td><input class="form-control filterData" placeholder="Kit Name" name="kitName" id="kitName" required></td>
+                <td><input class="form-control filterData" placeholder="Kit Description" name="kitdescription" id="kitdescription" required></td>
+                 </tr>
+            
+            <tr class="headingRow sticky3">
+                <td class="serialNum">Sr. No.</td>
+                <td>Emp_Id</td>
+                <td>Emp_Name</td>
+                <td>Designation</td>
+                <td>Project</td>
+                <td>Kit_Rent</td>
+                <td>Month</td>
+                <td>Circle</td>
+                <td >Paid_Days</td>
+                <td>Amount</td>
+                <td>Kit_Name</td>
+                <td class="width200">Kit_Description</td>
+            </tr>
+            </thead>
+            
+            <tr class="dataRow" ng-repeat="(index,kit) in kits">
+               
+                <td>{{ currentIndex(index+1) }}</td>
+                <td>{{ kit.empId }}</td>
+                <td>{{ kit.empName }}</td>
+                <td>{{ kit.designation }}</td>
+                <td>{{ kit.clientName }}</td>
+                <td>{{ kit.kitRent }}</td>
+                <td>{{ kit.month }}</td>
+                <td>{{ kit.circleName }}</td>
+                <td>{{ kit.paidDays }}</td>
+                <td>{{ kit.amount | number:2}}</td>
+                <td>{{ kit.name }}</td>
+                <td>{{ kit.description }}</td>
+                
+            </tr>
+        </table>
+       
+    </div>
+    <ul id="pagination" class="pagination-sm"></ul>
+</div>
+
+<link href="admin/css/network.css" rel="stylesheet">
+<script src="/admin/js/project/jquery.tabletoCSV.js"></script>
+<link rel="stylesheet" href="/admin/css/select2.css">
+<script src="/admin/js/select2.full.js"></script>
+<script src="/admin/js/jquery.twbsPagination.min.js"></script>
+<script src="/admin/js/kit/view.js"></script>

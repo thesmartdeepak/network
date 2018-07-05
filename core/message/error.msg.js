@@ -183,4 +183,15 @@ msg.deleteStatusRemark ="Unable to delete Status/Remark"
 /** Error message for Status/Remark id */
 msg.statusRemarkId ="Status/Remark Id is missing"
 
+/******                                    */
+/** Error message for Kit */
+/******                                    */
+msg.addKit ="Unable to add kit.";
+/** Error message for claimAdvance */
+/******                                    */
+msg.addCab ="Unable to Cab kit.";
+/** Error message for Cab */
+/******                                    */
+msg.claimAdvance ="Unable to add Claim/Advance.";
+
 export default msg;

@@ -89,4 +89,20 @@ msg.addStatusRemark="Status/Remarks added successfully!!!!"
 msg.deleteStatusRemark="Status/Remark deleted successfully!!!"
 msg.editStatusRemark="Status/Remark updated successfully!!!"
 
+/*
+ * Kit related msg
+ */ 
+msg.addKit="Kit added successfully!!!!"
+
+/*
+ * Cab related msg
+ */ 
+msg.addCab="Cab added successfully!!!!"
+
+/*
+ * claimAdvance related msg
+ */ 
+msg.addclaimAdvance="claim/Advance added successfully!!!!"
+
+
 export default msg; 

@@ -20,6 +20,9 @@ import statusRemark from './routes/statusRemark.router.js';
 import department from './routes/department.router.js';
 import operator from './routes/operator.router.js';
 import report from './routes/report.router.js';
+import kit from './routes/kit.router.js';
+import cab from './routes/cab.router.js';
+import claimAdvance from './routes/claimAdvance.router.js';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import engine from 'ejs-locals';
@@ -98,7 +101,9 @@ app.use(function(req, res, next) {
         '/status-remark','/add-status-remark','/edit-status-remark',
         '/basic-reporting','/graphical-reporting',
         '/mis-client','/mis-circle','/mis-business',
-        '/view-billing','/update-billing'
+        '/view-billing','/update-billing',
+        '/add-kit','/view-kit','/add-cab','/view-cab',
+        '/add-claim-Advance','/view-claim-Advance'
     ];
 
     if(arr_allowed.indexOf(req._parsedUrl.pathname)>=0){
@@ -172,6 +177,9 @@ app.use(department);
 app.use(operator);
 app.use(statusRemark);
 app.use(report);
+app.use(kit);
+app.use(cab);
+app.use(claimAdvance);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
