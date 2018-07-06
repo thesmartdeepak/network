@@ -1,12 +1,12 @@
 /**
- * @file(Cab.service.js) All service realted to Cab  
+ * @file(Vendor.service.js) All service realted to Vendor  
  * @author Shakshi Pandey <shakshi.kumari@limitlessmobile.com>
  * @version 1.0.0
  * @lastModifed 5-Feb-2018
  * @lastModifedBy Shakshi
  */
 
-import Cab from '../models/cab.model';
+import Vendor from '../models/vendor.model';
 import User from '../models/user.model';
 import Circle from '../models/circle.model';
 import Client from '../models/client.model';
@@ -25,15 +25,16 @@ var Excel = require('exceljs');
 const service = {};
 
 
-let CabMapDb = {
+let VendorMapDb = {
     "Vendor_Name": "vendorName",
     "Vendor_Type":"vendorType",
+    "Activity_Name":"activityName",
     "Project_Code":"projectCode",
-    "Amount":"amount",
-    "Number_Of_Days":"numberOfDays",
+    "Site_Count":"siteCount",
+    "Po_Amount":"poAmount",
 }
 
-service.addCab = async (req,res) =>{
+service.addVendor = async (req,res) =>{
     let excelFile = req.files.excelFile;
 
     let fileExt = excelFile.name.split('.').pop();
@@ -49,8 +50,8 @@ service.addCab = async (req,res) =>{
         let rowHeaders = {};
         
         header.forEach(function(value,index){
-            if(CabMapDb[value.trim()]){
-                rowHeaders[index] = CabMapDb[value.trim()];
+            if(VendorMapDb[value.trim()]){
+                rowHeaders[index] = VendorMapDb[value.trim()];
             }
         });
         
@@ -97,7 +98,7 @@ service.addCab = async (req,res) =>{
             else{
                 let clientToFind = {
                     query:{_id:circle.clientId},
-                    projection:{_id:1,name:1}
+                    projection:{_id:1,name:1,clientId:1}
                 };
                 let client = await Client.getOneClient(clientToFind);
 
@@ -105,11 +106,12 @@ service.addCab = async (req,res) =>{
                 row['updatedAt'] = new Date();
                 row['vendorName'] = row['vendorName'];
                 row['vendorType'] = row['vendorType'];
+                row['activityName'] = row['activityName'] ,
                 row['projectCode'] = row['projectCode'];
-                row['projectId'] = circle._id;
+                row['projectId'] = circle.clientId;
                 row['clientName'] = client.name;
-                row['amount'] = row['amount'];
-                row['numberOfDays'] = row['numberOfDays'];
+                row['siteCount'] = row['siteCount'];
+                row['PoAmount'] = row['PoAmount'];
             }
 
             rows.push(row);
@@ -119,18 +121,18 @@ service.addCab = async (req,res) =>{
             let x = 0;
             for(x in rows){
                 rows[x]['createAt'] = new Date();
-                const addToCab = Cab(rows[x]);
-                await Cab.addCab(addToCab);
+                const addToVendor = Vendor(rows[x]);
+                await Vendor.addVendor(addToVendor);
             }
-            res.send({"success":true, "code":"200", "msg":successMsg.addCab});
+            res.send({"success":true, "code":"200", "msg":successMsg.addVendor});
         }
         else{
-            res.send({"success":false, "code":"500", "msg":msg.addCab,"err":errorList}); 
+            res.send({"success":false, "code":"500", "msg":msg.addVendor,"err":errorList}); 
         }
     }
 }
 
-service.allCab = async (req,res) => {
+service.allVendor = async (req,res) => {
    var toDate = new Date(req.body.toDate);
     toDate.setDate(toDate.getDate() + 1);
 
@@ -148,7 +150,7 @@ service.allCab = async (req,res) => {
         let x = '';
         for(x in req.body.filter){
             let rowQuery = {};
-            if(x=='amount'){
+            if(x=='poAmount' || x == 'siteCount'){
                 rowQuery[x] = req.body.filter[x];
             }
             else
@@ -173,7 +175,7 @@ service.allCab = async (req,res) => {
     //     }
     // }
     
-    let CabToFind = {
+    let VendorToFind = {
         query:{$and:query},
         limit:req.body.pageCount,
         skip:(req.query.page-1)*req.body.pageCount
@@ -187,7 +189,7 @@ service.allCab = async (req,res) => {
         listType = 'download';
     }
     
-    const allCab = await Cab.CabPagination(CabToFind,listType);
+    const allVendor = await Vendor.VendorPagination(VendorToFind,listType);
     
 
     if(req.query.type && req.query.type == 'download'){
@@ -196,31 +198,30 @@ service.allCab = async (req,res) => {
         var worksheet = workbook.addWorksheet('Input');
 
             worksheet.columns = [
-                { header: 'Sr. No.', key: 'srNo', width: 10 },
+                { header: 'Sr. No.', key: 'srNo', width: 5 },
                 { header: 'Vendor_Name', key: 'vendorName', width: 20 },
                 { header: 'Vendor_Type', key: 'vendorType', width: 20 },
-                { header: 'Project_Code', key: 'projectCode', width: 10 },
-                { header: 'Client_Name', key: 'clientName', width: 20 },
-                { header: 'Amount', key: 'amount', width: 10 },
-                { header: 'Number_Of_Days', key: 'numberOfDays', width: 10 },
+                { header: 'Activity_Name', key: 'activityName', width: 30 },
+                { header: 'Project_Code', key: 'projectCode', width: 15 },
+                { header: 'Site_Count', key: 'siteCount', width: 10 },
+                { header: 'Po_Amount', key: 'poAmount', width: 10 },
                 { header: 'Total_Amount', key: 'totalAmount', width: 10 },
               ];
 
        let x=null;
-        for(x in allCab){
-            let rowDownloadData = allCab[x];
+        for(x in allVendor){
+            let rowDownloadData = allVendor[x];
             rowDownloadData['srNo'] = parseInt(x)+1;
-            rowDownloadData['totalAmount'] = (rowDownloadData.amount * rowDownloadData.numberOfDays).toLocaleString('en')+".00";;
+            rowDownloadData['totalAmount'] = (rowDownloadData.poAmount * rowDownloadData.siteCount).toLocaleString('en')+".00";
             worksheet.addRow(rowDownloadData);
         }
-
-        var filePath = "public/uploads/excel/"+userDecoded._id+"_Cab.xlsx"
+       var filePath = "public/uploads/excel/"+userDecoded._id+"_Vendor.xlsx"
         workbook.xlsx.writeFile(filePath).then(function(){
             res.send(filePath);
         });
     }
     else{
-        res.send({"success":true,"code":200,"msg":successMsg.allCab,"data":allCab});
+        res.send({"success":true,"code":200,"msg":successMsg.allVendor,"data":allVendor});
     }
 
     
@@ -232,7 +233,7 @@ service.allProjectCount = async(req,res) => {
         projection:{}
     }
 
-    const allCabCount = await Cab.allCabCount(CabToFind);
+    const allVendorCount = await Vendor.allVendorCount(VendorToFind);
     res.send({"success":true,"code":200,"msg":successMsg.allProject,"data":allProjectCount});
 }
 export default service;

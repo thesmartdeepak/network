@@ -22,6 +22,7 @@ import operator from './routes/operator.router.js';
 import report from './routes/report.router.js';
 import kit from './routes/kit.router.js';
 import cab from './routes/cab.router.js';
+import vendor from './routes/vendor.router.js';
 import claimAdvance from './routes/claimAdvance.router.js';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
@@ -102,7 +103,7 @@ app.use(function(req, res, next) {
         '/basic-reporting','/graphical-reporting',
         '/mis-client','/mis-circle','/mis-business',
         '/view-billing','/update-billing',
-        '/add-kit','/view-kit','/add-cab','/view-cab',
+        '/add-kit','/view-kit','/add-cab','/view-cab','/add-vendor','/view-vendor',
         '/add-claim-Advance','/view-claim-Advance'
     ];
 
@@ -179,6 +180,7 @@ app.use(statusRemark);
 app.use(report);
 app.use(kit);
 app.use(cab);
+app.use(vendor);
 app.use(claimAdvance);
 
 // catch 404 and forward to error handler

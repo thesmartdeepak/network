@@ -34,10 +34,10 @@
                 <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
                 <td><input class="form-control filterData"  id="vendorName" placeholder="Vendor_Name" name="vendorName" required></td>
                 <td><input class="form-control filterData"  id="venderType" placeholder="Vender Type" name="vendorType" required></td>
-                <td><input class="form-control filterData"  id="projectName" placeholder="Project Code" name="projectCode" required></td>
-                <td><input class="form-control filterData"  id="clientName" placeholder="client Name" name="clientName" required></td>
-                <td><input class="form-control filterData"  id="amount" placeholder="Amount" name="amount" required></td>
-                <td><input class="form-control filterData" id="numberOfDays" placeholder="Number_Of_Days" name="numberOfDays" required></td>
+                <td><input class="form-control filterData"  id="activityName" placeholder="Activity Name" name="activityName" required></td>
+                <td><input class="form-control filterData"  id="projectCode" placeholder="Project Code" name="projectCode" required></td>
+                <td><input class="form-control filterData"  id="siteCount" placeholder="Site Count" name="siteCount" required></td>
+                <td><input class="form-control filterData" id="poAmount" placeholder="Po Amount" name="poAmount" required></td>
                 <td><input class="form-control filterData" id="totalAmount" placeholder="Total Amount" name="totalAmount" required></td>
                 <</tr>
             
@@ -45,24 +45,24 @@
                 <td class="serialNum">Sr. No.</td>
                 <td >Vendor Name</td>
                 <td>Vender Type</td>
+                <td>Activity Name</td>
                 <td>Project Code</td>
-                <td>Client Name</td>
-                <td>Amount</td>
-                <td>Number_Of_Days</td>
+                <td>Site Count</td>
+                <td>Po Amount</td>
                 <td>Total Amount</td>
           </tr>
             </thead>
             
-            <tr class="dataRow" ng-repeat="(index,cab) in cabs">
+            <tr class="dataRow" ng-repeat="(index,vendor) in vendors">
                
                 <td>{{ currentIndex(index+1) }}</td>
-                <td>{{ cab.vendorName }}</td>
-                <td>{{ cab.vendorType }}</td>
-                <td>{{ cab.projectCode }}</td>
-                <td>{{ cab.clientName }}</td>
-                <td>{{ cab.amount }}</td>
-                <td>{{ cab.numberOfDays }}</td>
-                <td>{{ cab.numberOfDays * cab.amount | number:2 }}</td>
+                <td>{{ vendor.vendorName }}</td>
+                <td>{{ vendor.vendorType }}</td>
+                <td>{{ vendor.activityName }}</td>
+                <td>{{ vendor.projectCode }}</td>
+                <td>{{ vendor.siteCount }}</td>
+                <td>{{ vendor.poAmount }}</td>
+                <td>{{ vendor.siteCount * vendor.poAmount | number:2 }}</td>
             </tr>
         </table>
        
@@ -75,4 +75,4 @@
 <link rel="stylesheet" href="/admin/css/select2.css">
 <script src="/admin/js/select2.full.js"></script>
 <script src="/admin/js/jquery.twbsPagination.min.js"></script>
-<script src="/admin/js/cab/view.js"></script>
+<script src="/admin/js/vendor/view.js"></script>
