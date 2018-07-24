@@ -11,6 +11,7 @@ const vendorSchema = mongoose.Schema({
     projectCode :{type:String},
     siteCount : {type:Number},
     poAmount : {type:Number},
+    totalAmount:{type:Number},
     clientName:{type:String},
     createAt:{type: Date},
     updatedAt:{type: Date}

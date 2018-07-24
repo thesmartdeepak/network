@@ -168,12 +168,24 @@ service.deleteProjectType = async(req,res) => {
 }
 
 service.projectTypeByDepartment = async(req,res) => {
+   
     let projectTypeToFind = {
         query:{departmentId:req.body.departmentId},
         projection:{}
     }
     const projectTypeData = await projectTypeModel.totalProjectTypeList(projectTypeToFind);
     res.send({"success":true,"code":200,"msg":successMsg.allProjectType,"data":projectTypeData});
+}
+
+service.getProjectType = async(req,res) => {
+    let projectTypeToFind = {
+        query:{"status":{$ne:"deleted"}},
+        projection:{}
+    }
+
+    const allprojectType = await projectTypeModel.getAllprojectType(projectTypeToFind);
+
+    res.send({"success":true,"code":200,"msg":successMsg.allprojectType,"data":allprojectType});
 }
 
 export default service;

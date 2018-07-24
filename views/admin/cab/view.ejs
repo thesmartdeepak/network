@@ -32,23 +32,25 @@
             <thead class="">
                 <tr class="filter-row sticky1">
                 <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
-                <td><input class="form-control filterData"  id="vendorName" placeholder="Vendor_Name" name="vendorName" required></td>
-                <td><input class="form-control filterData"  id="venderType" placeholder="Vender Type" name="vendorType" required></td>
+                <td><input class="form-control filterData"  id="vendorName" placeholder="Vendor Name" name="vendorName" required></td>
+                <td><input class="form-control filterData"  id="venderType" placeholder="Vendor Type" name="vendorType" required></td>
                 <td><input class="form-control filterData"  id="projectName" placeholder="Project Code" name="projectCode" required></td>
                 <td><input class="form-control filterData"  id="clientName" placeholder="client Name" name="clientName" required></td>
+                <td><input class="form-control filterData"  id="circleName" placeholder="Circle Name" name="circleName" required></td>
                 <td><input class="form-control filterData"  id="amount" placeholder="Amount" name="amount" required></td>
-                <td><input class="form-control filterData" id="numberOfDays" placeholder="Number_Of_Days" name="numberOfDays" required></td>
+                <td><input class="form-control filterData" id="numberOfDays" placeholder="Number Of Days" name="numberOfDays" required></td>
                 <td><input class="form-control filterData" id="totalAmount" placeholder="Total Amount" name="totalAmount" required></td>
                 <</tr>
             
             <tr class="headingRow sticky3">
                 <td class="serialNum">Sr. No.</td>
                 <td >Vendor Name</td>
-                <td>Vender Type</td>
+                <td>Vendor Type</td>
                 <td>Project Code</td>
                 <td>Client Name</td>
+                <td>Circle Name</td>
                 <td>Amount</td>
-                <td>Number_Of_Days</td>
+                <td>Number Of Days</td>
                 <td>Total Amount</td>
           </tr>
             </thead>
@@ -60,9 +62,10 @@
                 <td>{{ cab.vendorType }}</td>
                 <td>{{ cab.projectCode }}</td>
                 <td>{{ cab.clientName }}</td>
+                <td>{{ cab.circleName }}</td>
                 <td>{{ cab.amount }}</td>
                 <td>{{ cab.numberOfDays }}</td>
-                <td>{{ cab.numberOfDays * cab.amount | number:2 }}</td>
+                <td>{{ cab.totalAmount }}</td>
             </tr>
         </table>
        

@@ -225,9 +225,11 @@ service.addProject = async (req,res) =>{
                 rows[x]['attemptCycle'] = "C"+(allProjectCount+1);
                 if(!rows[x]['post_ActivityDoneDate']){
                     rows[x]['activityStatus'] = "Partial Done";
+                    rows[x]['percentage'] = req.body.percentage;
                 }
                 else{
                     rows[x]['activityStatus'] = "Done";
+                    rows[x]['percentage'] = 100;
                 }
                 
                 if(allProjectCount > 0){
@@ -238,7 +240,205 @@ service.addProject = async (req,res) =>{
                     await Project.editProject(editToProject);
                 }
                 else{
-                    rows[x]['createAt'] = new Date();
+                    rows[x]['createdAt'] = new Date();
+                    const addToProject = Project(rows[x]);
+                    await Project.addProject(addToProject);
+                }
+
+                
+            }
+            res.send({"success":true, "code":"200", "msg":successMsg.addProject});
+        }
+        else{
+            res.send({"success":false, "code":"200", "msg":msg.addProject,data:errorList});
+        }
+        
+    }
+    else{
+        res.send({"success":false, "code":"200", "msg":msg.addProject});
+    }
+}
+
+service.addProjectGeneral = async (req,res) =>{
+
+    let userToFind = {
+        '_id':req.body.coordinatorId
+    };
+    const coOrdinatorData = await User.getOne(userToFind);
+
+
+    const circleToFind = {
+        query:{clientCircleCode: coOrdinatorData.projectCode},
+        projection:{clientId:1,code:1,regionId:1}
+    };
+    const coOrdinatorCircle = await Circle.getOneCircle(circleToFind);
+
+    const clientToFind = {
+        query:{_id: coOrdinatorCircle.clientId},
+        projection:{name:1}
+    };
+    const coOrdinatorClient = await Client.getOneClient(clientToFind);
+
+    let excelFile = req.files.excelFile;
+
+    let fileExt = excelFile.name.split('.').pop();
+
+    if(fileExt == 'xlx' || fileExt == 'xlsx'){
+        
+        const obj = xlsx.parse(excelFile.data);
+        const sheet = obj[0]; 
+        let data = sheet['data'];
+        
+        let header = data.splice(0,1)[0];
+        
+        let rowHeaders = {};
+        
+        header.forEach(function(value,index){
+            if(projectMapDb[value.trim()]){
+                rowHeaders[index] = projectMapDb[value.trim()];
+            }
+        });
+        
+        let rows = [];
+        let goodData = true;
+        let errorList = [];
+        let k = 0;
+        
+        for(k in data){
+            let goodRow = true;
+
+            let rst = data[k];
+            let index = k;
+            
+            let row = {};
+
+
+            for(index in rowHeaders){
+                if(rst[index]){
+                    row[rowHeaders[index]] = (rst[index]+"").trim();
+                }
+                else{
+                    row[rowHeaders[index]] = '';
+                }
+            }
+            
+            row['projectStatus'] = "active";
+            
+            row['updatedAt'] = new Date();
+            row['userId'] = coOrdinatorData._id;
+            row['userName'] = coOrdinatorData.fullname;
+            if(row['preDoneDate'])
+                row['preDoneDate'] = getJsDateFromExcel(row['preDoneDate']);
+            if(row['post_ActivityDoneDate'])
+                row['post_ActivityDoneDate'] = getJsDateFromExcel(row['post_ActivityDoneDate']);
+
+            row['departmentId'] = coOrdinatorData.departmentId;
+            row['departmentName'] = coOrdinatorData.departmentName;
+            row['projectTypeId'] = coOrdinatorData.projectTypeId;
+            row['projectTypeName'] = coOrdinatorData.projectTypeName;
+            row['projectCode'] = coOrdinatorData.projectCode;
+            row['clientName'] = coOrdinatorClient.name;
+            row['circleId'] = coOrdinatorCircle._id;
+            row['circleCode'] = coOrdinatorCircle.code;
+            row['regionId'] = coOrdinatorCircle.regionId;
+            row['clientId'] = coOrdinatorCircle.clientId;
+            row['operatorId'] = req.body.operatorId;
+            row['operatorName'] = req.body.operatorName;
+            row['selectedPercentage'] = req.body.percentage;
+            
+
+            /* Activity check */
+            const activityToFind = {
+                query:{description: row['activity']},
+                projection:{}
+            };
+            const activityDescription = await Activity.getOneActivity(activityToFind);
+            
+            if(!activityDescription){
+                goodRow = false;
+                errorList.push({
+                    index:(parseInt(k))+1,
+                    key:"Activity_Description",
+                    error:"Not found in activity list in database."
+                });
+                
+            }
+            
+            /* /Activity check */
+
+            /* Employee check */
+            const employeeToFind = {employeeId: row['employeeId']};
+
+            const userData = await User.getOne(employeeToFind);
+            
+            if(!userData){
+                goodRow = false;
+                errorList.push({
+                    index:(parseInt(k))+1,
+                    key:"Employee_Id",
+                    error:"Not found in user list in database."
+                });
+                // errorRow.push('employeeId');
+            }
+            /* /Employee check */
+            
+            if(!goodRow){
+                goodData = false;
+                // errorList.push(
+                //     {
+                //         errors:errorRow,
+                //         data:row
+                //     }
+                // );
+            }
+
+
+            if(goodData){
+                row['activityId'] = activityDescription._id;
+                row['activity'] = activityDescription.name;
+                row['itemDescription_Band'] = activityDescription.description;
+                row['employeeName'] = userData.fullname;
+
+                row['concatenate'] = row['siteId']+"-"+row['itemDescription_Band']+"-"+row['activity'];
+                row['managerId'] = coOrdinatorData.parentUserId;
+                // let projectToFind = {
+                //     query:{status:{$ne:'deleted'},concatenate:row['concatenate']}
+                // }
+                // const allProjectCount = await Project.allProjectCount(projectToFind);
+    
+                // row['attemptCycle'] = "C"+(allProjectCount+1);
+
+                rows.push(row);
+            }
+        }
+        if(goodData){
+            let x = 0;
+            for(x in rows){
+
+                let projectToFind = {
+                    query:{$and:[{status:{$ne:'deleted'}},{concatenate:rows[x]['concatenate']}]},
+                }
+                const allProjectCount = await Project.allProjectCount(projectToFind);
+    
+                rows[x]['attemptCycle'] = "C"+(allProjectCount+1);
+                if(!rows[x]['post_ActivityDoneDate']){
+                    rows[x]['activityStatus'] = "Partial Done";
+                    rows[x]['percentage'] = req.body.percentage;
+                }
+                else{
+                    rows[x]['activityStatus'] = "Done";
+                    rows[x]['percentage'] = 100;
+                }
+                
+                if(allProjectCount > 0){
+                    const editToProject = {
+                        query:{$and:[{status:{$ne:'deleted'}},{concatenate:rows[x]['concatenate']}]},
+                        set:rows[x]
+                    }
+                    await Project.editProject(editToProject);
+                }
+                else{
+                    rows[x]['createdAt'] = new Date();
                     const addToProject = Project(rows[x]);
                     await Project.addProject(addToProject);
                 }
@@ -274,13 +474,13 @@ service.allProject = async (req,res) => {
     toDate.setDate(toDate.getDate() + 1);
 
     let query = [
-                {status:{$ne:'deleted'}},
-                {
-                    createAt: {
-                        $gte: new Date(req.body.fromDate),
-                        $lte: toDate
+                    {status:{$ne:'deleted'}},
+                    {
+                        createdAt: {
+                            $gte: new Date(req.body.fromDate),
+                            $lte: toDate
+                        }
                     }
-                }
             ]
 
     if(req.body.filter){
@@ -314,6 +514,8 @@ service.allProject = async (req,res) => {
     const userDecoded = req.user;
     if(userDecoded.userType != 'admin' && userDecoded.userType != 'billing-admin'){
         if(userDecoded.userType == 'manager'){
+            console.log("-------------------------------");
+            console.log(userDecoded._id);
             let rowQuery = {managerId:mongoose.Types.ObjectId(userDecoded._id)};
             query.push(rowQuery);
         }
@@ -324,7 +526,7 @@ service.allProject = async (req,res) => {
     }
     
     if(req.query.pageType == 'billing'){
-        let rowQuery = {clientRemark:"Accepted"};
+        let rowQuery = {reportAcceptanceStatus:"Accepted"};
         query.push(rowQuery);
 
         if(req.body.showBillType == 'blank'){
@@ -453,8 +655,21 @@ service.deleteProject = async(req,res) => {
 }
 
 service.changeStatusRemark = async(req,res) => {
+    let set={};
+    let projectToFind = {
+        query: {_id:req.body.id},
+        projection:{}
+    }
+
+    const oneProject = await Project.getOneProject(projectToFind);
+
+     if(req.body.value=="Accepted"){
+    set = {percentage:100};
+   }
+   else if(req.body.value=="Rejected"){
+    set = {percentage: oneProject.selectedPercentage};
+   }
     let type = req.body.type;
-    let set = {};
     set[type] = req.body.value;
     let projectScatusRemarkUpdate = {
         query:{_id:req.body.id},

@@ -40,10 +40,11 @@ app.controller('ctrl', function($scope, $http) {
         }).then(function(response){
           
             response.data.data.forEach(function(value,index){
-                if(localStorage.userType == 'admin' && (value.userType == 'manager' || value.userType == 'billing-admin')){
+                if(localStorage.userType == 'admin' && (value.userType == 'manager' || value.userType == 'billing-admin' )){
                     $scope.userTypes.push(value);
+                    
                 }
-                else if(localStorage.userType == 'manager' && value.userType != 'manager'){
+                else if(localStorage.userType == 'manager'&& (value.userType == 'co-ordinator' || value.userType == 'site-engineer' )){
                     $scope.userTypes.push(value);
                 }
             });
@@ -112,8 +113,7 @@ app.controller('ctrl', function($scope, $http) {
     }
     $scope.getOperator();
     $scope.submit = function () {
-        
-        $scope.formData.projectCode = $("#projectCodeList").val();
+       $scope.formData.projectCode = $("#projectCodeList").val();
         $scope.formData.departmentName = $("#department option:selected").text();
         $scope.formData.projectTypeName = $("#projectType option:selected").text();
     //    $scope.formData.operatorName = $("#operator option:selected").text();
@@ -187,6 +187,8 @@ app.controller('ctrl', function($scope, $http) {
                 name:response.data.data.projectCode
             };
 
+            set_projectCodeList();
+
             let operatorIds = [];
             for(x in response.data.data.operator){
                 operatorIds.push(response.data.data.operator[x].operatorId);
@@ -200,20 +202,28 @@ app.controller('ctrl', function($scope, $http) {
             },500);
         });
     }
+    else{
+        set_projectCodeList();
+    }
 
     $scope.toUcFirst = function(oldTxt){
         return oldTxt.charAt(0).toUpperCase()+oldTxt.slice(1);
     }
 });
 
-$('#projectCodeList').select2({
-    ajax: {
-        url: '/totalProjectCodeList',
-        headers: {
-            'authorization': localStorage.token
-        }
-    }
-});
 
+
+function set_projectCodeList(){
+    setTimeout(function(){
+        $('#projectCodeList').select2({
+            ajax: {
+                url: '/totalProjectCodeList',
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }
+        });
+    },100);
+}
 
 sideBar('user');

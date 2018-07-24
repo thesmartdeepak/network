@@ -103,6 +103,18 @@ msg.addCab="Cab added successfully!!!!"
  * claimAdvance related msg
  */ 
 msg.addclaimAdvance="claim/Advance added successfully!!!!"
+/*
+ * claimAdvance related msg
+ */ 
+msg.addVendor="claim/Advance added successfully!!!!"
+/*
+ * claimAdvance related msg
+ */ 
+msg.addSalary="claim/Advance added successfully!!!!"
+/*
+ * Attandence related msg
+ */ 
+msg.addAttendance="Attendance added successfully!!!!"
 
 
 export default msg; 

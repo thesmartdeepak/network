@@ -31,6 +31,7 @@ let CabMapDb = {
     "Project_Code":"projectCode",
     "Amount":"amount",
     "Number_Of_Days":"numberOfDays",
+    "Total_Amount":"totalAmount",
 }
 
 service.addCab = async (req,res) =>{
@@ -108,8 +109,11 @@ service.addCab = async (req,res) =>{
                 row['projectCode'] = row['projectCode'];
                 row['projectId'] = circle._id;
                 row['clientName'] = client.name;
+                row['circleName'] = circle.name;
                 row['amount'] = row['amount'];
                 row['numberOfDays'] = row['numberOfDays'];
+                row['totalAmount'] = row['totalAmount'];
+
             }
 
             rows.push(row);
@@ -210,7 +214,7 @@ service.allCab = async (req,res) => {
         for(x in allCab){
             let rowDownloadData = allCab[x];
             rowDownloadData['srNo'] = parseInt(x)+1;
-            rowDownloadData['totalAmount'] = (rowDownloadData.amount * rowDownloadData.numberOfDays).toLocaleString('en')+".00";;
+           // rowDownloadData['totalAmount'] = (rowDownloadData.amount * rowDownloadData.numberOfDays).toLocaleString('en')+".00";;
             worksheet.addRow(rowDownloadData);
         }
 

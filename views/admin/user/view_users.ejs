@@ -1,71 +1,168 @@
 <% layout('../layout/layout') -%>
-<!-- Main content -->
-<section class="content" ng-controller="ctrl">
-    <div class="box box-primary">
-        <table class="table">
-            <thead>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Employee id</th>
-                <th>Phone</th>
-                <th>User Type</th>
-                <th>Project code</th>
-                <th>Operator</th>
-                <th class="mangerAdminAccess">Action</th>
-            </thead>
-            <tbody>
-                <tr ng-repeat="user in users">
-                    <td>{{ user.fullname }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.employeeId }}</td>
-                    <td>{{ user.phone }}</td>
-                    <td>{{ toUcFirst(user.userType) }}</td>
-                    <td>{{ showProjectCode(user.projectCode) }}</td>
-                    <td>{{ showOperator(user.operator) }}</td>
-                    <td class="mangerAdminAccess">
-                        <a class="btn btn-info" href="/edit-user?userId={{ user._id }}" ng-hide="hide_edit_delete(user)">Edit</a>
-                        <a class="btn btn-danger" ng-click="deleteUser(user._id)" ng-hide="hide_edit_delete(user)">Delete</a>
-                        <a class="btn btn-warning" data-name={{ user.fullname }} ng-click="changePassword(user._id,user.fullname)">Change password</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- Main content -->
+    <section class="content" ng-controller="ctrl">
+        <div class="box box-primary">
+            <table class="table">
+                <thead>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Employee id</th>
+                    <th>Phone</th>
+                    <th>User Type</th>
+                    <th>Project code</th>
+                    <th>Operator</th>
+                    <th class="mangerAdminAccess">Action</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="user in users">
+                        <td>{{ user.fullname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.employeeId }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>{{ toUcFirst(user.userType) }}</td>
+                        <td>{{ showProjectCode(user.projectCode) }}</td>
+                        <td>{{ showOperator(user.operator) }}</td>
+                        <td class="mangerAdminAccess">
+                            <a class="btn btn-info" href="/edit-user?userId={{ user._id }}" ng-hide="hide_edit_delete(user)">Edit</a>
+                            <a class="btn btn-danger" ng-click="deleteUser(user._id)" ng-hide="hide_edit_delete(user)">Delete</a>
+                            <a class="btn btn-warning" data-name={{ user.fullname }} ng-click="changePassword(user._id,user.fullname)">Change password</a>
+                            <!-- <a class="btn btn-warning" data-name={{ user.fullname }} ng-click="userDetailsFun(user)">Details</a> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <ul id="pagination" class="pagination-sm"></ul>
-        
-    </div>
+            <ul id="pagination" class="pagination-sm"></ul>
 
-    <!--=============Change password model============-->
-    <div class="modal" id="changePasswordModel" tabindex="-1" role="dialog" >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title">Change Password of {{ changePasswordCurrentName }}</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Password</label>
-                    <input class="form-control" placeholder="Password" type="password" name="password" ng-model="password" required>
-                    <span class="text-danger">{{ error.password }}</span>
-                </div>
-                <div class="form-group">
-                    <label>Repeat password</label>
-                    <input class="form-control" placeholder="Password" type="password" name="password" ng-model="repeatPassword" required>
-                    <span class="text-danger">{{ error.repeatPassword }}</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" ng-click="updatePassword()">Save changes</button>
-              <button type="button" class="btn btn-secondary"  data-dismiss="modal">Close</button>
-            </div>
-          </div>
         </div>
-      </div>
-      <!--=============/Change password model============-->
-</section>
 
-<script src="/admin/js/jquery.twbsPagination.min.js"></script>
-<script src="/admin/js/user/view_users.js"></script>
+        <!--=============Change password model============-->
+        <div class="modal" id="changePasswordModel" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Change Password of {{ changePasswordCurrentName }}</h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" placeholder="Password" type="password" name="password" ng-model="password" required>
+                            <span class="text-danger">{{ error.password }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Repeat password</label>
+                            <input class="form-control" placeholder="Password" type="password" name="password" ng-model="repeatPassword" required>
+                            <span class="text-danger">{{ error.repeatPassword }}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="updatePassword()">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--=============/Change password model============-->
+
+        <!--=============Detail's model============-->
+        <div class="modal" id="detailsModel" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Details's of {{ userDetails.fullname }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>User Detail's</label><hr>
+                        <div class="form-group">
+                            <label>Name - </label>
+                            <span>{{ userDetails.fullname }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>EmailId - </label>
+                            <span>{{ userDetails.email }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Employee Id - </label>
+                            <span>{{ userDetails.employeeId }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Project Code - </label>
+                            <span>{{ showProjectCode(userDetails.projectCode) }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>User Type - </label>
+                            <span>{{ toUcFirst(userDetails.userType) }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Operator - </label>
+                            <span>{{ showOperator(userDetails.operator) }}</span>
+                        </div><hr>
+                             <label>Kit List</label>&nbsp;&nbsp;&nbsp;&nbsp; <a class="btn btn-warning"  ng-click="addKit()">Add</a><hr>
+                             <table class="table">
+                                    <thead>
+                                        <th>Kit Name</th>
+                                        <th>Amount</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="kitDetail in getKitDetails">
+                                            <td>{{ kitDetail.kitName }}</td>
+                                            <td>{{ kitDetail.kitRent }}</td>
+                                           <td class="mangerAdminAccess">
+                                                <a class="btn btn-info"  ng-click="kitReturn(kitDetail)" ng-disabled="kitDetail.status == 'return'">Return</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--=============/Detail's model============-->
+        <!--=============Add kit model============-->
+        <div class="modal" id="kitDetails" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title">Add Kit</h4>
+    
+                        </div>
+                        <div class="modal-body">
+                            <form id="KitDatavalidation">
+                                <div class="form-group">
+                                    <label>Kit Name</label>
+                                    <input class="form-control" id="kitName" placeholder="Kit Name" type="text" name="kitName" ng-model="kitName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Amount per day</label>
+                                    <input class="form-control" id="kitAmount" placeholder="Amount" type="text" name="kitAmount" ng-model="kitAmount" required>
+                                </div>
+                                <input type="hidden" ng-model="kit_user_id">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" ng-click="addKitToDb()">Save</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--=============/Add kit model============-->
+
+    </section>
+
+    <script src="/admin/js/jquery.twbsPagination.min.js"></script>
+    <script src="/admin/js/user/view_users.js"></script>

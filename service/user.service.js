@@ -94,12 +94,31 @@ service.getOne=async(req,res)=>{
  }
 
 }
+service.getOperator=async(req,res)=>{
+    console.log(req.body.userId);
+    let userToFind={
+        _id:req.body.userId}
+ 
+ try{
+    
+     const getOneUser=await User.getOne(userToFind);
+     
+     res.send({"success":true,"code":"200","msg":successMsg.getOneUser,"data":getOneUser});
+ }
+ catch(err){
+     
+     res.send({"success":false, "code":"500", "msg":msg.getUser,"err":err});
 
+ }
+
+}
 service.addUserRequiredData = async(req,res)=>{
     let dataFind = {};
     dataFind.query = {"userType":{$ne:"admin"}};
     dataFind.projection = {"_id":0};
     const userTypes = await UserType.getAll(dataFind);
+
+    console.log(userTypes);
     
     return res.send({success:true,code:200,data:userTypes});
 }
@@ -111,8 +130,7 @@ service.addUserRequiredData = async(req,res)=>{
  * @return {[object]}
  */
 service.addUser = async (req, res) => {
-console.log(req);
-    if(!req.body.email){
+if(!req.body.email){
       
       return res.send({success:false, code:500, msg:"EmailId is missing"})
     }
@@ -177,6 +195,7 @@ console.log(req);
         departmentName = req.body.departmentName;
     }
     else if(req.body.userType=='site-engineer'){
+        projectCode = req.body.projectCode;
         departmentId = userDate.departmentId;
         departmentName = userDate.departmentName;
     }
@@ -263,6 +282,7 @@ service.editUser = async(req,res)=>{
         departmentName = req.body.departmentName;
     }
     else if(req.body.userType=='site-engineer'){
+        projectCode = req.body.projectCode;
         departmentId = userDate.departmentId;
         departmentName = userDate.departmentName;
     }
@@ -378,7 +398,8 @@ service.login = async (req, res) =>{
                     userType:loggedUser.userType,
                     projectCode:loggedUser.projectCode,
                     email:loggedUser.email,
-                    operator:loggedUser.operator
+                    operator:loggedUser.operator,
+                    salary:loggedUser.salary
                 };
                 var token = jwt.sign(jwtLoginData, 'shhhhh');
                 
@@ -507,6 +528,7 @@ service.chnagePasswordByAdmin = async(req,res) =>
     return res.send({"success":true,"msg":"Password changed succesfully"});
 
 }
+
 service.changePassword = async(req,res)=>{
     try{
         
@@ -552,6 +574,22 @@ service.changePassword = async(req,res)=>{
 
 service.getLoggedinUser = (req,res) => {
     return res.send(req.user);
+}
+
+service.getAllCoordinator=async(req,res)=>{
+   
+    try{
+    
+     const coordinator=await User.getAllCoordinator();
+     
+     res.send({"success":true,"code":"200","msg":successMsg.coordinator,"data":coordinator});
+ }
+ catch(err){
+     
+     res.send({"success":false, "code":"500", "msg":msg.coordinator,"err":err});
+
+ }
+
 }
 
 export default service;

@@ -11,6 +11,9 @@ app.controller('ctrl', function($scope, $http) {
             }
         }).then(function(response){
             $scope.users = response.data.data;
+            if($scope.userDetails){
+                $scope.userDetailsFun($scope.userDetails);
+            }
         });
     }
     
@@ -44,7 +47,9 @@ app.controller('ctrl', function($scope, $http) {
     $scope.setPagination();
 
     $scope.toUcFirst = function(oldTxt){
-        return oldTxt.charAt(0).toUpperCase()+oldTxt.slice(1);
+        if(oldTxt){
+            return (oldTxt.charAt(0)).toUpperCase()+oldTxt.slice(1);
+        }
     }
 
     $scope.showProjectCode = function(value){
@@ -94,7 +99,68 @@ app.controller('ctrl', function($scope, $http) {
             });
         }
     }
+    $scope.userDetailsForKit = {};
+    $scope.getKitDetails = {};
+    $scope.userDetailsFun = function(user){
+       $http({
+            method: 'post',
+            url: '/oneKit',
+            data:{empId:user.employeeId},
+            headers: {
+                'authorization': localStorage.token
+            },
+        }).then(function(response){
+            $scope.getKitDetails = response.data.data;
+        });
+        
+        $('#detailsModel').modal();
+        $scope.userDetails = user;
+        $scope.userDetailsForKit = user;
+        $scope.kit_user_id = user.id;
+    };
     
+    $scope.addKit = function(){
+        $('#kitDetails').modal();
+    };
+    $scope.addKitToDb = function(){
+        if($("#KitDatavalidation").valid()){
+            var kitName = $("#kitName").val();
+            var kitAmount = $("#kitAmount").val();
+            $scope.userDetailsForKit.kitName = $("#kitName").val();
+            $scope.userDetailsForKit.kitAmount = $("#kitAmount").val();
+            
+            $http({
+                method:'POST',
+                url:'/addKitData',
+                data:{userDetailsForKit:$scope.userDetailsForKit},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
+                //$("#changePasswordModel").modal('hide');
+                $scope.userList($scope.currentPage);
+
+                $('#kitDetails').modal('hide');
+            });
+        }       
+    }
+
+    $scope.kitReturn = function(kitDetail){
+        $http({
+                method:'POST',
+                url:'/kitReturn',
+                data:{kitId:kitDetail._id},
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function(response){
+                //$("#changePasswordModel").modal('hide');
+                $scope.userDetailsFun($scope.userDetails);
+            });
+        
+       
+    }
+
     $scope.changePasswordCurrentId = null;
     $scope.error = {};
     $scope.changePassword = function(id,name){

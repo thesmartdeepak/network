@@ -6,6 +6,8 @@
  * @lastModifedBy Shakshi
  */
 import Project from '../models/project.model';
+import attendance from '../models/attendance.model';
+import claimAdvance from '../models/claimAdvance.model';
 import Circle from '../models/circle.model';
 import Client from '../models/client.model';
 import successMsg from '../core/message/success.msg'
@@ -192,7 +194,7 @@ service.getMisClientCircle = async (req,res) =>{
     }
 
     if(req.body.client){
-        query.push({"clientId":mongoose.Types.ObjectId(req.body.client)});
+         query.push({"clientId":mongoose.Types.ObjectId(req.body.client)});
     }
 
 
@@ -210,17 +212,50 @@ service.getMisClientCircle = async (req,res) =>{
     
 
     data.circleClientSite = await Project.getReport(projectToFind);
-    
-    query.push({reportAcceptanceStatus:"Accepted"});
+   query.push({reportAcceptanceStatus:"Accepted"});
     let aggregate = [
         {$match:{$and:query}},
         {
             $group:{ _id:{client:"$clientName",circle:"$circleCode"},amount:{$sum:"$poAmount"},acceptance:{$sum:1}},
         }
     ];
-
     data.circleClientAcceptance = await Project.getAggregate(aggregate);
 
+    return res.send({success:true,code:200,data:data});
+}
+
+//
+service.getMisSalary = async (req,res) =>{
+
+    let data = {};
+
+    let query = [];
+    if(req.body.year){
+        query.push({"year":parseInt(req.body.year)});
+    }
+    if(req.body.month){
+        query.push({"month":req.body.month});
+    }
+    query.push({"empStatus":{$in:["working","ideal","movement","week off"]}});
+
+    let aggregate = [
+        {
+            $match:{$and:query}
+        },
+        {
+            $group:
+            {
+                _id:"$employeeUserId",
+                "days":{$sum:1},
+                "processSalary":{$sum:"$perDaySalary"},
+                "salary":{$last:"$salary"},
+                "employeeName":{$last:"$employeeName"},
+            }
+        },
+        
+    ];
+    data.user = await attendance.salaryMis(aggregate);
+        
     return res.send({success:true,code:200,data:data});
 }
 
@@ -284,4 +319,42 @@ service.getAllClinetForReporting = async (req,res) => {
     return res.send({success:true,code:200,data:client});
 }
 
+service.getMisClaimAdvance = async (req,res) =>{
+    let data = {};
+    let aggregate = [];
+
+    let query = [];
+    if(req.body.year){
+        query.push({"year":parseInt(req.body.year)});
+    }
+    if(req.body.month){
+        query.push({"month":req.body.month});
+    }
+    //query.push({"empStatus":{$in:["working","ideal","movement","week off"]}});
+    let match = {};
+    if(query[0]){
+        match = {
+            $match:{$and:query}
+        }
+
+        aggregate.push(match);
+    }
+
+
+
+    let group = {
+                    $group:
+                    {
+                        _id:"$empUserId",
+                    "totalTransfer":{$sum:"$totalTransfer"},
+                        "empName":{$last:"$empName"},
+                        "empId":{$last:"$empId"},
+                    }
+                };
+
+    aggregate.push(group);
+
+    data.user = await claimAdvance.claimAdvanceMis(aggregate);
+    return res.send({success:true,code:200,data:data});
+}
 export default service;

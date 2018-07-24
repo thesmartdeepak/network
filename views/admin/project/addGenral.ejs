@@ -1,0 +1,119 @@
+<% layout('../layout/layout') -%>
+  <!-- Main content -->
+  <section class="content" ng-controller="ctrl">
+    <div class="box box-primary" id="addFileSection">
+      <form id="addProjectForm" method="post" ng-submit="submit()" enctype="multipart/form-data">
+        <div class="box-body">
+          <div class="form-group">
+            <div>
+              <label>Upload Excel</label>
+              <input id="excelFile" type="file" class="" name="excelFile" required>
+            </div>
+            <div>&nbsp;</div>
+           
+          <!-- <div class="form-group">
+            <div style="float: left; width: 49%">
+              <label>Select Department</label>
+              <select class="form-control" id="department" name="department" ng-model="departmentId" ng-change="fillProjectType(departmentId)"
+                required>
+                <option value="">Select Department</option>
+                <option ng-repeat="department in departments" value="{{department._id}}">{{department.name}}</option>
+              </select>
+            </div> &nbsp;&nbsp;
+            <div style="float: right; width: 49%">
+              <label>Select ProjectType</label>
+              <select class="form-control" id="projectType" name="projectType" ng-model="projectTypeId" required>
+                <option value="">Select ProjectType</option>
+                <option ng-repeat="projectType in projectTypes" value="{{projectType._id}}">{{projectType.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div>&nbsp;</div>
+          <div class="form-group">
+            <div style="float: left; width: 49%">
+              <label>Select ProjectCode</label>
+              <select class="form-control" id="projectCode" name="projectCode" ng-model="projectCodeId" required>
+                <option value="">Select ProjectCode</option>
+                <option ng-repeat="projectCode in projectCodes" value="{{projectCode._id}}">{{projectCode.clientCircleCode}}</option>
+              </select>
+            </div>
+            <div style="float: right; width: 49%"><label>Select Operator</label>
+              <select class="form-control" id="operator" name="operator" ng-model="operatorId" required>
+                <option value="">Select Operator</option>
+                <option ng-repeat="operator in operators" value="{{operator._id}}">{{operator.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div style="width:100%">&nbsp;&nbsp;&nbsp;</div>
+          <div style="float: left; width: 49%">
+              <label>Select Percentage</label>
+              <select class="form-control" id="percentage" name="percentage" ng-model="percentage" required>
+                <option value="">Select Percentage</option>
+                <option>30</option>
+                <option>40</option>
+              </select>
+            </div> &nbsp;&nbsp;
+            <div style="float:right; width: 49%">
+              
+            </div> -->
+          
+            <div class="form-group">
+                <div style="float: left; width: 49%">
+                  <label>Select Co-ordinator</label>
+                  <select class="form-control" id="Coordinator" name="Coordinator" ng-model="CoordinatorId" ng-change="filloperator(CoordinatorId)"
+                    required>
+                    <option value="">Select Co-ordinator</option>
+                    <option ng-repeat="coordinator in coordinators" value="{{coordinator._id}}">{{coordinator.fullname}}-{{coordinator.employeeId}}</option>
+                  </select>
+                </div> &nbsp;&nbsp;
+                <div style="float: right; width: 49%">
+                  <label>Select Operator</label>
+                  <select class="form-control" id="operator" name="operator" ng-model="operatorId" required>
+                    <option value="">Select Operator</option>
+                    <option ng-repeat="operator in operators" value="{{operator.operatorId}}">{{operator.operatorName}}</option>
+                  </select>
+                </div>
+              </div>
+              <div style="float: left; width: 49%">
+                  <label>Select Percentage</label>
+                  <select class="form-control" id="percentage" name="percentage" ng-model="percentage" required>
+                    <option value="">Select Percentage</option>
+                    <option>30</option>
+                    <option>40</option>
+                  </select>
+                </div> &nbsp;&nbsp;
+                <div style="float:right; width: 49%">
+                  
+                </div>
+          </div>
+
+        </div>
+        <!-- /.box-body -->
+
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="tableMainBox" id="errorTbl" style="display:none;">
+      <div class="tableMainBox-content">File cannot process. Uploaded file having following issues. Please correct them and re-upload.</div>
+
+      <table id="mainTable" class="table" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr class="alphaRow">
+          <th class="alphaCell row-cell-width">Row no.</th>
+          <th class="alphaCell">Column name</th>
+          <th class="alphaCell">Error</th>
+        </tr>
+        <tr class="dataRow" ng-repeat="errorData in errorDataList">
+          <td>{{ errorData.index }}</td>
+          <td>{{ errorData.key }}</td>
+          <td>{{ errorData.error }}</td>
+        </tr>
+      </table>
+      <button class="reupload-btn" ng-click="reUpload()">Re-upload</button>
+    </div>
+  </section>
+
+  <link href="admin/css/network.css" rel="stylesheet">
+  <script src="/admin/js/project/addGenral.js"></script>

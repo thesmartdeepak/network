@@ -192,6 +192,18 @@ msg.addKit ="Unable to add kit.";
 msg.addCab ="Unable to Cab kit.";
 /** Error message for Cab */
 /******                                    */
-msg.claimAdvance ="Unable to add Claim/Advance.";
+msg.addClaimAdvance ="Unable to add Claim/Advance.";
+/** Error message for Vendor */
+/******                                    */
+msg.addVendor ="Unable to add Advance.";
+/** Error message for Attendance */
+/******                                    */
+msg.addSalary ="Unable to add Attendance.";
+
+/*
+ * Attandence related msg
+ */ 
+msg.addAttendance="Unable to add Attendance."
+
 
 export default msg;

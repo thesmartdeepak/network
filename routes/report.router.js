@@ -41,4 +41,29 @@ router.get('/getAllClinetForReporting',reportService.getAllClinetForReporting);
 
 router.post('/getMisBusiness',reportService.getMisBusiness);
 
+//******Salary Reporting******/
+router.get('/mis-salary', function(req,res){
+    res.render('admin/report/misSalary',{title:'Salary Report'})
+});
+
+router.post('/getMisSalary',reportService.getMisSalary);
+
+//******Salary Reporting******/
+
+//******Vendor Reporting******/
+router.get('/mis-vendor', function(req,res){
+    res.render('admin/report/misVendor',{title:'Vendor Report'})
+});
+//******Vendor Reporting******/
+
+//******Claim/Advance Reporting******/
+router.get('/mis-claim-advance', function(req,res){
+    res.render('admin/report/misClaimAdvance',{title:'Claim/Advance Report'})
+});
+
+router.post('/getMisClaimAdvance',reportService.getMisClaimAdvance);
+
+//******Vendor Reporting******/
+
+
 export default router;

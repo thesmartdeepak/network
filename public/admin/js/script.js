@@ -55,6 +55,7 @@ function manageAccess(){
         $(".coOrdinatorAccess").hide();
         $(".mangerAdmincoOrdinatorAccess").hide();
         $(".billingAdminAccess").hide();
+        $(".salaryAdminAccess").hide();
         
         if(localStorage.userType == 'admin' || localStorage.userType == 'manager'){
             $(".mangerAdminAccess").show();
@@ -68,6 +69,9 @@ function manageAccess(){
         }
         if(localStorage.userType=='admin' || localStorage.userType=='billing-admin'){
             $(".billingAdminAccess").show();
+        }
+        if(localStorage.userType=='admin' || localStorage.userType=='work tracking'){
+            $(".salaryAdminAccess").show();
         }
         
     },100);

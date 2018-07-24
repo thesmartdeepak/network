@@ -5,7 +5,7 @@ AutoIncrement.initialize(mongoose);
 const KitSchema = mongoose.Schema({
     kitId:{type:Number},
     empUserId:{type: mongoose.Schema.ObjectId},
-    empId:{type:String},
+    employeeId:{type:String},
     empName:{type:String},
     designation:{type:String},
     projectCode:{type:String},
@@ -16,10 +16,11 @@ const KitSchema = mongoose.Schema({
     kitRent:{type:Number},
     month:{type:String},
     paidDays:{type:String},
-    amount:{type:Number},
+    perDayAmount:{type:Number},
+    year: {type:Number},
     kitName:{type:String},
-    kitDescription:{type:String},
-    status :{type:String},
+    operator:{type:String},
+   status :{type:String},
     createAt:{type: Date},
     updatedAt:{type: Date}
     
@@ -46,5 +47,14 @@ KitModel.kitPagination = (kitToFind,type) => {
 
 KitModel.allKitCount = (kitToFind) => {
     return KitModel.find(kitToFind.query,kitToFind.projection).count();
-}
+};
+
+KitModel.oneKit = (kitToFind) =>{
+  return KitModel.find(kitToFind.query,kitToFind.projection);
+};
+
+KitModel.kitRetrun=(kitToEdit)=>{
+    return KitModel.update(kitToEdit.query,kitToEdit.set);
+};
+
 export default KitModel;

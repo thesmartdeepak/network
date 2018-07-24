@@ -16,18 +16,16 @@ router.get("/add-project",function(req, res){
     res.render('admin/project/add',{title:'Add project'})
 });
 
-router.post("/addProject",access.coOrdinator,projectService.addProject);
+router.post("/addProject",projectService.addProject);
 
-// router.get("/edit-project",function(req, res){
-//     res.render('admin/project/add',{title:'Edit project'})
-// });
-
-// router.post("/editProject",projectService.editProject);
-
-// router.get("/oneProject",projectService.oneProject);
+router.post('/addProjectGeneral',projectService.addProjectGeneral);
 
 router.get("/view-project",function(req, res){
     res.render('admin/project/view',{title:'View project'});
+});
+
+router.get("/add-project-general",function(req, res){
+    res.render('admin/project/addGenral',{title:'Add project'})
 });
 
 router.post('/allProject',projectService.allProject);

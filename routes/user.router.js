@@ -7,6 +7,7 @@
  */
 
 import express from "express";
+import kitService from "../service/kit.service";
 import userService from "../service/user.service";
 import access from '../core/access';
 
@@ -31,6 +32,8 @@ router.post("/addUserRequiredData",userService.addUserRequiredData);
 router.post('/addUser',access.managerAdmin,userService.addUser);
 
 router.get('/oneUser', userService.getOne);
+
+router.post('/getOperator', userService.getOperator);
 
 router.post('/register', (req, res) => {
     userService.addUser(req, res);
@@ -60,10 +63,19 @@ router.post('/forgetPasswordReset',(req,res)=>{
 
 router.post('/changePassword',access.managerAdmin,userService.chnagePasswordByAdmin);
 
+router.post('/addKitData',access.managerAdmin,kitService.addKit);
+
+router.post('/oneKit',kitService.oneKit);
+
+router.post('/kitReturn',kitService.kitReturn);
+
+
 router.post('/updateUser',(req,res)=>{
     userService.update(req,res);
 })
 
 router.get('/getLoggedinUser',userService.getLoggedinUser);
+
+router.get('/getAllCoordinator',userService.getAllCoordinator);
 
 export default router;

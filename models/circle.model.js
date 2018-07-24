@@ -35,6 +35,10 @@ CircleModel.getOneCircle = (circleToFind) => {
   return CircleModel.findOne(circleToFind.query,circleToFind.projection);
 }
 
+CircleModel.getallCircle = (circleToFind) => {
+  return CircleModel.find(circleToFind.query,circleToFind.projection);
+}
+
 CircleModel.getAllCircle = (circleToFind) => {
   // return CircleModel.find(circleToFind.query,circleToFind.projection).sort({_id:-1}).limit(circleToFind.limit).skip(circleToFind.skip);
   let aggregate = [

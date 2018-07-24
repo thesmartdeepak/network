@@ -6,6 +6,7 @@ const claimAdvanceSchema = mongoose.Schema({
     date:{type:Date},
     claimAdvanceId:{type:Number},
     month:{type:String},
+    year:{type:Number},
     empId:{type:String},
     empUserId:{type:mongoose.Schema.ObjectId},
     empName:{type:String},
@@ -42,5 +43,9 @@ claimAdvanceModel.claimAdvancePagination = (claimAdvanceToFind,type) => {
 
 claimAdvanceModel.alladdclaimAdvanceCount = (addclaimAdvanceToFind) => {
     return claimAdvanceModel.find(addclaimAdvanceToFind.query,addclaimAdvanceToFind.projection).count();
+}
+
+claimAdvanceModel.claimAdvanceMis = (aggregate) =>{
+    return claimAdvanceModel.aggregate(aggregate);
 }
 export default claimAdvanceModel;

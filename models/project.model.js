@@ -52,8 +52,16 @@ const projectSchema = mongoose.Schema({
     advance:{type: String },
     approved:{type: String },
     projectStatus :{type:String},
-    createAt:{type: Date},
-    updatedAt:{type: Date}
+    createdAt:{type: Date},
+    updatedAt:{type: Date},
+    selectedDepartmentName :{type:String},
+    selectedDepartmentId :{type: mongoose.Schema.ObjectId},
+    selectedProjectTypeName :{type:String},
+    selectedProjectTypeId :{type: mongoose.Schema.ObjectId},
+    selectedProjectCode:{type:String},
+    selectedProjectId:{type: mongoose.Schema.ObjectId},
+    percentage :{type: Number },
+    selectedPercentage: {type: Number}
     
 }, {collection : 'project'});
 
@@ -78,48 +86,16 @@ projectModel.getOneProject = (editToProject) => {
 }
 
 projectModel.projectPagination = (projectToFind,type) => {
-    // let aggregate = [
-    //     { 
-    //       $lookup:{
-    //           from: "user",
-    //           localField: "userId",
-    //           foreignField: "_id",
-    //           as: "user"
-    //         }
-    //     },
-    //     { $match: projectToFind.query }
-    // ];
+  
     if(type == 'count'){
         return projectModel.find(projectToFind.query).count();
     }
     else if(type=='download'){
-        // let projection = {
-        //     "projectCode":1,
-        //     "activity":1,
-        //     "itemDescription_Band":1,
-        //     "siteId":1,
-        //     "siteCount":1,
-        //     "preDoneDate":1,
-        //     "post_ActivityDoneDate":1,
-        //     "activityStatus":1,
-        //     "remark":1,
-        //     "reportStatus":1,
-        //     "reportAcceptanceStatus":1,
-        //     "clientRemark":1,
-        //     "concatenate":1,
-        //     "attemptCycle":1,
-        //     "employeeId":1,
-        //     "employeeName":1,
-        //     "userName":1
-        // };
+       
         return projectModel.find(projectToFind.query);
     }
     else{
-        // aggregate.push({ $sort: { _id:-1} });
-        // aggregate.push({ $skip: projectToFind.skip });
-        // aggregate.push({ $limit: projectToFind.limit });
-        // return projectModel.aggregate(aggregate);
-        return projectModel.find(projectToFind.query).sort({ _id:-1}).skip(projectToFind.skip).limit(projectToFind.limit);
+      return projectModel.find(projectToFind.query).sort({ _id:-1}).skip(projectToFind.skip).limit(projectToFind.limit);
     }
 }
 

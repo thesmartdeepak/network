@@ -27,7 +27,9 @@ projectTypeModel.updateProjectType = (EditProjectType) => {
 projectTypeModel.getOneProjectType = (projectTypeToFind) => {
   return projectTypeModel.findOne(projectTypeToFind.query,projectTypeToFind.projection)
 }
-
+projectTypeModel.getAllprojectType = (projectTypeToFind) => {
+  return projectTypeModel.find(projectTypeToFind.query,projectTypeToFind.projection)
+}
 // projectTypeModel.getAllProjectType = (projectTypeToFind) => {
 //   return projectTypeModel.find(projectTypeToFind.query,projectTypeToFind.projection).sort({_id:-1});
 // }

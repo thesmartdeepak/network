@@ -23,6 +23,7 @@ import report from './routes/report.router.js';
 import kit from './routes/kit.router.js';
 import cab from './routes/cab.router.js';
 import vendor from './routes/vendor.router.js';
+import attendance from './routes/attendance.router.js';
 import claimAdvance from './routes/claimAdvance.router.js';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
@@ -101,10 +102,10 @@ app.use(function(req, res, next) {
         '/add-operator','/edit-operator','/view-operator',
         '/status-remark','/add-status-remark','/edit-status-remark',
         '/basic-reporting','/graphical-reporting',
-        '/mis-client','/mis-circle','/mis-business',
+        '/mis-client','/mis-circle','/mis-business','/mis-vendor','/mis-salary',
         '/view-billing','/update-billing',
         '/add-kit','/view-kit','/add-cab','/view-cab','/add-vendor','/view-vendor',
-        '/add-claim-Advance','/view-claim-Advance'
+        '/add-claim-Advance','/view-claim-Advance','/add-tracking-sheet','/view-tracking-sheet','/add-project-general',,'/mis-claim-advance',
     ];
 
     if(arr_allowed.indexOf(req._parsedUrl.pathname)>=0){
@@ -181,6 +182,7 @@ app.use(report);
 app.use(kit);
 app.use(cab);
 app.use(vendor);
+app.use(attendance);
 app.use(claimAdvance);
 
 // catch 404 and forward to error handler

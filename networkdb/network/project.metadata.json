@@ -1,1 +1,0 @@
-{"options":{},"indexes":[{"v":1,"key":{"_id":1},"name":"_id_","ns":"network.project"},{"v":1,"unique":true,"key":{"projectId":1},"name":"projectId_1","ns":"network.project","background":true}]}

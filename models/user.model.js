@@ -25,7 +25,7 @@ const UserSchema = mongoose.Schema({
     status:{type: String },
     pincode:{type:String},
     phone:{type:String},
-    salary:{type:String},
+    salary:{type:Number},
     lat:{type:String},
     long:{type:String},
     imgPath:{type:String},
@@ -86,6 +86,10 @@ UserModel.changePassword=(user)=>{
 }
 UserModel.updateUser=(userToEdit)=>{
     return UserModel.update(userToEdit.query,userToEdit.set);
+}
+
+UserModel.getAllCoordinator = ()=>{
+    return UserModel.find({userType:"co-ordinator"});
 }
 
 export default UserModel;

@@ -28,7 +28,6 @@ const service = {};
 let claimAdvanceMapDb = {
     "Date": "date",
     "Emp_Id":"empId",
-    "Project_Code":"projectCode",
     "Total_Transfer": "totalTransfer",
 }
 
@@ -77,7 +76,7 @@ service.addclaimAdvance = async (req,res) =>{
          
             let userToFind = {"employeeId":row['empId']};
             let userData = await User.getOne(userToFind);
-
+            let circle = null;
             if(!userData){
                 goodRow = false;
                 errorList.push({
@@ -85,24 +84,28 @@ service.addclaimAdvance = async (req,res) =>{
                     key:"Emp_Id",
                     error:"Not found in user list in database."
                 });
+            }else{
+                let circleToFind = {
+                    query:{clientCircleCode:userData.projectCode},
+                    projection:{_id:1,clientId:1,name:1}
+                };
+                circle = await Circle.getOneCircle(circleToFind);
             }
-            let circleToFind = {
-                query:{clientCircleCode:row["projectCode"]},
-                projection:{_id:1,clientId:1,name:1}
-            };
-            let circle = await Circle.getOneCircle(circleToFind);
-            if(!circle){
-                goodRow = false;
-                errorList.push({
-                    index:(parseInt(k))+1,
-                    key:"Project_Code",
-                    error:"Not found in circle list in database."
-                });
-            }
+            
+            // if(!circle){
+            //     goodRow = false;
+            //     errorList.push({
+            //         index:(parseInt(k))+1,
+            //         key:"Project_Code",
+            //         error:"Not found in circle list in database."
+            //     });
+            // }
            if(!goodRow){
                 goodData = false;
             }
             else{
+                var dateObj = getJsDateFromExcel(row["date"]);
+                var year = dateObj.getUTCFullYear();
                 const monthNames = ["January", "February", "March", "April", "May", "June",
                  "July", "August", "September", "October", "November", "December"
                                 ];
@@ -118,11 +121,12 @@ service.addclaimAdvance = async (req,res) =>{
                 row['empUserId'] = userData._id;
                 row['empName']=userData.fullname;
                 row['projectId']=circle._id;
-                row['projectCode']=row['projectCode'];//circle.clientCircleCode;
+                row['projectCode']=userData.projectCode;//circle.clientCircleCode;
                 row['circleName']=circle.name;
                 row['circleId']=circle._id;
                 row['totalTransfer']=row["totalTransfer"];
                 row['month']= monthNames[(new Date(row["date"])).getMonth()];//new Date().getUTCMonth() + 1;//row["month"];
+                row['year'] = year;
                 row['clientName']=client.name;
                 row['clientId']=client._id;
                 row['empUserId']=userData._id;

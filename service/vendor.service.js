@@ -32,6 +32,7 @@ let VendorMapDb = {
     "Project_Code":"projectCode",
     "Site_Count":"siteCount",
     "Po_Amount":"poAmount",
+    "Total_Amount":"totalAmount",
 }
 
 service.addVendor = async (req,res) =>{
@@ -112,6 +113,7 @@ service.addVendor = async (req,res) =>{
                 row['clientName'] = client.name;
                 row['siteCount'] = row['siteCount'];
                 row['PoAmount'] = row['PoAmount'];
+                row['totalAmount'] = row['totalAmount'];
             }
 
             rows.push(row);
@@ -150,7 +152,7 @@ service.allVendor = async (req,res) => {
         let x = '';
         for(x in req.body.filter){
             let rowQuery = {};
-            if(x=='poAmount' || x == 'siteCount'){
+            if(x=='poAmount' || x == 'siteCount' || x == 'totalAmount'){
                 rowQuery[x] = req.body.filter[x];
             }
             else
@@ -212,7 +214,7 @@ service.allVendor = async (req,res) => {
         for(x in allVendor){
             let rowDownloadData = allVendor[x];
             rowDownloadData['srNo'] = parseInt(x)+1;
-            rowDownloadData['totalAmount'] = (rowDownloadData.poAmount * rowDownloadData.siteCount).toLocaleString('en')+".00";
+            //rowDownloadData['totalAmount'] = (rowDownloadData.poAmount * rowDownloadData.siteCount).toLocaleString('en')+".00";
             worksheet.addRow(rowDownloadData);
         }
        var filePath = "public/uploads/excel/"+userDecoded._id+"_Vendor.xlsx"

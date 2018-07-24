@@ -175,6 +175,17 @@ service.allCircle = async(req,res) => {
     res.send({"success":true,"code":200,"msg":successMsg.allCircle,"data":allCircle});
 }
 
+service.getallCircle = async(req,res) => {
+    let circleToFind = {
+        query:{"status":{$ne:"deleted"}},
+        projection:{}
+    }
+
+    const allcircle = await Circle.getallCircle(circleToFind);
+
+    res.send({"success":true,"code":200,"msg":successMsg.allcircle,"data":allcircle});
+}
+
 service.allCircleCount = async(req,res) => {
     let dataToFind = {
         // query:{_id:req.query._id}

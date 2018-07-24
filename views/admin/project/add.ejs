@@ -9,6 +9,14 @@
           <label>Upload Excel</label>
           <input id="excelFile" type="file" class="" name="excelFile" required>
         </div>
+        <div>
+          <label>Select Percentage</label>
+          <select class="form-control" id="percentage" name="percentage" ng-model="percentage" required>
+              <option value="">Select Percentage</option>
+                <option>30</option>
+                <option>40</option>
+              </select>
+        </div>
         <div class="form-group">
             <label>Select Operator</label>
             <select class="form-control" id="operator" name="operator" ng-model="operatorId" required>

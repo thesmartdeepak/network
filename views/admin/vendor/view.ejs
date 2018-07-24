@@ -32,8 +32,8 @@
             <thead class="">
                 <tr class="filter-row sticky1">
                 <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
-                <td><input class="form-control filterData"  id="vendorName" placeholder="Vendor_Name" name="vendorName" required></td>
-                <td><input class="form-control filterData"  id="venderType" placeholder="Vender Type" name="vendorType" required></td>
+                <td><input class="form-control filterData"  id="vendorName" placeholder="Vendor Name" name="vendorName" required></td>
+                <td><input class="form-control filterData"  id="venderType" placeholder="Vendor Type" name="vendorType" required></td>
                 <td><input class="form-control filterData"  id="activityName" placeholder="Activity Name" name="activityName" required></td>
                 <td><input class="form-control filterData"  id="projectCode" placeholder="Project Code" name="projectCode" required></td>
                 <td><input class="form-control filterData"  id="siteCount" placeholder="Site Count" name="siteCount" required></td>
@@ -44,7 +44,7 @@
             <tr class="headingRow sticky3">
                 <td class="serialNum">Sr. No.</td>
                 <td >Vendor Name</td>
-                <td>Vender Type</td>
+                <td>Vendor Type</td>
                 <td>Activity Name</td>
                 <td>Project Code</td>
                 <td>Site Count</td>
@@ -62,7 +62,7 @@
                 <td>{{ vendor.projectCode }}</td>
                 <td>{{ vendor.siteCount }}</td>
                 <td>{{ vendor.poAmount }}</td>
-                <td>{{ vendor.siteCount * vendor.poAmount | number:2 }}</td>
+                <td>{{ vendor.totalAmount }}</td>
             </tr>
         </table>
        

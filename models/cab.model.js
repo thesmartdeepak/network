@@ -9,7 +9,9 @@ const cabSchema = mongoose.Schema({
     projectId :{type:mongoose.Schema.ObjectId},
     projectCode :{type:String},
     amount :{type:Number},
+    totalAmount :{type:Number},
     clientName:{type:String},
+    circleName:{type:String},
     numberOfDays :{type:Number},
     createAt:{type: Date},
     updatedAt:{type: Date}

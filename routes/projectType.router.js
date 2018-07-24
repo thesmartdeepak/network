@@ -38,4 +38,7 @@ router.get("/totalProjectTypeList",projectTypeService.totalProjectTypeList);
 
 router.post('/projectTypeByDepartment',projectTypeService.projectTypeByDepartment);
 
+router.get('/getProjectType',projectTypeService.getProjectType);
+
+
 export default router;

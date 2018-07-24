@@ -1,1 +1,0 @@
-{"options":{},"indexes":[{"ns":"network.userType","v":1,"key":{"_id":1},"name":"_id_"},{"ns":"network.userType","v":1,"unique":true,"key":{"userTypeId":1},"name":"userTypeId_1","background":true}]}

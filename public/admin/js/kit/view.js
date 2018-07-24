@@ -153,7 +153,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
    
 
     $scope.downloadDemoFile = function(){
-        window.location.href = "/public/demoFiles/kit.xlsx";
+        window.location.href = "/public/demoFiles/kitDemo.xlsx";
     }
 });
 
@@ -164,7 +164,6 @@ $("body").on('click','tr.dataRow',function() {
     $(".highlight").not(this).removeClass("highlight");
     $(this).toggleClass("highlight");
 });
-
 
 $('#fromDate').datepicker({
     autoclose: true,

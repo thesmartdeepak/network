@@ -19,6 +19,7 @@ app.controller('ctrl', function($scope, $http) {
 
             formdata.append('operatorId',$scope.operatorId);
             formdata.append('operatorName',$("#operator option:selected").text());
+            formdata.append('percentage',$("#percentage option:selected").text());
             
             $http({
                 method: 'POST',
