@@ -429,9 +429,7 @@ service.getMisCab = async (req, res) => {
     if (req.body.circleName) {
         query.push({ "circleName": req.body.circleName });
     }
-    if (req.body.activityName) {
-        query.push({ "activityName": req.body.activityName });
-    }
+  
     let match = {};
     if (query[0]) {
         match = {
