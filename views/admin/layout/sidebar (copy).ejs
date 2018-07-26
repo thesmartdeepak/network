@@ -1,0 +1,303 @@
+<aside class="main-sidebar" ng-controller="headerSidebarCtrl">
+    <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img src="/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        <p>{{ name }}</p>
+        <a href="#">{{ userType }}</a>
+      </div>
+    </div>
+    <!-- search form -->
+    <form action="#" method="get" class="sidebar-form">
+      <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Search...">
+        <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                <i class="fa fa-search"></i>
+              </button>
+            </span>
+      </div>
+    </form>
+    <!-- /.search form -->
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <li class="header">MAIN NAVIGATION</li>
+      <!--======= Dashboard ============-->
+      <li class="">
+        <a href="/">
+          <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+      </li>
+      <!--======= /Dashboard ============-->
+      <!--======= User ============-->
+      <li class="treeview userSideBar mangerAdminAccess">
+        <a href="#">
+          <i class="fa fa-dashboard"></i> <span>User</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="mangerAdminAccess"><a href="/add-user"><i class="fa fa-circle-o"></i> Add user</a></li>
+          <li><a href="/view-users"><i class="fa fa-circle-o"></i> View user</a></li>
+          <li><a href="/user-type"><i class="fa fa-circle-o"></i> User Type</a></li>
+        </ul>
+      </li>
+      <!--======= /User ============-->
+
+      <!--======= Region ============-->
+      <li class="treeview regionSideBar mangerAdmincoOrdinatorAccess">
+        <a href="#">
+          <i class="fa fa-dashboard"></i> <span>Region</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="mangerAdminAccess"><a href="/add-region"><i class="fa fa-circle-o"></i> Add region</a></li>
+          <li><a href="/view-region"><i class="fa fa-circle-o"></i> View region</a></li>
+        </ul>
+      </li>
+      <!--======= /Region ============-->
+
+      <!--======= Circle ============-->
+      <li class="treeview circleSideBar mangerAdmincoOrdinatorAccess">
+        <a href="#">
+          <i class="fa fa-dashboard"></i> <span>Circle</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="mangerAdminAccess"><a href="/add-circle"><i class="fa fa-circle-o"></i> Add Circle</a></li>
+          <li><a href="/view-circle"><i class="fa fa-circle-o"></i> View Circle</a></li>
+        </ul>
+      </li>
+      <!--======= /Circle ============-->
+
+      <!--======= Activity ============-->
+      <li class="treeview activitySideBar mangerAdmincoOrdinatorAccess">
+        <a href="#">
+          <i class="fa fa-dashboard"></i> <span>Activity</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="mangerAdminAccess"><a href="/add-activity"><i class="fa fa-circle-o"></i> Add Activity</a></li>
+          <li><a href="/view-activity"><i class="fa fa-circle-o"></i> View Activity</a></li>
+        </ul>
+      </li>
+      <!--======= /Activity ============-->
+      <!--======= Client ============-->
+      <li class="treeview clientSideBar mangerAdmincoOrdinatorAccess">
+        <a href="#">
+          <i class="fa fa-dashboard"></i> <span>Client</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="mangerAdminAccess"><a href="/add-Client"><i class="fa fa-circle-o"></i> Add Client</a></li>
+          <li><a href="/view-Client"><i class="fa fa-circle-o"></i> View Client</a></li>
+        </ul>
+      </li>
+      <!--======= /Client ============-->
+       <!--======= Operator ============-->
+       <li class="treeview OperatorSideBar mangerAdmincoOrdinatorAccess">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Operator</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="mangerAdminAccess"><a href="/add-operator"><i class="fa fa-circle-o"></i> Add Operator</a></li>
+            <li><a href="/view-operator"><i class="fa fa-circle-o"></i> View Operator</a></li>
+          </ul>
+        </li>
+        <!--======= /Operator ============-->
+      
+      <!--======= Department ============-->
+      <li class="treeview departmentSideBar mangerAdmincoOrdinatorAccess">
+        <a href="#">
+          <i class="fa fa-dashboard"></i> <span>Department</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="mangerAdminAccess"><a href="/add-department"><i class="fa fa-circle-o"></i> Add Department</a></li>
+          <li><a href="/view-department"><i class="fa fa-circle-o"></i> View Department</a></li>
+        </ul>
+      </li>
+      <!--======= /Department ============-->
+      <!--======= Project Type ============-->
+      <li class="treeview projectTypeSideBar mangerAdmincoOrdinatorAccess">
+        <a href="#">
+          <i class="fa fa-dashboard"></i> <span>Project Type</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="mangerAdminAccess"><a href="/add-project-type"><i class="fa fa-circle-o"></i> Add Project Type</a></li>
+          <li><a href="/project-type"><i class="fa fa-circle-o"></i>Project Type</a></li>
+        </ul>
+      </li>
+      <!--======= /Project Type ============-->
+      <!--======= Status/Remark ============-->
+      <li class="treeview statusRemarkSideBar mangerAdmincoOrdinatorAccess">
+          <a href="#">
+              <i class="fa fa-dashboard"></i> <span>Status/Remark</span>
+              <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+              <li class="mangerAdminAccess"><a href="/add-status-remark"><i class="fa fa-circle-o"></i> Add Status/Remark</a></li>
+              <li><a href="/status-remark"><i class="fa fa-circle-o"></i> Status/Remark</a></li>
+          </ul>
+      </li>
+      <!--======= /Status/Remark ============-->
+      <!--======= Project ============-->
+      <li class="treeview projectSideBar mangerAdmincoOrdinatorAccess">
+        <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Project</span>
+            <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="mangerAdminAccess"><a href="/add-project-general"><i class="fa fa-circle-o"></i> Add Project-General</a></li>
+            <li class="coOrdinatorAccess"><a href="/add-project"><i class="fa fa-circle-o"></i> Add Project</a></li>
+            <li><a href="/view-project"><i class="fa fa-circle-o"></i> View Project</a></li>
+        </ul>
+      </li>
+      <!--======= /Project ============-->
+      <!--======= Kit ============-->
+      <li class="treeview kitSideBar mangerAdminAccess">
+          <a href="#">
+              <i class="fa fa-dashboard"></i> <span>Kit Management</span>
+              <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+              <li ><a href="/add-kit"><i class="fa fa-circle-o"></i> Add Kit</a></li>
+              <li><a href="/view-kit"><i class="fa fa-circle-o"></i> View Kit</a></li>
+          </ul>
+        </li>
+        <!--======= /Kit ============-->
+         <!--======= Claim/Total Advance ============-->
+      <li class="treeview claimAdvanceSideBar mangerAdminAccess">
+        <a href="#">
+            <i class="fa fa-dashboard"></i> <span>CLAIM/Total Advance</span>
+            <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="/add-claim-Advance"><i class="fa fa-circle-o"></i> Add Claim/Total</a></li>
+            <li><a href="/view-claim-Advance"><i class="fa fa-circle-o"></i> View Claim/Total</a></li>
+        </ul>
+      </li>
+      <!--======= /CLAIM/Total Advance ============-->
+        <!--======= Cab ============-->
+        <li class="treeview cabSideBar mangerAdminAccess">
+          <a href="#">
+              <i class="fa fa-dashboard"></i> <span>Cab</span>
+              <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+              <li><a href="/add-cab"><i class="fa fa-circle-o"></i> Add Cab</a></li>
+              <li><a href="/view-cab"><i class="fa fa-circle-o"></i> View Cab</a></li>
+          </ul>
+        </li>
+        <!--======= Cab ============-->
+        <!--======= vendor ============-->
+        <li class="treeview vendorSideBar mangerAdminAccess">
+          <a href="#">
+              <i class="fa fa-dashboard"></i> <span>Vendor</span>
+              <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+              <li><a href="/add-vendor"><i class="fa fa-circle-o"></i> Add Vendor</a></li>
+              <li><a href="/view-vendor"><i class="fa fa-circle-o"></i> View Vendor</a></li>
+          </ul>
+        </li>
+        <!--======= vendor ============-->
+          <!--======= Tracking  salaryAdminAccess============-->
+          <li class="treeview attendanceSideBar ">
+            <a href="#">
+                <i class="fa fa-dashboard"></i> <span>Daily tracking</span>
+                <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="/add-tracking-sheet"><i class="fa fa-circle-o"></i> Add tracking Sheet</a></li>
+                <li><a href="/view-tracking-sheet"><i class="fa fa-circle-o"></i> View tracking</a></li>
+            </ul>
+          </li>
+          <!--======= Tracking ============-->
+ <!--======= Billing ============-->
+ <li class="treeview billingSideBar billingAdminAccess">
+    <a href="#">
+      <i class="fa fa-dashboard"></i> <span>Billing</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li><a href="/update-billing" ><i class="fa fa-circle-o"></i> Update Billing</a></li>
+      <li><a href="/view-billing"><i class="fa fa-circle-o"></i> View Billing</a></li>
+     </ul>
+  </li>
+  <!--======= /Billing ============-->
+
+      <!--======= Reporting ============-->
+      <!-- <li class="treeview reportingSideBar mangerAdmincoOrdinatorAccess">
+        <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Reporting</span>
+            <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="/basic-reporting"><i class="fa fa-Project-o"></i> Basic reporting</a></li>
+            <li><a href="/graphical-reporting"><i class="fa fa-Project-o"></i> Graphical reporting</a></li> -->
+      <li class="treeview misSideBar">
+        <a href="#">
+            <i class="fa fa-dashboard"></i> <span>MIS</span>
+            <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="/mis-client"><i class="fa fa-Project-o"></i> Client report</a></li>
+            <li><a href="/mis-circle"><i class="fa fa-Project-o"></i> Circle report</a></li>
+            <li><a href="/mis-business"><i class="fa fa-Project-o"></i> Business report</a></li>
+            <!-- <li><a href="/mis-vendor"><i class="fa fa-Project-o"></i> Vendor report</a></li> -->
+            <li><a href="/mis-salary"><i class="fa fa-Project-o"></i> Salary report</a></li>
+            <li><a href="/mis-claim-advance"><i class="fa fa-Project-o"></i> Claim/Advance</a></li>
+            <li><a href="/mis-vendor"><i class="fa fa-Project-o"></i> Vendor</a></li>
+            <li><a href="/mis-cab"><i class="fa fa-Project-o"></i> Cab</a></li>
+            <li><a href="/mis-kit"><i class="fa fa-Project-o"></i> Kit</a></li>
+        </ul>
+            <!-- </li>
+        </ul> -->
+      </li>
+      <!--======= /Project ============-->
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>
