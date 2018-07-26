@@ -53,7 +53,7 @@
                 <td class="ccm1"><strong>Vendor Name</strong></td>
                 <td class="ccm1"><strong>Client Name</strong></td>
                 <td class="ccm1"><strong>Circle Name</strong></td>
-                <td class="ccm1"><strong>Activity</strong></td>
+                <td class="ccm1"><strong>Month</strong></td>
                 <td class="ccm1"><strong>Total Amount</strong></td>
             </tr>
             <tbody  class="tbodyBorder">
@@ -62,7 +62,7 @@
                     <td class="ccm1" rowspan='{{ site.vendorNameCount }}' ng-show="site.showVendorName">{{ site.vendorName }}</td>
                     <td class="ccm1" rowspan='{{ site.clientNameCount }}' ng-show="site.showClientName">{{ site.clientName }}</td>
                     <td class="ccm1" rowspan='{{ site.circleNameCount }}' ng-show="site.showCircleName">{{ site.circleName }}</td>
-                    <td class="ccm1">{{ site.activityName }}</td>
+                    <td class="ccm1">{{ site.month }}</td>
                     <td class="ccm1">{{ site.totalAmount }}</td>
                 </tr>
             </tbody>
@@ -86,4 +86,4 @@
     </div>
 </section>
 
-<script src="/admin/js/report/misVendor.js"></script>
+<script src="/admin/js/report/misCab.js"></script>

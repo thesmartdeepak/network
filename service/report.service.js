@@ -8,6 +8,7 @@
 import Project from '../models/project.model';
 import attendance from '../models/attendance.model';
 import vendor from '../models/vendor.model';
+import cab from '../models/cab.model';
 import claimAdvance from '../models/claimAdvance.model';
 import Circle from '../models/circle.model';
 import Client from '../models/client.model';
@@ -408,6 +409,53 @@ service.getMisVendor = async (req, res) => {
     aggregate.push(group);
 
     data.user = await vendor.vendorMis(aggregate);
+    return res.send({ success: true, code: 200, data: data });
+}
+service.getMisCab = async (req, res) => {
+    let data = {};
+    let aggregate = [];
+
+    let query = [];
+    if (req.body.year) {
+        query.push({ "year": parseInt(req.body.year) });
+    }
+    if (req.body.month) {
+        query.push({ "month": req.body.month });
+    }
+    if (req.body.clientName) {
+        query.push({ "clientName": req.body.clientName });
+    }
+
+    if (req.body.circleName) {
+        query.push({ "circleName": req.body.circleName });
+    }
+    if (req.body.activityName) {
+        query.push({ "activityName": req.body.activityName });
+    }
+    let match = {};
+    if (query[0]) {
+        match = {
+            $match: { $and: query },
+
+        };
+        aggregate.push(match);
+    }
+
+    let group = {
+            $group:{
+                _id: { vendorName: "$vendorName", vendorType: "$vendorType", month: "$month", clientName: "$clientName", circleName: "$circleName" },
+                "totalAmount": { $sum: "$totalAmount" },
+                "vendorName": { $last: "$vendorName" },
+                "vendorType": { $last: "$vendorType" },
+                "month": { $last: "$month" },
+                "clientName": { $last: "$clientName" },
+                "circleName": { $last: "$circleName" },
+            },
+        };
+
+    aggregate.push(group);
+
+    data.user = await cab.cabMis(aggregate);
     return res.send({ success: true, code: 200, data: data });
 }
 export default service;

@@ -71,6 +71,14 @@ router.get('/mis-vendor', function(req,res){
 router.post('/getMisVendor',reportService.getMisVendor);
 
 //******Vendor Reporting******/
+//******Cab Reporting******/
+router.get('/mis-cab', function(req,res){
+    res.render('admin/report/misCab',{title:'Cab Report'})
+});
+
+router.post('/getMisCab',reportService.getMisCab);
+
+//******Cab Reporting******/
 
 
 export default router;

@@ -102,7 +102,7 @@ app.use(function(req, res, next) {
         '/add-operator','/edit-operator','/view-operator',
         '/status-remark','/add-status-remark','/edit-status-remark',
         '/basic-reporting','/graphical-reporting',
-        '/mis-client','/mis-circle','/mis-business','/mis-vendor','/mis-salary',
+        '/mis-client','/mis-circle','/mis-business','/mis-vendor','/mis-salary','/mis-cab',
         '/view-billing','/update-billing',
         '/add-kit','/view-kit','/add-cab','/view-cab','/add-vendor','/view-vendor',
         '/add-claim-Advance','/view-claim-Advance','/add-tracking-sheet','/view-tracking-sheet','/add-project-general',,'/mis-claim-advance',

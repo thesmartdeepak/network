@@ -102,6 +102,14 @@ service.addCab = async (req,res) =>{
                 };
                 let client = await Client.getOneClient(clientToFind);
 
+                var dateObj = new Date();//getJsDateFromExcel(new Date());
+                var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                // var day = dateObj.getUTCDate();
+                var year = dateObj.getUTCFullYear();
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+
                 row['status'] = "active";
                 row['updatedAt'] = new Date();
                 row['vendorName'] = row['vendorName'];
@@ -113,7 +121,8 @@ service.addCab = async (req,res) =>{
                 row['amount'] = row['amount'];
                 row['numberOfDays'] = row['numberOfDays'];
                 row['totalAmount'] = row['totalAmount'];
-
+                row['month']= monthNames[ dateObj.getUTCMonth()];
+                row['year'] = year;
             }
 
             rows.push(row);

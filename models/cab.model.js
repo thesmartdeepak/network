@@ -14,7 +14,9 @@ const cabSchema = mongoose.Schema({
     circleName:{type:String},
     numberOfDays :{type:Number},
     createAt:{type: Date},
-    updatedAt:{type: Date}
+    updatedAt:{type: Date},
+    year:{type: Number},
+    month:{type: String},
     
 }, {collection : 'cab'});
 
@@ -38,7 +40,7 @@ cabModel.CabPagination = (cabToFind,type) => {
     }
 }
 
-// KitModel.allKitCount = (kitToFind) => {
-//     return KitModel.find(kitToFind.query,kitToFind.projection).count();
-// }
+cabModel.cabMis = (aggregate) =>{
+    return cabModel.aggregate(aggregate);
+}
 export default cabModel;

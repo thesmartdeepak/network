@@ -2,7 +2,7 @@ app.controller('ctrl', function($scope, $http) {
     $scope.circleByCode = {};
     $scope.vendors = {};
     // $scope.year = "2018";
-   $scope.getReport = function(){
+    $scope.getReport = function(){
      
         let searchData = {
             'year' : $scope.year, 
@@ -13,7 +13,7 @@ app.controller('ctrl', function($scope, $http) {
         };
         $http({
             method:'post',
-            url:'/getMisVendor',
+            url:'/getMisCab',
             data:searchData,
             headers: {
                 'authorization': localStorage.token
@@ -34,8 +34,9 @@ app.controller('ctrl', function($scope, $http) {
             for(x in responseD){
                 let row = responseD[x];
                 if(!report[row.vendorType]){
-                    report[row.vendorType] = {};
+                  report[row.vendorType] = {};
                 }
+                
                 if(!report[row.vendorType][row.vendorName]){
                     report[row.vendorType][row.vendorName] = {};
                 }
@@ -46,7 +47,7 @@ app.controller('ctrl', function($scope, $http) {
                     report[row.vendorType][row.vendorName][row.clientName][row.circleName] = {};
                 }
 
-                report[row.vendorType][row.vendorName][row.clientName][row.circleName][row.activityName] = row;
+                report[row.vendorType][row.vendorName][row.clientName][row.circleName][row.month] = row;
 
                 if(!vendorTypeCount[row.vendorType]){
                     vendorTypeCount[row.vendorType] = 0;
@@ -109,7 +110,6 @@ app.controller('ctrl', function($scope, $http) {
                 }
             }
 
-            console.log($scope.report);
             
         });
     }
