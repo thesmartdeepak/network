@@ -371,7 +371,16 @@ service.getMisVendor = async (req, res) => {
     if (req.body.month) {
         query.push({ "month": req.body.month });
     }
-    //query.push({"empStatus":{$in:["working","ideal","movement","week off"]}});
+    if (req.body.clientName) {
+        query.push({ "clientName": req.body.clientName });
+    }
+
+    if (req.body.circleName) {
+        query.push({ "circleName": req.body.circleName });
+    }
+    if (req.body.activityName) {
+        query.push({ "activityName": req.body.activityName });
+    }
     let match = {};
     if (query[0]) {
         match = {

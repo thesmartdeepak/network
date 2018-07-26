@@ -2,10 +2,19 @@ app.controller('ctrl', function($scope, $http) {
     $scope.circleByCode = {};
     $scope.vendors = {};
     // $scope.year = "2018";
+    $scope.getReport1 = function(){
+        var a = $('#circle option:selected').text();
+        alert(a);
+    }
+
     $scope.getReport = function(){
-      let searchData = {
+     
+        let searchData = {
             'year' : $scope.year, 
             'month' : $scope.month,
+            'clientName':$scope.clientId,
+            'circleName': $scope.circleCode,
+           'activityName': $scope.activityId,
         };
         $http({
             method:'post',
@@ -92,7 +101,7 @@ app.controller('ctrl', function($scope, $http) {
                                 row.clientNameCount = clientNameCount[x+y+z];
                                 row.showCircleName = showCircleName;
                                 row.circleNameCount = circleNameCount[x+y+z+a];
-                                
+
                                 showVendorType = false;
                                 showVendorName = false;
                                 showClientName = false;
@@ -141,6 +150,50 @@ app.controller('ctrl', function($scope, $http) {
        // $scope.vendors = [];
         
     }
+
+    $scope.getAllCircleForReporting = function(){
+        $http({
+            method:'get',
+            url:'/getAllCircleForReporting',
+            headers: {
+                'authorization': localStorage.token
+            }
+        }).then(function(response){
+            let responseD = response.data.data;
+            
+            for(x in responseD){
+                $scope.circleByCode[responseD[x].code] = responseD[x];
+            }
+
+        });
+    }
+
+    $scope.getAllClinetForReporting = function(){
+        $http({
+            method:'get',
+            url:'/getAllClinetForReporting',
+            headers: {
+                'authorization': localStorage.token
+            } 
+        }).then(function(response){
+            $scope.clients = response.data.data;
+        });
+    }
+    $scope.getActivity = function(){
+        $http({
+            method:'get',
+            url:'/allActivity',
+            headers:{
+                'authorization':localStorage.token,
+            },
+        }).then(function(response){
+        $scope.activityList = response.data.data;
+        });
+    }
+    $scope.getActivity();
+
+    $scope.getAllCircleForReporting();
+    $scope.getAllClinetForReporting();
 });
 
 
