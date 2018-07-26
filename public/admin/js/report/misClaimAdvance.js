@@ -68,7 +68,7 @@ app.controller('ctrl', function($scope, $http) {
        $scope.year = '';
         $scope.month = '';
         $scope.getReport();
-        $scope.claimAdvances = [];
+       // $scope.claimAdvances = [];
         
     }
 });

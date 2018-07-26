@@ -64,8 +64,6 @@ app.controller('ctrl', function($scope, $http) {
                 $scope.totalPoAmount+=row.amount;
 
             }
-
-            console.log(report);
             
             $scope.report = [];
             for(x in report){

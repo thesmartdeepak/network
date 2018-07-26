@@ -15,25 +15,21 @@
         <h2>Client report</h2>
         <table class="mainTable">
             <tr>
-                <td class="ccm1"><strong>Client</strong></td>
-                <td class="ccm1"><strong>Total count</strong></td>
-                <td class="ccm1"><strong>Accepted by Client</strong></td>
-                <td class="ccm1"><strong>Po-Amount</strong></td>
-                <td class="ccm1"><strong>Circle</strong></td>
-                <td class="ccm1"><strong>Total count (In-Circle)</strong></td>
-                <td class="ccm1"><strong>Accepted by Client (In-Circle)</strong></td>
-                <td class="ccm1"><strong>Po-Amount (In-Circle)</strong></td>
+                <td class="ccm1"><strong>Vendor Type</strong></td>
+                <td class="ccm1"><strong>Vendor Name</strong></td>
+                <td class="ccm1"><strong>Client Name</strong></td>
+                <td class="ccm1"><strong>Circle Name</strong></td>
+                <td class="ccm1"><strong>Activity</strong></td>
+                <td class="ccm1"><strong>Total Amount</strong></td>
             </tr>
-            <tbody ng-repeat="circleList in report" class="tbodyBorder">
-                <tr ng-repeat="circle in circleList" ng-init="count = objectCount(circleList);">
-                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0"><strong>{{ circle._id.client }}</strong></td>
-                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ circleCountFromClient(circleList,'count') }}</td>
-                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ circleCountFromClient(circleList,'acceptance') }}</td>
-                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ circleCountFromClient(circleList,'amount') }}</td>
-                    <td class="ccm1">{{ circleName(circle._id.circle) }}</td>
-                    <td class="ccm1">{{ circle.count }}</td>
-                    <td class="ccm1">{{ circle.acceptance }}</td>
-                    <td class="ccm1">{{ circle.amount }}</td>
+            <tbody  class="tbodyBorder">
+                <tr ng-repeat="site in report">
+                    <td class="ccm1" rowspan='{{ site.vendorTypeCount }}' ng-show="site.showVendorType">{{ site.vendorType }}</td>
+                    <td class="ccm1" rowspan='{{ site.vendorNameCount }}' ng-show="site.showVendorName"><strong>{{ site.vendorName }}</strong></td>
+                    <td class="ccm1" rowspan='{{ site.clientNameCount }}' ng-show="site.showClientName">{{ site.clientName }}</td>
+                    <td class="ccm1" rowspan='{{ site.circleNameCount }}' ng-show="site.showCircleName">{{ site.circleName }}</td>
+                    <td class="ccm1">{{ site.activityName }}</td>
+                    <td class="ccm1">{{ site.totalAmount }}</td>
                 </tr>
             </tbody>
             <tr>
@@ -43,21 +39,17 @@
                 <td> </td>
                 <td> </td>
                 <td> </td>
-                <td> </td>
-                <td> </td>
             </tr>
             <tr>
                 <td class="ccm1"><strong>Total</strong></td>
-                <td class="ccm1"><strong>{{ totalCount }}</strong></td>
-                <td class="ccm1"><strong>{{ totalAcceptance }}</strong></td>
-                <td class="ccm1"><strong>{{ totalPoAmount }}</strong></td>
+                <td class="ccm1"></td>
+                <td class="ccm1"></td>
+                <td class="ccm1"></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+                <td class="ccm1"><strong>{{ totalAmount }}</strong></td>
+              </tr>
         </table>
     </div>
 </section>
 
-<script src="/admin/js/report/misClient.js"></script>
+<script src="/admin/js/report/misVendor.js"></script>

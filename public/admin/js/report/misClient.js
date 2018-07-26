@@ -102,6 +102,7 @@ app.controller('ctrl', function($scope, $http) {
         for(x in list){
             count++;
         }
+        alert(count);
         return count;
     }
 

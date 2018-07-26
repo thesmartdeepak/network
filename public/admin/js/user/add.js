@@ -44,7 +44,7 @@ app.controller('ctrl', function($scope, $http) {
                     $scope.userTypes.push(value);
                     
                 }
-                else if(localStorage.userType == 'manager'&& (value.userType == 'co-ordinator' || value.userType == 'site-engineer' )){
+                else if(localStorage.userType == 'manager' && (value.userType == 'co-ordinator' || value.userType == 'site-engineer' )){
                     $scope.userTypes.push(value);
                 }
             });

@@ -1,0 +1,121 @@
+<% layout('../layout/layout') -%>
+    <!-- Main content -->
+    <section class="content" ng-controller="ctrl">
+        <div>
+            <select id="ddlYear" ng-model="year" ng-change="getReport()">
+                <option value="">Select year</option>
+                <option value="2008">2008</option>
+                <option value="2009">2009</option>
+                <option value="2010">2010</option>
+                <option value="2011">2011</option>
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option selected="true" value="2018">2018</option>
+               </select>
+               <select id="ddlMonth" ng-model="month" ng-change="getReport()">
+                    <option value="">Select Month</option>
+                   <option value="January">Jan</option>
+                   <option value="February">Feb</option>
+                   <option value="March">Mar</option>
+                   <option value="April">April</option>
+                   <option value="May">May</option>
+                   <option value="June">June</option>
+                   <option value="July">July</option>
+                   <option value="August">Aug</option>
+                   <option value="September">Sep</option>
+                   <option value="October">Oct</option>
+                   <option value="November">Nov</option>
+                   <option value="December">Dec</option>
+               </select>
+           <button ng-click="clearFilter()">Clear filter</button>
+        </div><br>
+        <!-- <div class="circleClients">
+           
+            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Vendor Name</th>
+                            <th>Vendor Type</th>
+                            <th>Activity Name</th>
+                            <th>Project Code</th>
+                            <th>Site Count</th>
+                            <th>Po Amount</th>
+                           <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr ng-repeat="vendor in vendors">
+                          <td>{{vendor.vendorName}}</td>
+                          <td>{{vendor.vendorType}}</td>
+                          <td>{{vendor.activityName}}</td>
+                          <td>{{vendor.projectCode}}</td>
+                          <td>{{vendor.siteCount}}</td>
+                          <td>{{vendor.poAmount}}</td>
+                          <td>{{vendor.totalAmount}}</td>
+                        </tr>
+               
+                    </tbody>
+            </table>
+
+
+        </div> -->
+        <div class="circleClients">
+            <!-- <h2>Client report</h2> -->
+            <table class="mainTable">
+                <tr>
+                    <td class="ccm1"><strong>Vendor Type</strong></td>
+                    <td class="ccm1"><strong>Vendor Name</strong></td>
+                    <td class="ccm1"><strong>Client Name</strong></td>
+                    <td class="ccm1"><strong>Circle Name</strong></td>
+                    <td class="ccm1"><strong>Activity</strong></td>
+                    <td class="ccm1"><strong>Total Amount</strong></td>
+                   </tr>
+                <tbody class="tbodyBorder">
+                    <tr ng-repeat="vendor in vendors" ng-init="count = 1;">
+                        <td class="ccm1" rowspan='{{ count }}' ><strong>{{ vendor.vendorType }}</strong></td>
+                        <td class="ccm1" rowspan='{{ count }}' >{{ vendor.vendorName }}</td>
+                        <td class="ccm1" rowspan='{{ count }}' >{{ vendor.clientName }}</td>
+                        <td class="ccm1" rowspan='{{ count }}' >{{ vendor.circleName }}</td>
+                        <td class="ccm1" rowspan='{{ count }}' >{{ vendor.activityName }}</td>
+                        <td class="ccm1">{{ vendor.totalAmount }}</td>
+                    </tr>
+                </tbody>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    
+                </tr>
+                <tr>
+                    <td class="ccm1"><strong>Total</strong></td>
+                    <td class="ccm1"></td>
+                    <td class="ccm1"></td>
+                    <td ></td>
+                    <td></td>
+                   <td class="ccm1"><strong>{{totalAmount | number : 2}}</strong></td>
+                    
+                </tr>
+            </table>
+        </div>
+    </section>
+   
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
+
+<script src="/admin/js/report/misVendor.js"></script>
+   

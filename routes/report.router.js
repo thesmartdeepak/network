@@ -51,9 +51,7 @@ router.post('/getMisSalary',reportService.getMisSalary);
 //******Salary Reporting******/
 
 //******Vendor Reporting******/
-router.get('/mis-vendor', function(req,res){
-    res.render('admin/report/misVendor',{title:'Vendor Report'})
-});
+
 //******Vendor Reporting******/
 
 //******Claim/Advance Reporting******/
@@ -62,6 +60,15 @@ router.get('/mis-claim-advance', function(req,res){
 });
 
 router.post('/getMisClaimAdvance',reportService.getMisClaimAdvance);
+
+//******Claim/Advance Reporting******/
+
+//******Vendor Reporting******/
+router.get('/mis-vendor', function(req,res){
+    res.render('admin/report/misVendor',{title:'Vendor Report'})
+});
+
+router.post('/getMisVendor',reportService.getMisVendor);
 
 //******Vendor Reporting******/
 

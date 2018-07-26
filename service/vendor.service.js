@@ -97,6 +97,15 @@ service.addVendor = async (req,res) =>{
                 goodData = false;
             }
             else{
+                
+                var dateObj = new Date();//getJsDateFromExcel(new Date());
+                var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                // var day = dateObj.getUTCDate();
+                var year = dateObj.getUTCFullYear();
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+
                 let clientToFind = {
                     query:{_id:circle.clientId},
                     projection:{_id:1,name:1,clientId:1}
@@ -111,9 +120,12 @@ service.addVendor = async (req,res) =>{
                 row['projectCode'] = row['projectCode'];
                 row['projectId'] = circle.clientId;
                 row['clientName'] = client.name;
+                row['circleName'] = circle.name;
                 row['siteCount'] = row['siteCount'];
                 row['PoAmount'] = row['PoAmount'];
                 row['totalAmount'] = row['totalAmount'];
+                row['month']= monthNames[ dateObj.getUTCMonth()];
+                row['year'] = year;
             }
 
             rows.push(row);
