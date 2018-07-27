@@ -12,7 +12,7 @@ app.controller('ctrl', function($scope, $http) {
         };
         $http({
             method:'post',
-            url:'/getMisCab',
+            url:'/getMisKit',
             data:searchData,
             headers: {
                 'authorization': localStorage.token
@@ -22,92 +22,94 @@ app.controller('ctrl', function($scope, $http) {
 
             $scope.report = [];
             let responseD = response.data.data.user;
-
             let report = {};
             
             let vendorTypeCount = {};
             let vendorNameCount = {};
             let clientNameCount = {};
             let circleNameCount = {};
-            
+
+            let empNameCount = {};
+           // let totalAmountCount = {};
+            let kitNameCount = {};
+           
             for(x in responseD){
                 let row = responseD[x];
-                if(!report[row.vendorType]){
-                  report[row.vendorType] = {};
+                if(!report[row.empName]){
+                  report[row.empName] = {};
                 }
-                if(!report[row.vendorType][row.vendorName]){
-                    report[row.vendorType][row.vendorName] = {};
+                if(!report[row.empName][row.kitName]){
+                    report[row.empName][row.kitName] = {};
                 }
-                if(!report[row.vendorType][row.vendorName][row.clientName]){
-                    report[row.vendorType][row.vendorName][row.clientName] = {};
-                }
-                if(!report[row.vendorType][row.vendorName][row.clientName][row.circleName]){
-                    report[row.vendorType][row.vendorName][row.clientName][row.circleName] = {};
-                }
+                // if(!report[row.empName][row.vendorName][row.clientName]){
+                //     report[row.vendorType][row.vendorName][row.clientName] = {};
+                // }
+                // if(!report[row.vendorType][row.vendorName][row.clientName][row.circleName]){
+                //     report[row.vendorType][row.vendorName][row.clientName][row.circleName] = {};
+                // }
 
-                report[row.vendorType][row.vendorName][row.clientName][row.circleName][row.month] = row;
-               
-                if(!vendorTypeCount[row.vendorType]){
-                    vendorTypeCount[row.vendorType] = 0;
-                }
-                vendorTypeCount[row.vendorType] += 1;
-
-                if(!vendorNameCount[row.vendorType+row.vendorName]){
-                    vendorNameCount[row.vendorType+row.vendorName] = 0;
-                }
-                vendorNameCount[row.vendorType+row.vendorName] += 1;
-
-                if(!clientNameCount[row.vendorType+row.vendorName+row.clientName]){
-                    clientNameCount[row.vendorType+row.vendorName+row.clientName] = 0;
-                }
-                clientNameCount[row.vendorType+row.vendorName+row.clientName] += 1;
+                report[row.empName][row.kitName] [row.perDayAmount] = row;
                 
-                if(!circleNameCount[row.vendorType+row.vendorName+row.clientName+row.circleName]){
-                    circleNameCount[row.vendorType+row.vendorName+row.clientName+row.circleName] = 0;
+                if(!empNameCount[row.empName]){
+                    empNameCount[row.empName] = 0;
                 }
-                circleNameCount[row.vendorType+row.vendorName+row.clientName+row.circleName] += 1;
+                empNameCount[row.empName] += 1;
 
-                $scope.totalAmount+=row.totalAmount;
+                if(!kitNameCount[row.empName+row.kitName]){
+                    kitNameCount[row.empName+row.kitName] = 0;
+                }
+                kitNameCount[row.empName+row.kitName] += 1;
+
+                // if(!clientNameCount[row.vendorType+row.vendorName+row.clientName]){
+                //     clientNameCount[row.vendorType+row.vendorName+row.clientName] = 0;
+                // }
+                // clientNameCount[row.vendorType+row.vendorName+row.clientName] += 1;
+                
+                // if(!circleNameCount[row.vendorType+row.vendorName+row.clientName+row.circleName]){
+                //     circleNameCount[row.vendorType+row.vendorName+row.clientName+row.circleName] = 0;
+                // }
+                // circleNameCount[row.vendorType+row.vendorName+row.clientName+row.circleName] += 1;
+
+                $scope.totalAmount+=row.perDayAmount;
 
             }
 
             $scope.report = [];
             for(x in report){
                 
-                let showVendorType = true;
+                let showEmpName = true;
                 for(y in report[x]){
-                    let showVendorName = true;
+                    let showKitName = true;
                     for(z in report[x][y]){
-                        let showClientName = true;
+                      //  let showClientName = true;
                         
-                        for(a in report[x][y][z]){
-                            let showCircleName = true;
+                        //for(a in report[x][y][z]){
+                         //   let showCircleName = true;
                             
-                            for(k in report[x][y][z][a]){
+                            //for(k in report[x][y][z][a]){
                                 
-                                let row = report[x][y][z][a][k];
-                                row.showVendorType = showVendorType;
-                                row.vendorTypeCount = vendorTypeCount[x];
-                                row.showVendorName = showVendorName;
-                                row.vendorNameCount = vendorNameCount[x+y];
-                                row.showClientName = showClientName;
-                                row.clientNameCount = clientNameCount[x+y+z];
-                                row.showCircleName = showCircleName;
-                                row.circleNameCount = circleNameCount[x+y+z+a];
-
-                                showVendorType = false;
-                                showVendorName = false;
-                                showClientName = false;
-                                showCircleName = false;
-                                $scope.report.push(row);
+                                let row = report[x];
+                                row.showEmpName = showEmpName;
+                                row.empNameCount = empNameCount[x];
+                                row.showKitName = showKitName;
+                                row.kitNameCount = kitNameCount[x+y];
+                                // row.showClientName = showClientName;
+                                // row.clientNameCount = clientNameCount[x+y+z];
+                                // row.showCircleName = showCircleName;
+                                // row.circleNameCount = circleNameCount[x+y+z+a];
+                               showEmpName = false;
+                                showKitName = false;
+                               // showClientName = false;
+                               // showCircleName = false;
+                               $scope.report.push(row);
                                 
-                            }
-                        }
+                           // }
+                        //}
                     }
                 }
             }
 
-            
+           //console.log($scope.report);
         });
     }
 

@@ -45,38 +45,36 @@
         <!-- <h2>Client report</h2> --><br>
         <table class="mainTable">
             <tr>
-                <td class="ccm1"><strong>Vendor Type</strong></td>
-                <td class="ccm1"><strong>Vendor Name</strong></td>
-                <td class="ccm1"><strong>Client Name</strong></td>
+                <td class="ccm1"><strong>Employee Name</strong></td>
+                <td class="ccm1"><strong>Kit Name</strong></td>
+                <!-- <td class="ccm1"><strong>Client Name</strong></td>
                 <td class="ccm1"><strong>Circle Name</strong></td>
-                <td class="ccm1"><strong>Month</strong></td>
-                <td class="ccm1"><strong>Total Amount</strong></td>
+                <td class="ccm1"><strong>Month</strong></td> -->
+                <td class="ccm1"><strong>Amount</strong></td>
             </tr>
             <tbody  class="tbodyBorder">
                 <tr ng-repeat="site in report">
-                    <td class="ccm1" rowspan='{{ site.vendorTypeCount }}' ng-show="site.showVendorType">{{ site.vendorType }}</td>
-                    <td class="ccm1" rowspan='{{ site.vendorNameCount }}' ng-show="site.showVendorName">{{ site.vendorName }}</td>
-                    <td class="ccm1" rowspan='{{ site.clientNameCount }}' ng-show="site.showClientName">{{ site.clientName }}</td>
+                    <td class="ccm1" rowspan='{{ site.empNameCount }}' ng-show="site.showEmpName">{{ site.empName }}</td>
+                    <td class="ccm1" rowspan='{{ site.kitNameCount }}' ng-show="site.showKitName">{{ site.kitName }}</td>
+                    <!-- <td class="ccm1" rowspan='{{ site.clientNameCount }}' ng-show="site.showClientName">{{ site.clientName }}</td>
                     <td class="ccm1" rowspan='{{ site.circleNameCount }}' ng-show="site.showCircleName">{{ site.circleName }}</td>
-                    <td class="ccm1">{{ site.month }}</td>
-                    <td class="ccm1">{{ site.totalAmount }}</td>
+                    <td class="ccm1">{{ site.month }}</td> -->
+                    <td class="ccm1">{{ site.perDayAmount }}</td>
                 </tr>
             </tbody>
             <tr>
                 <td>&nbsp;</td>
                 <td> </td>
                 <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
+               
             </tr>
             <tr>
                 <td class="ccm1"><strong>Total</strong></td>
                 <td class="ccm1"></td>
-                <td class="ccm1"></td>
-                <td class="ccm1"></td>
+                <td class="ccm1">{{ totalAmount }}</td>
+                <!-- <td class="ccm1"></td>
                 <td></td>
-                <td class="ccm1"><strong>{{ totalAmount }}</strong></td>
+                <td class="ccm1"><strong>{{ totalAmount }}</strong></td> -->
               </tr>
         </table>
     </div>
