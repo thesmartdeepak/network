@@ -9,6 +9,7 @@ import Project from '../models/project.model';
 import attendance from '../models/attendance.model';
 import vendor from '../models/vendor.model';
 import cab from '../models/cab.model';
+import kit from '../models/kit.model';
 import claimAdvance from '../models/claimAdvance.model';
 import Circle from '../models/circle.model';
 import Client from '../models/client.model';
@@ -486,19 +487,20 @@ service.getMisKit = async (req, res) => {
 
     let group = {
             $group:{
-                _id: { empUserId: "$empUserId", vendorType: "$vendorType", month: "$month", clientName: "$clientName", circleName: "$circleName" },
-                "totalAmount": { $sum: "$totalAmount" },
-                "vendorName": { $last: "$vendorName" },
-                "vendorType": { $last: "$vendorType" },
-                "month": { $last: "$month" },
-                "clientName": { $last: "$clientName" },
-                "circleName": { $last: "$circleName" },
+                _id: { empUserId: "$empUserId", kitName: "$kitName"},
+                "perDayAmount": { $sum: "$perDayAmount" },
+                "empName": { $last: "$empName" },
+                "kitName": { $last: "$kitName" },
+               // "month": { $last: "$month" },
+               // "clientName": { $last: "$clientName" },
+               // "circleName": { $last: "$circleName" },
             },
         };
 
     aggregate.push(group);
 
-    data.user = await cab.cabMis(aggregate);
+    data.user = await kit.kitMis(aggregate);
     return res.send({ success: true, code: 200, data: data });
 }
+
 export default service;
