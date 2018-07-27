@@ -4,15 +4,14 @@
   <div class="box box-primary" id="addFileSection">
     <form id="addProjectForm" method="post" ng-submit="submit()" enctype="multipart/form-data">
       <div class="box-body">
-        
         <div class="form-group">
           <label>Upload Excel</label>
           <input id="excelFile" type="file" class="" name="excelFile" required>
         </div>
-        <div>
+        <div class="form-group">
           <label>Select Percentage</label>
           <select class="form-control" id="percentage" name="percentage" ng-model="percentage" required>
-              <option value="">Select Percentage</option>
+                <option value="">Select Percentage</option>
                 <option>30</option>
                 <option>40</option>
               </select>
@@ -24,11 +23,11 @@
                 <option ng-repeat="operator in operators"  value="{{operator.operatorId}}">{{operator.operatorName}}</option>
               </select>
           </div>
-      </div>
+    </div>
       <!-- /.box-body -->
 
       <div class="box-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="first-btn btn btn-primary">Submit</button>
       </div>
     </form>
   </div>

@@ -4,13 +4,13 @@
     <div class="box box-primary">
       <form id="addStatusRemarkForm" ng-submit="submit()">
         <div class="box-body">
-
-          <div class="form-group">
+         <div class="row">
+          <div class="form-group col-md-6">
             <label>Status/Remark</label>
             <input class="form-control" placeholder="Status/Remark" name="statusRemark" ng-model="formData.statusRemark" required>
           </div>
 
-          <div class="form-group">
+          <div class="form-group col-md-6">
             <label>Type</label>
             <select class="form-control" name="type" ng-model="formData.type">
               <option value="">--Select Type--</option>
@@ -21,12 +21,12 @@
               <option value="clientRemark">Client Remark</option>
             </select>
           </div>
-
+         </div>
         </div>
         <!-- /.box-body -->
 
         <div class="box-footer">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="first-btn btn btn-primary">Submit</button>
         </div>
       </form>
     </div>

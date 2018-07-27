@@ -201,3 +201,6 @@ padding-right: 4px;
 .content2 .page-link:focus{
     box-shadow: none !important;
 }
+label.error{
+    font-size: 12px;
+}
