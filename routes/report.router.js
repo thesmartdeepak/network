@@ -84,7 +84,7 @@ router.get('/mis-kit', function(req,res){
     res.render('admin/report/misCab',{title:'Cab Report'})
 });
 
-//router.post('/getMisKit',reportService.getMisKit);
+router.post('/getMisKit',reportService.getMisKit);
 
 //******Kit Reporting******/
 

@@ -197,11 +197,11 @@
 $(function () {
   'use strict'
 
-  $.get('/adsync?v3=true', function (response) {
-    var col = $('<div />').html(response)
+  // $.get('/adsync?v3=true', function (response) {
+  //   var col = $('<div />').html(response)
 
-    $('.content-wrapper .content').append(col)
-  })
+  //   $('.content-wrapper .content').append(col)
+  // })
 
   $(document).on('click', '.ad-click-event', function (e) {
     e.preventDefault()

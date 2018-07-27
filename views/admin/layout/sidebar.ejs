@@ -1,92 +1,419 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" ng-controller="headerSidebarCtrl">
-    <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
-    </a>
+  <!-- Brand Logo -->
+  <a href="index3.html" class="brand-link">
+    <img src="admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <span class="brand-text font-weight-light">AdminLTE 3</span>
+  </a>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">{{ name }}</a>
-          <a href="#"><small>{{ userType }}</small></a>
-        </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
       </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <!--======= Dashboard ============-->
-          <li class="nav-item has-treeview menu-open">
-            <a href="/" class="nav-link active">
-              <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            </a>
-          </li>
-          <!--======= /Dashboard ============-->
-          <!--======= User ============-->
-          <li class="nav-item has-treeview userSideBar mangerAdminAccess">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-dashboard"></i>
-              <p>User<i class="right fa fa-angle-left"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item mangerAdminAccess"><a href="/add-user" class="nav-link"><i class="fa fa-circle-o"></i> Add user</a></li>
-                <li class="nav-item"><a href="/view-users" class="nav-link"><i class="fa fa-circle-o"></i> View user</a></li>
-                <li class="nav-item"><a href="/user-type" class="nav-link"><i class="fa fa-circle-o"></i> User Type</a></li>
-            </ul>
-          </li>
-          <!--======= /User ============-->
-
-          <!--======= Region ============-->
-          <li class="nav-item has-treeview regionSideBar mangerAdmincoOrdinatorAccess">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-dashboard"></i>
-              <p>Region<i class="right fa fa-angle-left"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item mangerAdminAccess"><a href="/add-region" class="nav-link"><i class="fa fa-circle-o"></i> Add region</a></li>
-              <li class="nav-item"><a href="/view-region" class="nav-link"><i class="fa fa-circle-o"></i> View region</a></li>
-            </ul>
-          </li>
-          <!--======= /Region ============-->
-
-          <!--======= Circle ============-->
-          <li class="nav-item has-treeview circleSideBar mangerAdmincoOrdinatorAccess">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-dashboard"></i>
-              <p>Circle<i class="right fa fa-angle-left"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item mangerAdminAccess"><a href="/add-circle" class="nav-link"><i class="fa fa-circle-o"></i> Add Circle</a></li>
-              <li class="nav-item"><a href="/view-circle" class="nav-link"><i class="fa fa-circle-o"></i> View Circle</a></li>
-            </ul>
-          </li>
-          <!--======= /Circle ============-->
-
-          <!--======= Activity ============-->
-          <li class="nav-item has-treeview activitySideBar mangerAdmincoOrdinatorAccess">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-dashboard"></i>
-              <p>Activity<i class="right fa fa-angle-left"></i></p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="/add-activity" class="nav-link"><i class="fa fa-circle-o"></i> Add Activity</a></li>
-              <li class="nav-item"><a href="/view-activity" class="nav-link"><i class="fa fa-circle-o"></i> View Activity</a></li>
-            </ul>
-          </li>
-          <!--======= /Activity ============-->
-
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+      <div class="info">
+        <a href="#" class="d-block">{{ name }}</a>
+        <a href="#">
+          <small>{{ userType }}</small>
+        </a>
+      </div>
     </div>
-    <!-- /.sidebar -->
-  </aside>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+        <!--======= Dashboard ============-->
+        <li class="nav-item has-treeview menu-open">
+          <a href="/" class="nav-link active">
+            <i class="fa fa-dashboard"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <!--======= /Dashboard ============-->
+        <!--======= User ============-->
+        <li class="nav-item has-treeview userSideBar mangerAdminAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>User
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-user" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add user</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-users" class="nav-link">
+                <i class="fa fa-circle-o"></i> View user</a>
+            </li>
+            <li class="nav-item">
+              <a href="/user-type" class="nav-link">
+                <i class="fa fa-circle-o"></i> User Type</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= /User ============-->
+
+        <!--======= Region ============-->
+        <li class="nav-item has-treeview regionSideBar mangerAdmincoOrdinatorAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Region
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-region" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add region</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-region" class="nav-link">
+                <i class="fa fa-circle-o"></i> View region</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= /Region ============-->
+
+        <!--======= Circle ============-->
+        <li class="nav-item has-treeview circleSideBar mangerAdmincoOrdinatorAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Circle
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-circle" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Circle</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-circle" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Circle</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= /Circle ============-->
+
+        <!--======= Activity ============-->
+        <li class="nav-item has-treeview activitySideBar mangerAdmincoOrdinatorAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Activity
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-activity" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Activity</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-activity" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Activity</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= /Activity ============-->
+        <!--======= Client ============-->
+        <li class="nav-item has-treeview clientSideBar mangerAdmincoOrdinatorAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Client
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-Client" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Client</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-Client" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Client</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= /Client ============-->
+        <!--======= Operator ============-->
+        <li class="nav-item has-treeview operatorSideBar mangerAdmincoOrdinatorAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Operator
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-operator" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Operator</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-operator" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Operator</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= /Operator ============-->
+        <!--======= Department ============-->
+        <li class="nav-item has-treeview departmentSideBar mangerAdmincoOrdinatorAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Department
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-department" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Department</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-department" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Department</a>
+            </li>
+          </ul>
+        </li>
+
+        <!--======= /Department ============-->
+        <!--======= Project Type ============-->
+        <li class="nav-item has-treeview projectTypeSideBar mangerAdmincoOrdinatorAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Project Type
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-project-type" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Project Type</a>
+            </li>
+            <li class="nav-item">
+              <a href="/project-type" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Project Type</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= /Project Type ============-->
+        <!--======= Status/Remark ============-->
+        <li class="nav-item has-treeview statusRemarkSideBar mangerAdmincoOrdinatorAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Status/Remark
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-status-remark" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Status/Remark</a>
+            </li>
+            <li class="nav-item">
+              <a href="/status-remark" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Status/Remark</a>
+            </li>
+          </ul>
+        </li>
+
+        <!--======= /Status/Remark ============-->
+        <!--======= Project ============-->
+        <li class="nav-item has-treeview projectSideBar mangerAdmincoOrdinatorAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Project
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-project-general" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Project</a>
+            </li>
+            <li class="nav-item coOrdinatorAccess">
+              <a href="/add-project" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Project</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-project" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Project</a>
+            </li>
+          </ul>
+        </li>
+
+        <!--======= /Project ============-->
+        <!--======= Kit ============-->
+        <li class="nav-item has-treeview kitSideBar mangerAdminAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Kit Management
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item mangerAdminAccess">
+              <a href="/add-kit" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Kit</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-kit" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Kit</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= /Kit ============-->
+        <!--======= Claim/Total Advance ============-->
+        <li class="nav-item has-treeview claimAdvanceSideBar mangerAdminAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>CLAIM/Total Advance
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/add-claim-Advance" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Claim/Total</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-claim-Advance" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Claim/Total</a>
+            </li>
+          </ul>
+        </li>
+
+        <!--======= /CLAIM/Total Advance ============-->
+        <!--======= Cab ============-->
+        <li class="nav-item has-treeview cabSideBar mangerAdminAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Cab
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/add-cab" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Cab</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-cab" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Cab</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= Cab ============-->
+        <!--======= vendor ============-->
+        <li class="nav-item has-treeview vendorSideBar mangerAdminAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Vendor
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/add-vendor" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add Vendor</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-vendor" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Vendor</a>
+            </li>
+          </ul>
+        </li>
+
+        <!--======= vendor ============-->
+        <!--======= Tracking  salaryAdminAccess============-->
+        <li class="nav-item has-treeview attendanceSideBar mangerAdminAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Daily tracking
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/add-tracking-sheet" class="nav-link">
+                <i class="fa fa-circle-o"></i> Add tracking Sheet</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-tracking-sheet" class="nav-link">
+                <i class="fa fa-circle-o"></i> View tracking</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= Tracking ============-->
+        <!--======= Billing ============-->
+        <li class="nav-item has-treeview billingSideBar billingAdminAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>Billing
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/update-billing" class="nav-link">
+                <i class="fa fa-circle-o"></i> Update Billing</a>
+            </li>
+            <li class="nav-item">
+              <a href="/view-billing" class="nav-link">
+                <i class="fa fa-circle-o"></i> View Billing</a>
+            </li>
+          </ul>
+        </li>
+        <!--======= /Billing ============-->
+        <!--======= Reporting ============-->
+     
+ <li class="nav-item has-treeview misSideBar mangerAdminAccess">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-dashboard"></i>
+            <p>MIS
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/mis-client" class="nav-link">
+                <i class="fa fa-circle-o"></i> Client report</a>
+            </li>
+            <li class="nav-item">
+              <a href="/mis-circle" class="nav-link">
+                <i class="fa fa-circle-o"></i> Circle report</a>
+            </li>
+            <li class="nav-item">
+              <a href="/mis-business" class="nav-link">
+                <i class="fa fa-circle-o"></i> Business report</a>
+            </li><li class="nav-item">
+              <a href="/mis-claim-advance" class="nav-link">
+                <i class="fa fa-circle-o"></i> Salary report</a>
+            </li><li class="nav-item">
+              <a href="/mis-circle" class="nav-link">
+                <i class="fa fa-circle-o"></i> Claim/Advance</a>
+            </li><li class="nav-item">
+              <a href="/mis-vendor" class="nav-link">
+                <i class="fa fa-circle-o"></i> Vendor</a>
+            </li><li class="nav-item">
+              <a href="/mis-cab" class="nav-link">
+                <i class="fa fa-circle-o"></i> Cab</a>
+            </li>
+          </li><li class="nav-item">
+            <a href="/mis-kit" class="nav-link">
+              <i class="fa fa-circle-o"></i> Kit</a>
+          </li>
+          </ul>
+        </li>
+
+        <!--======= /Reporting ============-->
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

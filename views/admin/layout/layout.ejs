@@ -2,7 +2,7 @@
 <html>
 
 <!-- Mirrored from adminlte.io/themes/dev/AdminLTE/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 25 Jul 2018 10:36:24 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +12,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="admin/plugins/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="../../../../code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="admin/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="admin/dist/css/adminlte.min.css">
   <!-- iCheck -->
@@ -30,10 +30,11 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
+  <link rel="stylesheet" href="/admin/css/style.css">
   <!-- jQuery -->
   <script src="admin/plugins/jquery/jquery.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
-  <script src="../../../../code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script>
     $.widget.bridge('uibutton', $.ui.button)
@@ -41,7 +42,7 @@
   <!-- Bootstrap 4 -->
   <script src="admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- Morris.js charts -->
-  <script src="../../../../cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.js"></script>
   <script src="admin/plugins/morris/morris.min.js"></script>
   <!-- Sparkline -->
   <script src="admin/plugins/sparkline/jquery.sparkline.min.js"></script>
@@ -51,7 +52,7 @@
   <!-- jQuery Knob Chart -->
   <script src="admin/plugins/knob/jquery.knob.js"></script>
   <!-- daterangepicker -->
-  <script src="../../../../cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
   <script src="admin/plugins/daterangepicker/daterangepicker.js"></script>
   <!-- datepicker -->
   <script src="admin/plugins/datepicker/bootstrap-datepicker.js"></script>
@@ -69,8 +70,8 @@
   <script src="admin/dist/js/demo.js"></script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-  <script src="/admin/js/script.js"></script>
-  <script src="/admin/js/jquery.validate.min.js"></script>
+  <script src="admin/js/script.js"></script>
+  <script src="admin/js/jquery.validate.min.js"></script>
 
 </head>
 <body class="hold-transition sidebar-mini" ng-app="App">
@@ -87,7 +88,7 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <li><a href="javascript:void(0);" id="signOut">Logout</a></li>
+      <li><a href="javascript:void(0);" id="signOut" class="btn btn-sm btn-danger">Logout</a></li>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -102,12 +103,12 @@
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">Dashboard</h1>
           </div><!-- /.col -->
-          <div class="col-sm-6">
+          <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Dashboard v2</li>
             </ol>
-          </div><!-- /.col -->
+          </div>/.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -123,13 +124,13 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
+  <!-- <footer class="main-footer">
     <strong>Copyright &copy; 2014-2018 <a href="http://adminlte.io/">AdminLTE.io</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 3.0.0-alpha
     </div>
-  </footer>
+  </footer> -->
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

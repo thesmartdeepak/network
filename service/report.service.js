@@ -456,4 +456,49 @@ service.getMisCab = async (req, res) => {
     data.user = await cab.cabMis(aggregate);
     return res.send({ success: true, code: 200, data: data });
 }
+service.getMisKit = async (req, res) => {
+    let data = {};
+    let aggregate = [];
+
+    let query = [];
+    if (req.body.year) {
+        query.push({ "year": parseInt(req.body.year) });
+    }
+    if (req.body.month) {
+        query.push({ "month": req.body.month });
+    }
+    if (req.body.clientName) {
+        query.push({ "clientName": req.body.clientName });
+    }
+
+    if (req.body.circleName) {
+        query.push({ "circleName": req.body.circleName });
+    }
+  
+    let match = {};
+    if (query[0]) {
+        match = {
+            $match: { $and: query },
+
+        };
+        aggregate.push(match);
+    }
+
+    let group = {
+            $group:{
+                _id: { empUserId: "$empUserId", vendorType: "$vendorType", month: "$month", clientName: "$clientName", circleName: "$circleName" },
+                "totalAmount": { $sum: "$totalAmount" },
+                "vendorName": { $last: "$vendorName" },
+                "vendorType": { $last: "$vendorType" },
+                "month": { $last: "$month" },
+                "clientName": { $last: "$clientName" },
+                "circleName": { $last: "$circleName" },
+            },
+        };
+
+    aggregate.push(group);
+
+    data.user = await cab.cabMis(aggregate);
+    return res.send({ success: true, code: 200, data: data });
+}
 export default service;
