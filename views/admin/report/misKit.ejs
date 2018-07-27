@@ -31,14 +31,14 @@
                <option value="November">Nov</option>
                <option value="December">Dec</option>
            </select>
-           <select ng-model="circleCode" ng-change="getReport()" id="circle">
+           <!-- <select ng-model="circleCode" ng-change="getReport()" id="circle">
             <option value="">Select circle</option>
             <option ng-repeat="circle in circleByCode" value="{{ circle.name }}">{{ circle.name }}</option>
         </select>
         <select ng-model="clientId" ng-change="getReport()" id="client">
             <option value="">Select client</option>
             <option ng-repeat="client in clients" value="{{ client.name }}">{{ client.name }}</option>
-        </select>
+        </select> -->
         <button ng-click="clearFilter()">Clear filter</button>
     </div>
     <div class="circleClients">
@@ -46,36 +46,39 @@
         <table class="mainTable">
             <tr>
                 <td class="ccm1"><strong>Employee Name</strong></td>
+                <td class="ccm1"><strong>Total</strong></td>
                 <td class="ccm1"><strong>Kit Name</strong></td>
                 <!-- <td class="ccm1"><strong>Client Name</strong></td>
                 <td class="ccm1"><strong>Circle Name</strong></td>
                 <td class="ccm1"><strong>Month</strong></td> -->
-                <td class="ccm1"><strong>Amount</strong></td>
+                <td class="ccm1"><strong>Total Amount (In-Kit)</strong></td>
             </tr>
-            <tbody  class="tbodyBorder">
-                <tr ng-repeat="site in report">
-                    <td class="ccm1" rowspan='{{ site.empNameCount }}' ng-show="site.showEmpName">{{ site.empName }}</td>
-                    <td class="ccm1" rowspan='{{ site.kitNameCount }}' ng-show="site.showKitName">{{ site.kitName }}</td>
+            <tbody class="tbodyBorder" ng-repeat="employee in report">
+                <tr ng-repeat="site in employee" ng-init="count = empNameCount[site.empName];">
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ site.empName }}</td>
+                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ empTotal[site.empName] }}</td>
+                    <td class="ccm1">{{ site.kitName }}</td>
                     <!-- <td class="ccm1" rowspan='{{ site.clientNameCount }}' ng-show="site.showClientName">{{ site.clientName }}</td>
                     <td class="ccm1" rowspan='{{ site.circleNameCount }}' ng-show="site.showCircleName">{{ site.circleName }}</td>
                     <td class="ccm1">{{ site.month }}</td> -->
-                    <td class="ccm1">{{ site.perDayAmount }}</td>
+                    <td class="ccm1">{{ site.totalAmount }}</td>
                 </tr>
             </tbody>
             <tr>
                 <td>&nbsp;</td>
                 <td> </td>
                 <td> </td>
-               
+                
             </tr>
             <tr>
                 <td class="ccm1"><strong>Total</strong></td>
+                <td class="ccm1"><strong>{{ totalAmount }}</strong></td>
                 <td class="ccm1"></td>
-                <td class="ccm1">{{ totalAmount }}</td>
                 <!-- <td class="ccm1"></td>
-                <td></td>
-                <td class="ccm1"><strong>{{ totalAmount }}</strong></td> -->
-              </tr>
+                <td class="ccm1"></td>
+                <td></td> -->
+                <td class="ccm1"></td>
+            </tr>
         </table>
     </div>
 </section>

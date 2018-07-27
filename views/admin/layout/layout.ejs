@@ -96,12 +96,15 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <div style="padding: 20px 30px; z-index: 999999; font-size: 16px; font-weight: 600;display: none;" id="alertBox">
+      <a  class="pull-right" href="#" data-toggle="tooltip" data-placement="left" style="color: rgb(255, 255, 255); font-size: 20px;">×</a><a id="alertTxt" style="color: rgba(255, 255, 255, 0.9); display: inline-block; margin-right: 10px; text-decoration: none;"></a>
+    </div>
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
+            <h1 class="m-0 text-dark"><%= title %></h1>
           </div><!-- /.col -->
           <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

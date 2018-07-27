@@ -488,7 +488,7 @@ service.getMisKit = async (req, res) => {
     let group = {
             $group:{
                 _id: { empUserId: "$empUserId", kitName: "$kitName"},
-                "perDayAmount": { $sum: "$perDayAmount" },
+                "totalAmount": { $sum: "$perDayAmount" },
                 "empName": { $last: "$empName" },
                 "kitName": { $last: "$kitName" },
                // "month": { $last: "$month" },

@@ -109,7 +109,7 @@ app.controller('ctrl', function($scope, $http) {
                 }
             }
 
-            console.log($scope.report);
+            //console.log($scope.report);
             
         });
     }

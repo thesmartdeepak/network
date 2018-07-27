@@ -283,38 +283,38 @@ $(function () {
     'font-size': '20px'
   }
 
-  var wrapper = $('<div />').css(wrapper_css)
-  var link    = $('<a />', { href: 'https://themequarry.com' })
-    .html('Ready to sell your theme? Submit your theme to our new marketplace now and let over 200k visitors see it!')
-    .css(link_css)
-    .hover(function () {
-      $(this).css(link_hover_css)
-    }, function () {
-      $(this).css(link_css)
-    })
-  var btn     = $('<a />', {
-    'class': 'btn btn-default btn-sm',
-    href   : 'https://themequarry.com'
-  }).html('Let\'s Do It!').css(btn_css)
-  var close   = $('<a />', {
-    'class'         : 'pull-right',
-    href            : '#',
-    'data-toggle'   : 'tooltip',
-    'data-placement': 'left',
-    'title'         : 'Never show me this again!'
-  }).html('&times;')
-    .css(close_css)
-    .click(function (e) {
-      e.preventDefault()
-      $(wrapper).slideUp()
-      if (ds) {
-        ds.setItem('no_show', true)
-      }
-    })
+  // var wrapper = $('<div />').css(wrapper_css)
+  // var link    = $('<a />', { href: 'https://themequarry.com' })
+  //   .html('Ready to sell your theme? Submit your theme to our new marketplace now and let over 200k visitors see it!')
+  //   .css(link_css)
+  //   .hover(function () {
+  //     $(this).css(link_hover_css)
+  //   }, function () {
+  //     $(this).css(link_css)
+  //   })
+  // var btn     = $('<a />', {
+  //   'class': 'btn btn-default btn-sm',
+  //   href   : 'https://themequarry.com'
+  // }).html('Let\'s Do It!').css(btn_css)
+  // var close   = $('<a />', {
+  //   'class'         : 'pull-right',
+  //   href            : '#',
+  //   'data-toggle'   : 'tooltip',
+  //   'data-placement': 'left',
+  //   'title'         : 'Never show me this again!'
+  // }).html('&times;')
+  //   .css(close_css)
+  //   .click(function (e) {
+  //     e.preventDefault()
+  //     $(wrapper).slideUp()
+  //     if (ds) {
+  //       ds.setItem('no_show', true)
+  //     }
+  //   })
 
-  wrapper.append(close)
-  wrapper.append(link)
-  wrapper.append(btn)
+  // wrapper.append(close)
+  // wrapper.append(link)
+  // wrapper.append(btn)
 
   $('.content-wrapper').prepend(wrapper)
 
@@ -339,7 +339,7 @@ $(function () {
   'use strict'
   var i = $('<i />', { 'class': 'fa fa-star-o' })
   i.css('color', '#fff')
-  var a = $('<a />', { href: 'https://themequarry.com' })
+  var a = $('<a />', { href: '#' })
   a.append(i)
   var span = $('<span />')
   span.append('Premium Templates')
