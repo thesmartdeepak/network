@@ -333,7 +333,6 @@ service.getMisClaimAdvance = async (req, res) => {
     if (req.body.month) {
         query.push({ "month": req.body.month });
     }
-    //query.push({"empStatus":{$in:["working","ideal","movement","week off"]}});
     let match = {};
     if (query[0]) {
         match = {
@@ -502,5 +501,186 @@ service.getMisKit = async (req, res) => {
     data.user = await kit.kitMis(aggregate);
     return res.send({ success: true, code: 200, data: data });
 }
+service.getMisPL = async (req, res) => {
+    let data = {};
+    
 
+    let query = [];
+    if (req.body.year) {
+        query.push({ "year": parseInt(req.body.year) });
+    }
+    if (req.body.month) {
+        query.push({ "month": req.body.month });
+    }
+   
+  
+    let match = {};
+
+    //Project
+    let queryProject = [];
+   
+    queryProject.push({ reportAcceptanceStatus: "Accepted" });
+    
+    let aggregateprojectDetails = [
+        { $match: { $and: queryProject } },
+        {
+            $group: {
+                _id: "$projectCode",
+                amount: { $sum: "$poAmount" } ,
+                circleCode: {$last: "$circleCode"},
+                clientName: {$last: "$clientName"}
+            }
+        }
+    ];
+    data.projectDetails = await Project.getAggregate(aggregateprojectDetails);
+    //kit
+    let aggregateKit = [];
+    let querykit = [];
+    if (req.body.year) {
+        querykit.push({ "year": parseInt(req.body.year) });
+    }
+    if (req.body.month) {
+        querykit.push({ "month": req.body.month });
+    }
+    let matchkit = {};
+    if (querykit[0]) {
+        matchkit = {
+            $match: { $and: querykit },
+
+        };
+        aggregateKit.push(matchkit);
+    }
+    let groupKit = {
+            $group:{
+                _id: "$projectCode",
+                "totalAmount": { $sum: "$perDayAmount" },
+           },
+        };
+
+        aggregateKit.push(groupKit);
+
+    data.kitDetails = await kit.kitMis(aggregateKit);
+    //Salary
+    let querySalery = [];
+    //
+   if (req.body.year) {
+    querySalery.push({ "year": parseInt(req.body.year) });
+    }
+    if (req.body.month) {
+        querySalery.push({ "month": req.body.month });
+    }
+    querySalery.push({ "empStatus": { $in: ["working", "ideal", "movement", "week off"] } });
+
+    let aggregateSalery = [
+        {
+            $match: { $and: querySalery }
+        },
+        {
+            $group:
+                {
+                    _id: "$projectCode",
+                    "processSalary": { $sum: "$perDaySalary" },
+               }
+        },
+
+    ];
+    data.salaryDetails = await attendance.salaryMis(aggregateSalery);
+    //Advance Claim
+    let aggregateAdvance =[];
+    //
+    let queryAdvance = [];
+    if (req.body.year) {
+        queryAdvance.push({ "year": parseInt(req.body.year) });
+    }
+    if (req.body.month) {
+        queryAdvance.push({ "month": req.body.month });
+    }
+    let matchAdvance = {};
+    if (query[0]) {
+        matchAdvance = {
+            $match: { $and: queryAdvance },
+        }
+
+        aggregateAdvance.push(matchAdvance);
+    }
+    //
+    let advanceClaim = {
+        $group:
+            {
+                _id: "$projectCode",
+                "totalTransfer": { $sum: "$totalTransfer" },
+            },
+
+    };
+
+    aggregateAdvance.push(advanceClaim);
+
+    data.advanceClaimDetails = await claimAdvance.claimAdvanceMis(aggregateAdvance);
+    //Cab
+    let aggregateCab =[];
+    //
+    let queryCab = [];
+    if (req.body.year) {
+        queryCab.push({ "year": parseInt(req.body.year) });
+    }
+    if (req.body.month) {
+        queryCab.push({ "month": req.body.month });
+    }
+    let matchCab = {};
+    if (query[0]) {
+        matchCab = {
+            $match: { $and: queryCab },
+        }
+
+        aggregateCab.push(matchCab);
+    }
+    //
+    let groupcab = {
+        $group:{
+            _id: "$projectCode",
+            "totalAmount": { $sum: "$totalAmount" },
+         },
+    };
+
+    aggregateCab.push(groupcab);
+
+    data.cabDetails = await cab.cabMis(aggregateCab);
+    //vendor
+    let aggregateVendor =[];
+    //
+    let queryVendor = [];
+    if (req.body.year) {
+        queryVendor.push({ "year": parseInt(req.body.year) });
+    }
+    if (req.body.month) {
+        queryVendor.push({ "month": req.body.month });
+    }
+    let matchVendor = {};
+    if (query[0]) {
+        matchVendor = {
+            $match: { $and: queryVendor },
+        }
+
+        aggregateVendor.push(matchVendor);
+    }
+    //
+    let groupVendor = {
+        $group:{
+            _id: "$projectCode",
+            "totalAmount": { $sum: "$totalAmount" },
+         },
+    };
+
+    aggregateVendor.push(groupVendor);
+
+    data.vendorDetails = await vendor.vendorMis(aggregateVendor);
+    //CircleList
+    // let circle = {
+    //     query:{"status":{$ne:"deleted"}},
+    //     projection:{},
+    // }
+    // data.circleList = await Circle.getallCircle(circle);
+  
+    return res.send({ success: true, code: 200, data: data });
+}
 export default service;

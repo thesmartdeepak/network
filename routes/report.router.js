@@ -87,5 +87,13 @@ router.get('/mis-kit', function(req,res){
 router.post('/getMisKit',reportService.getMisKit);
 
 //******Kit Reporting******/
+//******PL Reporting******/
+router.get('/mis-PL', function(req,res){
+    res.render('admin/report/misPL',{title:'P&L Report'})
+});
+
+router.post('/getMisPL',reportService.getMisPL);
+
+//******PL Reporting******/
 
 export default router;
