@@ -674,13 +674,6 @@ service.getMisPL = async (req, res) => {
     aggregateVendor.push(groupVendor);
 
     data.vendorDetails = await vendor.vendorMis(aggregateVendor);
-    //CircleList
-    // let circle = {
-    //     query:{"status":{$ne:"deleted"}},
-    //     projection:{},
-    // }
-    // data.circleList = await Circle.getallCircle(circle);
-  
-    return res.send({ success: true, code: 200, data: data });
+   return res.send({ success: true, code: 200, data: data });
 }
 export default service;

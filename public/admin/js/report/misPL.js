@@ -68,7 +68,7 @@ app.controller('ctrl', function ($scope, $http) {
                     $scope.project[row._id].investment += parseInt(row.totalAmount);
                 }
             }
-
+            
             for(x in response.data.data.vendorDetails){
                 var row = response.data.data.vendorDetails[x];
                 
