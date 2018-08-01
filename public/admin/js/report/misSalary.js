@@ -36,7 +36,7 @@ app.controller('ctrl', function($scope, $http) {
 
             setTimeout(function(){
                 $('#example').DataTable();
-            },1000);
+            },100);
            
         });
     }
@@ -76,12 +76,12 @@ app.controller('ctrl', function($scope, $http) {
 sideBar('reporting');
 sideBar('mis');
 
-$('#fromDate').datepicker({
-    autoclose: true,
-    maxDate: "+0D"
-});
+// $('#fromDate').datepicker({
+//     autoclose: true,
+//     maxDate: "+0D"
+// });
 
-$('#toDate').datepicker({
-    autoclose: true,
-    maxDate: "+0D"
-});
+// $('#toDate').datepicker({
+//     autoclose: true,
+//     maxDate: "+0D"
+// });

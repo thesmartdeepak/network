@@ -9,6 +9,7 @@
 import Vendor from '../models/vendor.model';
 import User from '../models/user.model';
 import Circle from '../models/circle.model';
+import Activity from '../models/activity.model';
 import Client from '../models/client.model';
 import successMsg from '../core/message/success.msg';
 import msg from '../core/message/error.msg.js';
@@ -92,7 +93,24 @@ service.addVendor = async (req,res) =>{
                     error:"Not found in circle list in database."
                 });
             }
-
+            /* Activity check */
+            const activityToFind = {
+                query:{description: row['activityName']},
+                projection:{}
+            };
+            const activityDescription = await Activity.getOneActivity(activityToFind);
+            
+            if(!activityDescription){
+                goodRow = false;
+                errorList.push({
+                    index:(parseInt(k))+1,
+                    key:"Activity_Description",
+                    error:"Not found in activity list in database."
+                });
+                
+            }
+            
+            /* /Activity check */
             if(!goodRow){
                 goodData = false;
             }

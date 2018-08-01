@@ -265,7 +265,7 @@ service.getMisSalary = async (req, res) => {
 service.getMisBusiness = async (req, res) => {
     let data = {};
 
-    let query = [{ reportAcceptanceStatus: "Accepted" }];
+    let query = [];
 
     if (req.body.fromDate) {
         query.push({ "createAt": { $gte: new Date(req.body.fromDate) } });
@@ -290,10 +290,33 @@ service.getMisBusiness = async (req, res) => {
     if (req.body.activityId) {
         query.push({ "activityId": mongoose.Types.ObjectId(req.body.activityId) });
     }
+
+    var match = {};
+    if(query[0]){
+        match = { $and: query };
+    }
+
     let aggregate = [
-        { $match: { $and: query } },
+        { $match: match },
         {
-            $group: { _id: { circle: "$circleCode", client: "$clientName", operator: "$operatorName", activity: "$activity" }, amount: { $sum: "$poAmount" }, acceptance: { $sum: 1 } },
+            $project:{
+                acceptanceRow:{ $cond: { if:{$eq:["$reportAcceptanceStatus","Accepted"]}, then: 1, else: 0 }},
+                notAcceptedDone:{ $cond: { if:{$and:[{$ne:["$reportAcceptanceStatus","Accepted"]},{$eq:["$activityStatus","Done"]}]}, then: 1, else: 0 }},
+                acceptanceAmountRow:{ $cond: { if:{$eq:["$reportAcceptanceStatus","Accepted"]}, then: "$poAmount", else: 0 }},
+                circleCode:"$circleCode",
+                clientName:"$clientName",
+                operatorName:"$operatorName",
+                activity:"$activity",
+            }
+        },
+        {
+            $group: { 
+                _id: { circle: "$circleCode", client: "$clientName", operator: "$operatorName", activity: "$activity" }, 
+                amount: { $sum: "$acceptanceAmountRow" }, 
+                acceptance: { $sum: "$acceptanceRow" },
+                notAcceptedDone: { $sum: "$notAcceptedDone" },
+                totalSite:{$sum:1}
+            },
         }
     ];
 
@@ -490,11 +513,9 @@ service.getMisKit = async (req, res) => {
                 "totalAmount": { $sum: "$perDayAmount" },
                 "empName": { $last: "$empName" },
                 "kitName": { $last: "$kitName" },
-               // "month": { $last: "$month" },
-               // "clientName": { $last: "$clientName" },
-               // "circleName": { $last: "$circleName" },
-            },
+             },
         };
+        
 
     aggregate.push(group);
 
@@ -520,8 +541,40 @@ service.getMisPL = async (req, res) => {
     let queryProject = [];
    
     queryProject.push({ reportAcceptanceStatus: "Accepted" });
+
+    if (req.body.year) {
+        queryProject.push({ year: parseInt(req.body.year)});
+    }
+    if (req.body.month) {
+        const monthNames = {
+                            "january":1, 
+                            "february":2, 
+                            "march":3, 
+                            "april":4, 
+                            "may":5, 
+                            "june":6,
+                            "july":7, 
+                            "august":8, 
+                            "september":9, 
+                            "october":10, 
+                            "november":11, 
+                            "december":12
+                        };
+        queryProject.push({ month: monthNames[req.body.month.toLowerCase()]});
+    }
     
     let aggregateprojectDetails = [
+        {
+            $project: {
+              year: {$year: "$createdAt"},
+              month: {$month: "$createdAt"},
+              reportAcceptanceStatus:"$reportAcceptanceStatus",
+              poAmount:"$poAmount",
+              circleCode:"$circleCode",
+              clientName:"$clientName",
+              projectCode:"$projectCode"
+            }
+        },
         { $match: { $and: queryProject } },
         {
             $group: {
@@ -532,6 +585,7 @@ service.getMisPL = async (req, res) => {
             }
         }
     ];
+    
     data.projectDetails = await Project.getAggregate(aggregateprojectDetails);
     //kit
     let aggregateKit = [];

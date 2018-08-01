@@ -23,14 +23,16 @@
         <button ng-click="clearFilter()">Clear filter</button>
     </div>
     <div class="circleClients">
-        <h2>Business report</h2>
+        <!-- <h2>Business report</h2> --><br><br>
         <table class="mainTable">
             <tr>
                 <td class="ccm1"><strong>Circle</strong></td>
                 <td class="ccm1"><strong>Client</strong></td>
                 <td class="ccm1"><strong>Operator</strong></td>
                 <td class="ccm1"><strong>Site type</strong></td>
-                <td class="ccm1"><strong>Site Done</strong></td>
+                <td class="ccm1"><strong>Total site</strong></td>
+                <td class="ccm1"><strong>Total done but not accepted by client</strong></td>
+                <td class="ccm1"><strong>Accepted by client</strong></td>
                 <td class="ccm1"><strong>Total INR</strong></td>
                 <!-- <td class="ccm1"><strong>Accepted by Client (In-Circle)</strong></td>
                 <td class="ccm1"><strong>Po-Amount (In-Circle)</strong></td>
@@ -41,6 +43,8 @@
                     <td class="ccm1" rowspan='{{ site.clientCount }}' ng-show="site.showClient"><strong>{{ site._id.client }}</strong></td>
                     <td class="ccm1" rowspan='{{ site.operatorCount }}' ng-show="site.showOperator">{{ site._id.operator }}</td>
                     <td class="ccm1">{{ site._id.activity }}</td>
+                    <td class="ccm1">{{ site.totalSite }}</td>
+                    <td class="ccm1">{{ site.notAcceptedDone }}</td>
                     <td class="ccm1">{{ site.acceptance }}</td>
                     <td class="ccm1">{{ site.amount }}</td>
                 </tr>
@@ -52,10 +56,14 @@
                 <td> </td>
                 <td> </td>
                 <td> </td>
+                <td> </td>
+                <td> </td>
             </tr>
             <tr>
                 <td class="ccm1" colspan="3"><strong></strong></td>
-               <td class="ccm1" ><strong>Total</strong></td>
+                <td class="ccm1" ><strong>Total</strong></td>
+                <td class="ccm1">{{ totalSite }}</td>
+                <td class="ccm1">{{ totalDoneNotAccepted }}</td>
                 <td class="ccm1">{{ totalCount }}</td>
                 <td class="ccm1">{{ totalPoAmount }}</td>
             </tr>

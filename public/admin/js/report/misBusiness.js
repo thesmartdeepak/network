@@ -22,6 +22,8 @@ app.controller('ctrl', function($scope, $http) {
             $scope.totalCount = 0;
             $scope.totalAcceptance = 0;
             $scope.totalPoAmount = 0;
+            $scope.totalDoneNotAccepted = 0;
+            $scope.totalSite = 0;
             $scope.report = [];
             let responseD = response.data.data;
 
@@ -62,7 +64,8 @@ app.controller('ctrl', function($scope, $http) {
 
                 $scope.totalCount+=row.acceptance;
                 $scope.totalPoAmount+=row.amount;
-
+                $scope.totalDoneNotAccepted+=row.notAcceptedDone;
+                $scope.totalSite += row.totalSite;
             }
             
             $scope.report = [];
