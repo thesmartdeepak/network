@@ -4,18 +4,7 @@
     <div>
         <select id="ddlYear" ng-model="year" ng-change="getReport()">
             <option value="">Select year</option>
-            <!--<option value="2008">2008</option>
-            <option value="2009">2009</option>
-            <option value="2010">2010</option>
-            <option value="2011">2011</option>
-            <option value="2012">2012</option>
-            <option value="2013">2013</option>
-            <option value="2014">2014</option>
-            <option value="2015">2015</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-            <option selected="true" value="2018">2018</option> -->
-            <option ng-repeat="row in selectYears">{{ row }}</option>
+          <option ng-repeat="row in selectYears">{{ row }}</option>
         </select>
         <select id="ddlMonth" ng-model="month" ng-change="getReport()">
             <option value="">Select Month</option>
@@ -50,7 +39,8 @@
                 <td class="ccm1 text-center" colspan="2"><strong>Vendor</strong></td>
                 <td class="ccm1 text-center" colspan="2"><strong>Kit</strong></td>
                 <td class="ccm1" rowspan="2"><strong>Project Management Cost</strong></td>
-                <td class="ccm1" rowspan="2"><strong>Revenue</strong></td>
+                <td class="ccm1" rowspan="2"><strong>Profit%</strong></td>
+                <td class="ccm1" rowspan="2"><strong>Net Profit (INR)</strong></td>
             </tr>
             <tr>    
                 <td class="ccm1"><strong>Amount</strong></td>
@@ -67,20 +57,21 @@
             <tbody class="tbodyBorder">
                <tr ng-repeat="project in project">
                     <td class="ccm1">{{ project.clientName }}-{{ project.circleCode }}</td>
-                    <td class="ccm1">{{ project.amount }}</td>
-                    <td class="ccm1">{{ project.investment+managementCost(project.investment) }}</td>
-                    <td class="ccm1">{{ project.salary }}</td>
+                    <td class="ccm1">{{ project.amount| number:2 }}</td>
+                    <td class="ccm1">{{ project.investment+managementCost(project.investment) | number:2 }}</td>
+                    <td class="ccm1">{{ project.salary| number:2 }}</td>
                     <td class="ccm1">{{ percent(project.salary,project.investment) }}</td>
-                    <td class="ccm1">{{ project.claim }}</td>
+                    <td class="ccm1">{{ project.claim| number:2 }}</td>
                     <td class="ccm1">{{ percent(project.claim,project.investment) }}</td>
-                    <td class="ccm1">{{ project.cab }}</td>
+                    <td class="ccm1">{{ project.cab | number:2 }}</td>
                     <td class="ccm1">{{ percent(project.cab,project.investment) }}</td>
-                    <td class="ccm1">{{ project.vendor }}</td>
+                    <td class="ccm1">{{ project.vendor | number:2}}</td>
                     <td class="ccm1">{{ percent(project.vendor,project.investment) }}</td>
-                    <td class="ccm1">{{ project.kit }}</td>
+                    <td class="ccm1">{{ project.kit | number:2}}</td>
                     <td class="ccm1">{{ percent(project.kit,project.investment) }}</td>
-                    <td class="ccm1">{{ managementCost(project.investment) }}</td>
-                    <td class="ccm1">{{ revenue(project.amount,project.investment) }}</td>
+                    <td class="ccm1">{{ managementCost(project.investment) | number:2}}</td>
+                    <td class="ccm1">{{ revenue(project.amount,project.investment) | number:2}}</td>
+                    <td class="ccm1">{{ netProfit(project.amount,project.investment)  | number:2}}</td>
                </tr>
             </tbody> 
            

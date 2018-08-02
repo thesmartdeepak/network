@@ -4,17 +4,8 @@
     <div>
         <select id="ddlYear" ng-model="year" ng-change="getReport()">
             <option value="">Select year</option>
-            <option value="2008">2008</option>
-            <option value="2009">2009</option>
-            <option value="2010">2010</option>
-            <option value="2011">2011</option>
-            <option value="2012">2012</option>
-            <option value="2013">2013</option>
-            <option value="2014">2014</option>
-            <option value="2015">2015</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-            <option selected="true" value="2018">2018</option>
+          <option ng-repeat="row in selectYears">{{ row }}</option>
+
            </select>
            <select id="ddlMonth" ng-model="month" ng-change="getReport()">
                 <option value="">Select Month</option>
@@ -63,7 +54,7 @@
                     <td class="ccm1" rowspan='{{ site.clientNameCount }}' ng-show="site.showClientName">{{ site.clientName }}</td>
                     <td class="ccm1" rowspan='{{ site.circleNameCount }}' ng-show="site.showCircleName">{{ site.circleName }}</td>
                     <td class="ccm1">{{ site.activityName }}</td>
-                    <td class="ccm1">{{ site.totalAmount }}</td>
+                    <td class="ccm1">{{ site.totalAmount | number:2 }}</td>
                 </tr>
             </tbody>
             <tr>
@@ -80,7 +71,7 @@
                 <td class="ccm1"></td>
                 <td class="ccm1"></td>
                 <td></td>
-                <td class="ccm1"><strong>{{ totalAmount }}</strong></td>
+                <td class="ccm1"><strong>{{ totalAmount| number:2 }}</strong></td>
               </tr>
         </table>
     </div>

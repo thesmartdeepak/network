@@ -13,6 +13,8 @@ const attendanceSchema = mongoose.Schema({
     designation:{type:String},
     clientName:{type:String},
     clientId:{type:mongoose.Schema.ObjectId},
+    circleId:{type:mongoose.Schema.ObjectId},
+    circleName:{type:String},
     projectCode:{type:String},
     empStatus:{type:String},
     operator:{type:String},

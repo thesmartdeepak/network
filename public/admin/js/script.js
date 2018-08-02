@@ -82,3 +82,33 @@ manageAccess();
 $( document ).ajaxComplete(function() {
     manageAccess();
 });
+
+function monthDiff(dateFrom, dateTo) {
+    var dateFrom = dateFrom;
+    var dateTo = dateTo;
+    var partsFrom = dateFrom.split('/');
+    var partsTo = dateTo.split('/');
+
+    var years = partsTo[2] - partsFrom[2];
+    var months = partsTo[1] - partsFrom[1];
+
+    var totalMonths = (years*12)+months;
+
+    return totalMonths;
+
+}
+function getFormattedDate(getDate) {
+    var today = getDate;
+    var dd = today.getDate();
+
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    return today = dd + '/' + mm + '/' + yyyy;
+};

@@ -32,6 +32,21 @@ const service = {};
  * @return {[object]}
  */
 
+const monthNames = {
+    "january": 1,
+    "february": 2,
+    "march": 3,
+    "april": 4,
+    "may": 5,
+    "june": 6,
+    "july": 7,
+    "august": 8,
+    "september": 9,
+    "october": 10,
+    "november": 11,
+    "december": 12
+};
+
 service.getBasicReport = async (req, res) => {
     let data = {};
     let today = new Date();
@@ -184,16 +199,15 @@ service.getGraphicalReport = async (req, res) => {
 
 service.getMisClientCircle = async (req, res) => {
     let data = {};
-
     let query = [];
     if (req.body.fromDate) {
-        query.push({ "createAt": { $gte: new Date(req.body.fromDate) } });
+   query.push({ "createdAt": { $gte: new Date(req.body.fromDate) } });
     }
 
     if (req.body.toDate) {
-        let toDate = new Date(req.body.toDate);
+   let toDate = new Date(req.body.toDate);
         toDate.setDate(toDate.getDate() + 1);
-        query.push({ "createAt": { $lte: toDate } });
+        query.push({ "createdAt": { $lte: toDate } });
     }
 
     if (req.body.client) {
@@ -227,9 +241,9 @@ service.getMisClientCircle = async (req, res) => {
     return res.send({ success: true, code: 200, data: data });
 }
 
-//
-service.getMisSalary = async (req, res) => {
 
+service.getMisSalary = async (req, res) => {
+console.log(req.body.circleCode);
     let data = {};
 
     let query = [];
@@ -239,7 +253,18 @@ service.getMisSalary = async (req, res) => {
     if (req.body.month) {
         query.push({ "month": req.body.month });
     }
-    query.push({ "empStatus": { $in: ["working", "ideal", "movement", "week off"] } });
+    if (req.body.circleCode) {
+        query.push({ "circleName": req.body.circleCode });
+    }
+    // query.push({ "empStatus": { $in: ["working", "ideal", "movement", "week off"] } });
+    let workingStatus = [
+        /working/i,
+        /ideal/i,
+        /movement/i,
+        /week off/i,
+    ];
+
+    query.push({ "empStatus": { $in: workingStatus } });
 
     let aggregate = [
         {
@@ -247,13 +272,14 @@ service.getMisSalary = async (req, res) => {
         },
         {
             $group:
-                {
-                    _id: "$employeeUserId",
-                    "days": { $sum: 1 },
-                    "processSalary": { $sum: "$perDaySalary" },
-                    "salary": { $last: "$salary" },
-                    "employeeName": { $last: "$employeeName" },
-                }
+            {
+                _id: {employeeUserId:"$employeeUserId",circleId:"$circleId"},
+                "days": { $sum: 1 },
+                "processSalary": { $sum: "$perDaySalary" },
+                "salary": { $last: "$salary" },
+                "employeeName": { $last: "$employeeName" },
+                "circleName": {$last:"$circleName"}
+            }
         },
 
     ];
@@ -268,13 +294,13 @@ service.getMisBusiness = async (req, res) => {
     let query = [];
 
     if (req.body.fromDate) {
-        query.push({ "createAt": { $gte: new Date(req.body.fromDate) } });
+        query.push({ "createdAt": { $gte: new Date(req.body.fromDate) } });
     }
 
     if (req.body.toDate) {
         let toDate = new Date(req.body.toDate);
         toDate.setDate(toDate.getDate() + 1);
-        query.push({ "createAt": { $lte: toDate } });
+        query.push({ "createdAt": { $lte: toDate } });
     }
 
     if (req.body.clientId) {
@@ -292,30 +318,30 @@ service.getMisBusiness = async (req, res) => {
     }
 
     var match = {};
-    if(query[0]){
+    if (query[0]) {
         match = { $and: query };
     }
 
     let aggregate = [
         { $match: match },
         {
-            $project:{
-                acceptanceRow:{ $cond: { if:{$eq:["$reportAcceptanceStatus","Accepted"]}, then: 1, else: 0 }},
-                notAcceptedDone:{ $cond: { if:{$and:[{$ne:["$reportAcceptanceStatus","Accepted"]},{$eq:["$activityStatus","Done"]}]}, then: 1, else: 0 }},
-                acceptanceAmountRow:{ $cond: { if:{$eq:["$reportAcceptanceStatus","Accepted"]}, then: "$poAmount", else: 0 }},
-                circleCode:"$circleCode",
-                clientName:"$clientName",
-                operatorName:"$operatorName",
-                activity:"$activity",
+            $project: {
+                acceptanceRow: { $cond: { if: { $eq: ["$reportAcceptanceStatus", "Accepted"] }, then: 1, else: 0 } },
+                notAcceptedDone: { $cond: { if: { $and: [{ $ne: ["$reportAcceptanceStatus", "Accepted"] }, { $eq: ["$activityStatus", "Done"] }] }, then: 1, else: 0 } },
+                acceptanceAmountRow: { $cond: { if: { $eq: ["$reportAcceptanceStatus", "Accepted"] }, then: "$poAmount", else: 0 } },
+                circleCode: "$circleCode",
+                clientName: "$clientName",
+                operatorName: "$operatorName",
+                activity: "$activity",
             }
         },
         {
-            $group: { 
-                _id: { circle: "$circleCode", client: "$clientName", operator: "$operatorName", activity: "$activity" }, 
-                amount: { $sum: "$acceptanceAmountRow" }, 
+            $group: {
+                _id: { circle: "$circleCode", client: "$clientName", operator: "$operatorName", activity: "$activity" },
+                amount: { $sum: "$acceptanceAmountRow" },
                 acceptance: { $sum: "$acceptanceRow" },
                 notAcceptedDone: { $sum: "$notAcceptedDone" },
-                totalSite:{$sum:1}
+                totalSite: { $sum: 1 }
             },
         }
     ];
@@ -369,12 +395,12 @@ service.getMisClaimAdvance = async (req, res) => {
 
     let group = {
         $group:
-            {
-                _id: "$empUserId",
-                "totalTransfer": { $sum: "$totalTransfer" },
-                "empName": { $last: "$empName" },
-                "empId": { $last: "$empId" },
-            },
+        {
+            _id: "$empUserId",
+            "totalTransfer": { $sum: "$totalTransfer" },
+            "empName": { $last: "$empName" },
+            "empId": { $last: "$empId" },
+        },
 
     };
 
@@ -415,19 +441,19 @@ service.getMisVendor = async (req, res) => {
     }
 
     let group = {
-            $group:{
-                _id: { vendorName: "$vendorName", vendorType: "$vendorType", activityName: "$activityName", clientName: "$clientName", circleName: "$circleName" },
-                // "siteCount":{$sum:"$siteCount"},
-                //"poAmount":{$sum:"$poAmount"},
-                "totalAmount": { $sum: "$totalAmount" },
-                "vendorName": { $last: "$vendorName" },
-                "vendorType": { $last: "$vendorType" },
-                "activityName": { $last: "$activityName" },
-                // "projectCode":{$last:"$projectCode"},
-                "clientName": { $last: "$clientName" },
-                "circleName": { $last: "$circleName" },
-            },
-        };
+        $group: {
+            _id: { vendorName: "$vendorName", vendorType: "$vendorType", activityName: "$activityName", clientName: "$clientName", circleName: "$circleName" },
+            // "siteCount":{$sum:"$siteCount"},
+            //"poAmount":{$sum:"$poAmount"},
+            "totalAmount": { $sum: "$totalAmount" },
+            "vendorName": { $last: "$vendorName" },
+            "vendorType": { $last: "$vendorType" },
+            "activityName": { $last: "$activityName" },
+            // "projectCode":{$last:"$projectCode"},
+            "clientName": { $last: "$clientName" },
+            "circleName": { $last: "$circleName" },
+        },
+    };
 
     aggregate.push(group);
 
@@ -452,7 +478,7 @@ service.getMisCab = async (req, res) => {
     if (req.body.circleName) {
         query.push({ "circleName": req.body.circleName });
     }
-  
+
     let match = {};
     if (query[0]) {
         match = {
@@ -463,16 +489,16 @@ service.getMisCab = async (req, res) => {
     }
 
     let group = {
-            $group:{
-                _id: { vendorName: "$vendorName", vendorType: "$vendorType", month: "$month", clientName: "$clientName", circleName: "$circleName" },
-                "totalAmount": { $sum: "$totalAmount" },
-                "vendorName": { $last: "$vendorName" },
-                "vendorType": { $last: "$vendorType" },
-                "month": { $last: "$month" },
-                "clientName": { $last: "$clientName" },
-                "circleName": { $last: "$circleName" },
-            },
-        };
+        $group: {
+            _id: { vendorName: "$vendorName", vendorType: "$vendorType", month: "$month", clientName: "$clientName", circleName: "$circleName" },
+            "totalAmount": { $sum: "$totalAmount" },
+            "vendorName": { $last: "$vendorName" },
+            "vendorType": { $last: "$vendorType" },
+            "month": { $last: "$month" },
+            "clientName": { $last: "$clientName" },
+            "circleName": { $last: "$circleName" },
+        },
+    };
 
     aggregate.push(group);
 
@@ -484,12 +510,7 @@ service.getMisKit = async (req, res) => {
     let aggregate = [];
 
     let query = [];
-    if (req.body.year) {
-        query.push({ "year": parseInt(req.body.year) });
-    }
-    if (req.body.month) {
-        query.push({ "month": req.body.month });
-    }
+
     if (req.body.clientName) {
         query.push({ "clientName": req.body.clientName });
     }
@@ -497,7 +518,7 @@ service.getMisKit = async (req, res) => {
     if (req.body.circleName) {
         query.push({ "circleName": req.body.circleName });
     }
-  
+
     let match = {};
     if (query[0]) {
         match = {
@@ -508,24 +529,23 @@ service.getMisKit = async (req, res) => {
     }
 
     let group = {
-            $group:{
-                _id: { empUserId: "$empUserId", kitName: "$kitName"},
-                "totalAmount": { $sum: "$perDayAmount" },
-                "empName": { $last: "$empName" },
-                "kitName": { $last: "$kitName" },
-             },
-        };
-        
+        $group: {
+            _id: { empUserId: "$empUserId", kitName: "$kitName" },
+            "totalAmount": { $sum: "$perDayAmount" },
+            "empName": { $last: "$empName" },
+            "kitName": { $last: "$kitName" },
+            "kitRent": { $last: "$kitRent" },
+            "createAt": { $last: "$createAt" }
+        },
+    };
 
-    aggregate.push(group);
+ aggregate.push(group);
 
     data.user = await kit.kitMis(aggregate);
     return res.send({ success: true, code: 200, data: data });
-}
+};
 service.getMisPL = async (req, res) => {
     let data = {};
-    
-
     let query = [];
     if (req.body.year) {
         query.push({ "year": parseInt(req.body.year) });
@@ -533,97 +553,105 @@ service.getMisPL = async (req, res) => {
     if (req.body.month) {
         query.push({ "month": req.body.month });
     }
-   
-  
+
+
     let match = {};
 
     //Project
     let queryProject = [];
-   
+
     queryProject.push({ reportAcceptanceStatus: "Accepted" });
 
     if (req.body.year) {
-        queryProject.push({ year: parseInt(req.body.year)});
+        queryProject.push({ year: parseInt(req.body.year) });
     }
     if (req.body.month) {
-        const monthNames = {
-                            "january":1, 
-                            "february":2, 
-                            "march":3, 
-                            "april":4, 
-                            "may":5, 
-                            "june":6,
-                            "july":7, 
-                            "august":8, 
-                            "september":9, 
-                            "october":10, 
-                            "november":11, 
-                            "december":12
-                        };
-        queryProject.push({ month: monthNames[req.body.month.toLowerCase()]});
+        
+        queryProject.push({ month: monthNames[req.body.month.toLowerCase()] });
     }
-    
+
     let aggregateprojectDetails = [
         {
             $project: {
-              year: {$year: "$createdAt"},
-              month: {$month: "$createdAt"},
-              reportAcceptanceStatus:"$reportAcceptanceStatus",
-              poAmount:"$poAmount",
-              circleCode:"$circleCode",
-              clientName:"$clientName",
-              projectCode:"$projectCode"
+                year: { $year: "$createdAt" },
+                month: { $month: "$createdAt" },
+                reportAcceptanceStatus: "$reportAcceptanceStatus",
+                poAmount: "$poAmount",
+                circleCode: "$circleCode",
+                clientName: "$clientName",
+                projectCode: "$projectCode"
             }
         },
         { $match: { $and: queryProject } },
         {
             $group: {
                 _id: "$projectCode",
-                amount: { $sum: "$poAmount" } ,
-                circleCode: {$last: "$circleCode"},
-                clientName: {$last: "$clientName"}
+                amount: { $sum: "$poAmount" },
+                circleCode: { $last: "$circleCode" },
+                clientName: { $last: "$clientName" }
             }
         }
     ];
-    
+
     data.projectDetails = await Project.getAggregate(aggregateprojectDetails);
     //kit
     let aggregateKit = [];
     let querykit = [];
-    if (req.body.year) {
-        querykit.push({ "year": parseInt(req.body.year) });
-    }
-    if (req.body.month) {
-        querykit.push({ "month": req.body.month });
+    // if (req.body.year) {
+    //     querykit.push({ "year": parseInt(req.body.year) });
+    // }
+    // if (req.body.month) {
+    //     querykit.push({ "month": req.body.month });
+    // }
+    if (req.body.year && req.body.month) {
+        // let compairDate = new Date("01/"+req.body.month+"/"+req.body.year);
+        let month = monthNames[req.body.month.toLowerCase()];
+        var compairDate = new Date(req.body.year, month, 0);
+        querykit.push({"createAt":{$lte: compairDate }});
     }
     let matchkit = {};
     if (querykit[0]) {
         matchkit = {
             $match: { $and: querykit },
-
         };
         aggregateKit.push(matchkit);
     }
-    let groupKit = {
-            $group:{
-                _id: "$projectCode",
-                "totalAmount": { $sum: "$perDayAmount" },
-           },
-        };
+    let project = {
+        $project: { 
+            "projectCode":"$projectCode",
+            "kitRent":"$kitRent",
+            "createAt":"$createAt"
+        }
+    };
+    aggregateKit.push(project);
+    // let groupKit = {
+    //     $group: {
+    //         _id: "$projectCode",
+    //         "totalAmount": { $sum: "$perDayAmount" },
+    //         "kitRent": { $sum: "$kitRent" },
+    //         "createAt": { $last: "$createAt" }
+    //     },
+    // };
 
-        aggregateKit.push(groupKit);
+    // aggregateKit.push(groupKit);
 
     data.kitDetails = await kit.kitMis(aggregateKit);
     //Salary
     let querySalery = [];
     //
-   if (req.body.year) {
-    querySalery.push({ "year": parseInt(req.body.year) });
+    if (req.body.year) {
+        querySalery.push({ "year": parseInt(req.body.year) });
     }
     if (req.body.month) {
         querySalery.push({ "month": req.body.month });
     }
-    querySalery.push({ "empStatus": { $in: ["working", "ideal", "movement", "week off"] } });
+    let workingStatus = [
+        /working/i,
+        /ideal/i,
+        /movement/i,
+        /week off/i,
+    ];
+    querySalery.push({ "empStatus": { $in: workingStatus } });
 
     let aggregateSalery = [
         {
@@ -631,16 +659,16 @@ service.getMisPL = async (req, res) => {
         },
         {
             $group:
-                {
-                    _id: "$projectCode",
-                    "processSalary": { $sum: "$perDaySalary" },
-               }
+            {
+                _id: "$projectCode",
+                "processSalary": { $sum: "$perDaySalary" },
+            }
         },
 
     ];
     data.salaryDetails = await attendance.salaryMis(aggregateSalery);
     //Advance Claim
-    let aggregateAdvance =[];
+    let aggregateAdvance = [];
     //
     let queryAdvance = [];
     if (req.body.year) {
@@ -660,10 +688,10 @@ service.getMisPL = async (req, res) => {
     //
     let advanceClaim = {
         $group:
-            {
-                _id: "$projectCode",
-                "totalTransfer": { $sum: "$totalTransfer" },
-            },
+        {
+            _id: "$projectCode",
+            "totalTransfer": { $sum: "$totalTransfer" },
+        },
 
     };
 
@@ -671,7 +699,7 @@ service.getMisPL = async (req, res) => {
 
     data.advanceClaimDetails = await claimAdvance.claimAdvanceMis(aggregateAdvance);
     //Cab
-    let aggregateCab =[];
+    let aggregateCab = [];
     //
     let queryCab = [];
     if (req.body.year) {
@@ -690,17 +718,17 @@ service.getMisPL = async (req, res) => {
     }
     //
     let groupcab = {
-        $group:{
+        $group: {
             _id: "$projectCode",
             "totalAmount": { $sum: "$totalAmount" },
-         },
+        },
     };
 
     aggregateCab.push(groupcab);
 
     data.cabDetails = await cab.cabMis(aggregateCab);
     //vendor
-    let aggregateVendor =[];
+    let aggregateVendor = [];
     //
     let queryVendor = [];
     if (req.body.year) {
@@ -719,15 +747,15 @@ service.getMisPL = async (req, res) => {
     }
     //
     let groupVendor = {
-        $group:{
+        $group: {
             _id: "$projectCode",
             "totalAmount": { $sum: "$totalAmount" },
-         },
+        },
     };
 
     aggregateVendor.push(groupVendor);
 
     data.vendorDetails = await vendor.vendorMis(aggregateVendor);
-   return res.send({ success: true, code: 200, data: data });
+    return res.send({ success: true, code: 200, data: data });
 }
 export default service;

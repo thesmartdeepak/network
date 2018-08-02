@@ -46,7 +46,7 @@
                     <td class="ccm1">{{ site.totalSite }}</td>
                     <td class="ccm1">{{ site.notAcceptedDone }}</td>
                     <td class="ccm1">{{ site.acceptance }}</td>
-                    <td class="ccm1">{{ site.amount }}</td>
+                    <td class="ccm1">{{ site.amount | number:2}}</td>
                 </tr>
             </tbody>
             <tr>
@@ -65,7 +65,7 @@
                 <td class="ccm1">{{ totalSite }}</td>
                 <td class="ccm1">{{ totalDoneNotAccepted }}</td>
                 <td class="ccm1">{{ totalCount }}</td>
-                <td class="ccm1">{{ totalPoAmount }}</td>
+                <td class="ccm1">{{ totalPoAmount | number:2}}</td>
             </tr>
         </table>
     </div>

@@ -4,17 +4,7 @@
         <div>
             <select id="ddlYear" ng-model="year" ng-change="getReport()">
                 <option value="">Select year</option>
-                <option value="2008">2008</option>
-                <option value="2009">2009</option>
-                <option value="2010">2010</option>
-                <option value="2011">2011</option>
-                <option value="2012">2012</option>
-                <option value="2013">2013</option>
-                <option value="2014">2014</option>
-                <option value="2015">2015</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option selected="true" value="2018">2018</option>
+                <option ng-repeat="row in selectYears">{{ row }}</option>
                </select>
                <select id="ddlMonth" ng-model="month" ng-change="getReport()">
                     <option value="">Select Month</option>
@@ -31,38 +21,51 @@
                    <option value="November">Nov</option>
                    <option value="December">Dec</option>
                </select>
+               <select ng-model="circleCode" ng-change="getReport()" id="circle">
+                <option value="">Select circle</option>
+                <option ng-repeat="circle in circleByCode" value="{{ circle.name }}">{{ circle.name }}</option>
+            </select>
         <button ng-click="clearFilter()">Clear filter</button>
         </div>
         <div class="circleClients">
-           <br><br> <span><b>Total Salary - {{totalAmount}}</b></span>
-           
-        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Salary</th>
-                            <th>process salary</th>
-                            <th>Working Day's</th>
-                        </tr>
-                    </thead>
-                    <tbody >
-                        <tr ng-repeat="salary in salarys">
-                          <td>{{salary.employeeName}}</td>
-                          <td>{{salary.salary}}</td>
-                          <td>{{salary.processSalary}}</td>
-                          <td>{{salary.days}}</td>
-                       </tr>
-               
-                    </tbody>
+            <table class="mainTable">
+                <tr>
+                    <td class="ccm1"><strong>Circle name</strong></td>
+                    <td class="ccm1"><strong>Amount</strong></td>
+                    <td class="ccm1"><strong>Employee Name</strong></td>
+                    <td class="ccm1"><strong>Salary</strong></td>
+                    <td class="ccm1"><strong>Processed salary</strong></td>
+                    <td class="ccm1"><strong>Working days</strong></td>
+                </tr>
+                <tbody class="tbodyBorder" ng-repeat="circle in report">
+                    <tr ng-repeat="employee in circle" ng-init="count = objectCount(circle);">
+                        <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0"><strong>{{ employee.circleName }}</strong></td>
+                        <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ circleTotalAmount[employee.circleName]| number:2 }}</td>
+                        <td class="ccm1">{{ employee.employeeName }}</td>
+                        <td class="ccm1">{{ employee.salary| number:2 }}</td>
+                        <td class="ccm1">{{ employee.processSalary| number:2 }}</td>
+                        <td class="ccm1">{{ employee.days }}</td>
+                    </tr>
+                </tbody>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td class="ccm1"><strong>Total</strong></td>
+                    <td class="ccm1"><strong>{{ totalAmount| number:2 }}</strong></td>
+                    <td class="ccm1"></td>
+                    <td class="ccm1"></td>
+                    <td></td>
+                    <td class="ccm1"></td>
+                  </tr>
             </table>
-
-
         </div>
     </section>
-   
-<!-- DataTables -->
-<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 <script src="/admin/js/report/misSalary.js"></script>
    

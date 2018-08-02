@@ -126,6 +126,8 @@ service.addAttendance = async (req,res) =>{
                 row['designation'] = userData.userType;
                 row['clientName'] = client.name;
                 row['clientId'] = circle.clientId;
+                row['circleId'] = circle._id;
+                row['circleName'] =circle.name; 
                 row['projectCode'] = userData.projectCode;
                 row['empStatus'] = row['empStatus']; 
                 row['operator'] = row['operator'];

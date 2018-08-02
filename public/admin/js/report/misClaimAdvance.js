@@ -1,4 +1,9 @@
 app.controller('ctrl', function($scope, $http) {
+    let currentYear = (new Date()).getFullYear();
+    $scope.selectYears = [];
+    for (x = currentYear; x >= currentYear - 10; x--) {
+        $scope.selectYears.push(x);
+    }
     $scope.circleByCode = {};
     $scope.claimAdvances = {};
     // $scope.year = "2018";
