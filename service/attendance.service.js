@@ -291,4 +291,58 @@ service.allProjectCount = async(req,res) => {
     const allAttendanceCount = await attendance.allAttendanceCount(attendanceToFind);
     res.send({"success":true,"code":200,"msg":successMsg.allProject,"data":allProjectCount});
 }
+
+service.getAllUser = async(req,res) => {
+    let dataFind = [];
+
+    if(req.query.term){
+        let query = req.query.term;
+        let match = {$match:{"employeeName":new RegExp(query,"i")}};
+
+        dataFind.push(match);
+    }
+
+    let projection = {
+        $project:{"name":"$employeeName"}
+    };
+
+    dataFind.push(projection);
+
+    dataFind.push({"$group":{
+                    _id:"$name",
+                    "name":{$last:"$name"}
+                }});
+    
+    let skip = 0;
+    if(req.query.page){
+        skip = (req.query.page-1)*10;
+    }
+
+    dataFind.push({"$limit":skip+10});
+    dataFind.push({"$skip":skip});
+    
+    let data = await attendance.getAggregate(dataFind);
+
+    let results = [];
+
+    data.forEach(function(val,index) { 
+        results.push( {"id": val.name,"text": val.name});
+    });
+
+    let response = {
+        results:results,
+        pagination: {
+            more: (function(){
+                if(data.length < 10){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            })()
+        }
+    };
+
+    return res.send(response);
+}
 export default service;

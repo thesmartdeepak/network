@@ -64,6 +64,6 @@ $('#departmentNameList').select2({
             'authorization': localStorage.token
         }
     },
-    placeholder: "Select a Co-ordinator"
+   //placeholder: "Select a Co-ordinator"
 });
 sideBar('projectType');

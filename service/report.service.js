@@ -243,7 +243,7 @@ service.getMisClientCircle = async (req, res) => {
 
 
 service.getMisSalary = async (req, res) => {
-console.log(req.body.circleCode);
+
     let data = {};
 
     let query = [];
@@ -256,7 +256,10 @@ console.log(req.body.circleCode);
     if (req.body.circleCode) {
         query.push({ "circleName": req.body.circleCode });
     }
-    // query.push({ "empStatus": { $in: ["working", "ideal", "movement", "week off"] } });
+    if (req.body.empName){
+        query.push({ "employeeName": new RegExp(req.body.empName,'i') });
+    }
+    console.log(query);
     let workingStatus = [
         /working/i,
         /ideal/i,

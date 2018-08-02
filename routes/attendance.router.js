@@ -22,4 +22,6 @@ router.get("/view-tracking-sheet",function(req, res){
 
 router.post('/allAttendance',attendanceService.allAttendance);
 
+router.get('/getAllAttendenceUser', attendanceService.getAllUser);
+
 export default router;

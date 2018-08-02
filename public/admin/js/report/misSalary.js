@@ -4,17 +4,21 @@ app.controller('ctrl', function($scope, $http) {
     for (x = currentYear; x >= currentYear - 10; x--) {
         $scope.selectYears.push(x);
     }
+   
     $scope.circleByCode = {};
     $scope.salarys = {};
     $scope.getReport = function(){
-      let searchData = {
+        let employeeName = null;
+        if($('#userList option:selected').val()){
+            employeeName = $('#userList option:selected').val();;
+        }
+        let searchData = {
             'year' : $scope.year, 
             'month' : $scope.month,
             'circleCode': $scope.circleCode,
-            //'fromDate': $scope.fromDate,
-            //'toDate': $scope.toDate,
-            //'client':$scope.client
+            'empName': employeeName,
         };
+        
         $http({
             method:'post',
             url:'/getMisSalary',
@@ -23,7 +27,6 @@ app.controller('ctrl', function($scope, $http) {
                 'authorization': localStorage.token
             }
         }).then(function(response){
-        
             let responseD = response.data.data.user;
 
             let report = {};
@@ -31,7 +34,9 @@ app.controller('ctrl', function($scope, $http) {
             $scope.totalAmount = 0;
 
             for(x in responseD){
+                
                 var row = responseD[x];
+                
                 if(!report[row.circleName]){
                     report[row.circleName] = [];
                     $scope.circleTotalAmount[row.circleName] = 0;
@@ -43,20 +48,10 @@ app.controller('ctrl', function($scope, $http) {
             }
 
             $scope.report = report;
-
-            // $scope.salarys = responseD;
             
-            // for(x in responseD.user){
-            //     let row = responseD.user[x];
-            //     $scope.totalAmount+=responseD.user[x].processSalary;
-            // }
-
-            // setTimeout(function(){
-            //     $('#example').DataTable();
-            // },100);
-           
-        });
+     });
     };
+   
     $scope.getAllCircleForReporting = function(){
         $http({
             method:'get',
@@ -66,13 +61,13 @@ app.controller('ctrl', function($scope, $http) {
             }
         }).then(function(response){
             let responseD = response.data.data;
-            console.log(responseD);
             for(x in responseD){
                 $scope.circleByCode[responseD[x].code] = responseD[x];
             }
 
         });
     }
+
     $scope.getAllCircleForReporting();
     $scope.getReport();
 
@@ -100,22 +95,30 @@ app.controller('ctrl', function($scope, $http) {
     }
 
     $scope.clearFilter = function(){
-       $scope.year = '';
+        $scope.year = '';
         $scope.month = '';
+        $('#userList').val("");
+        userListSelect2();
+        
         $scope.getReport();
     }
+
+    $('body').on("change","#userList",function(){
+        $scope.getReport();
+    });
 });
 
+function userListSelect2(){
+    $('#userList').select2({
+        ajax: {
+            url: '/getAllAttendenceUser',
+            headers: {
+                'authorization': localStorage.token
+            }
+        }
+    });
+}
+userListSelect2();
 
 sideBar('reporting');
 sideBar('mis');
-
-// $('#fromDate').datepicker({
-//     autoclose: true,
-//     maxDate: "+0D"
-// });
-
-// $('#toDate').datepicker({
-//     autoclose: true,
-//     maxDate: "+0D"
-// });

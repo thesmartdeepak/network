@@ -58,4 +58,7 @@ attendanceModel.editAttendance = (editToAttendance) => {
     return attendanceModel.update(editToAttendance.query,editToAttendance.set);
 }
 
+attendanceModel.getAggregate = (aggregate) => {
+    return attendanceModel.aggregate(aggregate);
+}
 export default attendanceModel;
