@@ -56,7 +56,7 @@ KitModel.oneKit = (kitToFind) =>{
 KitModel.kitRetrun=(kitToEdit)=>{
     return KitModel.update(kitToEdit.query,kitToEdit.set);
 };
-KitModel.kitMis = (aggregate) =>{
-    return KitModel.aggregate(aggregate);
+KitModel.kitMis = (dataToFind) =>{
+    return KitModel.find(dataToFind.query,dataToFind.projection);
 }
 export default KitModel;

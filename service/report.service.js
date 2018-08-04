@@ -509,42 +509,47 @@ service.getMisCab = async (req, res) => {
     return res.send({ success: true, code: 200, data: data });
 }
 service.getMisKit = async (req, res) => {
-    let data = {};
-    let aggregate = [];
-
-    let query = [];
-
-    if (req.body.clientName) {
-        query.push({ "clientName": req.body.clientName });
-    }
-
-    if (req.body.circleName) {
-        query.push({ "circleName": req.body.circleName });
-    }
-
-    let match = {};
-    if (query[0]) {
-        match = {
-            $match: { $and: query },
-
-        };
-        aggregate.push(match);
-    }
-
-    let group = {
-        $group: {
-            _id: { empUserId: "$empUserId", kitName: "$kitName" },
-            "totalAmount": { $sum: "$perDayAmount" },
-            "empName": { $last: "$empName" },
-            "kitName": { $last: "$kitName" },
-            "kitRent": { $last: "$kitRent" },
-            "createAt": { $last: "$createAt" }
-        },
+    
+    let dataToFind = {
+        query:{},
+        projection:{
+            _id:1,
+            kitName:1,
+            kitRent:1,
+            empUserId:1,
+            empName:1,
+            createAt:1
+        }
     };
+    let data = {};
 
- aggregate.push(group);
+    if (req.body.toDate) {
+        dataToFind.query["createAt"] = { $lte: new Date(req.body.toDate) };
+    }
+   
+    // let match = {};
+    // if (query[0]) {
+    //     match = {
+    //         $match: { $and: query },
 
-    data.user = await kit.kitMis(aggregate);
+    //     };
+    //     dataToFind = {};
+    // }
+
+//     let group = {
+//         $group: {
+//             _id: { empUserId: "$empUserId", kitName: "$kitName" },
+//             "totalAmount": { $sum: "$perDayAmount" },
+//             "empName": { $last: "$empName" },
+//             "kitName": { $last: "$kitName" },
+//             "kitRent": { $last: "$kitRent" },
+//             "createAt": { $last: "$createAt" }
+//         },
+//     };
+
+//  aggregate.push(group);
+
+    data.user = await kit.kitMis(dataToFind);
     return res.send({ success: true, code: 200, data: data });
 };
 service.getMisPL = async (req, res) => {

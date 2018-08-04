@@ -2,55 +2,24 @@
 <!-- Main content -->
 <section class="content" ng-controller="ctrl">
     <div>
-        <select id="ddlYear" ng-model="year" ng-change="getReport()">
-            <option value="">Select year</option>
-            <option ng-repeat="row in selectYears">{{ row }}</option>
-        </select>
-           <select id="ddlMonth" ng-model="month" ng-change="getReport()">
-                <option value="">Select Month</option>
-                <option value="01">Jan</option>
-                <option value="02">Feb</option>
-                <option value="03">Mar</option>
-                <option value="04">April</option>
-                <option value="05">May</option>
-                <option value="06">June</option>
-                <option value="07">July</option>
-                <option value="08">Aug</option>
-                <option value="09">Sep</option>
-                <option value="10">Oct</option>
-                <option value="11">Nov</option>
-                <option value="12">Dec</option>
-           </select>
-           <!-- <select ng-model="circleCode" ng-change="getReport()" id="circle">
-            <option value="">Select circle</option>
-            <option ng-repeat="circle in circleByCode" value="{{ circle.name }}">{{ circle.name }}</option>
-        </select>
-        <select ng-model="clientId" ng-change="getReport()" id="client">
-            <option value="">Select client</option>
-            <option ng-repeat="client in clients" value="{{ client.name }}">{{ client.name }}</option>
-        </select> -->
+        <input placeholder="From date" id="fromDate" ng-model="fromDate" ng-change="getReport()">
+        <input placeholder="To date" id="toDate"  ng-model="toDate" ng-change="getFromDb()">
+        
         <button ng-click="clearFilter()">Clear filter</button>
     </div>
     <div class="circleClients">
-        <!-- <h2>Client report</h2> --><br>
         <table class="mainTable">
             <tr>
                 <td class="ccm1"><strong>Employee Name</strong></td>
                 <td class="ccm1"><strong>Total</strong></td>
                 <td class="ccm1"><strong>Kit Name</strong></td>
-                <!-- <td class="ccm1"><strong>Client Name</strong></td>
-                <td class="ccm1"><strong>Circle Name</strong></td>
-                <td class="ccm1"><strong>Month</strong></td> -->
                 <td class="ccm1"><strong>Total Amount (In-Kit)</strong></td>
             </tr>
             <tbody class="tbodyBorder" ng-repeat="employee in report">
-                <tr ng-repeat="site in employee" ng-init="count = empNameCount[site.empName];">
-                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ site.empName }}</td>
-                    <td class="ccm1" rowspan='{{ count }}' ng-show="$index == 0">{{ empTotal[site.empName] }}</td>
+                <tr ng-repeat="site in employee" ng-init="count = empNameCount[site.empUserId];">
+                    <td class="ccm1" rowspan='{{ rowCount(count,$index) }}' ng-show="$index == 0">{{ site.empName }}</td>
+                    <td class="ccm1" rowspan='{{ rowCount(count,$index) }}' ng-show="$index == 0">{{ empTotal[site.empUserId] }}</td>
                     <td class="ccm1">{{ site.kitName }}</td>
-                    <!-- <td class="ccm1" rowspan='{{ site.clientNameCount }}' ng-show="site.showClientName">{{ site.clientName }}</td>
-                    <td class="ccm1" rowspan='{{ site.circleNameCount }}' ng-show="site.showCircleName">{{ site.circleName }}</td>
-                    <td class="ccm1">{{ site.month }}</td> -->
                     <td class="ccm1">{{ site.totalAmount | number:2}}</td>
                 </tr>
             </tbody>
@@ -58,7 +27,6 @@
                 <td>&nbsp;</td>
                 <td> </td>
                 <td> </td>
-                
             </tr>
             <tr>
                 <td class="ccm1"><strong>Total</strong></td>
