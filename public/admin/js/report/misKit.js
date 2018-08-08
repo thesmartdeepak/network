@@ -37,9 +37,7 @@ app.controller('ctrl', function ($scope, $http) {
             return monthCount;
         }
         else if (!$scope.fromDate && $scope.toDate) { 
-           // alert(getFormattedDate(new Date($scope.toDate)));
-            //alert("createAt.."+ createAt+"todate.."+getFormattedDate(new Date($scope.toDate)));
-            monthCount = monthDiff(createAt, getFormattedDate(new Date($scope.toDate)));
+           monthCount = monthDiff(createAt, getFormattedDate(new Date($scope.toDate)));
            return monthCount;
         }
         else if($scope.fromDate && !$scope.toDate){

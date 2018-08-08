@@ -43,7 +43,7 @@ app.controller('ctrl',function($scope,$http)
 
 
     $scope.reUpload = function(){
-        $("#addFileSection").slideDown();
+       $("#addFileSection").slideDown();
         $("#errorTbl").slideUp();
     }
 

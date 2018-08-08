@@ -28,7 +28,10 @@ const service = {};
  * @return {[object]}
  */
 service.totalProjectCodeList = async(req,res)=>{
-    let dataFind = {};
+    let dataFind = {
+        query:{"status":{$ne:"deleted"}},
+       
+    };
 
     dataFind.query = {};
     if(req.query.term){
@@ -39,6 +42,7 @@ service.totalProjectCodeList = async(req,res)=>{
     dataFind.projection = {};
     dataFind.limit = 10;
     dataFind.page = 0;
+    dataFind.query={"status":{$ne:"deleted"}};
     if(req.query.page){
         dataFind.skip = (req.query.page-1)*10;
     }
@@ -108,7 +112,6 @@ service.addCircle = async (req,res) =>{
 }
 
 service.editCircle = async (req,res) => {
-
     let getOneClient = {
         query:{_id:mongoose.Types.ObjectId(req.body.clientId)},
         projection:{}
@@ -163,6 +166,7 @@ service.oneCircle = async (req,res) => {
 }
 
 service.allCircle = async(req,res) => {
+
     let circleToFind = {
         query:{"status":{$ne:"deleted"}},
         projection:{},

@@ -310,8 +310,8 @@ service.allKit = async (req, res) => {
 
         worksheet.columns = [
             { header: 'Sr. No.', key: 'srNo', width: 10 },
-            { header: 'emp_Id', key: 'employeeId', width: 15 },
-            { header: 'emp_Name', key: 'empName', width: 20 },
+            { header: 'Employee_Id', key: 'employeeId', width: 15 },
+            { header: 'Employee_Name', key: 'empName', width: 20 },
             { header: 'Designation', key: 'designation', width: 15 },
             { header: 'Project', key: 'projectCode', width: 10 },
             { header: 'Kit_Rent', key: 'kitRent', width: 10 },

@@ -1,59 +1,61 @@
 <% layout('../layout/layout') -%>
-<!-- Main content -->
-<section class="content" ng-controller="ctrl">
-  <div class="box box-primary" id="addFileSection">
-    <form id="addProjectForm" method="post" ng-submit="submit()" enctype="multipart/form-data">
-      <div class="box-body">
+  <!-- Main content -->
+  <section class="content" ng-controller="ctrl">
+    <div class="box box-primary" id="addFileSection">
+      <form id="addProjectForm" method="post" ng-submit="submit()" enctype="multipart/form-data">
+        <div class="box-body">
 
-        <div class="form-group col-md-6">
-          <label>Upload Excel</label>
-          <input id="excelFile" type="file" class="" name="excelFile" required>
-        </div>
-         <div class="row">
-        <div class="form-group col-md-6">
-          <label>Select Percentage</label>
-          <select class="form-control" id="percentage" name="percentage" ng-model="percentage" required>
+          <div class="form-group col-md-6">
+            <label>Upload Excel</label>
+            <input id="excelFile" type="file" class="" name="excelFile" required>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>Select Percentage</label>
+              <select class="form-control" id="percentage" name="percentage" ng-model="percentage" required>
                 <option value="">Select Percentage</option>
                 <option>30</option>
                 <option>40</option>
               </select>
-        </div>
-      </div>
-       <div class="row">
-        <div class="form-group col-md-6">
-            <label>Select Operator</label>
-            <select class="form-control" id="operator" name="operator" ng-model="operatorId" required>
-              <option value="">Select Operator</option>
-                <option ng-repeat="operator in operators"  value="{{operator.operatorId}}">{{operator.operatorName}}</option>
-              </select>
+            </div>
           </div>
-    </div>
-      <!-- /.box-body -->
+        
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>Select Operator</label>
+              <select class="form-control" id="operator" name="operator" ng-model="operatorId" required>
+                <option value="">Select Operator</option>
+                <option ng-repeat="operator in operators" value="{{operator.operatorId}}">{{operator.operatorName}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+          <!-- /.box-body -->
 
-      <div class="box-footer">
-        <button type="submit" class="first-btn btn btn-primary">Submit</button>
+          <div class="box-footer">
+            <button type="submit" class="first-btn btn btn-primary">Submit</button>
+          </div>
+      </form>
       </div>
-    </form>
-  </div>
 
-  <div class="tableMainBox" id="errorTbl" style="display:none;">
-    <div class="tableMainBox-content">File cannot process. Uploaded file having following issues. Please correct them and re-upload.</div>
+      <div class="tableMainBox" id="errorTbl" style="display:none;">
+        <div class="tableMainBox-content">File cannot process. Uploaded file having following issues. Please correct them and re-upload.</div>
 
-    <table id="mainTable" class="table" width="100%" border="0" cellpadding="0" cellspacing="0">
-      <tr class="alphaRow">
-        <th class="alphaCell row-cell-width">Row no.</th>
-        <th class="alphaCell">Column name</th>
-        <th class="alphaCell">Error</th>
-      </tr>
-      <tr class="dataRow" ng-repeat="errorData in errorDataList">
-        <td>{{ errorData.index }}</td>
-        <td>{{ errorData.key }}</td>
-        <td>{{ errorData.error }}</td>
-      </tr>
-    </table>
-    <button class="reupload-btn" ng-click="reUpload()">Re-upload</button>
-  </div>
-</section>
+        <table id="mainTable" class="table" width="100%" border="0" cellpadding="0" cellspacing="0">
+          <tr class="alphaRow">
+            <th class="alphaCell row-cell-width">Row no.</th>
+            <th class="alphaCell">Column name</th>
+            <th class="alphaCell">Error</th>
+          </tr>
+          <tr class="dataRow" ng-repeat="errorData in errorDataList">
+            <td>{{ errorData.index }}</td>
+            <td>{{ errorData.key }}</td>
+            <td>{{ errorData.error }}</td>
+          </tr>
+        </table>
+        <button class="reupload-btn" ng-click="reUpload()">Re-upload</button>
+      </div>
+  </section>
 
-<link href="admin/css/network.css" rel="stylesheet">
-<script src="/admin/js/project/add.js"></script>
+  <link href="admin/css/network.css" rel="stylesheet">
+  <script src="/admin/js/project/add.js"></script>
