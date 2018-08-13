@@ -2,8 +2,9 @@ import mongoose, { mongo } from 'mongoose';
 import AutoIncrement from "mongoose-auto-increment";
 AutoIncrement.initialize(mongoose);
 
-const projectSchema = mongoose.Schema({
-    projectId:{type:Number},
+const projectHistorySchema = mongoose.Schema({
+    projectHistoryId:{type:Number},
+    refProjectId :{type: mongoose.Schema.ObjectId},
     userId:{type: mongoose.Schema.ObjectId},
     operatorId:{type: mongoose.Schema.ObjectId},
     operatorName:{type:String},
@@ -62,67 +63,65 @@ const projectSchema = mongoose.Schema({
     selectedProjectId:{type: mongoose.Schema.ObjectId},
     percentage :{type: Number },
     selectedPercentage: {type: Number}
-    
-}, {collection : 'project'});
+}, {collection : 'projectHistory'});
 
-projectSchema.plugin(AutoIncrement.plugin,{model:'project',field:'projectId',startAt:1,incrementBy:1});
+projectHistorySchema.plugin(AutoIncrement.plugin,{model:'projectHistory',field:'projectHistoryId',startAt:1,incrementBy:1});
 
-let projectModel = mongoose.model('project',projectSchema);
+let projectHistoryModel = mongoose.model('projectHistory',projectHistorySchema);
 
-projectModel.addProject = (addToProject)=> {
-    return addToProject.save();
-    // console.log(addToProject.save());
-}
+projectHistoryModel.addProject = (addToProject)=> {
+    return projectHistoryModel.insertMany([addToProject]);
+};
 
-projectModel.addMultiProject = (addToProject)=> {
-    return projectModel.insertMany(addToProject);
-}
+// projectModel.addMultiProject = (addToProject)=> {
+//     return projectModel.insertMany(addToProject);
+// }
 
-projectModel.editProject = (editToProject) => {
-    return projectModel.update(editToProject.query,editToProject.set);
-}
+// projectModel.editProject = (editToProject) => {
+//     return projectModel.update(editToProject.query,editToProject.set);
+// }
 
-projectModel.getOneProject = (editToProject) => {
-    return projectModel.findOne(editToProject.query,editToProject.projection)
-}
+// projectModel.getOneProject = (editToProject) => {
+//     return projectModel.findOne(editToProject.query,editToProject.projection)
+// }
 
-projectModel.projectPagination = (projectToFind,type) => {
+// projectModel.projectPagination = (projectToFind,type) => {
   
-    if(type == 'count'){
-        return projectModel.find(projectToFind.query).count();
-    }
-    else if(type=='download'){
+//     if(type == 'count'){
+//         return projectModel.find(projectToFind.query).count();
+//     }
+//     else if(type=='download'){
        
-        return projectModel.find(projectToFind.query);
-    }
-    else{
-      return projectModel.find(projectToFind.query).sort({ _id:-1}).skip(projectToFind.skip).limit(projectToFind.limit);
-    }
-}
+//         return projectModel.find(projectToFind.query);
+//     }
+//     else{
+//       return projectModel.find(projectToFind.query).sort({ _id:-1}).skip(projectToFind.skip).limit(projectToFind.limit);
+//     }
+// }
 
-projectModel.allProjectCount = (projectToFind) => {
-    return projectModel.find(projectToFind.query,projectToFind.projection).count();
-}
+// projectModel.allProjectCount = (projectToFind) => {
+//     return projectModel.find(projectToFind.query,projectToFind.projection).count();
+// }
 
-projectModel.getReport = (projectToFind) => {
-    let aggregate = [];
-    if(projectToFind.query){
-        aggregate.push({
-            "$match":projectToFind.query
-        });
-    }
+// projectModel.getReport = (projectToFind) => {
+//     let aggregate = [];
+//     if(projectToFind.query){
+//         aggregate.push({
+//             "$match":projectToFind.query
+//         });
+//     }
 
-    if(projectToFind.sort){
-        aggregate.push({ $sort : projectToFind.sort });
-    }
+//     if(projectToFind.sort){
+//         aggregate.push({ $sort : projectToFind.sort });
+//     }
 
-    aggregate.push({"$group" : {_id:projectToFind.group, count:{$sum:1}}});
+//     aggregate.push({"$group" : {_id:projectToFind.group, count:{$sum:1}}});
 
-    return projectModel.aggregate(aggregate);
-}
+//     return projectModel.aggregate(aggregate);
+// }
 
-projectModel.getAggregate = (aggregate) => {
-    return projectModel.aggregate(aggregate);
-}
+// projectModel.getAggregate = (aggregate) => {
+//     return projectModel.aggregate(aggregate);
+// }
 
-export default projectModel;
+export default projectHistoryModel;

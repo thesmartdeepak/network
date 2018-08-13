@@ -198,17 +198,36 @@ service.getGraphicalReport = async (req, res) => {
 }
 
 service.getMisClientCircle = async (req, res) => {
-    let data = {};
+    var toDate = new Date(req.body.toDate);
+    toDate.setDate(toDate.getDate() + 1);
+     let data = {};
     let query = [];
-    if (req.body.fromDate) {
-   query.push({ "createdAt": { $gte: new Date(req.body.fromDate) } });
+    //
+    if(req.body.fromDate && req.body.toDate){
+       query.push({$or:[
+        
+            { preDoneDate: {
+                 $gte: new Date(req.body.fromDate),
+                 $lte: toDate
+             }},
+            { post_ActivityDoneDate: {
+                 $gte: new Date(req.body.fromDate),
+                 $lte: toDate
+             }}
+         ]},);
     }
+    
+    //
 
-    if (req.body.toDate) {
-   let toDate = new Date(req.body.toDate);
-        toDate.setDate(toDate.getDate() + 1);
-        query.push({ "createdAt": { $lte: toDate } });
-    }
+//     if (req.body.fromDate) {
+//    query.push({ "createdAt": { $gte: new Date(req.body.fromDate) } });
+//     }
+
+//     if (req.body.toDate) {
+//    let toDate = new Date(req.body.toDate);
+//         toDate.setDate(toDate.getDate() + 1);
+//         query.push({ "createdAt": { $lte: toDate } });
+//     }
 
     if (req.body.client) {
         query.push({ "clientId": mongoose.Types.ObjectId(req.body.client) });
@@ -292,19 +311,33 @@ service.getMisSalary = async (req, res) => {
 }
 
 service.getMisBusiness = async (req, res) => {
+    var toDate = new Date(req.body.toDate);
+    toDate.setDate(toDate.getDate() + 1);
     let data = {};
 
     let query = [];
+    if(req.body.fromDate && req.body.toDate){
+        query.push({$or:[
+         
+             { preDoneDate: {
+                  $gte: new Date(req.body.fromDate),
+                  $lte: toDate
+              }},
+             { post_ActivityDoneDate: {
+                  $gte: new Date(req.body.fromDate),
+                  $lte: toDate
+              }}
+          ]},);
+     }
+    // if (req.body.fromDate) {
+    //     query.push({ "createdAt": { $gte: new Date(req.body.fromDate) } });
+    // }
 
-    if (req.body.fromDate) {
-        query.push({ "createdAt": { $gte: new Date(req.body.fromDate) } });
-    }
-
-    if (req.body.toDate) {
-        let toDate = new Date(req.body.toDate);
-        toDate.setDate(toDate.getDate() + 1);
-        query.push({ "createdAt": { $lte: toDate } });
-    }
+    // if (req.body.toDate) {
+    //     let toDate = new Date(req.body.toDate);
+    //     toDate.setDate(toDate.getDate() + 1);
+    //     query.push({ "createdAt": { $lte: toDate } });
+    // }
 
     if (req.body.clientId) {
         query.push({ "clientId": mongoose.Types.ObjectId(req.body.clientId) });
