@@ -164,7 +164,7 @@ service.getGraphicalReport = async (req, res) => {
     data.departmentMontly = await Project.getReport(projectToFind);
     /* /Department montly report */
 
-    /* Client pie */
+    /* Client pie */ 
     projectToFind = {
         group: "$operator",
         // query:{createAt:{"$gte":tenMonthBefore}},
@@ -199,23 +199,35 @@ service.getGraphicalReport = async (req, res) => {
 
 service.getMisClientCircle = async (req, res) => {
     var toDate = new Date(req.body.toDate);
-    toDate.setDate(toDate.getDate() + 1);
-     let data = {};
+    // toDate.setDate(toDate.getDate() + 1);
+    let data = {};
     let query = [];
     //
-    if(req.body.fromDate && req.body.toDate){
-       query.push({$or:[
+    // if(req.body.fromDate && req.body.toDate){
+    //    query.push({$or:[
         
-            { preDoneDate: {
-                 $gte: new Date(req.body.fromDate),
-                 $lte: toDate
-             }},
-            { post_ActivityDoneDate: {
-                 $gte: new Date(req.body.fromDate),
-                 $lte: toDate
-             }}
-         ]},);
-    }
+    //         { preDoneDate: {
+    //              $gte: new Date(req.body.fromDate),
+    //              $lte: toDate
+    //          }},
+    //         { post_ActivityDoneDate: {
+    //              $gte: new Date(req.body.fromDate),
+    //              $lte: toDate
+    //          }}
+    //      ]});
+    // }
+
+    query.push({$or:[
+        
+        { preDoneDate: {
+             $gte: new Date(req.body.fromDate),
+             $lte: toDate
+         }},
+        { post_ActivityDoneDate: {
+             $gte: new Date(req.body.fromDate),
+             $lte: toDate
+         }}
+    ]});
     
     //
 
@@ -248,87 +260,58 @@ service.getMisClientCircle = async (req, res) => {
 
 
     data.circleClientSite = await Project.getReport(projectToFind);
+
+
     query.push({ reportAcceptanceStatus: "Accepted" });
     let aggregate = [
         { $match: { $and: query } },
         {
-            $group: { _id: { client: "$clientName", circle: "$circleCode" }, amount: { $sum: "$poAmount" }, acceptance: { $sum: 1 } },
-        }
+            $project: {
+                client: "$clientName", 
+                circle: "$circleCode",
+                amount: "$poAmount",
+                percentage:"$percentage",
+                preDoneDate:"$preDoneDate",
+                post_ActivityDoneDate:"$post_ActivityDoneDate"
+            }
+        },
     ];
     data.circleClientAcceptance = await Project.getAggregate(aggregate);
 
     return res.send({ success: true, code: 200, data: data });
 }
 
-
-service.getMisSalary = async (req, res) => {
-
-    let data = {};
-
-    let query = [];
-    if (req.body.year) {
-        query.push({ "year": parseInt(req.body.year) });
-    }
-    if (req.body.month) {
-        query.push({ "month": req.body.month });
-    }
-    if (req.body.circleCode) {
-        query.push({ "circleName": req.body.circleCode });
-    }
-    if (req.body.empName){
-        query.push({ "employeeName": new RegExp(req.body.empName,'i') });
-    }
-    console.log(query);
-    let workingStatus = [
-        /working/i,
-        /ideal/i,
-        /movement/i,
-        /week off/i,
-    ];
-
-    query.push({ "empStatus": { $in: workingStatus } });
-
-    let aggregate = [
-        {
-            $match: { $and: query }
-        },
-        {
-            $group:
-            {
-                _id: {employeeUserId:"$employeeUserId",circleId:"$circleId"},
-                "days": { $sum: 1 },
-                "processSalary": { $sum: "$perDaySalary" },
-                "salary": { $last: "$salary" },
-                "employeeName": { $last: "$employeeName" },
-                "circleName": {$last:"$circleName"}
-            }
-        },
-
-    ];
-    data.user = await attendance.salaryMis(aggregate);
-
-    return res.send({ success: true, code: 200, data: data });
-}
-
 service.getMisBusiness = async (req, res) => {
-    var toDate = new Date(req.body.toDate);
-    toDate.setDate(toDate.getDate() + 1);
     let data = {};
 
     let query = [];
-    if(req.body.fromDate && req.body.toDate){
-        query.push({$or:[
-         
-             { preDoneDate: {
-                  $gte: new Date(req.body.fromDate),
-                  $lte: toDate
-              }},
-             { post_ActivityDoneDate: {
-                  $gte: new Date(req.body.fromDate),
-                  $lte: toDate
-              }}
-          ]},);
-     }
+    // if(req.body.fromDate && req.body.toDate){
+    //     query.push({$or:[
+    //         { preDoneDate: {
+    //             $gte: new Date(req.body.fromDate),
+    //             $lte: toDate
+    //         }},
+    //         { post_ActivityDoneDate: {
+    //             $gte: new Date(req.body.fromDate),
+    //             $lte: toDate
+    //         }}
+    //     ]});
+    // }
+
+    var toDate = new Date(req.body.toDate);
+    
+    query.push({$or:[
+        
+        { preDoneDate: {
+             $gte: new Date(req.body.fromDate),
+             $lte: toDate
+         }},
+        { post_ActivityDoneDate: {
+             $gte: new Date(req.body.fromDate),
+             $lte: toDate
+         }}
+    ]});
+
     // if (req.body.fromDate) {
     //     query.push({ "createdAt": { $gte: new Date(req.body.fromDate) } });
     // }
@@ -358,31 +341,112 @@ service.getMisBusiness = async (req, res) => {
         match = { $and: query };
     }
 
+    // let aggregate = [
+    //     { $match: match },
+    //     {
+    //         $project: {
+    //             acceptanceRow: { $cond: { if: { $eq: ["$reportAcceptanceStatus", "Accepted"] }, then: 1, else: 0 } },
+    //             notAcceptedDone: { $cond: { if: { $and: [{ $ne: ["$reportAcceptanceStatus", "Accepted"] }, { $eq: ["$activityStatus", "Done"] }] }, then: 1, else: 0 } },
+    //             acceptanceAmountRow: { $cond: { if: { $eq: ["$reportAcceptanceStatus", "Accepted"] }, then: "$poAmount", else: 0 } },
+    //             circleCode: "$circleCode",
+    //             clientName: "$clientName",
+    //             operatorName: "$operatorName",
+    //             activity: "$activity",
+    //         }
+    //     },
+    //     {
+    //         $group: {
+    //             _id: { circle: "$circleCode", client: "$clientName", operator: "$operatorName", activity: "$activity" },
+    //             amount: { $sum: "$acceptanceAmountRow" },
+    //             acceptance: { $sum: "$acceptanceRow" },
+    //             notAcceptedDone: { $sum: "$notAcceptedDone" },
+    //             totalSite: { $sum: 1 }
+    //         },
+    //     }
+    // ];
+
+    let projectToFind = {
+        group: {
+            client: "$clientName",
+            circle: "$circleCode",
+            operator: "$operatorName",
+            activity: "$activity",
+        }
+    }
+
+    if (query[0]) {
+        projectToFind.query = { $and: query };
+    }
+    
+    data.circleClientSite = await Project.getReport(projectToFind);
+
+    // query.push({ reportAcceptanceStatus: "Accepted" });
     let aggregate = [
-        { $match: match },
+        { $match: { $and: query } },
         {
             $project: {
-                acceptanceRow: { $cond: { if: { $eq: ["$reportAcceptanceStatus", "Accepted"] }, then: 1, else: 0 } },
-                notAcceptedDone: { $cond: { if: { $and: [{ $ne: ["$reportAcceptanceStatus", "Accepted"] }, { $eq: ["$activityStatus", "Done"] }] }, then: 1, else: 0 } },
-                acceptanceAmountRow: { $cond: { if: { $eq: ["$reportAcceptanceStatus", "Accepted"] }, then: "$poAmount", else: 0 } },
-                circleCode: "$circleCode",
-                clientName: "$clientName",
-                operatorName: "$operatorName",
+                client: "$clientName", 
+                circle: "$circleCode",
+                operator: "$operatorName",
                 activity: "$activity",
+                amount: "$poAmount",
+                percentage:"$percentage",
+                preDoneDate:"$preDoneDate",
+                post_ActivityDoneDate:"$post_ActivityDoneDate",
+                reportAcceptanceStatus:"$reportAcceptanceStatus"
             }
         },
-        {
-            $group: {
-                _id: { circle: "$circleCode", client: "$clientName", operator: "$operatorName", activity: "$activity" },
-                amount: { $sum: "$acceptanceAmountRow" },
-                acceptance: { $sum: "$acceptanceRow" },
-                notAcceptedDone: { $sum: "$notAcceptedDone" },
-                totalSite: { $sum: 1 }
-            },
-        }
     ];
 
     data.busniess = await Project.getAggregate(aggregate);
+
+    return res.send({ success: true, code: 200, data: data });
+}
+
+service.getMisSalary = async (req, res) => {
+
+    let data = {};
+
+    let query = [];
+    if (req.body.year) {
+        query.push({ "year": parseInt(req.body.year) });
+    }
+    if (req.body.month) {
+        query.push({ "month": req.body.month });
+    }
+    if (req.body.circleCode) {
+        query.push({ "circleName": req.body.circleCode });
+    }
+    if (req.body.empName){
+        query.push({ "employeeName": new RegExp(req.body.empName,'i') });
+    }
+    let workingStatus = [
+        /working/i,
+        /ideal/i,
+        /movement/i,
+        /week off/i,
+    ];
+
+    query.push({ "empStatus": { $in: workingStatus } });
+
+    let aggregate = [
+        {
+            $match: { $and: query }
+        },
+        {
+            $group:
+            {
+                _id: {employeeUserId:"$employeeUserId",circleId:"$circleId"},
+                "days": { $sum: 1 },
+                "processSalary": { $sum: "$perDaySalary" },
+                "salary": { $last: "$salary" },
+                "employeeName": { $last: "$employeeName" },
+                "circleName": {$last:"$circleName"}
+            }
+        },
+
+    ];
+    data.user = await attendance.salaryMis(aggregate);
 
     return res.send({ success: true, code: 200, data: data });
 }

@@ -2,14 +2,24 @@ app.controller('ctrl', function($scope, $http) {
     $scope.circleByCode = {};
     
     $scope.getReport = function(){
+        var toDate = new Date();
+        if($scope.toDate){
+            toDate = new Date($scope.toDate);
+            toDate.setDate(toDate.getDate() + 1);
+        }
+        
+        var fromDate = new Date(1970,10,30);
+        if($scope.fromDate){
+            fromDate = new Date($scope.fromDate);
+        }
+
         let searchData = {
-            'fromDate': $scope.fromDate,
-            'toDate': $scope.toDate,
+            'fromDate': fromDate,
+            'toDate': toDate,
             'clientId':$scope.clientId,
             'circleCode':$scope.circleCode,
             'operatorId':$scope.operatorId,
             'activityId':$scope.activityId,
-            
         };
         $http({
             method:'post',
@@ -33,39 +43,95 @@ app.controller('ctrl', function($scope, $http) {
             let clientCount = {};
             let operatorCount = {};
             
-            for(x in responseD.busniess){
-                let row = responseD.busniess[x];
+            for(x in responseD.circleClientSite){
+                let row = responseD.circleClientSite[x];
+                row.amount = 0;
+                row.acceptance = 0;
+                row.notAcceptedDone = 0;
+                row.totalSite = 0;
+
                 if(!report[row._id.circle]){
                     report[row._id.circle] = {};
+                    circleCount[row._id.circle] = 0;
                 }
                 if(!report[row._id.circle][row._id.client]){
                     report[row._id.circle][row._id.client] = {};
+                    clientCount[row._id.circle+row._id.client] = 0;
                 }
                 if(!report[row._id.circle][row._id.client][row._id.operator]){
                     report[row._id.circle][row._id.client][row._id.operator] = {};
+                    operatorCount[row._id.circle+row._id.client+row._id.operator] = 0;
                 }
 
                 report[row._id.circle][row._id.client][row._id.operator][row._id.activity] = row;
+                
 
-                if(!circleCount[row._id.circle]){
-                    circleCount[row._id.circle] = 0;
-                }
                 circleCount[row._id.circle] += 1;
-
-                if(!clientCount[row._id.circle+row._id.client]){
-                    clientCount[row._id.circle+row._id.client] = 0;
-                }
                 clientCount[row._id.circle+row._id.client] += 1;
-
-                if(!operatorCount[row._id.circle+row._id.client+row._id.operator]){
-                    operatorCount[row._id.circle+row._id.client+row._id.operator] = 0;
-                }
                 operatorCount[row._id.circle+row._id.client+row._id.operator] += 1;
+            }
+            
+            
+            for(x in responseD.busniess){
+                let row = responseD.busniess[x];
+                let current_row = report[row.circle][row.client][row.operator][row.activity];
+                
+                if(current_row){
+                    
+                    row.count = current_row.count;
+                    row._id = {};
+                    row._id.client = row.client;
+                    row._id.circle = row.circle;
+                    row_amount = row.amount;
+                    
+                    var preDoneDate = new Date(row.preDoneDate);
 
-                $scope.totalCount+=row.acceptance;
-                $scope.totalPoAmount+=row.amount;
-                $scope.totalDoneNotAccepted+=row.notAcceptedDone;
-                $scope.totalSite += row.totalSite;
+                    var post_ActivityDoneDate = new Date(row.post_ActivityDoneDate);
+
+                    var acceptance = current_row.acceptance;
+
+                    var notAcceptedDone = current_row.notAcceptedDone;
+
+                    var amount = current_row.amount;
+
+                    var current_amount = 0;
+
+                    if( preDoneDate > fromDate &&  preDoneDate < toDate ){
+                        current_amount += row_amount*row.percentage/100;
+                    }
+
+                    if( post_ActivityDoneDate > fromDate &&  post_ActivityDoneDate < toDate ){
+                        
+                        if(row.reportAcceptanceStatus != "Accepted"){
+                            $scope.totalDoneNotAccepted += 1;
+                            notAcceptedDone += 1;
+                        }
+                        else{
+                            acceptance++;
+                            $scope.totalAcceptance += 1;
+                            $scope.totalCount++;
+                        }
+
+                        current_amount += (row_amount - (row_amount*row.percentage/100));
+                    }
+
+                    
+                    if(current_amount){
+                        amount+=current_amount;
+                        $scope.totalPoAmount+=current_amount;
+                    }
+                    
+                    report[row.circle][row.client][row.operator][row.activity].acceptance = acceptance;
+                    report[row.circle][row.client][row.operator][row.activity].notAcceptedDone = notAcceptedDone;
+                    report[row.circle][row.client][row.operator][row.activity].amount = amount;
+                    report[row.circle][row.client][row.operator][row.activity].totalSite += 1;
+                    
+                    $scope.totalSite += 1;
+                }
+                else{
+                    row.count = 0;
+                }
+                
             }
             
             $scope.report = [];

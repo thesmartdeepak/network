@@ -423,12 +423,13 @@ service.addProjectGeneral = async (req, res) => {
                 rows[x]['attemptCycle'] = "C" + (allProjectCount + 1);
                 if (!rows[x]['post_ActivityDoneDate']) {
                     rows[x]['activityStatus'] = "Partial Done";
-                    rows[x]['percentage'] = req.body.percentage;
+                    // rows[x]['percentage'] = req.body.percentage;
                 }
                 else {
                     rows[x]['activityStatus'] = "Done";
-                    rows[x]['percentage'] = 100;
+                    // rows[x]['percentage'] = 100;
                 }
+                rows[x]['percentage'] = req.body.percentage;
 
                 let inserted_project = {};
                 if (allProjectCount > 0) {
@@ -694,14 +695,14 @@ service.changeStatusRemark = async (req, res) => {
             set = {  post_ActivityDoneDate:  new Date()};
         }
     }
-    if(req.body.type == "reportAcceptanceStatus")
-    if (req.body.value == "Accepted") {
-        set = { percentage: 100,
-         };
-    }
-    else if (req.body.value == "Rejected") {
-        set = { percentage: oneProject.selectedPercentage };
-    }
+    // if(req.body.type == "reportAcceptanceStatus")
+    // if (req.body.value == "Accepted") {
+    //     set = { percentage: 100,
+    //      };
+    // }
+    // else if (req.body.value == "Rejected") {
+    //     set = { percentage: oneProject.selectedPercentage };
+    // }
     let type = req.body.type;
     set[type] = req.body.value;
     let projectScatusRemarkUpdate = {

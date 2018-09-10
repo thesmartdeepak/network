@@ -2,9 +2,20 @@ app.controller('ctrl', function($scope, $http) {
     $scope.circleByCode = {};
     
     $scope.getReport = function(){
+        var toDate = new Date();
+        if($scope.toDate){
+            toDate = new Date($scope.toDate);
+            toDate.setDate(toDate.getDate() + 1);
+        }
+        
+        var fromDate = new Date(1970,10,30);
+        if($scope.fromDate){
+            fromDate = new Date($scope.fromDate);
+        }
+        
         let searchData = {
-            'fromDate': $scope.fromDate,
-            'toDate': $scope.toDate,
+            'fromDate': fromDate,
+            'toDate': toDate,
             'client':$scope.client
         };
         $http({
@@ -32,23 +43,56 @@ app.controller('ctrl', function($scope, $http) {
                 }
                 
                 report[row._id.client][row._id.circle] = row;
-
+                
                 $scope.totalCount+=row.count;
             }
 
+            
+
             for(x in responseD.circleClientAcceptance){
                 let row = responseD.circleClientAcceptance[x];
-                if(report[row._id.client][row._id.circle]){
-                    row.count = report[row._id.client][row._id.circle].count;
+                if(report[row.client][row.circle]){
+                    row.count = report[row.client][row.circle].count;
                 }
                 else{
                     row.count = 0;
                 }
+                row._id = {};
+                row._id.client = row.client;
+                row._id.circle = row.circle;
+                row_amount = row.amount;
 
-                report[row._id.client][row._id.circle] = row;
+                var acceptance = report[row.client][row.circle].acceptance;
 
-                $scope.totalAcceptance += row.acceptance;
-                $scope.totalPoAmount += row.amount;
+                var preDoneDate = new Date(row.preDoneDate);
+
+                var post_ActivityDoneDate = new Date(row.post_ActivityDoneDate);
+
+                var amount = report[row.client][row.circle].amount;
+                
+                var current_amount = 0;
+
+                if( preDoneDate > fromDate &&  preDoneDate < toDate ){
+                    current_amount += row_amount*row.percentage/100;
+                }
+
+                if( post_ActivityDoneDate > fromDate &&  post_ActivityDoneDate < toDate ){
+                    current_amount += (row_amount - (row_amount*row.percentage/100));
+
+                    acceptance++;
+
+                    $scope.totalAcceptance += 1;
+                }
+
+                amount+=current_amount;
+
+                row.acceptance = acceptance;
+
+                row.amount = amount;
+
+                report[row.client][row.circle] = row;
+                
+                $scope.totalPoAmount += current_amount;
             }
 
             $scope.report = report;
