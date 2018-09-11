@@ -25,10 +25,20 @@ app.controller('ctrl', function ($scope, $http) {
     };
 
     $scope.getReport = function () {
+        var toDate = new Date();
+        if($scope.toDate){
+            toDate = new Date($scope.toDate);
+            toDate.setDate(toDate.getDate() + 1);
+        }
+        
+        var fromDate = new Date(1970,10,30);
+        if($scope.fromDate){
+            fromDate = new Date($scope.fromDate);
+        }
 
         let searchData = {
-            'year': $scope.year,
-            'month': $scope.month,
+            'fromDate': fromDate,
+            'toDate': toDate,
             'clientName': $scope.clientId,
             'circleName': $scope.circleCode,
         };
@@ -40,7 +50,19 @@ app.controller('ctrl', function ($scope, $http) {
                 'authorization': localStorage.token
             }
         }).then(function (response) {
+            var toDate = new Date();
+            if($scope.toDate){
+                toDate = new Date($scope.toDate);
+                toDate.setDate(toDate.getDate() + 1);
+            }
+            
+            var fromDate = new Date(1970,10,30);
+            if($scope.fromDate){
+                fromDate = new Date($scope.fromDate);
+            }
+            
             $scope.project = {};
+            $scope.projectAmt = {};
 
             for (x in response.data.data.projectDetails) {
                 row = response.data.data.projectDetails[x];
@@ -55,6 +77,29 @@ app.controller('ctrl', function ($scope, $http) {
                 row.vendor_per = 0;
                 row.kit = 0;
                 row.kit_per = 0;
+
+                if(!$scope.projectAmt[row._id]){
+                    $scope.projectAmt[row._id] = 0;
+                }
+
+                var preDoneDate = new Date(row.preDoneDate);
+
+                var post_ActivityDoneDate = new Date(row.post_ActivityDoneDate);
+
+                var current_amount = 0;
+
+                var row_amount = row.amount;
+
+                if( preDoneDate > fromDate &&  preDoneDate < toDate ){
+                    current_amount += row_amount*row.percentage/100;
+                }
+
+                if( post_ActivityDoneDate > fromDate &&  post_ActivityDoneDate < toDate ){
+                    current_amount += (row_amount - (row_amount*row.percentage/100));
+                }
+
+                $scope.projectAmt[row._id]+=current_amount;
+
                 $scope.project[row._id] = row;
             }
 
@@ -95,11 +140,11 @@ app.controller('ctrl', function ($scope, $http) {
             }
 
             let defaultTotalMonth = 0;
-            let fromDate = null;
+            let fromDate1 = null;
             let today = getFormattedDate(new Date());
             
             if ($scope.month && $scope.year) {
-                fromDate = "01/" + monthNames[$scope.month.toLowerCase()] + "/" + $scope.year;
+                fromDate1 = "01/" + monthNames[$scope.month.toLowerCase()] + "/" + $scope.year;
                 
                 defaultTotalMonth = 1;
             }
@@ -113,7 +158,7 @@ app.controller('ctrl', function ($scope, $http) {
 
                 let afterFromDateCount = monthDiff(createdAt, today);
 
-                if ((defaultTotalMonth <= 0) || (afterFromDateCount < defaultTotalMonth) || (fromDate == null)) {
+                if ((defaultTotalMonth <= 0) || (afterFromDateCount < defaultTotalMonth) || (fromDate1 == null)) {
                     afterFromDate = afterFromDateCount;
                 }
                 
@@ -176,3 +221,14 @@ app.controller('ctrl', function ($scope, $http) {
 
 sideBar('reporting');
 sideBar('mis');
+
+$('#fromDate').datepicker({
+    autoclose: true,
+    maxDate: "+0D"
+});
+
+$('#toDate').datepicker({
+    dateFormat: 'mm-dd-yy',
+    autoclose: true,
+    maxDate: "+0D"
+});

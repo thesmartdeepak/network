@@ -30,7 +30,7 @@
                 <td class="ccm1"><strong>Client</strong></td>
                 <td class="ccm1"><strong>Operator</strong></td>
                 <td class="ccm1"><strong>Site type</strong></td>
-                <td class="ccm1"><strong>Total site</strong></td>
+                <td class="ccm1"><strong>Total sites</strong></td>
                 <td class="ccm1"><strong>Total done but not accepted by client</strong></td>
                 <td class="ccm1"><strong>Accepted by client</strong></td>
                 <td class="ccm1"><strong>Total INR</strong></td>
@@ -40,7 +40,7 @@
             <tbody>
                 <tr ng-repeat="site in report">
                     <td class="ccm1" rowspan='{{ site.circleCount }}' ng-show="site.showCircle">{{ site._id.circle }}</td>
-                    <td class="ccm1" rowspan='{{ site.clientCount }}' ng-show="site.showClient"><strong>{{ site._id.client }}</strong></td>
+                    <td class="ccm1" rowspan='{{ site.clientCount }}' ng-show="site.showClient">{{ site._id.client }}</td>
                     <td class="ccm1" rowspan='{{ site.operatorCount }}' ng-show="site.showOperator">{{ site._id.operator }}</td>
                     <td class="ccm1">{{ site._id.activity }}</td>
                     <td class="ccm1">{{ site.totalSite }}</td>
