@@ -2,24 +2,32 @@
     <head>
         <title><%- title %></title>
         <link href="/admin/css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="admin/plugins/font-awesome/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     </head>
     <body ng-app="App" ng-controller="Ctrl">
+    <div class="login-from">
         <form class="form-signin" ng-submit="submit()" name="myForm" id="myForm">
-            <h2 class="form-signin-heading">Please sign in</h2>
-            <h3 class="{{ submitLoginClass }}">{{ submitLoginTxt }}</h3>
-            <div class="email-box">
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input name="email" class="form-control" placeholder="Email address" ng-model="loginData.email" required>
-            </div>
-            <div class="password-box">
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" name="password" class="form-control" placeholder="Password" ng-model="loginData.password">
-            </div>
-            <button class="btn btn-lg btn-primary btn-block">Sign in</button>
+                    <div class="inner-logo">
+                            <div class="login-logo">
+                                    <img src="admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo">
+                            </div>
+                        </div>
+                    <h3 class="{{ submitLoginClass }}">{{ submitLoginTxt }}</h3>
+                    <div class="email-box">
+                    <label for="inputEmail" class="sr-only">Email address</label>
+                    <input name="email" class="form-control" placeholder="Email address" ng-model="loginData.email" required>
+                    <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                    </div>
+                    <div class="password-box">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Password" ng-model="loginData.password">
+                    <span><i class="fa fa-lock" aria-hidden="true"></i></span> 
+                </div>
+                    <button class="btn btn-lg btn-primary btn-block">Sign in</button>
         </form>
-
+    </div>
     </body>
 
     <script src="/admin/js/jquery.validate.min.js"></script>

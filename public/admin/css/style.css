@@ -78,7 +78,7 @@
     padding: 15px;
     background: #e6e6e6;
     width: 50%;
-    margin: 100px auto;
+    margin: 100px auto 100px;
     
 }
 .email-box label {
@@ -204,3 +204,58 @@ padding-right: 4px;
 label.error{
     font-size: 12px;
 }
+
+a.brand-link{
+    text-align:center;
+    background-color: #fff;
+}
+
+.sidebar-open a.brand-link img{
+    width:60% !important;
+}
+
+.sidebar-collapse aa.brand-link img{
+    width:50%;
+}
+
+.nav-sidebar .nav-treeview>.nav-item>.nav-link>.nav-icon{
+    font-size: 12px !important;
+}
+
+.user-panel .image{
+    padding-left: 6px !important;
+}
+
+.wrapper .navbar-nav.ml-auto li a{
+    margin-right: 25px;
+} 
+
+.email-box span, .password-box span{
+position: absolute;
+    left: 11px;
+    top: 16%;
+    background: #1f1919;
+    color: #fff;
+    width: 21px;
+    height: 16px;
+    padding: 14px;
+    text-align: center
+}
+
+.email-box, .password-box{
+    position: relative;
+}
+
+.email-box input.form-control, .password-box input.form-control{
+    text-indent: 50px;
+}
+.login-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-logo img{
+    width:200px;;
+}
+
