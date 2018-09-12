@@ -232,3 +232,5 @@ $('#toDate').datepicker({
     autoclose: true,
     maxDate: "+0D"
 });
+
+$(".sidebar-mini").addClass("sidebar-collapse");
