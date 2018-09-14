@@ -74,7 +74,9 @@ service.totalProjectCodeList = async(req,res)=>{
 
 service.addCircleRequiredData = async(req,res)=>{
     let dataFind = {};
-    dataFind.query = {};
+    dataFind.query = {
+        "status":{$ne:"deleted"}
+    };
     dataFind.projection = {};
     let data = {};
     data.regions = await Region.getAllRegion(dataFind);
