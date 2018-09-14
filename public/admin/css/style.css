@@ -262,3 +262,8 @@ position: absolute;
 .table2{
     margin-bottom: 30px;
 }
+
+.wrapper .sidebar {
+    height: 81%;
+    margin-bottom: 50px;
+}
