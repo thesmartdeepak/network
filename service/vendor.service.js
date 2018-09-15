@@ -34,6 +34,7 @@ let VendorMapDb = {
     "Site_Count":"siteCount",
     "Po_Amount":"poAmount",
     "Total_Amount":"totalAmount",
+    "Date":"date",
 }
 
 service.addVendor = async (req,res) =>{
@@ -134,7 +135,7 @@ service.addVendor = async (req,res) =>{
                 row['updatedAt'] = new Date();
                 row['vendorName'] = row['vendorName'];
                 row['vendorType'] = row['vendorType'];
-                row['activityName'] = row['activityName'] ,
+                row['activityName'] = row['activityName'];
                 row['projectCode'] = row['projectCode'];
                 row['projectId'] = circle.clientId;
                 row['clientName'] = client.name;
@@ -144,6 +145,8 @@ service.addVendor = async (req,res) =>{
                 row['totalAmount'] = row['totalAmount'];
                 row['month']= monthNames[ dateObj.getUTCMonth()];
                 row['year'] = year;
+                row['createAt']= getJsDateFromExcel(row['date']);
+
             }
 
             rows.push(row);
@@ -152,7 +155,7 @@ service.addVendor = async (req,res) =>{
         if(goodData){
             let x = 0;
             for(x in rows){
-                rows[x]['createAt'] = new Date();
+               // rows[x]['createAt'] = new Date();
                 const addToVendor = Vendor(rows[x]);
                 await Vendor.addVendor(addToVendor);
             }

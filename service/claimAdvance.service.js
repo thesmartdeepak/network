@@ -91,16 +91,7 @@ service.addclaimAdvance = async (req,res) =>{
                 };
                 circle = await Circle.getOneCircle(circleToFind);
             }
-            
-            // if(!circle){
-            //     goodRow = false;
-            //     errorList.push({
-            //         index:(parseInt(k))+1,
-            //         key:"Project_Code",
-            //         error:"Not found in circle list in database."
-            //     });
-            // }
-           if(!goodRow){
+         if(!goodRow){
                 goodData = false;
             }
             else{
@@ -113,10 +104,11 @@ service.addclaimAdvance = async (req,res) =>{
                     query:{_id:circle.clientId},
                     projection:{_id:1,name:1}
                 };
+         
                 let client = await Client.getOneClient(clientToFind);
                 row['status'] = "active";
                 row['updatedAt'] = new Date();
-                row['date'] = getJsDateFromExcel(row["date"]);
+               // row['date'] = getJsDateFromExcel(row["date"]);
                 row['empId'] = userData.employeeId
                 row['empUserId'] = userData._id;
                 row['empName']=userData.fullname;
@@ -130,6 +122,8 @@ service.addclaimAdvance = async (req,res) =>{
                 row['clientName']=client.name;
                 row['clientId']=client._id;
                 row['empUserId']=userData._id;
+                row['createAt']=getJsDateFromExcel(row['date']);
+
                 
             }
 
@@ -139,7 +133,7 @@ service.addclaimAdvance = async (req,res) =>{
         if(goodData){
             let x = 0;
             for(x in rows){
-                rows[x]['createAt'] = new Date();
+               // rows[x]['createAt'] = new Date();
                 const addToclaimAdvance = claimAdvance(rows[x]);
                 await claimAdvance.addclaimAdvance(addToclaimAdvance);
             }

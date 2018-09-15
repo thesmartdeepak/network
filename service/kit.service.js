@@ -30,6 +30,7 @@ let kitMapDb = {
     "Employee_Id": "employeeId",//File
     "Kit_Rent": "kitRent",//File
     "Kit_Name": "kitName",//File
+    "Date":"date",
 }
 
 service.addKit = async (req, res) => {
@@ -192,7 +193,7 @@ service.addKit = async (req, res) => {
                 row['perDayAmount'] = Math.round(row['kitRent'] / getDaysInMonth(month, year));
                 row['status'] = "active";
                 row['year']=year;
-                row['createAt']= new Date();
+                row['createAt']= getJsDateFromExcel(row['date']);
                 row['updatedAt'] = new Date();
 
             }
@@ -203,7 +204,7 @@ service.addKit = async (req, res) => {
         if(goodData){
             let x = 0;
             for(x in rows){
-                rows[x]['createAt'] = new Date();
+               // rows[x]['createAt'] = new Date();
                 const addToKit = Kit(rows[x]);
                 await Kit.addKit(addToKit);
             }

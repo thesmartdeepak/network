@@ -67,7 +67,7 @@ function manageAccess(){
             $(".mangerAdmincoOrdinatorAccess").show();
             
         }
-        if(localStorage.userType=='admin' || localStorage.userType=='billing-admin'){
+        if(localStorage.userType=='admin' || localStorage.userType=='billing-admin' ){
             $(".billingAdminAccess").show();
         }
         if(localStorage.userType=='admin' || localStorage.userType=='work tracking'){

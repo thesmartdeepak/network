@@ -32,10 +32,11 @@ let CabMapDb = {
     "Amount":"amount",
     "Number_Of_Days":"numberOfDays",
     "Total_Amount":"totalAmount",
+    "Date":"date"
 }
 
 service.addCab = async (req,res) =>{
-    let excelFile = req.files.excelFile;
+   let excelFile = req.files.excelFile;
 
     let fileExt = excelFile.name.split('.').pop();
 
@@ -109,7 +110,8 @@ service.addCab = async (req,res) =>{
                 const monthNames = ["January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"
                 ];
-
+                console.log("hello"+ row['vendorName']);
+    
                 row['status'] = "active";
                 row['updatedAt'] = new Date();
                 row['vendorName'] = row['vendorName'];
@@ -123,6 +125,7 @@ service.addCab = async (req,res) =>{
                 row['totalAmount'] = row['totalAmount'];
                 row['month']= monthNames[ dateObj.getUTCMonth()];
                 row['year'] = year;
+                row['createAt'] = getJsDateFromExcel(row['date']);
             }
 
             rows.push(row);
@@ -131,7 +134,7 @@ service.addCab = async (req,res) =>{
         if(goodData){
             let x = 0;
             for(x in rows){
-                rows[x]['createAt'] = new Date();
+                //rows[x]['createAt'] = new Date();
                 const addToCab = Cab(rows[x]);
                 await Cab.addCab(addToCab);
             }
