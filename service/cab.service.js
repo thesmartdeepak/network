@@ -128,7 +128,7 @@ service.addCab = async (req,res) =>{
                 row['createAt'] = getJsDateFromExcel(row['date']);
             }
 
-            rows.push(row);
+            rows.push(row); 
         }
 
         if(goodData){

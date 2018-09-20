@@ -11,13 +11,13 @@ import attendanceService from "../service/attendance.service";
 const router = express.Router();
 
 router.get("/add-tracking-sheet",function(req, res){
-    res.render('admin/attendance/add',{title:'Add tracking-sheet'})
+    res.render('admin/attendance/add',{title:'Add attendance-sheet'})
 });
 
 router.post("/addAttendance",attendanceService.addAttendance);
 
 router.get("/view-tracking-sheet",function(req, res){
-    res.render('admin/attendance/view',{title:'View tracking-sheet'});
+    res.render('admin/attendance/view',{title:'View attendance-sheet'});
 });
 
 router.post('/allAttendance',attendanceService.allAttendance);
