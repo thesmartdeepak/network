@@ -1,22 +1,57 @@
 <% layout('../layout/layout') -%>
 <!-- Main content -->
 <section class="content" ng-controller="ctrl">
-  <div class="box box-primary" id="addFileSection">
-    <form id="addclaimAdvanceForm" method="post" ng-submit="submit()" enctype="multipart/form-data">
-      <div class="box-body">
-        
-        <div class="form-group">
-          <label>Upload Excel</label>
-          <input id="excelFile" type="file" class="" name="excelFile" required>
-        </div>
-      </div>
-      <!-- /.box-body -->
 
-      <div class="box-footer">
-        <button type="submit" class="first-btn btn btn-primary">Submit</button>
-      </div>
-    </form>
-  </div>
+<div class="inner-content" style="padding: 40px;">
+   <div class="row">
+    <div class="col-md-6 col-xs-12">
+        <div class="inner-box2">
+              <h4 id="dailyadvance" style="padding-bottom: 10px;">Daily Advance </h4>
+                <div class="box box-primary" id="addFileSection">
+                  <div class="down-link">
+                     <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button>
+                  </div>
+                  <form id="addclaimAdvanceForm" method="post" ng-submit="submit()" enctype="multipart/form-data">
+                    <div class="box-body" style="padding: 30px 0px;">
+                      <div class="form-group">
+                        <label>Upload Excel</label>
+                        <input id="excelFile" type="file" class="" name="excelFile" required>
+                      </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                      <button type="submit" class="first-btn btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
+        </div>
+    </div>
+   <div class="col-md-6 col-xs-12">
+    <div class="inner-box3">
+               <h4 style="padding-bottom: 10px;">Monthly Advance/Claim</h4>
+                <div class="box box-primary" id="addFileSectionM">
+                 <button class="btn-download" ng-click="downloadDemoFile_monthely()">Download Sample file</button>
+                  <form id="addclaimMonthlyForm" method="post" ng-submit="submit_monthly()" enctype="multipart/form-data">
+                    <div class="box-body" style="padding: 30px 0px;">
+                      
+                      <div class="form-group">
+                        <label>Upload Excel</label>
+                        <input id="excelFilem" type="file" class="" name="excelFile" required>
+                      </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                      <button type="submit" class="first-btn btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+              </div>
+
+           </div>
+       
+    </div>
+</div>
 
   <div class="tableMainBox" id="errorTbl" style="display:none;">
       <div class="tableMainBox-content">File cannot process. Uploaded file having following issues. Please correct them and re-upload.</div>
@@ -35,6 +70,10 @@
       </table>
       <button class="reupload-btn" ng-click="reUpload()">Re-upload</button>
     </div>
+
+
+</div>
+<!-- ---------------------monthely file section---------------------- -->
 </section>
 
 <link href="admin/css/network.css" rel="stylesheet">

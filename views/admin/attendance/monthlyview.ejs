@@ -1,0 +1,84 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<div ng-controller="ctrl">
+    <div class="btn-dwnld-grp">
+        <div class="btnBlock">
+            <button class="btn-download" ng-click="exportTable()" data-export="export">Download Report</button>
+            <!-- <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button> -->
+        </div>
+        <div class="input-group date"> 
+        <div class="label-text-fromtodate">
+            <label>Year</label>
+            <input class="form-control pull-right dateFilter" id="year" type="text">
+        </div>
+        <div class="label-text-fromtodate">
+            <label>Month</label>
+            <input class="form-control pull-right dateFilter" id="month" type="text">
+        </div>
+        
+        <div class="label-text-viewpagination select-tag">
+            <label>View</label>
+            <select class="form-control" ng-model="pageCount" ng-change="resetPagination()">
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+    </div>
+    </div>
+    
+    <div class="tableMainBox">
+        <table id="mainTable" class="mainTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+            <thead class="">
+                <tr class="filter-row sticky1">
+                <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
+                <td><input class="form-control filterData"  id="employeeId" placeholder="Employee Id" name="employeeId" required></td>
+                <td><input class="form-control filterData"  id="employeeName" placeholder="Employee Name" name="employeeName" required></td>
+                <td><input class="form-control filterData"  id="designation" placeholder="Designation" name="designation" required></td>
+                <td><input class="form-control filterData"  id="presentdays" placeholder="Present Days" name="presentdays" required></td>
+                <td><input class="form-control filterData" id="clientName" placeholder="Client Name" name="clientName" required></td>
+                <td><input class="form-control filterData"  id="month" placeholder="Month" name="month" required></td>
+                <td><input class="form-control filterData"  id="year" placeholder="Year" name="year" required></td>
+               <!--  <td><input class="form-control filterData" id="operator" placeholder="Operator" name="operator" required></td>
+                <td><input class="form-control filterData" id="empStatus" placeholder="Employee Status" name="empStatus" required></td> -->
+                </tr>
+            
+            <tr class="headingRow sticky3">
+                <td class="serialNum">Sr. No.</td>
+                <td >Employee Id</td>
+                <td >Employee Name</td>
+                <td >Designation</td>
+                <td>Present Days</td>
+                <td >Client Name</td>
+                <td >Month</td>
+                <td >Year</td>
+                <!-- <td >Operator</td> -->
+                <!-- <td >Status</td> -->
+              </tr>
+            </thead>
+            
+            <tr class="dataRow" ng-repeat="(index,attendance) in attendances">
+               
+                <td>{{ currentIndex(index+1) }}</td>
+                <td>{{ attendance.employeeId }}</td>
+                <td>{{ attendance.employeeName }}</td>
+                <td>{{ attendance.designation }}</td>
+                <td>{{ attendance.presentdays }}</td>
+                <td>{{ attendance.clientName }}</td>
+                <td>{{ attendance.month }}</td>
+                <td>{{ attendance.year }}</td>
+                <!-- <td>{{ attendance.operator }}</td> -->
+              <!--   <td>{{ attendance.empStatus }}</td> -->
+              </tr>
+        </table>
+       
+    </div>
+    <ul id="pagination" class="pagination-sm"></ul>
+</div>
+
+<link href="admin/css/network.css" rel="stylesheet">
+<script src="/admin/js/project/jquery.tabletoCSV.js"></script>
+<link rel="stylesheet" href="/admin/css/select2.css">
+<script src="/admin/js/select2.full.js"></script>
+<script src="/admin/js/jquery.twbsPagination.min.js"></script>
+<script src="/admin/js/attendanceMonthly/view.js"></script>

@@ -129,9 +129,9 @@ app.controller('ctrl', function($scope, $http,$filter) {
     $scope.clientRemarkList = [];
    
 
-    $scope.downloadDemoFile = function(){
-        window.location.href = "/public/demoFiles/vendor.xlsx";
-    }
+    // $scope.downloadDemoFile = function(){
+    //     window.location.href = "/public/demoFiles/vendor.xlsx";
+    // }
 });
 
 $(".sidebar-mini").addClass("sidebar-collapse");
@@ -162,4 +162,4 @@ $('#searchPostDoneDate').datepicker({
 
 
 
-sideBar('kit');
+sideBar('vendor');

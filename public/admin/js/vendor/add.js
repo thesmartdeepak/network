@@ -41,6 +41,9 @@ app.controller('ctrl',function($scope,$http)
         }
     };
 
+         $scope.downloadDemoFile = function(){
+        window.location.href = "/public/demoFiles/vendor.xlsx";
+    }
 
     $scope.reUpload = function(){
         $("#addFileSection").slideDown();

@@ -67,7 +67,7 @@ CircleModel.getAllCircle = (circleToFind) => {
 }
 
 CircleModel.getAllCount = (circleToFind) => {
-  return CircleModel.find(circleToFind.query).count();
+  return CircleModel.find(circleToFind.query).count(); 
 }
 
 CircleModel.totalProjectCodeList = (circleToFind) => {
@@ -75,6 +75,7 @@ CircleModel.totalProjectCodeList = (circleToFind) => {
 }
 
 CircleModel.getSimpleCircle = (circleTOFind) => {
+  // console.log("circleTOFind",circleTOFind.query);
   return CircleModel.find(circleTOFind.query,circleTOFind.projection);
 }
 

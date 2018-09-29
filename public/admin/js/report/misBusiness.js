@@ -29,12 +29,14 @@ app.controller('ctrl', function($scope, $http) {
                 'authorization': localStorage.token
             }
         }).then(function(response){
+            console.log("response",response);
             $scope.totalCount = 0;
             $scope.totalAcceptance = 0;
             $scope.totalPoAmount = 0;
             $scope.totalDoneNotAccepted = 0;
             $scope.totalSite = 0;
             $scope.report = [];
+            $scope.circleClientAmount = {};
             let responseD = response.data.data;
 
             let report = {};
@@ -53,6 +55,7 @@ app.controller('ctrl', function($scope, $http) {
                 if(!report[row._id.circle]){
                     report[row._id.circle] = {};
                     circleCount[row._id.circle] = 0;
+
                 }
                 if(!report[row._id.circle][row._id.client]){
                     report[row._id.circle][row._id.client] = {};
@@ -73,7 +76,9 @@ app.controller('ctrl', function($scope, $http) {
             
             
             for(x in responseD.busniess){
+
                 let row = responseD.busniess[x];
+
                 let current_row = report[row.circle][row.client][row.operator][row.activity];
                 
                 if(current_row){
@@ -93,6 +98,7 @@ app.controller('ctrl', function($scope, $http) {
                     var notAcceptedDone = current_row.notAcceptedDone;
 
                     var amount = current_row.amount;
+                    // console.log("amount",amount);
 
                     var current_amount = 0;
 
@@ -125,6 +131,13 @@ app.controller('ctrl', function($scope, $http) {
                     report[row.circle][row.client][row.operator][row.activity].notAcceptedDone = notAcceptedDone;
                     report[row.circle][row.client][row.operator][row.activity].amount = amount;
                     report[row.circle][row.client][row.operator][row.activity].totalSite += 1;
+
+                    let circleClientKey = row.circle+"-"+row.client;
+                
+                    if(!$scope.circleClientAmount[circleClientKey]){
+                        $scope.circleClientAmount[circleClientKey] = 0;
+                    }
+                    $scope.circleClientAmount[circleClientKey] += current_amount;
                     
                     $scope.totalSite += 1;
                 }
@@ -133,7 +146,7 @@ app.controller('ctrl', function($scope, $http) {
                 }
                 
             }
-            
+
             $scope.report = [];
             for(x in report){
                 
@@ -146,6 +159,7 @@ app.controller('ctrl', function($scope, $http) {
                         
                         for(k in report[x][y][z]){
                             let row = report[x][y][z][k];
+                            // console.log("report[x][y][z][k]",report[x][y][z][k]);
                             row.showCircle = showCircle;
                             row.circleCount = circleCount[x];
                             row.showClient = showClient;
@@ -161,8 +175,6 @@ app.controller('ctrl', function($scope, $http) {
                     }
                 }
             }
-            
-
         });
     }
 
@@ -175,9 +187,16 @@ app.controller('ctrl', function($scope, $http) {
             }
         }).then(function(response){
             let responseD = response.data.data;
+            console.log("responseD",responseD);
+                result = responseD.filter(function (a) {
+        return !this[a.name] && (this[a.name]  = true);
+    }, Object.create(null));
+
+console.log(result);
             
-            for(x in responseD){
-                $scope.circleByCode[responseD[x].code] = responseD[x];
+            for(x in result){
+                $scope.circleByCode[result[x].code] = result[x];
+                // console.log("$scope.circleByCode",$scope.circleByCode);
             }
 
         });

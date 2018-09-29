@@ -195,6 +195,9 @@ msg.addCab ="Unable to Cab kit.";
 msg.addClaimAdvance ="Unable to add Claim/Advance.";
 /** Error message for Vendor */
 /******                                    */
+msg.addclaimMonthly ="Unable to add Monthly Claim.";
+/** Error message for Vendor */
+/******                                    */
 msg.addVendor ="Unable to add Advance.";
 /** Error message for Attendance */
 /******                                    */

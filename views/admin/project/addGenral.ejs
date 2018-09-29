@@ -2,9 +2,10 @@
   <!-- Main content -->
   <section class="content" ng-controller="ctrl">
     <div class="box box-primary" id="addFileSection">
-      <form id="addProjectForm" method="post" ng-submit="submit()" enctype="multipart/form-data">
+       <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button> <br><br>
+      <form id="addProjectForm" method="post" ng-submit="submit()" enctype="multipart/form-data"> 
         <div class="box-body">
-          <div class="row">
+          <div class="row"> 
             <div class="form-group col-md-12">
               <div>
                 <label>Upload Excel</label>

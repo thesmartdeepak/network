@@ -29,6 +29,7 @@ app.controller('ctrl', function($scope, $http) {
                     'Content-Type': undefined
                 },
             }).then(function(response){
+                console.log("response",response);
                 if (response.data.success){
                     alertBox(response.data.msg,'success');
                     setTimeout(function(){
@@ -45,6 +46,9 @@ app.controller('ctrl', function($scope, $http) {
         }
     };
     
+      $scope.downloadDemoFile = function(){
+        window.location.href = "/public/demoFiles/network.xlsx";
+    }
     
     $scope.reUpload = function(){
         $("#addFileSection").slideDown();

@@ -41,7 +41,9 @@ app.controller('ctrl',function($scope,$http)
         }
     };
 
-
+         $scope.downloadDemoFile = function(){
+        window.location.href = "/public/demoFiles/cab.xlsx";
+    }
     $scope.reUpload = function(){
         $("#addFileSection").slideDown();
         $("#errorTbl").slideUp();

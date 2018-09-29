@@ -18,7 +18,7 @@ app.controller('ctrl', function($scope, $http) {
         email: "",
         password: "",
         userType:'',
-        projectCode:"",
+        // projectCode:"",
         operator:"",
         address:'',
         city:'',

@@ -56,9 +56,9 @@ router.post('/getMisSalary',reportService.getMisSalary);
 
 //******Claim/Advance Reporting******/
 router.get('/mis-claim-advance', function(req,res){
-    res.render('admin/report/misClaimAdvance',{title:'Claim/Advance Report'})
+    res.render('admin/report/misClaimAdvance',{title:'Claim Advance Report'})
 });
-
+ 
 router.post('/getMisClaimAdvance',reportService.getMisClaimAdvance);
 
 //******Claim/Advance Reporting******/
@@ -84,15 +84,21 @@ router.get('/mis-kit', function(req,res){
     res.render('admin/report/misKit',{title:'Kit Report'})
 });
 
-router.post('/getMisKit',reportService.getMisKit);
+router.post('/getMisKit',reportService.getMisKit); 
 
 //******Kit Reporting******/
 //******PL Reporting******/
 router.get('/mis-PL', function(req,res){
     res.render('admin/report/misPL',{title:'P&L Report'})
 });
+//******PL Reporting Monthly******/
+router.get('/mis-monthly-PL', function(req,res){
+    res.render('admin/report/monthlymisPL',{title:'Monthly P&L Report'})
+});
+
 
 router.post('/getMisPL',reportService.getMisPL);
+router.post('/getMonthlyMisPL',reportService.getMonthlyMisPL);
 
 //******PL Reporting******/
 

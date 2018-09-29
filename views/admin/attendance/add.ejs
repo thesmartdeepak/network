@@ -1,9 +1,16 @@
 <% layout('../layout/layout') -%>
-<!-- Main content -->
+<!-- Main content --> 
 <section class="content" ng-controller="ctrl">
+  <div class="inner-content" style="padding: 40px;">
+    <div class="row">
+      <div class="col-md-6 col-xs-12">
+        <div class="inner-box2">
+         <h4 id="dailyadvance" style="padding-bottom: 10px;" >Daily Attendance Sheet </h4>
   <div class="box box-primary" id="addFileSection">
+    <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button>
+    <br><br>
     <form id="addAttendanceForm" method="post" ng-submit="submit()" enctype="multipart/form-data">
-      <div class="box-body">
+      <div class="box-body" style="padding: 30px 0px;">
         
         <div class="form-group">
           <label>Upload Excel</label>
@@ -17,6 +24,36 @@
       </div>
     </form>
   </div>
+</div>
+      </div>
+      <div class="col-md-6 col-xs-12">
+       <!-- ---------------Monthly section---------------------------- -->
+<div class="box box-primary" id="addFileSection">
+  <div class="inner-box3">
+  <h4 style="padding-bottom: 10px;">Monthly Attendance Sheet</h4>
+    <button class="btn-download" ng-click="downloadDemoFile_Monthly()">Download Sample file</button>
+    <br><br>
+    <form id="addAttendanceForm_Monthly" method="post" ng-submit="submit_monthly()" enctype="multipart/form-data">
+      <div class="box-body" style="padding: 30px 0px;">
+        
+        <div class="form-group">
+          <label>Upload Excel</label>
+          <input id="excelFileM" type="file" class="" name="excelFileM" required>
+        </div>
+      </div>
+      <!-- /.box-body -->
+
+      <div class="box-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+  </div> 
+      </div>
+    </div>
+  </div>
+
+  
 
   <div class="tableMainBox" id="errorTbl" style="display:none;">
       <div class="tableMainBox-content">File cannot process. Uploaded file having following issues. Please correct them and re-upload.</div>
@@ -35,6 +72,9 @@
       </table>
       <button class="reupload-btn" ng-click="reUpload()">Re-upload</button>
     </div>
+
+
+
 </section>
 
 <link href="admin/css/network.css" rel="stylesheet">

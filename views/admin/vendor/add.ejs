@@ -2,6 +2,8 @@
 <!-- Main content -->
 <section class="content" ng-controller="ctrl">
   <div class="box box-primary" id="addFileSection">
+    <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button>
+    <br><br>
     <form id="addVendorForm" method="post" ng-submit="submit()" enctype="multipart/form-data">
       <div class="box-body">
         
@@ -10,7 +12,7 @@
           <input id="excelFile" type="file" class="" name="excelFile" required>
         </div>
       </div>
-      <!-- /.box-body -->
+      <!-- /.box-body --> 
 
       <div class="box-footer">
         <button type="submit" class="first-btn btn btn-primary">Submit</button>

@@ -24,7 +24,9 @@ import kit from './routes/kit.router.js';
 import cab from './routes/cab.router.js';
 import vendor from './routes/vendor.router.js';
 import attendance from './routes/attendance.router.js';
+import attendanceMonthly from './routes/attendanceMonthly.router.js';
 import claimAdvance from './routes/claimAdvance.router.js';
+import claimMonthly from './routes/claimMonthly.router.js';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import engine from 'ejs-locals';
@@ -102,10 +104,10 @@ app.use(function(req, res, next) {
         '/add-operator','/edit-operator','/view-operator',
         '/status-remark','/add-status-remark','/edit-status-remark',
         '/basic-reporting','/graphical-reporting',
-        '/mis-client','/mis-circle','/mis-business','/mis-vendor','/mis-salary','/mis-cab','/mis-kit','/mis-PL',
+        '/mis-client','/mis-circle','/mis-business','/mis-vendor','/mis-salary','/mis-cab','/mis-kit','/mis-PL','/mis-monthly-PL',
         '/view-billing','/update-billing',
         '/add-kit','/view-kit','/add-cab','/view-cab','/add-vendor','/view-vendor',
-        '/add-claim-Advance','/view-claim-Advance','/add-tracking-sheet','/view-tracking-sheet','/add-project-general',,'/mis-claim-advance',
+        '/add-claim-Advance','/view-claim-Advance','/add-claim-Monthly','/view-claim-Monthly','/add-tracking-sheet','/view-tracking-sheet','/view-tracking-monthly','/add-project-general',,'/mis-claim-advance',
     ];
 
     if(arr_allowed.indexOf(req._parsedUrl.pathname)>=0){
@@ -183,7 +185,9 @@ app.use(kit);
 app.use(cab);
 app.use(vendor);
 app.use(attendance);
+app.use(attendanceMonthly);
 app.use(claimAdvance);
+app.use(claimMonthly);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

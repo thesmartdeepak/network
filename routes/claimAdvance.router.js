@@ -4,7 +4,7 @@
  * @version 1.0.0
  * @lastModifed 05-May-2018
  * @lastModifedBy Deepak
- */
+ */ 
 
 import express from "express";
 import claimAdvance from "../service/claimAdvance.service";
@@ -13,13 +13,13 @@ import claimAdvance from "../service/claimAdvance.service";
 const router = express.Router()
 
 router.get("/add-claim-Advance",function(req, res){
-    res.render('admin/claimAdvance/add',{title:'Add Claim/Advance'})
+    res.render('admin/claimAdvance/add',{title:'Add Claim Advance'})
 });
 
 router.post("/addclaimAdvance",claimAdvance.addclaimAdvance);
 
 router.get("/view-claim-Advance",function(req, res){
-    res.render('admin/claimAdvance/view',{title:'View Claim/Advance'});
+    res.render('admin/claimAdvance/view',{title:'View Daily Advance'});
 });
 
 router.post('/allclaimAdvance',claimAdvance.allclaimAdvance);

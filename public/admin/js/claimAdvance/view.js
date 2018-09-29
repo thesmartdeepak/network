@@ -17,10 +17,14 @@ app.controller('ctrl', function($scope, $http,$filter) {
                 'authorization': localStorage.token
             }
         }).then(function(response){
-            $scope.claimAdvances = response.data.data;
+            $scope.claimAdvances = response.data.data; 
         });
     }
-
+    
+// $scope.fromdatebox=function(){
+//        var t=$("#fromDate").val();
+// console.log("t",t);
+// }
     $scope.currentIndex = function(index){
         return ($scope.currentPage-1)*parseInt($scope.pageCount)+index;
     }
@@ -32,15 +36,21 @@ app.controller('ctrl', function($scope, $http,$filter) {
             filter:{}
         };
 
+       
+
+        // $("#toDate").val(dataToFind.toDate);
+
         $(".filterData").each(function(){
             
             if($(this).val()){
                 let name = $(this).attr('name');
                 let value = $(this).val();
                 dataToFind.filter[name] = value;
+
             }
         });
-
+     
+// console.log("dataToFind.filter[name]",dataToFind);
         return dataToFind;
     }
 
@@ -85,6 +95,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
                     visiblePages:3,
                     startPage:$scope.startPage,
                     onPageClick: function (event, page) {
+                        // console.log("page",page,"event",event);
                         $scope.currentPage = page;
                         $scope.claimAdvanceList(page);
                     }
@@ -152,9 +163,11 @@ app.controller('ctrl', function($scope, $http,$filter) {
     $scope.clientRemarkList = [];
    
 
-    $scope.downloadDemoFile = function(){
-        window.location.href = "/public/demoFiles/claimAdvance.xlsx";
-    }
+    // $scope.downloadDemoFile = function(){
+    //     window.location.href = "/public/demoFiles/claimAdvance.xlsx";
+    // }
+
+
 });
 
 $(".sidebar-mini").addClass("sidebar-collapse");
@@ -167,25 +180,15 @@ $("body").on('click','tr.dataRow',function() {
 
 
 $('#fromDate').datepicker({
-    autoclose: true,
-    maxDate: "+0D"
-}).datepicker("setDate", new Date()).datepicker("option","dateFormat","dd/MM/yy");
+    autoclose: true
+});
 
 $('#toDate').datepicker({
     autoclose: true
-}).datepicker("setDate", new Date()).datepicker("option","dateFormat","dd/MM/yy");
-
-$('#searchPreDoneDate').datepicker({
-    autoclose: true
 });
+
 $('#date').datepicker({
     autoclose:true,
 })
 
-$('#searchPostDoneDate').datepicker({
-    autoclose: true
-});
-
-
-
-sideBar('claimAdvancve');
+sideBar('claimAdvance');

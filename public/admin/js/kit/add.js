@@ -12,6 +12,7 @@ app.controller('ctrl',function($scope,$http)
             
             var file_data = $('#excelFile')[0].files;
             for (var i = 0; i < file_data.length; i++) {
+                console.log("file_data[i]",file_data[i]);
                 formdata.append("excelFile", file_data[i]);
             }
 
@@ -28,7 +29,7 @@ app.controller('ctrl',function($scope,$http)
                 if (response.data.success){
                     alertBox(response.data.msg,'success');
                     setTimeout(function(){
-                        window.location.href = "/view-kit";
+                        // window.location.href = "/view-kit";
                     },1000);
                 }
                 else{
@@ -40,7 +41,9 @@ app.controller('ctrl',function($scope,$http)
             });
         }
     };
-
+       $scope.downloadDemoFile = function(){
+        window.location.href = "/public/demoFiles/kitDemo.xlsx";
+    }
 
     $scope.reUpload = function(){
        $("#addFileSection").slideDown();

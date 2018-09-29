@@ -28,6 +28,7 @@ const service = {};
 let kitMapDb = {
     "Operator": "operator", //add operator
     "Employee_Id": "employeeId",//File
+    "Project_code":"projectCode",//File
     "Kit_Rent": "kitRent",//File
     "Kit_Name": "kitName",//File
     "Date":"date",
@@ -85,6 +86,7 @@ service.addKit = async (req, res) => {
 
 
     let excelFile = req.files.excelFile;
+    // console.log("excelFile data",excelFile);
 
     let fileExt = excelFile.name.split('.').pop();
 
@@ -94,6 +96,7 @@ service.addKit = async (req, res) => {
         const sheet = obj[0]; 
         let data = sheet['data'];
 
+    // console.log("data data",data);
         let header = data.splice(0,1)[0];
 
         let rowHeaders = {};
@@ -141,10 +144,19 @@ service.addKit = async (req, res) => {
             }
             else{
                 let circleToFind = {
-                    query:{clientCircleCode:userData.projectCode},
-                    projection:{_id:1,clientId:1,name:1}
-                };
-                circle = await Circle.getOneCircle(circleToFind);
+                query:{clientCircleCode:row["projectCode"]},
+                projection:{_id:1,clientId:1,name:1,}
+            };
+            circle = await Circle.getOneCircle(circleToFind);
+            
+            if(!circle){
+                goodRow = false;
+                errorList.push({
+                    index:(parseInt(k))+1,
+                    key:"Project_Code",
+                    error:"Not found in circle list in database."
+                });
+            }
             }
 
             // if(!circle){
@@ -182,7 +194,7 @@ service.addKit = async (req, res) => {
                 row['employeeId']= row['employeeId'];
                 row['empName'] = userData.fullname;
                 row['designation'] = userData.userType;
-                row['projectCode'] = userData.projectCode;
+                row['projectCode'] = row['projectCode'];
                 row['clientName'] = client.name;
                 row['clientId'] = client._id;
                 row['circleName']= circle.name;
@@ -249,8 +261,9 @@ service.allKit = async (req, res) => {
     ]
 
     if (req.body.filter) {
+        // console.log("req.body.filter",req.body.filter);
         let x = '';
-        for (x in req.body.filter) {
+        for (x in req.body.filter) { 
             let rowQuery = {};
             if (x == 'amount') {
                 let ltAmount = parseInt(req.body.filter[x]);

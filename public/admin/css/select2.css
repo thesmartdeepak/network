@@ -483,3 +483,9 @@ position: relative; }
 
 .select2-container--classic.select2-container--open .select2-dropdown {
   border-color: #5897fb; }
+/*.datepicker thead tr:first-child th{
+  display: none;
+}*/ 
+body > div.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-top > div.datepicker-months > table > thead > tr{
+  display: none;
+}

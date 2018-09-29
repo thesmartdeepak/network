@@ -118,7 +118,7 @@ service.addUserRequiredData = async(req,res)=>{
     dataFind.projection = {"_id":0};
     const userTypes = await UserType.getAll(dataFind);
 
-   // console.log(userTypes);
+   console.log(userTypes);
     
     return res.send({success:true,code:200,data:userTypes});
 }

@@ -62,14 +62,14 @@ let projectMapDb = {
     "Advance": "advance",
     "Approved": "approved",
     "Operator_Id": "operatorId",
-    "Operator_Name": "operatorName",
+    "Operator_Name": "operatorName", 
     "Co_ordinator": "userName",
 }
 
 service.addProject = async (req, res) => {
-
+     // console.log("req.body",req.body); 
     const coOrdinatorData = req.user;
-
+// console.log("coOrdinatorData",coOrdinatorData);
     const circleToFind = {
         query: { clientCircleCode: coOrdinatorData.projectCode },
         projection: { clientId: 1, code: 1, regionId: 1 }
@@ -186,7 +186,7 @@ service.addProject = async (req, res) => {
             /* /Employee check */
 
             if (!goodRow) {
-                goodData = false;
+                goodData = false; 
                 // errorList.push(
                 //     {
                 //         errors:errorRow,
@@ -260,24 +260,9 @@ service.addProject = async (req, res) => {
 }
 
 service.addProjectGeneral = async (req, res) => {
-
-    let userToFind = {
-        '_id': req.body.coordinatorId
-    };
-    const coOrdinatorData = await User.getOne(userToFind);
-
-
-    const circleToFind = {
-        query: { clientCircleCode: coOrdinatorData.projectCode },
-        projection: { clientId: 1, code: 1, regionId: 1 }
-    };
-    const coOrdinatorCircle = await Circle.getOneCircle(circleToFind);
-
-    const clientToFind = {
-        query: { _id: coOrdinatorCircle.clientId },
-        projection: { name: 1 }
-    };
-    const coOrdinatorClient = await Client.getOneClient(clientToFind);
+    // console.log("req.file",req.files);
+    // console.log("req.file",req.files.Project_Code);
+   
 
     let excelFile = req.files.excelFile;
 
@@ -292,12 +277,16 @@ service.addProjectGeneral = async (req, res) => {
         let header = data.splice(0, 1)[0];
 
         let rowHeaders = {};
-
+          
         header.forEach(function (value, index) {
             if (projectMapDb[value.trim()]) {
                 rowHeaders[index] = projectMapDb[value.trim()];
             }
         });
+           
+
+
+
 
         let rows = [];
         let goodData = true;
@@ -312,7 +301,6 @@ service.addProjectGeneral = async (req, res) => {
 
             let row = {};
 
-
             for (index in rowHeaders) {
                 if (rst[index]) {
                     row[rowHeaders[index]] = (rst[index] + "").trim();
@@ -321,6 +309,40 @@ service.addProjectGeneral = async (req, res) => {
                     row[rowHeaders[index]] = '';
                 }
             }
+ 
+
+         let userToFind = {
+        '_id': req.body.coordinatorId
+    };
+    // console.log("userToFind",userToFind);
+    const coOrdinatorData = await User.getOne(userToFind);
+
+
+    const circleToFind = {
+        query: { clientCircleCode: row.projectCode },
+        projection: { clientId: 1, code: 1, regionId: 1 }
+    };
+    const coOrdinatorCircle = await Circle.getOneCircle(circleToFind);
+    if (!coOrdinatorCircle) {
+        // console.log("coOrdinatorCircle in if ",coOrdinatorCircle);
+         goodData = false;
+                errorList.push({
+                    index: (parseInt(k)) + 1,
+                    key: "Project_Code",
+                    error: "Not found in Project Code in database."
+                });
+
+    }else{
+
+
+    const clientToFind = {
+        query: { _id: coOrdinatorCircle.clientId },
+        projection: { name: 1 }
+    };
+    const coOrdinatorClient = await Client.getOneClient(clientToFind);
+
+
+
 
             row['projectStatus'] = "active";
 
@@ -336,7 +358,7 @@ service.addProjectGeneral = async (req, res) => {
             row['departmentName'] = coOrdinatorData.departmentName;
             row['projectTypeId'] = coOrdinatorData.projectTypeId;
             row['projectTypeName'] = coOrdinatorData.projectTypeName;
-            row['projectCode'] = coOrdinatorData.projectCode;
+            row['projectCode'] = row.projectCode;
             row['clientName'] = coOrdinatorClient.name;
             row['circleId'] = coOrdinatorCircle._id;
             row['circleCode'] = coOrdinatorCircle.code;
@@ -410,7 +432,8 @@ service.addProjectGeneral = async (req, res) => {
 
                 rows.push(row);
             }
-        }
+        } 
+    }
         if (goodData) {
             let x = 0;
             for (x in rows) {
@@ -418,9 +441,9 @@ service.addProjectGeneral = async (req, res) => {
                 let projectToFind = {
                     query: { $and: [{ status: { $ne: 'deleted' } }, { concatenate: rows[x]['concatenate'] }] },
                 }
-                const allProjectCount = await Project.allProjectCount(projectToFind);
+                const oldProject = await Project.getOneProject(projectToFind);
 
-                rows[x]['attemptCycle'] = "C" + (allProjectCount + 1);
+                // rows[x]['attemptCycle'] = "C" + (allProjectCount + 1);
                 if (!rows[x]['post_ActivityDoneDate']) {
                     rows[x]['activityStatus'] = "Partial Done";
                     // rows[x]['percentage'] = req.body.percentage;
@@ -432,15 +455,17 @@ service.addProjectGeneral = async (req, res) => {
                 rows[x]['percentage'] = req.body.percentage;
 
                 let inserted_project = {};
-                if (allProjectCount > 0) {
-                    const editToProject = {
-                        query: { $and: [{ status: { $ne: 'deleted' } }, { concatenate: rows[x]['concatenate'] }] },
-                        set: rows[x]
+                if (oldProject) {
+                    if(oldProject.reportAcceptanceStatus != 'Accepted'){
+                        const editToProject = {
+                            query: { $and: [{ status: { $ne: 'deleted' } }, { concatenate: rows[x]['concatenate'] }] },
+                            set: rows[x]
+                        }
+                        await Project.editProject(editToProject);
+                        let findProjectToLog = {
+                            query: {}, projection: {}
+                        };
                     }
-                    await Project.editProject(editToProject);
-                    let findProjectToLog = {
-                        query: {}, projection: {}
-                    };
                     // inserted_project = await Project.getOneProject(findProjectToLog);
                 }
                 else {

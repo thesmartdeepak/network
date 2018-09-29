@@ -42,6 +42,7 @@ function alertBox(alertTxt,alertType){
 }
 
 function sideBar(sideBarName){
+    console.log("sideBarName",sideBarName);
     let sideBarClass = sideBarName+"SideBar";
     $("."+sideBarClass).addClass('menu-open');
     $("."+sideBarClass+" .nav-treeview:first").show();

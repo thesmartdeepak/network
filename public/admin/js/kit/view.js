@@ -18,6 +18,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
             }
         }).then(function(response){
             $scope.kits = response.data.data;
+            console.log("$scope.kits",$scope.kits);
         });
     }
 
@@ -152,9 +153,9 @@ app.controller('ctrl', function($scope, $http,$filter) {
     $scope.clientRemarkList = [];
    
 
-    $scope.downloadDemoFile = function(){
-        window.location.href = "/public/demoFiles/kitDemo.xlsx";
-    }
+    // $scope.downloadDemoFile = function(){
+    //     window.location.href = "/public/demoFiles/kitDemo.xlsx";
+    // }
 });
 
 $(".sidebar-mini").addClass("sidebar-collapse");

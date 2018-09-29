@@ -116,5 +116,14 @@ msg.addSalary="claim/Advance added successfully!!!!"
  */ 
 msg.addAttendance="Attendance added successfully!!!!"
 
+ // --------
+ /*
+ * claimAdvance related msg
+ */ 
+msg.addclaimMonthly="Monthly claim added successfully!!!!"
+
+
+
+
 
 export default msg; 

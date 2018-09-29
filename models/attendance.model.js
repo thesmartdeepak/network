@@ -47,6 +47,7 @@ attendanceModel.attendancePagination = (attendanceToFind,type) => {
 }
 
 attendanceModel.salaryMis = (aggregate) => {
+    console.log("aggregate",aggregate);
     return attendanceModel.aggregate(aggregate);
 }
 

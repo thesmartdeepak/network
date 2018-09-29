@@ -1,0 +1,67 @@
+<% layout('../layout/layout') -%>
+<!-- Main content -->
+<section class="content" ng-controller="ctrl">
+    <div>
+        <input placeholder="Month" id="month" ng-model="month" ng-change="getReport()">
+        <input placeholder="Year" id="year"  ng-model="year" ng-change="getReport()">
+       <button ng-click="clearFilter()">Clear filter</button>
+    </div><br>
+    <div>
+            <strong>Project management %</strong>&nbsp;&nbsp;&nbsp;<input  ng-model="managementPer">
+    </div>
+    <div class="circleClients">
+        <br>
+        <div class="table-responsive">
+        <table class="mainTable">
+            <tr>
+                <td class="ccm1" rowspan="2"><strong>Project</strong></td>
+                <td class="ccm1" rowspan="2"><strong>Business</strong></td>
+                <td class="ccm1" rowspan="2"><strong>Net Investment</strong></td>
+                <td class="ccm1 text-center" colspan="2"><strong>Salary</strong></td>
+                <td class="ccm1 text-center" colspan="2"><strong>Claim</strong></td>
+                <td class="ccm1 text-center" colspan="2"><strong>Cab </strong></td>
+                <td class="ccm1 text-center" colspan="2"><strong>Vendor</strong></td>
+                <td class="ccm1 text-center" colspan="2"><strong>Kit</strong></td>
+                <td class="ccm1" rowspan="2"><strong>Project Management Cost</strong></td>
+                <td class="ccm1" rowspan="2"><strong>Profit%</strong></td>
+                <td class="ccm1" rowspan="2"><strong>Net Profit (INR)</strong></td>
+            </tr>
+            <tr>    
+                <td class="ccm1"><strong>Amount</strong></td>
+                <td class="ccm1"><strong>%</strong></td>
+                <td class="ccm1"><strong>Amount</strong></td>
+                <td class="ccm1"><strong>%</strong></td> 
+                <td class="ccm1"><strong>Amount</strong></td>
+                <td class="ccm1"><strong>%</strong></td>
+                <td class="ccm1"><strong>Amount</strong></td>
+                <td class="ccm1"><strong>%</strong></td>
+                <td class="ccm1"><strong>Amount</strong></td>
+                <td class="ccm1"><strong>%</strong></td>
+            </tr>
+            <tbody class="tbodyBorder">
+               <tr ng-repeat="project in project">
+                    <td class="ccm1">{{ project.clientName }}-{{ project.circleCode }}</td>
+                    <td class="ccm1">{{ projectAmt[project._id]| number:2 }}</td>
+                    <td class="ccm1">{{ project.investment+managementCost(project.investment) | number:2 }}</td>
+                    <td class="ccm1">{{ project.salary| number:2 }}</td>
+                    <td class="ccm1">{{ percent(project.salary,project.investment) }}</td>
+                    <td class="ccm1">{{ project.claim| number:2 }}</td>
+                    <td class="ccm1">{{ percent(project.claim,project.investment) }}</td>
+                    <td class="ccm1">{{ project.cab | number:2 }}</td>
+                    <td class="ccm1">{{ percent(project.cab,project.investment) }}</td>
+                    <td class="ccm1">{{ project.vendor | number:2}}</td>
+                    <td class="ccm1">{{ percent(project.vendor,project.investment) }}</td>
+                    <td class="ccm1">{{ project.kit | number:2}}</td>
+                    <td class="ccm1">{{ percent(project.kit,project.investment) }}</td>
+                    <td class="ccm1">{{ managementCost(project.investment) | number:2}}</td>
+                    <td class="ccm1">{{ revenue(projectAmt[project._id],project.investment) | number:2}}</td>
+                    <td class="ccm1">{{ netProfit(projectAmt[project._id],project.investment)  | number:2}}</td>
+               </tr>
+            </tbody> 
+           
+        </table>
+        </div>
+    </div>
+</section>
+
+<script src="/admin/js/report/monthlymisPL.js"></script>

@@ -12,7 +12,7 @@ import access from '../core/access';
 const router = express.Router()
 
 router.get("/status-remark",function(req, res){
-    res.render('admin/statusRemark/view',{title:'Status/Remark'});
+    res.render('admin/statusRemark/view',{title:'Status Remark'});
 });
 
 
@@ -26,7 +26,7 @@ router.get('/allStatusRemark', (req, res) => {
 });
 
 router.get('/add-status-remark', (req, res) => {
-    res.render('admin/statusRemark/add',{title:'Add Status/Remark'});
+    res.render('admin/statusRemark/add',{title:'Add Status Remark'});
 });
 
 router.post('/addStatusRemark',access.managerAdmin, (req, res) => {
@@ -38,7 +38,7 @@ router.post('/deleteStatusRemark',access.managerAdmin, (req, res) => {
 });
 
 router.get('/edit-status-remark', (req, res) => {
-    res.render('admin/statusRemark/add',{title:'Edit Status/Remark'});
+    res.render('admin/statusRemark/add',{title:'Edit Status Remark'});
 });
 
 router.post('/editStatusRemark',access.managerAdmin, (req, res) => {

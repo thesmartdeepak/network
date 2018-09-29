@@ -18,7 +18,7 @@ const claimAdvanceSchema = mongoose.Schema({
     totalTransfer:{type:Number},
     status :{type:String},
     createAt:{type: Date},
-    updatedAt:{type: Date}
+    updatedAt:{type: Date} 
     
 }, {collection : 'claimAdvance'});
 

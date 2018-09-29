@@ -4,16 +4,16 @@
     <div class="btn-dwnld-grp">
         <div class="btnBlock">
             <button class="btn-download" ng-click="exportTable()" data-export="export">Download Report</button>
-            <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button>
+           <!--  <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button> -->
         </div>
         <div class="input-group date">
         <div class="label-text-fromtodate">
             <label>To Date</label>
-            <input class="form-control pull-right dateFilter" id="toDate" type="text">
+            <input class="form-control pull-right dateFilter" id="toDate" type="text" >
         </div>
         <div class="label-text-fromtodate">
-            <label>From Date</label>
-            <input class="form-control pull-right dateFilter" id="fromDate" type="text">
+            <label>From Date</label> 
+            <input class="form-control pull-right dateFilter" id="fromDate" type="text" >
         </div>
         
         <div class="label-text-viewpagination select-tag">
@@ -32,7 +32,7 @@
             <thead class="">
                 <tr class="filter-row sticky1">
                 <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
-                <td><input class="form-control pull-right dateFilter filterData"  id="date" placeholder="Date" name="dateSearch" required></td>
+                <td><input class="form-control pull-right dateFilter"  id="date" placeholder="Date" name="dateSearch" required></td>
                 <td><input class="form-control filterData"  id="month" placeholder="Month" name="month" required></td>
                 <td><input class="form-control filterData"  id="empName" placeholder="Emp_Name" name="empName" required></td>
                 <td><input class="form-control filterData"  id="circleName" placeholder="Circle" name="circleName" required></td>

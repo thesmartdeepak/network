@@ -28,6 +28,7 @@ const service = {};
 let attendanceMapDb = {
     "Date": "date",
     "Employee_ID":"employeeId",
+    "Project_Code":"projectCode",
     "Status":"empStatus",
     "Operator":"operator",
 }
@@ -87,12 +88,21 @@ service.addAttendance = async (req,res) =>{
                     error:"Not found in user list in database."
                 });
             }
-            else{
-                let circleToFind = {
-                    query:{clientCircleCode:userData.projectCode},
-                    projection:{_id:1,clientId:1,name:1}
-                };
-                circle = await Circle.getOneCircle(circleToFind);
+            else{ 
+           let circleToFind = {
+                query:{clientCircleCode:row["projectCode"]},
+                projection:{_id:1,clientId:1,name:1,}
+            };
+            let circle = await Circle.getOneCircle(circleToFind);
+            
+            if(!circle){
+                goodRow = false;
+                errorList.push({
+                    index:(parseInt(k))+1,
+                    key:"Project_Code",
+                    error:"Not found in circle list in database."
+                });
+            }
             }
             if(!goodRow){
                 goodData = false;
@@ -128,7 +138,7 @@ service.addAttendance = async (req,res) =>{
                 row['clientId'] = circle.clientId;
                 row['circleId'] = circle._id;
                 row['circleName'] =circle.name; 
-                row['projectCode'] = userData.projectCode;
+                row['projectCode'] = row['projectCode'];
                 row['empStatus'] = row['empStatus']; 
                 row['operator'] = row['operator'];
                 row['perDaySalary'] = 0;

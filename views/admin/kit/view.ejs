@@ -4,7 +4,7 @@
     <div class="btn-dwnld-grp">
         <div class="btnBlock">
             <button class="btn-download" ng-click="exportTable()" data-export="export">Download Report</button>
-            <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button>
+            <!-- <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button> -->
         </div>
         <div class="input-group date">
         <div class="label-text-fromtodate">
@@ -36,6 +36,7 @@
                 <td><input class="form-control filterData"  id="empName" placeholder="Employee Name" name="empName" required></td>
                 <td><input class="form-control filterData"  id="designation" placeholder="Designation" name="designation" required></td>
                 <td><input class="form-control filterData"  id="project" placeholder="Project" name="clientName" required></td>
+                <td><input class="form-control filterData"  id="projectCode" placeholder="Project Code" name="projectCode" required></td>
                 <td><input class="form-control filterData" id="kitRent" placeholder="KitRent" name="kitRent" required></td>
                 <!-- <td><input class="form-control filterData" placeholder="Month" name="month" id="month" required></td> -->
                 <td><input class="form-control filterData" placeholder="Circle" name="circleName" id="circleName" required></td>
@@ -51,6 +52,7 @@
                 <td>Employee Name</td>
                 <td>Designation</td>
                 <td>Project</td>
+                <td>Project Code</td>
                 <td>Kit_Rent</td>
                 <!-- <td>Month</td> -->
                 <td>Circle</td>
@@ -68,6 +70,7 @@
                 <td>{{ kit.empName }}</td>
                 <td>{{ kit.designation }}</td>
                 <td>{{ kit.clientName }}</td>
+                <td>{{ kit.projectCode }}</td>
                 <td>{{ kit.kitRent }}</td>
                 <!-- <td>{{ kit.month }}</td> -->
                 <td>{{ kit.circleName }}</td>

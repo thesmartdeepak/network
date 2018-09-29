@@ -253,9 +253,9 @@ app.controller('ctrl', function($scope, $http,$filter) {
         }
     }
 
-    $scope.downloadDemoFile = function(){
-        window.location.href = "/public/demoFiles/network.xlsx";
-    }
+    // $scope.downloadDemoFile = function(){
+    //     window.location.href = "/public/demoFiles/network.xlsx";
+    // }
 });
 
 

@@ -7,10 +7,12 @@
  */
 import Project from '../models/project.model';
 import attendance from '../models/attendance.model';
+import attendanceMonthly from '../models/attendanceMonthly.model';
 import vendor from '../models/vendor.model';
 import cab from '../models/cab.model';
 import kit from '../models/kit.model';
 import claimAdvance from '../models/claimAdvance.model';
+import claimMonthly from '../models/claimMonthly.model';
 import Circle from '../models/circle.model';
 import Client from '../models/client.model';
 import successMsg from '../core/message/success.msg'
@@ -656,6 +658,290 @@ service.getMisPL = async (req, res) => {
     return res.send({ success: true, code: 200, data: data });
 }
 
+
+
+/*----------------------------Monthly P&L Report---------------------------*/ 
+
+service.getMonthlyMisPL = async (req, res) => {
+
+    // console.log("reqqqq",req.body.month);
+    var month_name=req.body.month;
+     var monthvalue="";
+    for (var key in monthNames) {
+    if (monthNames.hasOwnProperty(key)) {
+      var mm= monthNames[key];
+      if(key===month_name.toLowerCase()){
+         // console.log("mm",mm);
+         monthvalue=mm;
+      }
+    }
+}
+    let data = {};
+    
+    let query = [];
+    // if (req.body.year) {
+    //     query.push({ "year": parseInt(req.body.year) });
+    // }
+    // if (req.body.month) {
+    //     query.push({ "month": req.body.month });
+    // }
+        var y = req.body.year, m = monthvalue;
+        var firstDay = new Date(y, m-1, 2).setHours(0,0,0,0);
+        // firstDay.setHours(0,0,0,0);
+        var lastDay = new Date(y, m, 1);
+        lastDay.setHours(0,0,0,0);
+    // console.log("firstDay",firstDay);
+    // console.log("lastDay",lastDay);
+
+    var toDate = new Date(lastDay);
+    
+    query.push({$or:[
+        
+        { preDoneDate: {
+             $gte: new Date(req.body.firstDay),
+             $lte: toDate
+         }},
+        { post_ActivityDoneDate: {
+             $gte: new Date(req.body.firstDay),
+             $lte: toDate
+         }}
+    ]});
+
+
+    let match = {};
+
+    //Project
+    let queryProject = [];
+
+    // queryProject.push({ reportAcceptanceStatus: "Accepted" });
+
+    // if (req.body.year) {
+    //     queryProject.push({ year: parseInt(req.body.year) });
+    // }
+    // if (req.body.month) {
+        
+    //     queryProject.push({ month: monthNames[req.body.month.toLowerCase()] });
+    // }
+
+    queryProject.push({$or:[
+        
+        { preDoneDate: {
+             $gte: new Date(req.body.fromDate),
+             $lte: toDate
+         }},
+        { post_ActivityDoneDate: {
+             $gte: new Date(req.body.fromDate),
+             $lte: toDate
+         }}
+    ]});
+
+    let aggregate = [
+        { $match: { $and: query } },
+        {
+            $project: {
+                _id: "$projectCode",
+                clientName: "$clientName", 
+                circleCode: "$circleCode",
+                operator: "$operatorName",
+                activity: "$activity",
+                amount: "$poAmount",
+                percentage:"$percentage",
+                preDoneDate:"$preDoneDate",
+                post_ActivityDoneDate:"$post_ActivityDoneDate",
+                reportAcceptanceStatus:"$reportAcceptanceStatus"
+            }
+        },
+    ];
+
+    data.projectDetails = await Project.getAggregate(aggregate);
+    
+    
+    //kit
+    let aggregateKit = [];
+    let querykit = [];
+    // if (req.body.year) {
+    //     querykit.push({ "year": parseInt(req.body.year) });
+    // }
+    // if (req.body.month) {
+    //     querykit.push({ "month": req.body.month });
+    // }
+    // if (req.body.year && req.body.month) {
+    //     // let compairDate = new Date("01/"+req.body.month+"/"+req.body.year);
+    //     let month = monthNames[req.body.month.toLowerCase()];
+    //     var compairDate = new Date(req.body.year, month, 0);
+    //     querykit.push({"createAt":{$lte: compairDate }});
+    // }
+    querykit.push({
+        createAt: {
+             $gte: new Date(req.body.fromDate),
+             $lte: toDate
+        }
+    });
+
+    let matchkit = {};
+    if (querykit[0]) {
+        matchkit = {
+            $match: { $and: querykit },
+        };
+        aggregateKit.push(matchkit);
+    }
+    let project = {
+        $project: { 
+            "projectCode":"$projectCode",
+            "kitRent":"$kitRent",
+            "createAt":"$createAt"
+        }
+    };
+    aggregateKit.push(project);
+    // let groupKit = {
+    //     $group: {
+    //         _id: "$projectCode",
+    //         "totalAmount": { $sum: "$perDayAmount" },
+    //         "kitRent": { $sum: "$kitRent" },
+    //         "createAt": { $last: "$createAt" }
+    //     },
+    // };
+
+    // aggregateKit.push(groupKit);
+
+    data.kitDetails = await kit.kitMis(aggregateKit);
+    
+    //Salary
+    let querySalery = [];
+    //
+    
+    querySalery.push({
+       $and:[{
+            month:req.body.month,
+            year:req.body.year
+          }] 
+    }); 
+    let workingStatus = [
+        /working/i,
+        /ideal/i,
+        /movement/i,
+        /week off/i,
+    ];
+    // querySalery.push({ "empStatus": { $in: workingStatus } });
+
+    let aggregateSalery = [
+        {
+            $match: { $and: querySalery }
+        },
+        {
+            $group:
+            {
+                _id: "$projectCode",
+                "processSalary": { $sum: "$netsalary" },
+            }
+        },
+
+    ];
+
+    // console.log("aggregateSalerygroup",aggregateSalery[1].processSalary);
+    data.salaryDetails = await attendanceMonthly.salaryMis(aggregateSalery);
+    // console.log("data.salaryDetails",data.salaryDetails);
+    
+    //Advance Claim
+    let aggregateAdvance = [];
+    // 
+    let queryAdvance = [];
+    queryAdvance.push({
+         $and:[{
+            month:req.body.month,
+            year:req.body.year
+          }]  
+    });
+    let matchAdvance = {};
+    if (queryAdvance[0]) {
+        matchAdvance = {
+            $match: { $and: queryAdvance },
+        }
+
+        aggregateAdvance.push(matchAdvance);
+    }
+    //
+    let advanceClaim = {
+        $group:
+        { 
+            _id: "$projectCode",
+            "passAmount": { $sum: "$passAmount" },
+        },
+
+    }; 
+    aggregateAdvance.push(advanceClaim);
+    
+    data.advanceClaimDetails = await claimMonthly.claimMonthlyMis(aggregateAdvance);
+    // console.log("data.advanceClaimDetails",data.advanceClaimDetails);
+    //Cab
+    let aggregateCab = [];
+    //
+    let queryCab = [];
+    queryCab.push({
+        createAt: {
+             $gte: new Date(req.body.fromDate),
+             $lte: toDate
+        }
+    });
+    let matchCab = {};
+    if (query[0]) {
+        matchCab = {
+            $match: { $and: queryCab },
+        }
+
+        aggregateCab.push(matchCab);
+    }
+    //
+    let groupcab = {
+        $group: {
+            _id: "$projectCode",
+            "totalAmount": { $sum: "$totalAmount" },
+        },
+    };
+
+    aggregateCab.push(groupcab);
+
+    data.cabDetails = await cab.cabMis(aggregateCab);
+    
+    //vendor
+    let aggregateVendor = [];
+    //
+    let queryVendor = [];
+    
+    queryVendor.push({
+        createAt: {
+             $gte: new Date(req.body.fromDate),
+             $lte: toDate
+        }
+    });
+
+    let matchVendor = {};
+    if (query[0]) {
+        matchVendor = {
+            $match: { $and: queryVendor },
+        }
+
+        aggregateVendor.push(matchVendor);
+    }
+    //
+    let groupVendor = {
+        $group: {
+            _id: "$projectCode",
+            "totalAmount": { $sum: "$totalAmount" },
+        },
+    };
+
+    aggregateVendor.push(groupVendor);
+
+    data.vendorDetails = await vendor.vendorMis(aggregateVendor);
+    return res.send({ success: true, code: 200, data: data });
+}
+
+
+
+
+
+
 service.getMisSalary = async (req, res) => {
 
     let data = {};
@@ -705,7 +991,7 @@ service.getMisSalary = async (req, res) => {
 }
 
 service.getAllCircleForReporting = async (req, res) => {
-    /* Circle */
+    /* Circle */ 
     let circleToFind = {
         query: {},
         projection: { code: 1, name: 1 }

@@ -28,6 +28,7 @@ const service = {};
 let claimAdvanceMapDb = {
     "Date": "date",
     "Emp_Id":"empId",
+    "Project_Code":"projectCode",
     "Total_Transfer": "totalTransfer",
 }
 
@@ -85,11 +86,23 @@ service.addclaimAdvance = async (req,res) =>{
                     error:"Not found in user list in database."
                 });
             }else{
-                let circleToFind = {
-                    query:{clientCircleCode:userData.projectCode},
-                    projection:{_id:1,clientId:1,name:1}
-                };
-                circle = await Circle.getOneCircle(circleToFind);
+              // console.log("userData",userData);
+              // console.log("row",row["projectCode"]);
+              let circleToFind = {
+                  query:{clientCircleCode:row["projectCode"]},
+                  projection:{_id:1,clientId:1,name:1,}
+              };
+
+              circle = await Circle.getOneCircle(circleToFind);
+              
+              if(!circle){
+                  goodRow = false;
+                  errorList.push({
+                      index:(parseInt(k))+1,
+                      key:"Project_Code",
+                      error:"Not found in circle list in database."
+                  });
+              }
             }
          if(!goodRow){
                 goodData = false;
@@ -102,18 +115,18 @@ service.addclaimAdvance = async (req,res) =>{
                                 ];
                 let clientToFind = {
                     query:{_id:circle.clientId},
-                    projection:{_id:1,name:1}
+                    projection:{_id:2,name:1}
                 };
-         
+          
                 let client = await Client.getOneClient(clientToFind);
                 row['status'] = "active";
                 row['updatedAt'] = new Date();
                // row['date'] = getJsDateFromExcel(row["date"]);
-                row['empId'] = userData.employeeId
+                row['empId'] = userData.employeeId;
                 row['empUserId'] = userData._id;
                 row['empName']=userData.fullname;
                 row['projectId']=circle._id;
-                row['projectCode']=userData.projectCode;//circle.clientCircleCode;
+                row['projectCode']=row["projectCode"];//upload by exel;
                 row['circleName']=circle.name;
                 row['circleId']=circle._id;
                 row['totalTransfer']=row["totalTransfer"];
@@ -169,7 +182,7 @@ service.allclaimAdvance = async (req,res)=>{
             rowQuery['date'] = {
                 $gte:new Date(req.body.filter[x]),
                 $lte:searchDate,
-            };
+            }; 
         }
         else if(x=='totalTransfer'){
             rowQuery[x] = req.body.filter[x];

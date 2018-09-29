@@ -267,3 +267,20 @@ position: absolute;
     height: 81%;
     margin-bottom: 50px;
 }
+/*div#fromDate.datepicker-years {
+display:none;
+}*/
+
+.inner-box2{
+    width: 80%;
+    padding-bottom: 50px;
+    border-right: 1px solid #ddd;
+}
+
+.inner-box3 label{
+    display: block;
+}
+
+.inner-box3{
+    width: 80%;
+}
