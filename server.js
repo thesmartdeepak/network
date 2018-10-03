@@ -106,7 +106,7 @@ app.use(function(req, res, next) {
         '/basic-reporting','/graphical-reporting',
         '/mis-client','/mis-circle','/mis-business','/mis-vendor','/mis-salary','/mis-cab','/mis-kit','/mis-PL','/mis-monthly-PL',
         '/view-billing','/update-billing',
-        '/add-kit','/view-kit','/add-cab','/view-cab','/add-vendor','/view-vendor',
+        '/add-kit','/view-kit','/add-cab','/view-cab','/cabDlete','/add-vendor','/view-vendor',
         '/add-claim-Advance','/view-claim-Advance','/add-claim-Monthly','/view-claim-Monthly','/add-tracking-sheet','/view-tracking-sheet','/view-tracking-monthly','/add-project-general',,'/mis-claim-advance',
     ];
 

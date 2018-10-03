@@ -43,4 +43,7 @@ cabModel.CabPagination = (cabToFind,type) => {
 cabModel.cabMis = (aggregate) =>{
     return cabModel.aggregate(aggregate);
 }
+cabModel.cabDlete = (cab_id) =>{
+    return cabModel.remove(cab_id);
+}
 export default cabModel;

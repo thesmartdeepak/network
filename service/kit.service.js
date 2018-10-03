@@ -172,10 +172,12 @@ service.addKit = async (req, res) => {
                 goodData = false;
             }
             else{
-                var dateObj = new Date();//getJsDateFromExcel(new Date());
+                 var dateObj = getJsDateFromExcel(row["date"]);
+                // var dateObj = new Date();//getJsDateFromExcel(new Date());
                 var month = dateObj.getUTCMonth() + 1; //months from 1-12
                 // var day = dateObj.getUTCDate();
                 var year = dateObj.getUTCFullYear();
+                console.log(" var year",  year);
             
                 var getDaysInMonth = function (month, year) {
                     return new Date(year, month, 0).getDate();
@@ -184,6 +186,7 @@ service.addKit = async (req, res) => {
                 const monthNames = ["January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"
                 ];
+                console.log("row month",monthNames[month-1]);
                 let clientToFind = {
                     query:{_id:circle.clientId},
                     projection:{_id:1,name:1}
@@ -201,7 +204,7 @@ service.addKit = async (req, res) => {
                 row['circleId'] = circle._id;
                 row['kitRent']= row['kitRent'];
                 row['kitName'] = row['kitName'];
-                row['month']= monthNames[ dateObj.getUTCMonth()];
+                row['month']= monthNames[month-1];
                 row['perDayAmount'] = Math.round(row['kitRent'] / getDaysInMonth(month, year));
                 row['status'] = "active";
                 row['year']=year;
@@ -263,7 +266,7 @@ service.allKit = async (req, res) => {
     if (req.body.filter) {
         // console.log("req.body.filter",req.body.filter);
         let x = '';
-        for (x in req.body.filter) { 
+        for (x in req.body.filter) {  
             let rowQuery = {};
             if (x == 'amount') {
                 let ltAmount = parseInt(req.body.filter[x]);

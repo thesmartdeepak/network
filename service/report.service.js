@@ -476,6 +476,7 @@ service.getMisPL = async (req, res) => {
         },
     ];
 
+
     data.projectDetails = await Project.getAggregate(aggregate);
     
     
@@ -604,6 +605,7 @@ service.getMisPL = async (req, res) => {
              $lte: toDate
         }
     });
+    // console.log("new Date(req.body.fromDate)",new Date(req.body.fromDate));
     let matchCab = {};
     if (query[0]) {
         matchCab = {
@@ -655,6 +657,7 @@ service.getMisPL = async (req, res) => {
     aggregateVendor.push(groupVendor);
 
     data.vendorDetails = await vendor.vendorMis(aggregateVendor);
+     data.circleClient = await Circle.getAllCircleClient();
     return res.send({ success: true, code: 200, data: data });
 }
 
@@ -664,34 +667,25 @@ service.getMisPL = async (req, res) => {
 
 service.getMonthlyMisPL = async (req, res) => {
 
-    // console.log("reqqqq",req.body.month);
     var month_name=req.body.month;
-     var monthvalue="";
+    var monthvalue="";
     for (var key in monthNames) {
-    if (monthNames.hasOwnProperty(key)) {
-      var mm= monthNames[key];
-      if(key===month_name.toLowerCase()){
-         // console.log("mm",mm);
-         monthvalue=mm;
-      }
+        if (monthNames.hasOwnProperty(key)) {
+            var mm= monthNames[key];
+            if(key===month_name.toLowerCase()){
+                monthvalue=mm;
+            }
+        }
     }
-}
+
     let data = {};
     
     let query = [];
-    // if (req.body.year) {
-    //     query.push({ "year": parseInt(req.body.year) });
-    // }
-    // if (req.body.month) {
-    //     query.push({ "month": req.body.month });
-    // }
+
         var y = req.body.year, m = monthvalue;
         var firstDay = new Date(y, m-1, 2).setHours(0,0,0,0);
-        // firstDay.setHours(0,0,0,0);
         var lastDay = new Date(y, m, 1);
         lastDay.setHours(0,0,0,0);
-    // console.log("firstDay",firstDay);
-    // console.log("lastDay",lastDay);
 
     var toDate = new Date(lastDay);
     
@@ -713,15 +707,6 @@ service.getMonthlyMisPL = async (req, res) => {
     //Project
     let queryProject = [];
 
-    // queryProject.push({ reportAcceptanceStatus: "Accepted" });
-
-    // if (req.body.year) {
-    //     queryProject.push({ year: parseInt(req.body.year) });
-    // }
-    // if (req.body.month) {
-        
-    //     queryProject.push({ month: monthNames[req.body.month.toLowerCase()] });
-    // }
 
     queryProject.push({$or:[
         
@@ -759,23 +744,12 @@ service.getMonthlyMisPL = async (req, res) => {
     //kit
     let aggregateKit = [];
     let querykit = [];
-    // if (req.body.year) {
-    //     querykit.push({ "year": parseInt(req.body.year) });
-    // }
-    // if (req.body.month) {
-    //     querykit.push({ "month": req.body.month });
-    // }
-    // if (req.body.year && req.body.month) {
-    //     // let compairDate = new Date("01/"+req.body.month+"/"+req.body.year);
-    //     let month = monthNames[req.body.month.toLowerCase()];
-    //     var compairDate = new Date(req.body.year, month, 0);
-    //     querykit.push({"createAt":{$lte: compairDate }});
-    // }
+
     querykit.push({
-        createAt: {
-             $gte: new Date(req.body.fromDate),
-             $lte: toDate
-        }
+      $and:[{
+            month:req.body.month,
+            year:req.body.year
+          }] 
     });
 
     let matchkit = {};
@@ -793,16 +767,6 @@ service.getMonthlyMisPL = async (req, res) => {
         }
     };
     aggregateKit.push(project);
-    // let groupKit = {
-    //     $group: {
-    //         _id: "$projectCode",
-    //         "totalAmount": { $sum: "$perDayAmount" },
-    //         "kitRent": { $sum: "$kitRent" },
-    //         "createAt": { $last: "$createAt" }
-    //     },
-    // };
-
-    // aggregateKit.push(groupKit);
 
     data.kitDetails = await kit.kitMis(aggregateKit);
     
@@ -822,7 +786,6 @@ service.getMonthlyMisPL = async (req, res) => {
         /movement/i,
         /week off/i,
     ];
-    // querySalery.push({ "empStatus": { $in: workingStatus } });
 
     let aggregateSalery = [
         {
@@ -838,13 +801,11 @@ service.getMonthlyMisPL = async (req, res) => {
 
     ];
 
-    // console.log("aggregateSalerygroup",aggregateSalery[1].processSalary);
     data.salaryDetails = await attendanceMonthly.salaryMis(aggregateSalery);
-    // console.log("data.salaryDetails",data.salaryDetails);
     
     //Advance Claim
     let aggregateAdvance = [];
-    // 
+
     let queryAdvance = [];
     queryAdvance.push({
          $and:[{
@@ -872,16 +833,16 @@ service.getMonthlyMisPL = async (req, res) => {
     aggregateAdvance.push(advanceClaim);
     
     data.advanceClaimDetails = await claimMonthly.claimMonthlyMis(aggregateAdvance);
-    // console.log("data.advanceClaimDetails",data.advanceClaimDetails);
+
     //Cab
     let aggregateCab = [];
     //
     let queryCab = [];
     queryCab.push({
-        createAt: {
-             $gte: new Date(req.body.fromDate),
-             $lte: toDate
-        }
+       $and:[{
+            month:req.body.month,
+            year:req.body.year
+          }] 
     });
     let matchCab = {};
     if (query[0]) {
@@ -909,10 +870,10 @@ service.getMonthlyMisPL = async (req, res) => {
     let queryVendor = [];
     
     queryVendor.push({
-        createAt: {
-             $gte: new Date(req.body.fromDate),
-             $lte: toDate
-        }
+       $and:[{
+            month:req.body.month,
+            year:req.body.year
+          }] 
     });
 
     let matchVendor = {};
@@ -921,7 +882,7 @@ service.getMonthlyMisPL = async (req, res) => {
             $match: { $and: queryVendor },
         }
 
-        aggregateVendor.push(matchVendor);
+        aggregateVendor.push(matchVendor); 
     }
     //
     let groupVendor = {
@@ -934,6 +895,8 @@ service.getMonthlyMisPL = async (req, res) => {
     aggregateVendor.push(groupVendor);
 
     data.vendorDetails = await vendor.vendorMis(aggregateVendor);
+
+    data.circleClient = await Circle.getAllCircleClient();
     return res.send({ success: true, code: 200, data: data });
 }
 

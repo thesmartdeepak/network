@@ -26,8 +26,8 @@ const service = {};
 
 
 let CabMapDb = {
-    "Vendor_Name": "vendorName",
-    "Vendor_Type":"vendorType",
+    "Cab_Vendor_Name": "vendorName",
+    "Cab_Vendor_Type":"vendorType",
     "Project_Code":"projectCode",
     "Amount":"amount",
     "Number_Of_Days":"numberOfDays",
@@ -95,7 +95,7 @@ service.addCab = async (req,res) =>{
 
             if(!goodRow){
                 goodData = false;
-            }
+            } 
             else{
                 let clientToFind = {
                     query:{_id:circle.clientId},
@@ -103,10 +103,13 @@ service.addCab = async (req,res) =>{
                 };
                 let client = await Client.getOneClient(clientToFind);
 
-                var dateObj = new Date();//getJsDateFromExcel(new Date());
+                // var dateObj = new Date();//getJsDateFromExcel(new Date());
+                var dateObj = getJsDateFromExcel(row['date']);
                 var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                console.log("month",month);
                 // var day = dateObj.getUTCDate();
                 var year = dateObj.getUTCFullYear();
+                console.log("year",year);
                 const monthNames = ["January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"
                 ];
@@ -213,8 +216,8 @@ service.allCab = async (req,res) => {
 
             worksheet.columns = [
                 { header: 'Sr. No.', key: 'srNo', width: 10 },
-                { header: 'Vendor_Name', key: 'vendorName', width: 20 },
-                { header: 'Vendor_Type', key: 'vendorType', width: 20 },
+                { header: 'Cab_Vendor_Name', key: 'vendorName', width: 20 },
+                { header: 'Cab_Vendor_Type', key: 'vendorType', width: 20 },
                 { header: 'Project_Code', key: 'projectCode', width: 10 },
                 { header: 'Client_Name', key: 'clientName', width: 20 },
                 { header: 'Amount', key: 'amount', width: 10 },
@@ -251,4 +254,12 @@ service.allProjectCount = async(req,res) => {
     const allCabCount = await Cab.allCabCount(CabToFind);
     res.send({"success":true,"code":200,"msg":successMsg.allProject,"data":allProjectCount});
 }
+// service.cabDlete=async(req,res)=>{
+//     let cab_id={
+//         cabId:req.body.cabid
+//     }
+//      const allCabdlete = await Cab.allCabdlete(cab_id);
+//     res.send({"success":true,"code":200});
+//      console.log("allCabdlete",allCabdlete);
+// } 
 export default service;

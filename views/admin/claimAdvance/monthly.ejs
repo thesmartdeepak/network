@@ -58,8 +58,8 @@
                
                 <td>{{ currentIndex(index+1) }}</td>
                 <td>{{ claimAdvance.empName }}</td>
-                <td>{{ claimAdvance.transferAmount }}</td>
-                <td>{{ claimAdvance.passAmount }}</td>
+                <td>{{ claimAdvance.transferAmount |number : 3  }}</td>
+                <td>{{ claimAdvance.passAmount |number : 3  }}</td>
                 <td>{{ claimAdvance.projectCode }}</td>
                 <td>{{ claimAdvance.circleName }}</td>
                 <td>{{ claimAdvance.month }}</td>

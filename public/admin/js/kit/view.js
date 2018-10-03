@@ -22,7 +22,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
         });
     }
 
-    $scope.currentIndex = function(index){
+    $scope.currentIndex = function(index){ 
         return ($scope.currentPage-1)*parseInt($scope.pageCount)+index;
     }
      $scope.submitData = function(){

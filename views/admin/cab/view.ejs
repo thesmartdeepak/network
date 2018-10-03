@@ -1,81 +1,83 @@
-<% layout('../layout/layout') -%>
-<!-- Main content -->
-<div ng-controller="ctrl">
-    <div class="btn-dwnld-grp">
-        <div class="btnBlock">
-            <button class="btn-download" ng-click="exportTable()" data-export="export">Download Report</button>
-     <!--        <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button> -->
+    <% layout('../layout/layout') -%>
+    <!-- Main content -->
+    <div ng-controller="ctrl">
+        <div class="btn-dwnld-grp">
+            <div class="btnBlock">
+                    <button class="btn-download" ng-click="exportTable()" data-export="export">Download Report</button>
+         <!--        <button class="btn-download" ng-click="downloadDemoFile()">Download Sample file</button> -->
+            </div>
+            <div class="input-group date">
+            <div class="label-text-fromtodate">
+                <label>To Date</label>
+                <input class="form-control pull-right dateFilter" id="toDate" type="text">
+            </div>
+            <div class="label-text-fromtodate">
+                <label>From Date</label>
+                <input class="form-control pull-right dateFilter" id="fromDate" type="text">
+            </div>
+            
+            <div class="label-text-viewpagination select-tag">
+                <label>View</label>
+                <select class="form-control" ng-model="pageCount" ng-change="resetPagination()">
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
         </div>
-        <div class="input-group date">
-        <div class="label-text-fromtodate">
-            <label>To Date</label>
-            <input class="form-control pull-right dateFilter" id="toDate" type="text">
-        </div>
-        <div class="label-text-fromtodate">
-            <label>From Date</label>
-            <input class="form-control pull-right dateFilter" id="fromDate" type="text">
         </div>
         
-        <div class="label-text-viewpagination select-tag">
-            <label>View</label>
-            <select class="form-control" ng-model="pageCount" ng-change="resetPagination()">
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-        </div>
-    </div>
-    </div>
-    
-    <div class="tableMainBox">
-        <table id="mainTable" class="mainTable" width="100%" border="0" cellpadding="0" cellspacing="0">
-            <thead class="">
-                <tr class="filter-row sticky1">
-                <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
-                <td><input class="form-control filterData"  id="vendorName" placeholder="Vendor Name" name="vendorName" required></td>
-                <td><input class="form-control filterData"  id="venderType" placeholder="Vendor Type" name="vendorType" required></td>
-                <td><input class="form-control filterData"  id="projectName" placeholder="Project Code" name="projectCode" required></td>
-                <td><input class="form-control filterData"  id="clientName" placeholder="client Name" name="clientName" required></td>
-                <td><input class="form-control filterData"  id="circleName" placeholder="Circle Name" name="circleName" required></td>
-                <td><input class="form-control filterData"  id="amount" placeholder="Amount" name="amount" required></td>
-                <td><input class="form-control filterData" id="numberOfDays" placeholder="Number Of Days" name="numberOfDays" required></td>
-                <td><input class="form-control filterData" id="totalAmount" placeholder="Total Amount" name="totalAmount" required></td>
+        <div class="tableMainBox">
+            <table id="mainTable" class="mainTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+                <thead class="">
+                    <tr class="filter-row sticky1">
+                        <td class="filter_td"><h4><b>Filter</b> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></td>
+                        <td><input class="form-control filterData"  id="vendorName" placeholder="Vendor Name" name="vendorName" required></td>
+                        <td><input class="form-control filterData"  id="venderType" placeholder="Vendor Type" name="vendorType" required></td>
+                        <td><input class="form-control filterData"  id="projectName" placeholder="Project Code" name="projectCode" required></td>
+                        <td><input class="form-control filterData"  id="clientName" placeholder="client Name" name="clientName" required></td>
+                        <td><input class="form-control filterData"  id="circleName" placeholder="Circle Name" name="circleName" required></td>
+                        <td><input class="form-control filterData"  id="amount" placeholder="Amount" name="amount" required></td>
+                        <td><input class="form-control filterData" id="numberOfDays" placeholder="Number Of Days" name="numberOfDays" required></td>
+                        <td><input class="form-control filterData" id="totalAmount" placeholder="Total Amount" name="totalAmount" required></td>
+                       <!--  <td><input class="form-control filterData" id="totalAmount" placeholder="Total Amount" name="totalAmount" required></td> -->
+                    </tr>
+                
+                    <tr class="headingRow sticky3">
+                        <td class="serialNum">Sr. No.</td>
+                        <td >Cab Vendor Name</td>
+                        <td>Cab Vendor Type</td>
+                        <td>Project Code</td>
+                        <td>Client Name</td>
+                        <td>Circle Name</td>
+                        <td>Amount</td>
+                        <td>Number Of Days</td>
+                        <td>Total Amount</td>
+                    </tr>
+                </thead>
+                
+                <tr class="dataRow" ng-repeat="(index,cab) in cabs">
+                   
+                    <td>{{ currentIndex(index+1) }}</td>
+                    <td>{{ cab.vendorName }}</td>
+                    <td>{{ cab.vendorType }}</td>
+                    <td>{{ cab.projectCode }}</td>
+                    <td>{{ cab.clientName }}</td>
+                    <td>{{ cab.circleName }}</td>
+                    <td>{{ cab.amount | number : 3  }}</td>
+                    <td>{{ cab.numberOfDays }}</td>
+                    <td>{{ cab.totalAmount | number : 3  }}</td>
+                   <!--  <td><input type="checkbox" id="'{{cab.cabId}}'" name="" ng-click="dlt_cap(cab.cabId)"> </td> -->
                 </tr>
-            
-            <tr class="headingRow sticky3">
-                <td class="serialNum">Sr. No.</td>
-                <td >Vendor Name</td>
-                <td>Vendor Type</td>
-                <td>Project Code</td>
-                <td>Client Name</td>
-                <td>Circle Name</td>
-                <td>Amount</td>
-                <td>Number Of Days</td>
-                <td>Total Amount</td>
-          </tr>
-            </thead>
-            
-            <tr class="dataRow" ng-repeat="(index,cab) in cabs">
-               
-                <td>{{ currentIndex(index+1) }}</td>
-                <td>{{ cab.vendorName }}</td>
-                <td>{{ cab.vendorType }}</td>
-                <td>{{ cab.projectCode }}</td>
-                <td>{{ cab.clientName }}</td>
-                <td>{{ cab.circleName }}</td>
-                <td>{{ cab.amount }}</td>
-                <td>{{ cab.numberOfDays }}</td>
-                <td>{{ cab.totalAmount }}</td>
-            </tr>
-        </table>
-       
+            </table>
+           
+        </div>
+        <ul id="pagination" class="pagination-sm"></ul>
     </div>
-    <ul id="pagination" class="pagination-sm"></ul>
-</div>
 
-<link href="admin/css/network.css" rel="stylesheet">
-<script src="/admin/js/project/jquery.tabletoCSV.js"></script>
-<link rel="stylesheet" href="/admin/css/select2.css">
-<script src="/admin/js/select2.full.js"></script>
-<script src="/admin/js/jquery.twbsPagination.min.js"></script>
-<script src="/admin/js/cab/view.js"></script>
+    <link href="admin/css/network.css" rel="stylesheet">
+    <script src="/admin/js/project/jquery.tabletoCSV.js"></script>
+    <link rel="stylesheet" href="/admin/css/select2.css">
+    <script src="/admin/js/select2.full.js"></script>
+    <script src="/admin/js/jquery.twbsPagination.min.js"></script>
+    <script src="/admin/js/cab/view.js"></script>

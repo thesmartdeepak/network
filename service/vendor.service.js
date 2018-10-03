@@ -85,7 +85,8 @@ service.addVendor = async (req,res) =>{
                 projection:{_id:1,clientId:1,name:1,}
             };
             let circle = await Circle.getOneCircle(circleToFind);
-            
+            console.log("circle",circle);
+            console.log("circle",circle);
             if(!circle){
                 goodRow = false;
                 errorList.push({
@@ -117,7 +118,8 @@ service.addVendor = async (req,res) =>{
             }
             else{
                 
-                var dateObj = new Date();//getJsDateFromExcel(new Date());
+                // var dateObj = new Date();//getJsDateFromExcel(new Date());
+                var dateObj = getJsDateFromExcel(row['date']);
                 var month = dateObj.getUTCMonth() + 1; //months from 1-12
                 // var day = dateObj.getUTCDate();
                 var year = dateObj.getUTCFullYear();
@@ -191,7 +193,7 @@ service.allVendor = async (req,res) => {
             else
             {
                 rowQuery[x] = new RegExp(req.body.filter[x],'i');
-
+ 
             }
             query.push(rowQuery);
         }

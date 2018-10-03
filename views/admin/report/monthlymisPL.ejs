@@ -40,7 +40,7 @@
             </tr>
             <tbody class="tbodyBorder">
                <tr ng-repeat="project in project">
-                    <td class="ccm1">{{ project.clientName }}-{{ project.circleCode }}</td>
+                    <td class="ccm1">{{ circleClient[project._id] }}</td>
                     <td class="ccm1">{{ projectAmt[project._id]| number:2 }}</td>
                     <td class="ccm1">{{ project.investment+managementCost(project.investment) | number:2 }}</td>
                     <td class="ccm1">{{ project.salary| number:2 }}</td>

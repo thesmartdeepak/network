@@ -15,7 +15,7 @@
         "march": 3,
         "april": 4,
         "may": 5,
-        "june": 6,
+        "june": 6, 
         "july": 7,
         "august": 8,
         "september": 9,
@@ -25,161 +25,177 @@
     };
 
     $scope.getReport = function () {
-        // var toDate = new Date();
-        // if($scope.toDate){
-        //     toDate = new Date($scope.toDate);
-        //     toDate.setDate(toDate.getDate() + 1);
-        // }
         
-        // var fromDate = new Date(1970,10,30);
-        // if($scope.fromDate){
-        //     fromDate = new Date($scope.fromDate);
-        // }
-
-           //  var year: $("#year").val()
-           // var 'month': $("#month").val(),
         let searchData = {
             'year': parseInt($scope.year),
             'month': $scope.month,
             'clientName': $scope.clientId,
             'circleName': $scope.circleCode,
         };
-        // console.log("searchData",typeof(searchData.year));
-        $http({
-            method: 'post',
-            url: '/getMonthlyMisPL',
-            data: searchData,
-            headers: {
-                'authorization': localStorage.token
-            }
-        }).then(function (response) {
-            // console.log("response",response);
-            var toDate = new Date();
-            if($scope.toDate){
-                toDate = new Date($scope.toDate);
-                toDate.setDate(toDate.getDate() + 1);
-            }
-            
-            var fromDate = new Date(1970,10,30);
-            if($scope.fromDate){
-                fromDate = new Date($scope.fromDate);
-            }
-            
-            $scope.project = {};
-            $scope.projectAmt = {};
 
-            for (x in response.data.data.projectDetails) {
-                row = response.data.data.projectDetails[x];
-                row.investment = 0;
-                row.salary = 0;
-                row.salary_per = 0;
-                row.claim = 0;
-                row.claim_per = 0;
-                row.cab = 0;
-                row.cab_per = 0;
-                row.vendor = 0;
-                row.vendor_per = 0;
-                row.kit = 0;
-                row.kit_per = 0;
+        if($scope.year && $scope.month){
 
-                if(!$scope.projectAmt[row._id]){
-                    $scope.projectAmt[row._id] = 0;
+            $http({
+                method: 'post',
+                url: '/getMonthlyMisPL',
+                data: searchData,
+                headers: {
+                    'authorization': localStorage.token
+                }
+            }).then(function (response) {
+                console.log("response",response);
+                $scope.circleClient = {};
+                for(x in response.data.data.circleClient){
+                    var row = response.data.data.circleClient[x];
+                    $scope.circleClient[row.clientCircleCode] = row.client[0].name+"-"+row.code;
                 }
 
-                var preDoneDate = new Date(row.preDoneDate);
+                var toDate = new Date();
+                if($scope.toDate){
+                    toDate = new Date($scope.toDate);
+                    toDate.setDate(toDate.getDate() + 1);
+                }
+                
+                var fromDate = new Date(1970,10,30);
+                if($scope.fromDate){
+                    fromDate = new Date($scope.fromDate);
+                }
+                
+                $scope.project = {};
+                $scope.projectAmt = {};
 
-                var post_ActivityDoneDate = new Date(row.post_ActivityDoneDate);
+                for (x in response.data.data.projectDetails) {
+                    row = response.data.data.projectDetails[x];
+                    row.investment = 0;
+                    row.salary = 0;
+                    row.salary_per = 0;
+                    row.claim = 0;
+                    row.claim_per = 0;
+                    row.cab = 0;
+                    row.cab_per = 0;
+                    row.vendor = 0; 
+                    row.vendor_per = 0;
+                    row.kit = 0;
+                    row.kit_per = 0;
 
-                var current_amount = 0;
+                    if(!$scope.projectAmt[row._id]){
+                        $scope.projectAmt[row._id] = 0;
+                    }
 
-                var row_amount = row.amount;
+                    var preDoneDate = new Date(row.preDoneDate);
 
-                if( preDoneDate > fromDate &&  preDoneDate < toDate ){
-                    current_amount += row_amount*row.percentage/100;
+                    var post_ActivityDoneDate = new Date(row.post_ActivityDoneDate);
+
+                    var current_amount = 0;
+
+                    var row_amount = row.amount;
+
+                    if( preDoneDate > fromDate &&  preDoneDate < toDate ){
+                        current_amount += row_amount*row.percentage/100;
+                    }
+
+                    if( post_ActivityDoneDate > fromDate &&  post_ActivityDoneDate < toDate ){
+                        current_amount += (row_amount - (row_amount*row.percentage/100));
+                    }
+                     
+                    $scope.projectAmt[row._id]+=current_amount;
+
+                    $scope.project[row._id] = row;
                 }
 
-                if( post_ActivityDoneDate > fromDate &&  post_ActivityDoneDate < toDate ){
-                    current_amount += (row_amount - (row_amount*row.percentage/100));
-                }
+                for (x in response.data.data.salaryDetails) {
+                    var row = response.data.data.salaryDetails[x];
+                    
+                    $scope.checkPrject(row._id);
 
-                $scope.projectAmt[row._id]+=current_amount;
-
-                $scope.project[row._id] = row;
-            }
-
-            for (x in response.data.data.salaryDetails) {
-                var row = response.data.data.salaryDetails[x];
-                if ($scope.project[row._id]) {
                     $scope.project[row._id].salary = row.processSalary.toFixed(2);
                     $scope.project[row._id].investment += parseInt(row.processSalary);
                 }
-            }
 
-            for (x in response.data.data.advanceClaimDetails) {
-                var row = response.data.data.advanceClaimDetails[x];
+                for (x in response.data.data.advanceClaimDetails) {
+                    var row = response.data.data.advanceClaimDetails[x];
 
-                if ($scope.project[row._id]) {
+                    $scope.checkPrject(row._id);
+
                     $scope.project[row._id].claim = row.passAmount.toFixed(2);
                     $scope.project[row._id].investment += parseInt(row.passAmount);
                 }
-            }
 
-            for (x in response.data.data.cabDetails) {
-                var row = response.data.data.cabDetails[x];
+                for (x in response.data.data.cabDetails) {
+                    var row = response.data.data.cabDetails[x];
+                    
+                    $scope.checkPrject(row._id);
 
-                if ($scope.project[row._id]) {
                     $scope.project[row._id].cab = row.totalAmount.toFixed(2);
                     $scope.project[row._id].investment += parseInt(row.totalAmount);
+
                 }
-            }
 
 
-            for (x in response.data.data.vendorDetails) {
-                var row = response.data.data.vendorDetails[x];
+                for (x in response.data.data.vendorDetails) {
+                    var row = response.data.data.vendorDetails[x];
 
-                if ($scope.project[row._id]) {
+                    $scope.checkPrject(row._id);
+
                     $scope.project[row._id].vendor = row.totalAmount.toFixed(2);
                     $scope.project[row._id].investment += parseInt(row.totalAmount);
                 }
-            }
 
-            let defaultTotalMonth = 0;
-            let fromDate1 = null;
-            let today = getFormattedDate(new Date());
-            
-            if ($scope.month && $scope.year) {
-                fromDate1 = "01/" + monthNames[$scope.month.toLowerCase()] + "/" + $scope.year;
+                let defaultTotalMonth = 0;
+                let fromDate1 = null;
+                let today = getFormattedDate(new Date());
                 
-                defaultTotalMonth = 1;
-            }
-
-            for (x in response.data.data.kitDetails) {
-                var row = response.data.data.kitDetails[x];
-             
-                let createdAt = getFormattedDate(new Date(row.createAt));
-
-                let afterFromDate = defaultTotalMonth;
-
-                let afterFromDateCount = monthDiff(createdAt, today);
-
-                if ((defaultTotalMonth <= 0) || (afterFromDateCount < defaultTotalMonth) || (fromDate1 == null)) {
-                    afterFromDate = afterFromDateCount;
+                if ($scope.month && $scope.year) {
+                    fromDate1 = "01/" + monthNames[$scope.month.toLowerCase()] + "/" + $scope.year;
+                    
+                    defaultTotalMonth = 1;
                 }
-                
-                row.totalAmount = row.kitRent * afterFromDate;
-                
-                //
-                if ($scope.project[row.projectCode]) {
-                    if(!$scope.project[row.projectCode]["kit"]){
-                        $scope.project[row.projectCode]["kit"] = 0;
+
+                for (x in response.data.data.kitDetails) {
+                    var row = response.data.data.kitDetails[x];
+
+                    $scope.checkPrject(row.projectCode);
+                 
+                    let createdAt = getFormattedDate(new Date(row.createAt));
+
+                    let afterFromDate = defaultTotalMonth;
+
+                    let afterFromDateCount = monthDiff(createdAt, today);
+
+                    if ((defaultTotalMonth <= 0) || (afterFromDateCount < defaultTotalMonth) || (fromDate1 == null)) {
+                        afterFromDate = afterFromDateCount;
                     }
+                    
+                    row.totalAmount = row.kitRent * afterFromDate;
+                    
                     $scope.project[row.projectCode]["kit"] += row.totalAmount;
                     $scope.project[row.projectCode].investment += row.totalAmount;
                 }
-            }
-        });
+            console.log("$scope.project",$scope.project);
+            });
+        }
     }
     $scope.getReport();
+
+    $scope.checkPrject = function(projectCode){
+        if (!$scope.project[projectCode]) {
+            let row = {};
+            row.investment = 0;
+            row.salary = 0;
+            row.salary_per = 0;
+            row.claim = 0;
+            row.claim_per = 0;
+            row.cab = 0;
+            row.cab_per = 0;
+            row.vendor = 0; 
+            row.vendor_per = 0;
+            row.kit = 0;
+            row.kit_per = 0;
+            row._id = projectCode;
+            $scope.projectAmt[projectCode] = 0;
+            $scope.project[projectCode] = row;
+        }
+    }
 
 
     $scope.clearFilter = function () {
@@ -201,11 +217,11 @@
         let cost = amount * $scope.managementPer / 100;
         return parseInt(cost);
     }
-
+ 
     $scope.revenue = function (business, investment) {
-        let revenue = 0;
+        let revenue = -100;
 
-        if (business && investment) {
+        if (business) {
             let totalInvestment = investment + $scope.managementCost(investment);
             revenue = (business - totalInvestment) * 100 / business;
         }
@@ -214,10 +230,10 @@
     $scope.netProfit = function (business, investment) {
         let revenue = 0;
 
-        if (business && investment) {
-            let totalInvestment = investment + $scope.managementCost(investment);
-            revenue = (business - totalInvestment);
-        }
+        // if (business && investment) {
+        let totalInvestment = investment + $scope.managementCost(investment);
+        revenue = (business - totalInvestment);
+        // }
         return revenue;
     }
 });

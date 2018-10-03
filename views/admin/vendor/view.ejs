@@ -61,8 +61,8 @@
                 <td>{{ vendor.activityName }}</td>
                 <td>{{ vendor.projectCode }}</td>
                 <td>{{ vendor.siteCount }}</td>
-                <td>{{ vendor.poAmount }}</td>
-                <td>{{ vendor.totalAmount }}</td>
+                <td>{{ vendor.poAmount | number : 3 }}</td>
+                <td>{{ vendor.totalAmount | number : 3 }}</td>
             </tr>
         </table>
        

@@ -17,6 +17,7 @@ app.controller('ctrl', function($scope, $http,$filter) {
                 'authorization': localStorage.token
             }
         }).then(function(response){
+            console.log("response",response);
             $scope.cabs = response.data.data;
         });
     }
@@ -132,6 +133,19 @@ app.controller('ctrl', function($scope, $http,$filter) {
     // $scope.downloadDemoFile = function(){
     //     window.location.href = "/public/demoFiles/cab.xlsx";
     // }
+   //  var dlt_id=[];
+   //  $scope.dlt_cap=function(m){
+   //   var index=dlt_id.indexOf(m);
+   //   if (index==-1) {
+   //      dlt_id.push(m);
+   // console.log("dlt_id",dlt_id); 
+   //   }else{
+   //      dlt_id.splice(index,1);
+   //   }
+   // console.log("dlt_id",dlt_id); 
+   //   // console.log("index",index);
+   //  }
+
 });
 
 $(".sidebar-mini").addClass("sidebar-collapse");
